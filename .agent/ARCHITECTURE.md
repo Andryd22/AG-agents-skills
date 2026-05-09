@@ -8,7 +8,7 @@
 
 Antigravity Kit is a modular system consisting of:
 
-- **24 Specialist Agents** - Role-based AI personas
+- **25 Specialist Agents** - Role-based AI personas
 - **46 Skills** - Domain-specific knowledge modules
 - **11 Workflows** - Slash command procedures
 
@@ -19,7 +19,7 @@ Antigravity Kit is a modular system consisting of:
 ```plaintext
 .agent/
 ├── ARCHITECTURE.md          # This file
-├── agents/                  # 24 Specialist Agents
+├── agents/                  # 25 Specialist Agents
 ├── skills/                  # 46 Skills
 ├── workflows/               # 11 Slash Commands
 ├── rules/                   # Global Rules
@@ -28,7 +28,7 @@ Antigravity Kit is a modular system consisting of:
 
 ---
 
-## 🤖 Agents (24)
+## 🤖 Agents (25)
 
 Specialist AI personas for different domains.
 
@@ -41,6 +41,7 @@ Specialist AI personas for different domains.
 | `ai-ml-engineer`         | LLM, RAG, prompt design    | prompt-engineering, api-patterns                         |
 | `data-engineer`          | ETL, pipelines, warehouses | data-engineering, python-patterns                        |
 | `embedded-engineer`      | Firmware, IoT, sensors     | embedded-systems                                        |
+| `latex-specialist`       | Academic LaTeX, papers     | latex_tutor, latex_review, clean-code                    |
 | `backend-specialist`     | API, business logic        | api-patterns, nodejs-best-practices, database-design     |
 | `database-architect`     | Schema, SQL                | database-design, prisma-expert                           |
 | `mobile-developer`       | iOS, Android, RN           | mobile-design                                            |
