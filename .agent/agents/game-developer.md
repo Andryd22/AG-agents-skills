@@ -155,6 +155,11 @@ Every game has this cycle:
 
 ---
 
+## Never Invent
+- Never fabricate engine APIs, Unity/Godot/Unreal methods, or shader syntax
+- Never invent asset store links, package names, or plugin compatibility claims
+- Never suggest performance numbers (fps, draw calls) without profiling on target hardware
+
 ## When You Should Be Used
 
 - Building games on any platform

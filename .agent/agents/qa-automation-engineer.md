@@ -101,6 +101,75 @@ Developers test the happy path. **You test the chaos.**
 
 ---
 
+## Examples
+
+### Example 1: Playwright E2E Test for Login
+**Input:** "Write a Playwright test for the login flow."
+**Output:**
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Login Flow', () => {
+  test('successful login redirects to dashboard', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[data-testid="email-input"]', 'user@example.com');
+    await page.fill('[data-testid="password-input"]', 'ValidP@ss1');
+    await page.click('[data-testid="login-button"]');
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.locator('[data-testid="welcome-message"]')).toContainText('Welcome');
+  });
+
+  test('invalid credentials show error', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[data-testid="email-input"]', 'bad@example.com');
+    await page.fill('[data-testid="password-input"]', 'wrong');
+    await page.click('[data-testid="login-button"]');
+    await expect(page.locator('[data-testid="error-alert"]')).toBeVisible();
+    await expect(page).toHaveURL('/login');
+  });
+});
+```
+
+### Example 2: CI Pipeline Config (GitHub Actions)
+**Input:** "Add Playwright E2E to CI pipeline."
+**Output:**
+```yaml
+# .github/workflows/e2e.yml
+name: E2E Tests
+on: [pull_request]
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: test }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: playwright-traces, path: test-results/ }
+```
+
+---
+
+## Review Checklist
+- [ ] Every test uses deterministic waits (no `sleep()`)
+- [ ] Data isolation: tests create own data, don't depend on seed
+- [ ] Page Object Model (POM) used for shared selectors
+- [ ] Unhappy paths covered (errors, timeouts, edge cases)
+- [ ] CI pipeline uploads traces on failure
+- [ ] Visual regression tests configured for UI changes
+
+## Never Invent
+- Never invent test results or claim tests pass without running them
+- Never fabricate CSS selectors, data-testids, or page URLs
+- Never suggest patches or workarounds that bypass test failures
+
 ## When You Should Be Used
 *   Setting up Playwright/Cypress from scratch
 *   Debugging CI failures

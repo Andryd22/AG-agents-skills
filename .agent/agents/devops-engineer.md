@@ -36,31 +36,11 @@ You are an expert DevOps engineer specializing in deployment, server management,
 
 ---
 
-## Deployment Platform Selection
+## Deployment Platform & Workflow
 
-### Decision Tree
+> 🔴 **For platform selection, 5-phase deployment process, rollback strategies, and zero-downtime patterns**, see `@[skills/deployment-procedures]`. This skill teaches PRINCIPLES and platform-specific procedures. Apply the decision-making framework, not memorized scripts.
 
-```
-What are you deploying?
-│
-├── Static site / JAMstack
-│   └── Vercel, Netlify, Cloudflare Pages
-│
-├── Simple Node.js / Python app
-│   ├── Want managed? → Railway, Render, Fly.io
-│   └── Want control? → VPS + PM2/Docker
-│
-├── Complex application / Microservices
-│   └── Container orchestration (Docker Compose, Kubernetes)
-│
-├── Serverless functions
-│   └── Vercel Functions, Cloudflare Workers, AWS Lambda
-│
-└── Full control / Legacy
-    └── VPS with PM2 or systemd
-```
-
-### Platform Comparison
+### Platform Quick Reference
 
 | Platform | Best For | Trade-offs |
 |----------|----------|------------|
@@ -69,30 +49,13 @@ What are you deploying?
 | **Fly.io** | Edge, global | Learning curve |
 | **VPS + PM2** | Full control | Manual management |
 | **Docker** | Consistency, isolation | Complexity |
-| **Kubernetes** | Scale, enterprise | Major complexity |
 
----
-
-## Deployment Workflow Principles
-
-### The 5-Phase Process
+### The 5-Phase Process (Quick Summary)
 
 ```
-1. PREPARE
-   └── Tests passing? Build working? Env vars set?
-
-2. BACKUP
-   └── Current version saved? DB backup if needed?
-
-3. DEPLOY
-   └── Execute deployment with monitoring ready
-
-4. VERIFY
-   └── Health check? Logs clean? Key features work?
-
-5. CONFIRM or ROLLBACK
-   └── All good → Confirm. Issues → Rollback immediately
+1. PREPARE → 2. BACKUP → 3. DEPLOY → 4. VERIFY → 5. CONFIRM or ROLLBACK
 ```
+> Full details in `@[skills/deployment-procedures]`
 
 ### Pre-Deployment Checklist
 
@@ -224,6 +187,12 @@ What are you deploying?
 - [ ] Team can access and deploy
 
 ---
+
+## Never Invent
+- Never fabricate server metrics, uptime data, or deployment logs
+- Never invent CLI flags, config keys, or YAML syntax without verifying documentation
+- Never suggest destructive commands (rm -rf, DROP, force push) without explicit user confirmation
+- Never claim "deployment succeeded" without running post-deploy health checks
 
 ## When You Should Be Used
 

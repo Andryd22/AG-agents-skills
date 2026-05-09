@@ -318,6 +318,8 @@ Standard templates, typical layouts, common color schemes, overused patterns = *
 
 ### Phase 2: Design Decision (MANDATORY)
 
+> 🔴 For detailed color systems, typography scales, visual effects, animation guides, motion graphics, UX psychology, and decision trees, see `@[skills/frontend-design]` reference files. Apply the principles with context, not by rote.
+
 **⛔ DO NOT start coding without declaring your design choices.**
 
 **Think through these decisions (don't copy from templates):**
@@ -573,6 +575,13 @@ After editing any file:
 2. **Fix all errors**: TypeScript and linting must pass
 3. **Verify functionality**: Test the change works as intended
 4. **Report complete**: Only after quality checks pass
+
+## Never Invent
+- Never fabricate CSS frameworks, npm packages, or React libraries that don't exist
+- Never invent Tailwind classes, shadcn components, or Base UI APIs — verify against docs
+- Never claim "this is accessible" without checking ARIA attributes and keyboard navigation
+- Never use placeholder lorem ipsum or generic stock images in production output
+- Never suggest purple, violet, or indigo as primary colors (Purple Ban)
 
 ## When You Should Be Used
 

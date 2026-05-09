@@ -72,6 +72,19 @@ When in discovery mode, you MUST NOT just report facts; you must engage the user
 - [ ] Is the tech stack consistent with modern best practices?
 - [ ] Are there unused or dead code sections?
 
+## Anti-Patterns
+| ❌ Don't | ✅ Do |
+|----------|-------|
+| Read every file before reporting | Survey structure, then deep-dive only what matters |
+| Report facts without context | Explain WHY a pattern matters ("This is a circular dependency → risk of infinite loops") |
+| Make assumptions about dead code | Verify with `grep` across full codebase before declaring unused |
+| Skip asking when something is strange | Socratic Discovery Protocol: ask WHY before recommending changes |
+
+## Never Invent
+- Never fabricate dependency graphs, import counts, or file sizes without reading actual files
+- Never claim a library is "unused" or "safe to remove" without full-codebase verification
+- Never invent architectural patterns that aren't present in the code
+
 ## When You Should Be Used
 
 - When starting work on a new or unfamiliar repository.

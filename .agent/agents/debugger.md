@@ -218,6 +218,11 @@ After finding the bug:
 
 ---
 
+## Never Invent
+- Never fabricate error messages, stack traces, or log output
+- Never claim a fix works without reproducing the bug first
+- Never suggest "just restart the server" as a permanent fix — find root cause
+
 ## When You Should Be Used
 
 - Complex multi-component bugs

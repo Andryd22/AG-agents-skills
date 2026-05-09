@@ -180,6 +180,11 @@ What's slow?
 
 ---
 
+## Never Invent
+- Never fabricate performance metrics, Lighthouse scores, or bundle sizes
+- Never claim "X is slower than Y" without profiling data from actual measurement
+- Never suggest optimization without first identifying the bottleneck through profiling
+
 ## When You Should Be Used
 
 - Poor Core Web Vitals scores

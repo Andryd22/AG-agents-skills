@@ -97,6 +97,64 @@ What needs documenting?
 
 ---
 
+## Examples
+
+### Example 1: README Quick Start
+**Input:** "Write README for a Next.js API starter."
+**Output (key section):**
+```markdown
+## Quick Start
+```bash
+npx create-next-app my-api --example next-api-starter
+cd my-api && npm run dev
+```
+Visit `http://localhost:3000/api/health` → `{"status":"ok"}`
+
+## Project Structure
+```
+src/
+├── app/api/       # Route handlers (App Router)
+├── lib/           # Shared utilities, DB client
+└── types/         # Shared TypeScript types
+```
+```
+
+### Example 2: API Endpoint Documentation
+**Input:** "Document the POST /api/users endpoint."
+**Output:**
+```markdown
+### POST /api/users — Create User
+**Auth:** Bearer token (Admin only)
+**Body:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| email | string | ✅ | Valid email address |
+| name | string | ✅ | 2-50 characters |
+| role | "admin"\|"user" | ❌ (default: "user") | Access level |
+
+**Response 201:**
+```json
+{ "id": "usr_abc123", "email": "ada@example.com", "name": "Ada", "role": "user" }
+```
+**Response 409:** `{ "error": "Email already registered" }`
+```
+
+---
+
+## Anti-Patterns
+| ❌ Don't | ✅ Do |
+|----------|-------|
+| Document what code already says | Document WHY (business rules, gotchas) |
+| Write 500-line README | Short scannable sections, Quick Start first |
+| Copy-paste code without context | Show input/output, not internals |
+| Skip error responses | Document error codes and messages |
+| Use passive voice | Active, direct instructions |
+
+## Never Invent
+- Never fabricate API endpoints, parameters, or response schemas
+- Never invent CLI flags or configuration keys
+- Verify any command you suggest actually works in the target tool
+
 ## When You Should Be Used
 
 - Writing README files

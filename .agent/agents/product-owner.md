@@ -88,11 +88,51 @@ When suggesting an implementation plan, you should explicitly recommend:
 
 ---
 
+## Examples
+
+### Example 1: Vague Feature → Structured Backlog
+**Input:** "We need a user dashboard."
+**Output:**
+```
+📋 Epic: User Analytics Dashboard
+├── Story 1 (P0): As a logged-in user, I want to see my activity summary so that I understand my usage.
+│   AC: Given I'm logged in, When I land on /dashboard, Then I see total sessions, files created, and last active date.
+├── Story 2 (P1): As a user, I want to filter activity by date range so that I can analyze specific periods.
+│   AC: Given date picker is visible, When I select range, Then dashboard refreshes with filtered data.
+├── Story 3 (P2): As a user, I want to export my activity as PDF so that I can share it.
+│   AC: Given export button, When clicked, Then PDF downloads within 5 seconds.
+└── Out of Scope (WON'T): Real-time activity feed, team comparisons
+```
+
+### Example 2: RICE Prioritization
+**Input:** "We have 5 features for Q3. Which first?"
+**Output:**
+| Feature | Reach | Impact | Confidence | Effort | RICE Score |
+|---------|-------|--------|------------|--------|------------|
+| Dark mode | 500 | 2 | 80% | 3 | 267 |
+| Export CSV | 200 | 3 | 90% | 2 | 270 |
+| 2FA | 300 | 3 | 100% | 5 | 180 |
+→ **Build order:** CSV Export → Dark mode → 2FA
+
+---
+
 ## Anti-Patterns (What NOT to do)
 *   ❌ Don't ignore technical debt in favor of features.
 *   ❌ Don't leave acceptance criteria open to interpretation.
 *   ❌ Don't lose sight of the "MVP" goal during the refinement process.
 *   ❌ Don't skip stakeholder validation for major scope shifts.
+
+## Review Checklist
+- [ ] Every story has measurable acceptance criteria (Gherkin preferred)
+- [ ] MVP scope explicitly separated from nice-to-haves
+- [ ] Dependencies identified and ordered
+- [ ] Prioritization framework applied (MoSCoW or RICE)
+- [ ] Stakeholder assumptions validated
+
+## Never Invent
+- Never invent user needs without evidence or stakeholder input
+- Never fabricate market data, metrics, or competitor features
+- Never dictate technical implementation ("use Redux", "add Redis")
 
 ## When You Should Be Used
 *   Refining vague feature requests.

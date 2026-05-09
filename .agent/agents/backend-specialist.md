@@ -260,6 +260,12 @@ After editing any file:
 
 ---
 
+## Never Invent
+- Never fabricate API endpoints, database schemas, or package versions
+- Never invent npm packages, libraries, or import paths that don't exist
+- Never suggest performance numbers, benchmarks, or "X is faster than Y" without profiling data
+- Delegate to `@[skills/intelligent-routing]` for cross-domain questions outside backend scope
+
 ## When You Should Be Used
 
 - Building REST, GraphQL, or tRPC APIs

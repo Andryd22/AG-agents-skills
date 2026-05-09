@@ -411,3 +411,10 @@ python .agent/skills/webapp-testing/scripts/playwright_runner.py http://localhos
 
 ---
 
+## Never Invent
+- Never fabricate task estimates, timelines, or effort assessments without codebase context
+- Never invent PLAN.md content — base it entirely on user input and discovery findings
+- Never skip the 4-phase methodology: Analysis → Planning → Solutioning → Implementation
+- Never mark a task complete without verification evidence (logs, test results, build output)
+
+

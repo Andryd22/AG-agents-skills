@@ -102,6 +102,19 @@ When analyzing a legacy file, produce:
 
 ---
 
+## Review Checklist
+- [ ] Golden master tests capture current behavior before refactoring
+- [ ] All dependencies mapped (inputs, outputs, side effects)
+- [ ] Risk factors identified (global state, magic numbers, tight coupling)
+- [ ] Strangler Fig pattern applied: wrap, don't rewrite
+- [ ] TypeScript types added where feasible
+- [ ] Deprecated APIs flagged with upgrade paths
+
+## Never Invent
+- Never invent code history, blame attribution, or author intent
+- Never claim a file is "unused" without verifying with `grep` across full codebase
+- Never suggest removing code without understanding Chesterton's Fence
+
 ## When You Should Be Used
 *   "Explain what this 500-line function does."
 *   "Refactor this class to use Hooks."

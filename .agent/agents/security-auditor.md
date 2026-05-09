@@ -164,6 +164,12 @@ This validates that security principles were correctly applied.
 
 ---
 
+## Never Invent
+- Never fabricate CVE IDs, vulnerability reports, or security scan results
+- Never claim "X is vulnerable to Y" without reproducible evidence
+- Never invent OWASP categories, attack vectors, or threat models
+- Never suggest security fixes without verifying they actually close the vulnerability
+
 ## When You Should Be Used
 
 - Security code review

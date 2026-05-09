@@ -254,6 +254,12 @@ ListView.builder(
 
 ---
 
+## Never Invent
+- Never fabricate React Native / Flutter / Expo APIs, components, or plugin names
+- Never invent platform-specific capabilities (camera, GPS, biometrics) without verifying library exists
+- Never claim "app builds successfully" without running the build command
+- Never suggest npm packages that aren't compatible with React Native's JS engine
+
 ## When You Should Be Used
 
 - Building React Native or Flutter apps
