@@ -14,7 +14,20 @@ version: 1.0.0
 
 ## How It Works
 
-### 1. Request Analysis
+### 1. Request Classifier
+
+**Before ANY action, classify the request:**
+
+| Request Type     | Trigger Keywords                           | Active Tiers                   | Result                      |
+| ---------------- | ------------------------------------------ | ------------------------------ | --------------------------- |
+| **QUESTION**     | "what is", "how does", "explain"           | TIER 0 only                    | Text Response               |
+| **SURVEY/INTEL** | "analyze", "list files", "overview"        | TIER 0 + Explorer              | Session Intel (No File)     |
+| **SIMPLE CODE**  | "fix", "add", "change" (single file)       | TIER 0 + TIER 1 (lite)         | Inline Edit                 |
+| **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **{task-slug}.md Required** |
+| **DESIGN/UI**    | "design", "UI", "page", "dashboard"        | TIER 0 + TIER 1 + Agent        | **{task-slug}.md Required** |
+| **SLASH CMD**    | /create, /orchestrate, /debug              | Command-specific flow          | Variable                    |
+
+### 2. Request Analysis
 
 Before responding to ANY user request, perform automatic analysis:
 
@@ -31,27 +44,30 @@ graph TD
     G --> H[AUTO-INVOKE with context]
 ```
 
-### 2. Agent Selection Matrix
+### 3. Agent Selection Matrix
 
 **Use this matrix to automatically select agents:**
 
-| User Intent         | Keywords                                   | Selected Agent(s)                           | Auto-invoke? |
+| User Intent         | Keywords / Domain                          | Selected Agent(s) / REQUIRED (minimum)      | Auto-invoke? |
 | ------------------- | ------------------------------------------ | ------------------------------------------- | ------------ |
 | **Authentication**  | "login", "auth", "signup", "password"      | `security-auditor` + `backend-specialist`   | ✅ YES       |
 | **UI Component**    | "button", "card", "layout", "style"        | `frontend-specialist`                       | ✅ YES       |
 | **Mobile UI**       | "screen", "navigation", "touch", "gesture" | `mobile-developer`                          | ✅ YES       |
-| **API Endpoint**    | "endpoint", "route", "API", "POST", "GET"  | `backend-specialist`                        | ✅ YES       |
-| **Database**        | "schema", "migration", "query", "table"    | `database-architect` + `backend-specialist` | ✅ YES       |
-| **Bug Fix**         | "error", "bug", "not working", "broken"    | `debugger`                                  | ✅ YES       |
+| **Web App**         | "webapp", "nextjs", "react", "vue"         | `frontend-specialist` + `backend-specialist` + `test-engineer` | ⚠️ ASK FIRST |
+| **API Endpoint**    | "endpoint", "route", "API", "POST", "GET"  | `backend-specialist` + `security-auditor` + `test-engineer` | ✅ YES       |
+| **Database**        | "schema", "migration", "query", "table"    | `database-architect` + `backend-specialist` + `security-auditor` | ✅ YES       |
+| **Bug Fix**         | "error", "bug", "not working", "broken"    | `debugger` + `explorer-agent` + `test-engineer` | ✅ YES       |
 | **Test**            | "test", "coverage", "unit", "e2e"          | `test-engineer`                             | ✅ YES       |
 | **Deployment**      | "deploy", "production", "CI/CD", "docker"  | `devops-engineer`                           | ✅ YES       |
-| **Security Review** | "security", "vulnerability", "exploit"     | `security-auditor` + `penetration-tester`   | ✅ YES       |
+| **Security Review** | "security", "vulnerability", "exploit"     | `security-auditor` + `penetration-tester` + `devops-engineer` | ✅ YES       |
 | **Performance**     | "slow", "optimize", "performance", "speed" | `performance-optimizer`                     | ✅ YES       |
-| **Product Def**     | "requirements", "user story", "backlog", "MVP" | `product-owner`                             | ✅ YES       |
+| **UI/Design**       | "design", "layout", "seo", "core web vitals" | `frontend-specialist` + `seo-specialist` + `performance-optimizer` | ✅ YES       |
+| **Full Stack**      | "build app", "fullstack", "platform"       | `project-planner` + `frontend-specialist` + `backend-specialist` + `devops-engineer` | ⚠️ ASK FIRST |
+| **Product Def**     | "requirements", "user story", "backlog"    | `product-owner`                             | ✅ YES       |
 | **New Feature**     | "build", "create", "implement", "new app"  | `orchestrator` → multi-agent                | ⚠️ ASK FIRST |
 | **Complex Task**    | Multiple domains detected                  | `orchestrator` → multi-agent                | ⚠️ ASK FIRST |
 
-### 3. Automatic Routing Protocol
+### 4. Automatic Routing Protocol
 
 ## TIER 0 - Automatic Analysis (ALWAYS ACTIVE)
 
@@ -80,7 +96,7 @@ function analyzeRequest(userMessage) {
 }
 ```
 
-## 4. Response Format
+## 5. Response Format
 
 **When auto-selecting an agent, inform the user concisely:**
 
@@ -329,7 +345,3 @@ Show selection reasoning:
 ✅ Fallback to orchestrator for complex tasks
 
 **Result**: User gets specialist-level responses without needing to know the system architecture.
-
----
-
-**Next Steps**: Integrate this skill into GEMINI.md TIER 0 rules.

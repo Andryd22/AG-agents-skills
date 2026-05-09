@@ -1,95 +1,107 @@
 # Antigravity Kit — Architecture Refinement (v3)
 
 **Date:** 2026-05-09
-**Scope:** Fase 1 — Architettura (Layer-by-Layer, step 1 di 3)
+**Scope:** Phase 1 — Architecture (Layer-by-Layer, step 1 of 3)
 
-## Obiettivo
+## Objective
 
-Rafforzare le fondamenta architetturali del kit `.agent/` eliminando ridondanze, consolidando il routing, e standardizzando agenti/skill prima di procedere a miglioramenti di qualità (Fase 2) ed espansione (Fase 3).
+Strengthen the architectural foundations of the `.agent/` kit by eliminating redundancies, consolidating routing, and standardizing agents/skills before proceeding with quality improvements (Phase 2) and expansion (Phase 3).
 
-## Modifiche
+## Modifications
 
-### 1. `intelligent-routing/SKILL.md` — Diventa fonte unica di routing
+### 1. `intelligent-routing/SKILL.md` — Becomes the single source of truth for routing
 
-Unificare in un solo file:
-- Request Classifier (attualmente in GEMINI.md)
-- Domain Detection Rules (già presente)
-- Agent Selection Matrix (unificando GEMINI.md + orchestrate.md + orchestrator.md)
-- Complexity Assessment (già presente)
-- Auto-Selection Protocol (già presente)
-- Response Format (già presente)
+Unify into a single file:
+- Request Classifier (currently in GEMINI.md)
+- Domain Detection Rules (already present)
+- Agent Selection Matrix (unifying GEMINI.md + orchestrate.md + orchestrator.md)
+- Complexity Assessment (already present)
+- Auto-Selection Protocol (already present)
+- Response Format (already present)
 
-Risultato: un file, una matrice, zero divergenze.
+Result: one file, one matrix, zero divergences.
 
-### 2. `GEMINI.md` — Sfoltire da 273 a ~90 righe
+### 2. `GEMINI.md` — Trim from 273 to ~90 lines
 
-**Rimosso:**
-- Request Classifier → delegato a intelligent-routing
-- Intelligent Agent Routing + checklist → delegato a intelligent-routing
-- Tabella 12 script → ogni agente sa quali script invocare
-- Project Type Routing → presente in orchestrate.md / orchestrator.md
+**Removed:**
+- Request Classifier → delegated to intelligent-routing
+- Intelligent Agent Routing + checklist → delegated to intelligent-routing
+- Table of 12 scripts → each agent knows which scripts to invoke
+- Project Type Routing → present in orchestrate.md / orchestrator.md
 
-**Mantenuto:**
+**Kept:**
 - Modular Skill Loading Protocol (P0)
-- Tier 0 universale: lingua, clean-code, file dependency, read-understand-apply
-- Socratic Gate (essenziale)
-- Final Checklist Protocol con comandi
-- Quick Reference (puntatori, non duplicati)
+- Universal Tier 0: language, clean-code, file dependency, read-understand-apply
+- Socratic Gate (essential)
+- Final Checklist Protocol with commands
+- Quick Reference (pointers, not duplicates)
 
-**Aggiunto:**
-- Regola esplicita: `intelligent-routing` è **always_on**, deve eseguire prima di ogni risposta.
-- Riferimento esplicito a `@[skills/intelligent-routing]` per routing.
+**Added:**
+- Explicit rule: `intelligent-routing` is **always_on**, must execute before every response.
+- Explicit reference to `@[skills/intelligent-routing]` for routing.
 
-### 3. `workflows/orchestrate.md` + `agents/orchestrator.md` — Rimuovere duplicati
+### 3. `workflows/orchestrate.md` + `agents/orchestrator.md` — Remove duplicates
 
-Entrambi i file duplicano la matrice di selezione agenti.
+Both files duplicate the agent selection matrix.
 
-**Rimosso da entrambi:**
+**Removed from both:**
 - Agent Selection Matrix
-- Available Agents table (quando duplicata)
+- Available Agents table (when duplicated)
 
-**Aggiunto:**
-- Riferimento a `@[skills/intelligent-routing]` per la selezione agenti
+**Added:**
+- Reference to `@[skills/intelligent-routing]` for agent selection
 
-### 4. `verify_all.py` — Lasciare riferimenti a script futuri
+### 4. `verify_all.py` — Leave references to future scripts
 
-`dependency_analyzer.py` e `bundle_analyzer.py` referenziati ma non ancora creati.
-Nessuna modifica: rimangono come placeholder per sviluppo futuro.
+`dependency_analyzer.py` and `bundle_analyzer.py` are referenced but not yet created.
+No modifications: they remain as placeholders for future development.
 
-### 5. 20 Agenti — Standardizzazione frontmatter
+### 5. 20 Agents — Frontmatter standardization
 
-Per ogni file in `.agent/agents/`:
-- Verificare che ogni skill in `skills:` esista come cartella con `SKILL.md`
-- Rimuovere riferimenti a skill rinominate (es. `react-best-practices` → `nextjs-react-expert`)
-- Uniformare i campi frontmatter: `name`, `description`, `tools`, `model`, `skills`
+For each file in `.agent/agents/`:
+- Verify that every skill in `skills:` exists as a folder with `SKILL.md`
+- Remove references to renamed skills (e.g. `react-best-practices` → `nextjs-react-expert`)
+- Standardize the frontmatter fields based on the following expected schema:
 
-### 6. Nuovo file `tasks/lessons.md`
+```yaml
+---
+name: "string (e.g., frontend-specialist)"
+description: "string (Brief description of the agent's role)"
+model: "string (e.g., gemini-2.5-pro-exp)"
+tools:
+  - "string (e.g., read_file, run_shell_command)"
+skills:
+  - "string (e.g., nextjs-react-expert, clean-code)"
+---
+```
 
-Template vuoto per catturare pattern post-correzione:
+### 6. New file `.agent/tasks/lessons.md`
+
+Empty template to capture post-correction patterns:
 ```markdown
 # Lessons Learned
 
-## Patterns da evitare
+## Patterns to avoid
 -
 
-## Patterns da ripetere
+## Patterns to repeat
 -
 
-## Decisioni architetturali
+## Architectural decisions
 -
 ```
 
-## Non incluso in questa fase
+## Not included in this phase
 
-- Creazione script mancanti (Fase 3 — Espansione)
-- Miglioramento qualità prompt agenti (Fase 2 — Qualità)
-- Nuovi agenti/skill (Fase 3 — Espansione)
-- Modifiche alla web app Next.js
+- Creation of missing scripts (Phase 3 — Expansion)
+- Improvement of agent prompt quality (Phase 2 — Quality)
+- New agents/skills (Phase 3 — Expansion)
+- Modifications to the Next.js web app
 
-## Ordine di esecuzione
+## Execution order
 
 1. `intelligent-routing/SKILL.md`
 2. `GEMINI.md`
 3. `workflows/orchestrate.md` + `agents/orchestrator.md`
-4. Standardizzazione 20 agenti
-5. `tasks/lessons.md`
+4. Standardization of 20 agents
+5. `.agent/tasks/lessons.md`

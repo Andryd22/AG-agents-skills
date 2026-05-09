@@ -22,17 +22,9 @@ $ARGUMENTS
 > - If `agent_count < 3` → STOP and invoke more agents
 > - Single agent = FAILURE of orchestration
 
-### Agent Selection Matrix
+### Agent Selection
 
-| Task Type | REQUIRED Agents (minimum) |
-|-----------|---------------------------|
-| **Web App** | frontend-specialist, backend-specialist, test-engineer |
-| **API** | backend-specialist, security-auditor, test-engineer |
-| **UI/Design** | frontend-specialist, seo-specialist, performance-optimizer |
-| **Database** | database-architect, backend-specialist, security-auditor |
-| **Full Stack** | project-planner, frontend-specialist, backend-specialist, devops-engineer |
-| **Debug** | debugger, explorer-agent, test-engineer |
-| **Security** | security-auditor, penetration-tester, devops-engineer |
+> 🔴 **MANDATORY:** See `@[skills/intelligent-routing]` for the complete Agent Selection Matrix, required agents per task type, and available agents.
 
 ---
 
@@ -81,27 +73,6 @@ Do you approve? (Y/N)
 | Polish | `test-engineer`, `devops-engineer` |
 
 > ✅ After user approval, invoke multiple agents in PARALLEL.
-
-## Available Agents (17 total)
-
-| Agent | Domain | Use When |
-|-------|--------|----------|
-| `project-planner` | Planning | Task breakdown, PLAN.md |
-| `explorer-agent` | Discovery | Codebase mapping |
-| `frontend-specialist` | UI/UX | React, Vue, CSS, HTML |
-| `backend-specialist` | Server | API, Node.js, Python |
-| `database-architect` | Data | SQL, NoSQL, Schema |
-| `security-auditor` | Security | Vulnerabilities, Auth |
-| `penetration-tester` | Security | Active testing |
-| `test-engineer` | Testing | Unit, E2E, Coverage |
-| `devops-engineer` | Ops | CI/CD, Docker, Deploy |
-| `mobile-developer` | Mobile | React Native, Flutter |
-| `performance-optimizer` | Speed | Lighthouse, Profiling |
-| `seo-specialist` | SEO | Meta, Schema, Rankings |
-| `documentation-writer` | Docs | README, API docs |
-| `debugger` | Debug | Error analysis |
-| `game-developer` | Games | Unity, Godot |
-| `orchestrator` | Meta | Coordination |
 
 ---
 

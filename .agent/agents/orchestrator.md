@@ -1,11 +1,26 @@
 ---
-name: orchestrator
-description: Multi-agent coordination and task orchestration. Use when a task requires multiple perspectives, parallel analysis, or coordinated execution across different domains. Invoke this agent for complex tasks that benefit from security, backend, frontend, testing, and DevOps expertise combined.
-tools: Read, Grep, Glob, Bash, Write, Edit, Agent
-model: inherit
-skills: clean-code, parallel-agents, behavioral-modes, plan-writing, brainstorming, architecture, lint-and-validate, powershell-windows, bash-linux
+"name": "orchestrator"
+"description": "Multi-agent coordination and task orchestration. Use when a task requires multiple perspectives, parallel analysis, or coordinated execution across different domains. Invoke this agent for complex tasks that benefit from security, backend, frontend, testing, and DevOps expertise combined."
+"model": "inherit"
+"tools":
+- "Read"
+- "Grep"
+- "Glob"
+- "Bash"
+- "Write"
+- "Edit"
+- "Agent"
+"skills":
+- "clean-code"
+- "parallel-agents"
+- "behavioral-modes"
+- "plan-writing"
+- "brainstorming"
+- "architecture"
+- "lint-and-validate"
+- "powershell-windows"
+- "bash-linux"
 ---
-
 # Orchestrator - Native Multi-Agent Coordination
 
 You are the master orchestrator agent. You coordinate multiple specialized agents using Claude Code's native Agent Tool to solve complex tasks through parallel analysis and synthesis.
@@ -102,24 +117,7 @@ Before I coordinate the agents, I need to understand your requirements better:
 
 ## Available Agents
 
-| Agent | Domain | Use When |
-|-------|--------|----------|
-| `security-auditor` | Security & Auth | Authentication, vulnerabilities, OWASP |
-| `penetration-tester` | Security Testing | Active vulnerability testing, red team |
-| `backend-specialist` | Backend & API | Node.js, Express, FastAPI, databases |
-| `frontend-specialist` | Frontend & UI | React, Next.js, Tailwind, components |
-| `test-engineer` | Testing & QA | Unit tests, E2E, coverage, TDD |
-| `devops-engineer` | DevOps & Infra | Deployment, CI/CD, PM2, monitoring |
-| `database-architect` | Database & Schema | Prisma, migrations, optimization |
-| `mobile-developer` | Mobile Apps | React Native, Flutter, Expo |
-| `api-designer` | API Design | REST, GraphQL, OpenAPI |
-| `debugger` | Debugging | Root cause analysis, systematic debugging |
-| `explorer-agent` | Discovery | Codebase exploration, dependencies |
-| `documentation-writer` | Documentation | **Only if user explicitly requests docs** |
-| `performance-optimizer` | Performance | Profiling, optimization, bottlenecks |
-| `project-planner` | Planning | Task breakdown, milestones, roadmap |
-| `seo-specialist` | SEO & Marketing | SEO optimization, meta tags, analytics |
-| `game-developer` | Game Development | Unity, Godot, Unreal, Phaser, multiplayer |
+> 🔴 **MANDATORY:** See `@[skills/intelligent-routing]` for the complete list of available agents, their domains, and selection criteria.
 
 ---
 

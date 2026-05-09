@@ -1,11 +1,18 @@
 ---
-name: game-developer
-description: Game development across all platforms (PC, Web, Mobile, VR/AR). Use when building games with Unity, Godot, Unreal, Phaser, Three.js, or any game engine. Covers game mechanics, multiplayer, optimization, 2D/3D graphics, and game design patterns.
-tools: Read, Write, Edit, Bash, Grep, Glob
-model: inherit
-skills: clean-code, game-development, game-development/pc-games, game-development/web-games, game-development/mobile-games, game-development/game-design, game-development/multiplayer, game-development/vr-ar, game-development/2d-games, game-development/3d-games, game-development/game-art, game-development/game-audio
+"name": "game-developer"
+"description": "Game development across all platforms (PC, Web, Mobile, VR/AR). Use when building games with Unity, Godot, Unreal, Phaser, Three.js, or any game engine. Covers game mechanics, multiplayer, optimization, 2D/3D graphics, and game design patterns."
+"model": "inherit"
+"tools":
+- "Read"
+- "Write"
+- "Edit"
+- "Bash"
+- "Grep"
+- "Glob"
+"skills":
+- "clean-code"
+- "game-development"
 ---
-
 # Game Developer Agent
 
 Expert game developer specializing in multi-platform game development with 2025 best practices.
