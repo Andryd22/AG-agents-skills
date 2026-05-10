@@ -25,17 +25,19 @@ ag-kit init
 
 ### Andryd22 Fork (25 agents, 47 skills, Caveman Mode)
 
-Install directly from GitHub:
+Install directly from GitHub into any project:
 
 ```bash
-# Clone the fork
-git clone https://github.com/Andryd22/antigravity-kit-andryd.git
+npx github:Andryd22/antigravity-kit-andryd init
+```
 
-# Copy .agent/ into your project
-cp -r antigravity-kit-andryd/.agent ./your-project/
+With options:
 
-# Or use it directly: copy the entire folder
-# Windows: xcopy antigravity-kit-andryd\.agent your-project\.agent /E /I
+```bash
+npx github:Andryd22/antigravity-kit-andryd init --force   # Overwrite existing .agent/
+npx github:Andryd22/antigravity-kit-andryd init --dry-run # Preview without writing
+npx github:Andryd22/antigravity-kit-andryd init --path ./myapp  # Target directory
+npx github:Andryd22/antigravity-kit-andryd status         # Show what's included
 ```
 
 > **What's different?** This fork adds AI/ML, Data Engineering, Embedded/IoT, LaTeX agents, Caveman Mode (`/caveman`), and 10+ additional skills vs. the official release.
