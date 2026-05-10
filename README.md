@@ -28,15 +28,15 @@ ag-kit init
 Install directly from GitHub into any project:
 
 ```bash
-npx github:Andryd22/antigravity-kit-andryd init
+npx github:Andryd22/antigravity-kit-andryd init -y
 ```
 
 With options:
 
 ```bash
-npx github:Andryd22/antigravity-kit-andryd init --force   # Overwrite existing .agent/
-npx github:Andryd22/antigravity-kit-andryd init --dry-run # Preview without writing
-npx github:Andryd22/antigravity-kit-andryd init --path ./myapp  # Target directory
+npx github:Andryd22/antigravity-kit-andryd init -y --force   # Overwrite existing .agent/
+npx github:Andryd22/antigravity-kit-andryd init -y --dry-run # Preview without writing
+npx github:Andryd22/antigravity-kit-andryd init -y --path ./myapp  # Target directory
 npx github:Andryd22/antigravity-kit-andryd status         # Show what's included
 ```
 
