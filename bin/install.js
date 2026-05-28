@@ -39,7 +39,7 @@ if (command === 'status') {
 
 if (command !== 'init' && command !== 'update') {
   console.error(`Unknown command: ${command}`);
-  console.error('Usage: ag-kit-andryd init');
+  console.error('Usage: ag-agents-skills init');
   process.exit(1);
 }
 

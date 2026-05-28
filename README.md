@@ -103,9 +103,9 @@ Le skill vengono caricate automaticamente in base al contesto della task. L'AI l
 
 | Comando         | Descrizione                               |
 | --------------- | ----------------------------------------- |
-| `ag-kit-andryd init`   | Installa la cartella `.agent` nel tuo progetto |
-| `ag-kit-andryd update` | Aggiorna all'ultima versione              |
-| `ag-kit-andryd status` | Controlla lo stato dell'installazione     |
+| `ag-agents-skills init`   | Installa la cartella `.agent` nel tuo progetto |
+| `ag-agents-skills update` | Aggiorna all'ultima versione              |
+| `ag-agents-skills status` | Controlla lo stato dell'installazione     |
 
 ## 🪨 Caveman Mode
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.
