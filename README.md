@@ -5,16 +5,16 @@
 Questo comando installa la cartella `.agent` contenente tutti i template all'interno del tuo progetto.
 
 ```bash
-npx github:Andryd22/antigravity-kit-andryd init -y
+npx github:Andryd22/AG-agents-skills init -y
 ```
 
 Opzioni disponibili:
 
 ```bash
-npx github:Andryd22/antigravity-kit-andryd init -y --force   # Sovrascrive la cartella .agent/ esistente
-npx github:Andryd22/antigravity-kit-andryd init -y --dry-run # Mostra un'anteprima senza scrivere file
-npx github:Andryd22/antigravity-kit-andryd init -y --path ./myapp  # Directory di destinazione
-npx github:Andryd22/antigravity-kit-andryd status         # Mostra i componenti inclusi
+npx github:Andryd22/AG-agents-skills init -y --force   # Sovrascrive la cartella .agent/ esistente
+npx github:Andryd22/AG-agents-skills init -y --dry-run # Mostra un'anteprima senza scrivere file
+npx github:Andryd22/AG-agents-skills init -y --path ./myapp  # Directory di destinazione
+npx github:Andryd22/AG-agents-skills status         # Mostra i componenti inclusi
 ```
 
 > **Cosa c'è di diverso?** Questo fork aggiunge agenti per AI/ML, Data Engineering, Embedded/IoT, LaTeX, la Caveman Mode (`/caveman`) e oltre 10 skill aggiuntive rispetto alla versione ufficiale.

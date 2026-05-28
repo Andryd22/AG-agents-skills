@@ -1,5 +1,5 @@
 {
-  "name": "antigravity-kit-andryd",
+  "name": "ag-agents-skills",
   "version": "2.1.0",
   "description": "AI Agent templates - Skills, Agents, and Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, IoT, LaTeX, and 10+ extra skills)",
   "bin": {
@@ -12,11 +12,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Andryd22/antigravity-kit-andryd.git"
+    "url": "git+https://github.com/Andryd22/AG-agents-skills.git"
   },
-  "homepage": "https://github.com/Andryd22/antigravity-kit-andryd#readme",
+  "homepage": "https://github.com/Andryd22/AG-agents-skills#readme",
   "bugs": {
-    "url": "https://github.com/Andryd22/antigravity-kit-andryd/issues"
+    "url": "https://github.com/Andryd22/AG-agents-skills/issues"
   },
   "keywords": [
     "antigravity",

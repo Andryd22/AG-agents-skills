@@ -11,7 +11,7 @@ if (!command || command === 'help' || command === '--help') {
   25 agents | 48 skills | 13 workflows | Caveman Mode
 
   Usage:
-    npx github:Andryd22/antigravity-kit-andryd init [options]
+    npx github:Andryd22/AG-agents-skills init [options]
 
   Commands:
     init       Install .agent/ folder into current project
