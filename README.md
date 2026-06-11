@@ -76,6 +76,7 @@ Richiama i workflow tramite gli slash command:
 | `/ui-ux-pro-max` | Progetta interfacce con 50 stili       |
 | `/caveman`       | Attiva la modalità di risposta per risparmiare token |
 | `/html-it`       | Framework per output HTML di alta qualità |
+| `/latex`         | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
 
 Esempio:
 
