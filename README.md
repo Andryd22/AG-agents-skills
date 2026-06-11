@@ -17,18 +17,6 @@ npx github:Andryd22/AG-agents-skills init
 | `npx github:Andryd22/AG-agents-skills init --dry-run` | Anteprima senza scrivere file |
 | `npx github:Andryd22/AG-agents-skills init --path ./myapp` | Directory di destinazione personalizzata |
 
-**Nota:** usa sempre `npx github:Andryd22/AG-agents-skills` per garantire di scaricare l'ultima versione da GitHub. Se preferisci il comando globale `ag-agents-skills`, installa il pacchetto una volta con `npm install -g github:Andryd22/AG-agents-skills`.
-
-> **Cosa c'è di diverso?** Questo fork aggiunge agenti per AI/ML, Data Engineering, Embedded/IoT, LaTeX, la Caveman Mode (`/caveman`) e oltre 10 skill aggiuntive rispetto alla versione ufficiale.
-
-### ⚠️ Nota Importante su `.gitignore`
-Se stai usando editor basati sull'AI come **Cursor** o **Windsurf**, aggiungere la cartella `.agent/` al tuo file `.gitignore` potrebbe impedire all'IDE di indicizzare i workflow.
-
-**Soluzione Consigliata:**
-Per mantenere la cartella `.agent/` locale (non tracciata da Git) senza perdere le funzionalità AI:
-1. Assicurati che `.agent/` **NON** sia nel file `.gitignore` del tuo progetto.
-2. Aggiungilo invece al tuo file di esclusione locale: `.git/info/exclude`
-
 ## Cosa è Incluso
 
 | Componente    | Quantità | Descrizione                                                        |
@@ -111,20 +99,6 @@ Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accur
   - Lite: `/caveman lite`
   - Full (predefinito): `/caveman full`
   - Ultra: `/caveman ultra`
-
-### Esempio:
-```
-Utente: /caveman on
-AI: Modalità Caveman abilitata.
-
-Utente: Spiega il fine-tuning di un LLM.
-AI: Aggiorna pesi LLM pre-addestrato con dati specifici. Migliora performance e allineamento. No ri-addestramento totale.
-```
-
-### Benchmark:
-- Riduzione dei token: 60-75%
-- Precisione: mantenuta altissima
-- Prestazioni: Nessun impatto sulla velocità
 
 ## Licenza
 
