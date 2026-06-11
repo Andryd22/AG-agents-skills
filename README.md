@@ -8,15 +8,14 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 npx github:Andryd22/AG-agents-skills init
 ```
 
-Opzioni disponibili:
-
-```bash
-npx github:Andryd22/AG-agents-skills init --force        # Sovrascrive la cartella .agent/ esistente
-npx github:Andryd22/AG-agents-skills init --dry-run      # Anteprima senza scrivere file
-npx github:Andryd22/AG-agents-skills init --path ./myapp # Directory di destinazione
-npx github:Andryd22/AG-agents-skills update              # Aggiorna .agent/ all'ultima versione da GitHub
-npx github:Andryd22/AG-agents-skills status              # Mostra i componenti inclusi
-```
+| Comando | Descrizione |
+| ------- | ----------- |
+| `npx github:Andryd22/AG-agents-skills init` | Installa `.agent/` nel progetto corrente |
+| `npx github:Andryd22/AG-agents-skills update` | Aggiorna `.agent/` all'ultima versione da GitHub |
+| `npx github:Andryd22/AG-agents-skills status` | Mostra i componenti inclusi |
+| `npx github:Andryd22/AG-agents-skills init --force` | Reinstalla sovrascrivendo `.agent/` esistente |
+| `npx github:Andryd22/AG-agents-skills init --dry-run` | Anteprima senza scrivere file |
+| `npx github:Andryd22/AG-agents-skills init --path ./myapp` | Directory di destinazione personalizzata |
 
 **Nota:** usa sempre `npx github:Andryd22/AG-agents-skills` per garantire di scaricare l'ultima versione da GitHub. Se preferisci il comando globale `ag-agents-skills`, installa il pacchetto una volta con `npm install -g github:Andryd22/AG-agents-skills`.
 
@@ -101,21 +100,6 @@ Esempio:
 ### Usare le Skill
 
 Le skill vengono caricate automaticamente in base al contesto della task. L'AI legge le descrizioni delle skill e applica le conoscenze pertinenti.
-
-## Strumento CLI
-
-| Comando | Descrizione |
-| ------- | ----------- |
-| `npx github:Andryd22/AG-agents-skills init` | Installa `.agent/` nel progetto corrente |
-| `npx github:Andryd22/AG-agents-skills update` | Aggiorna `.agent/` all'ultima versione da GitHub |
-| `npx github:Andryd22/AG-agents-skills status` | Mostra i componenti inclusi |
-| `npx github:Andryd22/AG-agents-skills init --force` | Reinstalla sovrascrivendo `.agent/` esistente |
-
-Install globale (opzionale, per usare `ag-agents-skills` direttamente):
-
-```bash
-npm install -g github:Andryd22/AG-agents-skills
-```
 
 ## 🪨 Caveman Mode
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.
