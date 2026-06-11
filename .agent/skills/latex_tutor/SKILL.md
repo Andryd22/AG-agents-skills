@@ -89,6 +89,7 @@ The output must **alternate between different LaTeX constructs** to create a vis
 - When slides present a **comparison** (A vs B, pros/cons), ALWAYS use a `tabular` with `booktabs`.
 - When slides present a **step-by-step process**, use `enumerate`.
 - When slides present a **definition or formal statement**, use the appropriate `amsthm` environment.
+- **PREFER LISTS AGGRESSIVELY**: Any content with 3+ discrete items, components, properties, or steps MUST be schematized as `itemize` or `enumerate`. If you can list it, list it — never bury enumerable content in prose.
 
 ---
 
@@ -119,13 +120,51 @@ The output must **alternate between different LaTeX constructs** to create a vis
 
 ## FORMATTING RULES (STRICT)
 
-### Bold Keywords
+### Bold and Italic Keywords
 
-Automatically identify major technical keywords, core concepts, and frameworks from the text and ALWAYS emphasize them using `\textbf{keyword}`.
+- Use `\textbf{keyword}` for **primary technical keywords**, core concepts, framework names, and proper nouns on first occurrence.
+- Use `\textit{term}` for secondary emphasis: foreign terms, variable names in prose, and soft distinctions.
+- **NEVER use `\uline`** — underline is prohibited. Use `\textbf` exclusively for highlighting importance.
+- When in doubt between bold and italic, choose bold. Over-bolding is better than under-bolding for study notes.
 
 ### Comparative Tables
 
 Whenever the slides present a **comparison between two or more approaches/technologies**, format it as a `tabular` environment with `booktabs` (`\toprule`, `\midrule`, `\bottomrule`). **DO NOT number items within table cells** — use plain text or bullet points only, never numbered lists inside table columns.
+
+**Table and Figure Formatting Rules (STRICT):**
+
+- **Caption placement**: `\caption` goes **ABOVE** tables, **BELOW** figures — no exceptions.
+- **`\noindent` before every table**: All `table` floating environments must be preceded by `\noindent`. Place it on the line immediately before `\begin{table}`.
+- **`\noindent` after floats and lists**: After every `\end{table}`, `\end{figure}`, `\end{itemize}`, and `\end{enumerate}`, the next paragraph of prose MUST start with `\noindent`. This prevents unwanted indentation after non-paragraph blocks.
+
+```latex
+% Correct table structure:
+\noindent
+\begin{table}[H]
+    \caption{Caption goes above the table}
+    \label{tab:example}
+    \centering
+    \begin{tabular}{...}
+        \toprule
+        ...
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent
+Following text starts here without indent...
+
+% Correct figure structure:
+\begin{figure}[H]
+    \centering
+    \fbox{\textbf{INSERT IMAGE FROM SLIDE [N]}}
+    \caption{Caption goes below the figure}
+    \label{fig:example}
+\end{figure}
+
+\noindent
+Following text starts here without indent...
+```
 
 ### Source Code & Algorithms
 
@@ -175,6 +214,20 @@ If a diagram exceeds 7 nodes, or if a slide is highly visual and relies heavily 
 ```
 
 A placeholder is a bordered box (`\fbox`) containing a text label. It compiles cleanly and marks the exact location where the real image should be manually inserted later.
+
+---
+
+## CHAPTER PAGINATION
+
+- At the end of each chapter file, add `\cleardoublepage` to ensure the next chapter always starts on an **odd-numbered page** (right-hand page in two-sided documents).
+- Also add `\cleardoublepage` after `\tableofcontents`, `\listoffigures`, and `\listoftables` in `main.tex`.
+- If the document class does not support two-sided layout, use `\newpage` instead.
+- This ensures clean chapter boundaries and proper book-style pagination.
+
+```latex
+% End of every chapter file:
+\cleardoublepage
+```
 
 ---
 

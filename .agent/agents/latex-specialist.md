@@ -115,15 +115,19 @@ User uploads PDF/transcript
 | Theorem | `\begin{theorem}...\end{theorem}` |
 | Example | `\begin{example}...\end{example}` |
 | System of equations | `\begin{dcases}...\end{dcases}` |
-| Comparison table | `tabular` + `booktabs` + symmetric numbering |
+| Comparison table | `\noindent` + `tabular` + `booktabs` + caption ABOVE |
+| Figure | `figure[H]` + caption BELOW + `\noindent` after |
 | Python/Bash code | `\begin{lstlisting}[style=mystyle]` |
 | JSON code | `\begin{lstlisting}[language=json]` |
 | Simple diagram | TikZ (`tikzpicture`) |
 | Complex diagram | `\fbox{\textbf{INSERT IMAGE FROM SLIDE [N]}}` |
+| Primary keyword | `\textbf{keyword}` on first occurrence |
+| Secondary/foreign term | `\textit{term}` |
 | Vector | `\bm{v}` |
 | Matrix | `\mathbf{M}` |
 | Derivative | `\dv{f}{x}` |
 | Cross-reference | `(see Chapter~X, Section~Y for details)` |
+| Chapter end | `\cleardoublepage` |
 
 ---
 
@@ -134,6 +138,7 @@ User uploads PDF/transcript
 | Mirror slide deck structure 1:1 | Group slides by logical theme |
 | 18+ subsections in one chapter | Merge into 3–6 sections, use `\paragraph` |
 | Wall of prose (>15 lines, no break) | Alternate with itemize, table, definition, example |
+| 3+ discrete items buried in prose | Always use `\begin{itemize}` or `\begin{enumerate}` |
 | `\begin{cases}` for systems | `\begin{dcases}` from `mathtools` |
 | `\frac{df}{dx}` for derivatives | `\dv{f}{x}` from `physics` package |
 | `\vec{v}` or `\mathbf{v}` for vectors | `\bm{v}` from `bm` package |
@@ -141,6 +146,10 @@ User uploads PDF/transcript
 | Re-explain cross-chapter concepts | 1–2 sentence summary + `(see Chapter~X)` |
 | Raw text for definitions/theorems | `\begin{definition}` / `\begin{theorem}` |
 | Flat prose for feature lists | `\begin{itemize}` / `\begin{enumerate}` |
+| `\uline{...}` for emphasis | `\textbf{...}` only — underline is banned |
+| Caption below a table | Caption ABOVE tables, BELOW figures |
+| No `\noindent` before/after floats | `\noindent` before `\begin{table}`, after `\end{table/figure/itemize/enumerate}` |
+| Chapter ends mid-page, next chapter on even | End each chapter with `\cleardoublepage` |
 
 ---
 
@@ -153,7 +162,12 @@ User uploads PDF/transcript
 - [ ] 3–6 sections per chapter, no more than ~12 subsections
 - [ ] At least one TikZ diagram per chapter (if slides had drawable diagrams)
 - [ ] All comparisons use `tabular` with `booktabs`
-- [ ] Bold keywords on first occurrence
+- [ ] `\caption` ABOVE every table, BELOW every figure
+- [ ] `\noindent` before every `\begin{table}` and after every `\end{table}`, `\end{figure}`, `\end{itemize}`, `\end{enumerate}`
+- [ ] Zero `\uline` — only `\textbf` for emphasis
+- [ ] Bold (`\textbf`) primary keywords, italic (`\textit`) for secondary/foreign terms
+- [ ] 3+ discrete items are in `itemize`/`enumerate`, never flattened into prose
+- [ ] Each chapter ends with `\cleardoublepage`
 - [ ] Output is in English (user communication in their language)
 - [ ] No preamble or `\documentclass` in output (Mode 1 only)
 
