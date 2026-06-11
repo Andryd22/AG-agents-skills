@@ -90,10 +90,15 @@ Scan the entire project directory for:
 | Check | What to Look For |
 |-------|-----------------|
 | **Table style** | All tables use `booktabs` (`\toprule`, `\midrule`, `\bottomrule`) — no vertical rules |
-| **Caption placement** | `\caption` before `\label`, captions above tables and below figures |
+| **Caption placement** | `\caption` ABOVE tables, BELOW figures — flag any violation |
+| **`\noindent` before tables** | Every `\begin{table}` must be preceded by `\noindent` on the line above — flag missing ones |
+| **`\noindent` after floats/lists** | After `\end{table}`, `\end{figure}`, `\end{itemize}`, `\end{enumerate}` — the next prose paragraph must start with `\noindent` — flag missing ones |
+| **`\uline` usage** | `\uline` is prohibited — flag every occurrence, replace with `\textbf` |
 | **Figure filename convention** | Placeholders consistent: `INSERT IMAGE FROM SLIDE [page number]` |
 | **List indentation** | Consistent `itemize`/`enumerate` nesting, no orphan items |
-| **Font consistency** | No raw `\textit` for emphasis when `\emph` is intended, no manual size changes |
+| **Lists vs prose** | 3+ discrete items buried in prose that should be `itemize`/`enumerate` — flag |
+| **Font consistency** | No `\uline`, no manual size changes; `\textit` only for secondary/foreign terms |
+| **Chapter pagination** | Each chapter file ends with `\cleardoublepage` (or `\newpage` for single-sided) — flag if missing |
 
 ---
 
