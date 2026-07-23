@@ -5,17 +5,16 @@
 Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 
 ```bash
-npx github:Andryd22/AG-agents-skills init
+npx github:Andryd22/AG-agents-skills init -y
 ```
 
 | Comando | Descrizione |
 | ------- | ----------- |
 | `npx github:Andryd22/AG-agents-skills init` | Installa `.agent/` nel progetto corrente |
+| `npx github:Andryd22/AG-agents-skills init -y` | Installa automaticamente e sovrascrive se già presente |
 | `npx github:Andryd22/AG-agents-skills update` | Aggiorna `.agent/` all'ultima versione da GitHub |
 | `npx github:Andryd22/AG-agents-skills status` | Mostra i componenti inclusi |
-| `npx github:Andryd22/AG-agents-skills init --force` | Reinstalla sovrascrivendo `.agent/` esistente |
-| `npx github:Andryd22/AG-agents-skills init --dry-run` | Anteprima senza scrivere file |
-| `npx github:Andryd22/AG-agents-skills init --path ./myapp` | Directory di destinazione personalizzata |
+| `npx github:Andryd22/AG-agents-skills force` | Reinstalla e forza la sovrascrittura di `.agent/` |
 
 ## Cosa è Incluso
 

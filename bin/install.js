@@ -3,27 +3,36 @@ const fs = require('fs');
 const path = require('path');
 
 const args = process.argv.slice(2);
-const command = args[0];
+const autoYes = args.includes('-y') || args.includes('--yes');
+const forceFlag = args.includes('--force') || args.includes('-f');
 
-if (!command || command === 'help' || command === '--help') {
+// Filter out flag args to find positional command
+const positionalArgs = args.filter(a => !a.startsWith('-'));
+let command = positionalArgs[0];
+
+// If -y is provided without explicit command, default to init
+if (!command && autoYes) {
+  command = 'init';
+}
+
+if (!command || command === 'help' || command === '--help' || args.includes('-h')) {
   console.log(`
   Antigravity Kit (Andryd22 fork) — v2.1.0
   25 agents | 48 skills | 13 workflows | Caveman Mode
 
   Usage:
-    npx github:Andryd22/AG-agents-skills init [options]
+    npx github:Andryd22/AG-agents-skills [command] [options]
 
   Commands:
     init       Install .agent/ folder into current project
     update     Update to the latest version (overwrites .agent/)
     status     Show what would be installed
+    force      Force overwrite existing .agent/ folder
     help       Show this help
 
   Options:
+    -y, --yes  Auto-complete installation automatically
     --force    Overwrite existing .agent/ folder
-    --path     Target directory (default: current directory)
-    --quiet    Suppress output
-    --dry-run  Preview without writing files
   `);
   process.exit(0);
 }
@@ -37,19 +46,18 @@ if (command === 'status') {
   process.exit(0);
 }
 
+if (command === 'force') {
+  command = 'init';
+}
+
 if (command !== 'init' && command !== 'update') {
   console.error(`Unknown command: ${command}`);
-  console.error('Usage: ag-agents-skills init');
+  console.error('Usage: npx github:Andryd22/AG-agents-skills [init|update|status|force] [-y]');
   process.exit(1);
 }
 
-let force = args.includes('--force') || command === 'update';
-const dryRun = args.includes('--dry-run');
-const quiet = args.includes('--quiet');
-
-const pathIdx = args.indexOf('--path');
-const targetDir = pathIdx !== -1 ? path.resolve(args[pathIdx + 1] || '.') : process.cwd();
-
+const force = autoYes || forceFlag || command === 'update';
+const targetDir = process.cwd();
 const sourceDir = path.resolve(__dirname, '..', '.agent');
 const destDir = path.join(targetDir, '.agent');
 
@@ -58,9 +66,9 @@ if (!fs.existsSync(sourceDir)) {
   process.exit(1);
 }
 
-if (fs.existsSync(destDir) && !force && !dryRun) {
+if (fs.existsSync(destDir) && !force) {
   console.error(`Error: .agent/ already exists in ${targetDir}`);
-  console.error('Use --force to overwrite, or --dry-run to preview.');
+  console.error('Use -y or --force to overwrite existing files.');
   process.exit(1);
 }
 
@@ -73,47 +81,28 @@ function copyDir(src, dest) {
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
     } else {
-      if (!dryRun) fs.copyFileSync(srcPath, destPath);
+      fs.copyFileSync(srcPath, destPath);
     }
   }
 }
 
-if (dryRun) {
-  let count = 0;
-  function countFiles(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        countFiles(path.join(dir, entry.name));
-      } else {
-        count++;
-      }
-    }
-  }
-  countFiles(sourceDir);
-  console.log(`[DRY RUN] Would install ${count} files to ${destDir}`);
-  console.log('  25 agents, 48 skills, 13 workflows');
-  console.log('  Includes: Caveman Mode, AI/ML, IoT, LaTeX, Data Engineering');
-} else {
-  if (force && fs.existsSync(destDir)) {
-    fs.rmSync(destDir, { recursive: true, force: true });
-  }
-  copyDir(sourceDir, destDir);
+if (force && fs.existsSync(destDir)) {
+  fs.rmSync(destDir, { recursive: true, force: true });
+}
+copyDir(sourceDir, destDir);
 
-  // Count installed files
-  let count = 0;
-  function countInstalled(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      if (entry.isDirectory()) countInstalled(path.join(dir, entry.name));
-      else count++;
-    }
-  }
-  countInstalled(destDir);
-
-  if (!quiet) {
-    console.log(`Installed .agent/ to ${targetDir}`);
-    console.log(`  ${count} files — 25 agents, 48 skills, 13 workflows`);
-    console.log(`  Try /caveman on in your IDE to enable Caveman Mode`);
+// Count installed files
+let count = 0;
+function countInstalled(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.isDirectory()) countInstalled(path.join(dir, entry.name));
+    else count++;
   }
 }
+countInstalled(destDir);
+
+console.log(`Installed .agent/ to ${targetDir}`);
+console.log(`  ${count} files — 25 agents, 48 skills, 13 workflows`);
+console.log(`  Try /caveman in your IDE to enable Caveman Mode`);
+
