@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const pkg = require('../package.json');
+const version = `v${pkg.version}`;
 
 const args = process.argv.slice(2);
 const autoYes = args.includes('-y') || args.includes('--yes');
@@ -17,7 +19,7 @@ if (!command && autoYes) {
 
 if (!command || command === 'help' || command === '--help' || args.includes('-h')) {
   console.log(`
-  Antigravity Kit (Andryd22 fork) — v2.1.0
+  Antigravity Kit (Andryd22 fork) — ${version}
   25 agents | 48 skills | 13 workflows | Caveman Mode
 
   Usage:
@@ -38,7 +40,7 @@ if (!command || command === 'help' || command === '--help' || args.includes('-h'
 }
 
 if (command === 'status') {
-  console.log('Antigravity Kit (Andryd22 fork) v2.1.0');
+  console.log(`Antigravity Kit (Andryd22 fork) ${version}`);
   console.log('  Agents:    25 (incl. AI/ML, IoT, LaTeX, API designer)');
   console.log('  Skills:    48 (incl. caveman-mode, prompt-engineering, embedded-systems, html-it)');
   console.log('  Workflows: 13 (incl. /caveman, /html-it)');

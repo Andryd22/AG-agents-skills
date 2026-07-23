@@ -1,0 +1,57 @@
+name: Validate Kit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate CLI Installation Script
+        run: |
+          node bin/install.js status
+          node bin/install.js help
+
+      - name: Validate Skill Metadata (SKILL.md)
+        run: |
+          python -c "
+          import os, sys, glob
+
+          skills_dir = '.agent/skills'
+          errors = []
+          for root, dirs, files in os.walk(skills_dir):
+              for file in files:
+                  if file == 'SKILL.md':
+                      filepath = os.path.join(root, file)
+                      with open(filepath, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                      if not content.startswith('---'):
+                          errors.append(f'{filepath} missing YAML frontmatter opening ---')
+                      elif 'name:' not in content or 'description:' not in content:
+                          errors.append(f'{filepath} missing name: or description: in frontmatter')
+
+          if errors:
+              print('Skill validation failed:')
+              for err in errors:
+                  print(f' - {err}')
+              sys.exit(1)
+          else:
+              print('All SKILL.md files validated successfully!')
+          "
