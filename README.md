@@ -21,8 +21,8 @@ npx github:Andryd22/AG-agents-skills init -y
 | Componente    | Quantità | Descrizione                                                        |
 | ------------- | -------- | ------------------------------------------------------------------ |
 | **Agenti**    | 25       | Personas AI specializzate (frontend, backend, AI/ML, IoT, LaTeX, ecc.) |
-| **Skill**     | 48       | Moduli di conoscenza specifici per dominio                         |
-| **Workflow**  | 13       | Procedure attivabili tramite slash command                         |
+| **Skill**     | 49       | Moduli di conoscenza specifici per dominio                         |
+| **Workflow**  | 14       | Procedure attivabili tramite slash command                         |
 
 ## Utilizzo
 
@@ -75,6 +75,7 @@ Richiama i workflow tramite gli slash command:
 | `/ui-ux-pro-max` | Progetta interfacce con 50 stili       |
 | `/caveman`       | Attiva la modalità di risposta per risparmiare token |
 | `/html-it`       | Framework per output HTML di alta qualità |
+| `/scroll-film`   | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
 | `/latex`         | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
 
 Esempio:

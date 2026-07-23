@@ -42,9 +42,9 @@ if (!command || command === 'help' || command === '--help' || args.includes('-h'
 if (command === 'status') {
   console.log(`Antigravity Kit (Andryd22 fork) ${version}`);
   console.log('  Agents:    25 (incl. AI/ML, IoT, LaTeX, API designer)');
-  console.log('  Skills:    48 (incl. caveman-mode, prompt-engineering, embedded-systems, html-it)');
-  console.log('  Workflows: 13 (incl. /caveman, /html-it)');
-  console.log('  Features:  Caveman Mode, Next.js 16 support, academic LaTeX');
+  console.log('  Skills:    49 (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)');
+  console.log('  Workflows: 14 (incl. /caveman, /html-it, /scroll-film)');
+  console.log('  Features:  Caveman Mode, Scroll-Film Studio, Next.js 16 support, academic LaTeX');
   process.exit(0);
 }
 

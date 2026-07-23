@@ -9,8 +9,8 @@
 Antigravity Kit is a modular system consisting of:
 
 - **25 Specialist Agents** - Role-based AI personas
-- **47 Skills** - Domain-specific knowledge modules
-- **12 Workflows** - Slash command procedures
+- **49 Skills** - Domain-specific knowledge modules
+- **14 Workflows** - Slash command procedures
 
 ---
 
@@ -20,8 +20,8 @@ Antigravity Kit is a modular system consisting of:
 .agent/
 ├── ARCHITECTURE.md          # This file
 ├── agents/                  # 25 Specialist Agents
-├── skills/                  # 46 Skills
-├── workflows/               # 11 Slash Commands
+├── skills/                  # 49 Skills
+├── workflows/               # 14 Slash Commands
 ├── rules/                   # Global Rules
 └── scripts/                 # Master Validation Scripts
 ```
@@ -62,7 +62,7 @@ Specialist AI personas for different domains.
 
 ---
 
-## 🧩 Skills (48)
+## 🧩 Skills (49)
 
 Modular knowledge domains that agents can load on-demand. based on task context.
 
@@ -75,6 +75,7 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 | `tailwind-patterns`     | Tailwind CSS v4 utilities                                             |
 | `frontend-design`       | UI/UX patterns, design systems                                        |
 | `ui-ux-pro-max`         | 50 styles, 21 palettes, 50 fonts                                      |
+| `scroll-film-studio`   | Continuous animated scroll-scrubbed cinematic websites (scrollytelling) |
 
 ### Backend & API
 
@@ -195,7 +196,7 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 
 ---
 
-## 🔄 Workflows (13)
+## 🔄 Workflows (14)
 
 Slash command procedures. Invoke with `/command`.
 
@@ -213,6 +214,7 @@ Slash command procedures. Invoke with `/command`.
 | `/test`          | Run tests                |
 | `/ui-ux-pro-max` | Design with 50 styles    |
 | `/html-it`       | HTML output framework    |
+| `/scroll-film`   | Animated scroll-film sites |
 | `/caveman`       | Toggle Caveman Mode      |
 
 ---
