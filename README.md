@@ -13,7 +13,7 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 </thead>
 <tbody>
 <tr>
-<td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills init -y</code></td>
+<td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills init -⁠y</code></td>
 <td>Installa <code>.agent/</code> nel progetto corrente (sovrascrive se già presente)</td>
 </tr>
 <tr>
