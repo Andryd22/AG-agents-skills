@@ -4,10 +4,24 @@
 
 Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 
-| Comando | Descrizione |
-| ------- | ----------- |
-| <code>npx github:Andryd22/AG-agents-skills init -y</code> | Installa `.agent/` nel progetto corrente (sovrascrive se già presente) |
-| <code>npx github:Andryd22/AG-agents-skills update</code> | Aggiorna `.agent/` all'ultima versione da GitHub |
+<table>
+<thead>
+<tr>
+<th style="white-space: nowrap">Comando</th>
+<th>Descrizione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="white-space: nowrap"><code>npx github:Andryd22/AG-agents-skills init -y</code></td>
+<td>Installa <code>.agent/</code> nel progetto corrente (sovrascrive se già presente)</td>
+</tr>
+<tr>
+<td style="white-space: nowrap"><code>npx github:Andryd22/AG-agents-skills update</code></td>
+<td>Aggiorna <code>.agent/</code> all'ultima versione da GitHub</td>
+</tr>
+</tbody>
+</table>
 
 ## Cosa è Incluso
 
