@@ -4,6 +4,21 @@ const path = require('path');
 const pkg = require('../package.json');
 const version = `v${pkg.version}`;
 
+const sourceDir = path.resolve(__dirname, '..', '.agent');
+
+// Count real content of .agent/ instead of hardcoding numbers
+function countMdFiles(dir) {
+  if (!fs.existsSync(dir)) return 0;
+  return fs.readdirSync(dir, { withFileTypes: true }).filter(e => e.isFile() && e.name.endsWith('.md')).length;
+}
+function countDirs(dir) {
+  if (!fs.existsSync(dir)) return 0;
+  return fs.readdirSync(dir, { withFileTypes: true }).filter(e => e.isDirectory()).length;
+}
+const agentCount = countMdFiles(path.join(sourceDir, 'agents'));
+const skillCount = countDirs(path.join(sourceDir, 'skills'));
+const workflowCount = countMdFiles(path.join(sourceDir, 'workflows'));
+
 const args = process.argv.slice(2);
 const autoYes = args.includes('-y') || args.includes('--yes');
 const forceFlag = args.includes('--force') || args.includes('-f');
@@ -20,7 +35,7 @@ if (!command && autoYes) {
 if (!command || command === 'help' || command === '--help' || args.includes('-h')) {
   console.log(`
   Antigravity Kit (Andryd22 fork) — ${version}
-  25 agents | 48 skills | 13 workflows | Caveman Mode
+  ${agentCount} agents | ${skillCount} skills | ${workflowCount} workflows | Caveman Mode
 
   Usage:
     npx github:Andryd22/AG-agents-skills [command] [options]
@@ -41,9 +56,9 @@ if (!command || command === 'help' || command === '--help' || args.includes('-h'
 
 if (command === 'status') {
   console.log(`Antigravity Kit (Andryd22 fork) ${version}`);
-  console.log('  Agents:    25 (incl. AI/ML, IoT, LaTeX, API designer)');
-  console.log('  Skills:    49 (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)');
-  console.log('  Workflows: 14 (incl. /caveman, /html-it, /scroll-film)');
+  console.log(`  Agents:    ${agentCount} (incl. AI/ML, IoT, LaTeX, API designer)`);
+  console.log(`  Skills:    ${skillCount} (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)`);
+  console.log(`  Workflows: ${workflowCount} (incl. /caveman, /html-it, /scroll-film)`);
   console.log('  Features:  Caveman Mode, Scroll-Film Studio, Next.js 16 support, academic LaTeX');
   process.exit(0);
 }
@@ -60,7 +75,6 @@ if (command !== 'init' && command !== 'update') {
 
 const force = autoYes || forceFlag || command === 'update';
 const targetDir = process.cwd();
-const sourceDir = path.resolve(__dirname, '..', '.agent');
 const destDir = path.join(targetDir, '.agent');
 
 if (!fs.existsSync(sourceDir)) {
@@ -105,6 +119,6 @@ function countInstalled(dir) {
 countInstalled(destDir);
 
 console.log(`Installed .agent/ to ${targetDir}`);
-console.log(`  ${count} files — 25 agents, 48 skills, 13 workflows`);
+console.log(`  ${count} files — ${agentCount} agents, ${skillCount} skills, ${workflowCount} workflows`);
 console.log(`  Try /caveman in your IDE to enable Caveman Mode`);
 
