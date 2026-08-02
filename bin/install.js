@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execSync } = require('child_process');
 const pkg = require('../package.json');
 const version = `v${pkg.version}`;
 
-const sourceDir = path.resolve(__dirname, '..', '.agent');
+const localAgentDir = path.resolve(__dirname, '..', '.agent');
+const repoUrl = (pkg.repository && pkg.repository.url || 'https://github.com/Andryd22/AG-agents-skills.git').replace(/^git\+/, '');
 
 // Count real content of .agent/ instead of hardcoding numbers
 function countMdFiles(dir) {
@@ -15,9 +18,46 @@ function countDirs(dir) {
   if (!fs.existsSync(dir)) return 0;
   return fs.readdirSync(dir, { withFileTypes: true }).filter(e => e.isDirectory()).length;
 }
-const agentCount = countMdFiles(path.join(sourceDir, 'agents'));
-const skillCount = countDirs(path.join(sourceDir, 'skills'));
-const workflowCount = countMdFiles(path.join(sourceDir, 'workflows'));
+function getCounts(agentDir) {
+  return {
+    agents: countMdFiles(path.join(agentDir, 'agents')),
+    skills: countDirs(path.join(agentDir, 'skills')),
+    workflows: countMdFiles(path.join(agentDir, 'workflows')),
+  };
+}
+
+function copyDir(src, dest) {
+  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+// Clone the latest .agent/ straight from GitHub
+function fetchLatestFromGitHub() {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ag-agents-skills-'));
+  try {
+    execSync(`git clone --depth 1 "${repoUrl}" "${path.join(tmp, 'repo')}"`, { stdio: 'pipe' });
+    const fetched = path.join(tmp, 'repo', '.agent');
+    if (!fs.existsSync(fetched)) {
+      throw new Error('.agent/ not found in cloned repo');
+    }
+    return {
+      dir: fetched,
+      cleanup: () => fs.rmSync(tmp, { recursive: true, force: true }),
+    };
+  } catch (err) {
+    fs.rmSync(tmp, { recursive: true, force: true });
+    throw err;
+  }
+}
 
 const args = process.argv.slice(2);
 const autoYes = args.includes('-y') || args.includes('--yes');
@@ -33,16 +73,17 @@ if (!command && autoYes) {
 }
 
 if (!command || command === 'help' || command === '--help' || args.includes('-h')) {
+  const { agents, skills, workflows } = getCounts(localAgentDir);
   console.log(`
   Antigravity Kit (Andryd22 fork) — ${version}
-  ${agentCount} agents | ${skillCount} skills | ${workflowCount} workflows | Caveman Mode
+  ${agents} agents | ${skills} skills | ${workflows} workflows | Caveman Mode
 
   Usage:
     npx github:Andryd22/AG-agents-skills [command] [options]
 
   Commands:
     init       Install .agent/ folder into current project
-    update     Update to the latest version (overwrites .agent/)
+    update     Fetch latest .agent/ from GitHub and overwrite the local copy
     status     Show what would be installed
     force      Force overwrite existing .agent/ folder
     help       Show this help
@@ -55,10 +96,11 @@ if (!command || command === 'help' || command === '--help' || args.includes('-h'
 }
 
 if (command === 'status') {
+  const { agents, skills, workflows } = getCounts(localAgentDir);
   console.log(`Antigravity Kit (Andryd22 fork) ${version}`);
-  console.log(`  Agents:    ${agentCount} (incl. AI/ML, IoT, LaTeX, API designer)`);
-  console.log(`  Skills:    ${skillCount} (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)`);
-  console.log(`  Workflows: ${workflowCount} (incl. /caveman, /html-it, /scroll-film)`);
+  console.log(`  Agents:    ${agents} (incl. AI/ML, IoT, LaTeX, API designer)`);
+  console.log(`  Skills:    ${skills} (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)`);
+  console.log(`  Workflows: ${workflows} (incl. /caveman, /html-it, /scroll-film)`);
   console.log('  Features:  Caveman Mode, Scroll-Film Studio, Next.js 16 support, academic LaTeX');
   process.exit(0);
 }
@@ -77,29 +119,24 @@ const force = autoYes || forceFlag || command === 'update';
 const targetDir = process.cwd();
 const destDir = path.join(targetDir, '.agent');
 
+// update: pull the latest version straight from GitHub, fall back to local copy
+let sourceDir = localAgentDir;
+let fetched = null;
+if (command === 'update') {
+  console.log(`Fetching latest .agent/ from ${repoUrl} ...`);
+  try {
+    fetched = fetchLatestFromGitHub();
+    sourceDir = fetched.dir;
+  } catch (err) {
+    console.error(`Warning: could not fetch from GitHub (${err.message.trim()})`);
+    console.error('Falling back to the locally installed version.');
+    sourceDir = localAgentDir;
+  }
+}
+
 if (!fs.existsSync(sourceDir)) {
   console.error(`Error: Source .agent/ not found at ${sourceDir}`);
   process.exit(1);
-}
-
-if (fs.existsSync(destDir) && !force) {
-  console.error(`Error: .agent/ already exists in ${targetDir}`);
-  console.error('Use -y or --force to overwrite existing files.');
-  process.exit(1);
-}
-
-function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
 }
 
 if (force && fs.existsSync(destDir)) {
@@ -118,7 +155,11 @@ function countInstalled(dir) {
 }
 countInstalled(destDir);
 
+const { agents, skills, workflows } = getCounts(sourceDir);
 console.log(`Installed .agent/ to ${targetDir}`);
-console.log(`  ${count} files — ${agentCount} agents, ${skillCount} skills, ${workflowCount} workflows`);
+console.log(`  ${count} files — ${agents} agents, ${skills} skills, ${workflows} workflows`);
 console.log(`  Try /caveman in your IDE to enable Caveman Mode`);
 
+if (fetched) {
+  fetched.cleanup();
+}
