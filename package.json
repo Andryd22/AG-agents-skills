@@ -1,7 +1,7 @@
 {
   "name": "ag-agents-skills",
   "version": "2.1.0",
-  "description": "AI Agent templates - Skills, Agents, and Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, IoT, LaTeX, and 10+ extra skills)",
+  "description": "AI Agent templates - 51 Skills, 26 Agents, 16 Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, IoT, LaTeX, Three.js scroll experiences)",
   "bin": {
     "ag-agents-skills": "./bin/install.js"
   },
