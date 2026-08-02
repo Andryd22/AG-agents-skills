@@ -10,10 +10,8 @@ npx github:Andryd22/AG-agents-skills init -y
 
 | Comando | Descrizione |
 | ------- | ----------- |
-| `init -y` | Installa `.agent/` nel progetto corrente (sovrascrive se già presente) |
-| `update` | Aggiorna `.agent/` all'ultima versione da GitHub |
-
-Tutti i comandi si eseguono con `npx github:Andryd22/AG-agents-skills <comando>`, es. `npx github:Andryd22/AG-agents-skills init -y`.
+| <code>npx&nbsp;github:Andryd22/AG-agents-skills&nbsp;init&nbsp;-y</code> | Installa `.agent/` nel progetto corrente (sovrascrive se già presente) |
+| <code>npx&nbsp;github:Andryd22/AG-agents-skills&nbsp;update</code> | Aggiorna `.agent/` all'ultima versione da GitHub |
 
 ## Cosa è Incluso
 
