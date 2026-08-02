@@ -26,7 +26,6 @@ jobs:
 
       - name: Validate CLI Installation Script
         run: |
-          node bin/install.js status
           node bin/install.js help
 
       - name: Validate Skill Metadata (SKILL.md)

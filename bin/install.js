@@ -61,7 +61,6 @@ function fetchLatestFromGitHub() {
 
 const args = process.argv.slice(2);
 const autoYes = args.includes('-y') || args.includes('--yes');
-const forceFlag = args.includes('--force') || args.includes('-f');
 
 // Filter out flag args to find positional command
 const positionalArgs = args.filter(a => !a.startsWith('-'));
@@ -82,40 +81,29 @@ if (!command || command === 'help' || command === '--help' || args.includes('-h'
     npx github:Andryd22/AG-agents-skills [command] [options]
 
   Commands:
-    init       Install .agent/ folder into current project
+    init -y    Install .agent/ folder into current project (overwrites)
     update     Fetch latest .agent/ from GitHub and overwrite the local copy
-    status     Show what would be installed
-    force      Force overwrite existing .agent/ folder
     help       Show this help
 
   Options:
     -y, --yes  Auto-complete installation automatically
-    --force    Overwrite existing .agent/ folder
   `);
   process.exit(0);
 }
 
-if (command === 'status') {
-  const { agents, skills, workflows } = getCounts(localAgentDir);
-  console.log(`Antigravity Kit (Andryd22 fork) ${version}`);
-  console.log(`  Agents:    ${agents} (incl. AI/ML, IoT, LaTeX, API designer)`);
-  console.log(`  Skills:    ${skills} (incl. caveman-mode, scroll-film-studio, embedded-systems, html-it)`);
-  console.log(`  Workflows: ${workflows} (incl. /caveman, /html-it, /scroll-film)`);
-  console.log('  Features:  Caveman Mode, Scroll-Film Studio, Next.js 16 support, academic LaTeX');
-  process.exit(0);
-}
-
-if (command === 'force') {
-  command = 'init';
+if (command === 'init' && !autoYes) {
+  console.error('Error: init requires -y (overwrites existing .agent/).');
+  console.error('Usage: npx github:Andryd22/AG-agents-skills init -y');
+  process.exit(1);
 }
 
 if (command !== 'init' && command !== 'update') {
   console.error(`Unknown command: ${command}`);
-  console.error('Usage: npx github:Andryd22/AG-agents-skills [init|update|status|force] [-y]');
+  console.error('Usage: npx github:Andryd22/AG-agents-skills [init -y|update]');
   process.exit(1);
 }
 
-const force = autoYes || forceFlag || command === 'update';
+const force = autoYes || command === 'update';
 const targetDir = process.cwd();
 const destDir = path.join(targetDir, '.agent');
 
