@@ -8,9 +8,9 @@
 
 Antigravity Kit is a modular system consisting of:
 
-- **25 Specialist Agents** - Role-based AI personas
-- **49 Skills** - Domain-specific knowledge modules
-- **14 Workflows** - Slash command procedures
+- **26 Specialist Agents** - Role-based AI personas
+- **50 Skills** - Domain-specific knowledge modules
+- **16 Workflows** - Slash command procedures
 
 ---
 
@@ -19,8 +19,8 @@ Antigravity Kit is a modular system consisting of:
 ```plaintext
 .agent/
 ├── ARCHITECTURE.md          # This file
-├── agents/                  # 25 Specialist Agents
-├── skills/                  # 49 Skills
+├── agents/                  # 26 Specialist Agents
+├── skills/                  # 50 Skills
 ├── workflows/               # 14 Slash Commands
 ├── rules/                   # Global Rules
 └── scripts/                 # Master Validation Scripts
@@ -28,7 +28,7 @@ Antigravity Kit is a modular system consisting of:
 
 ---
 
-## 🤖 Agents (25)
+## 🤖 Agents (26)
 
 Specialist AI personas for different domains.
 
@@ -59,10 +59,11 @@ Specialist AI personas for different domains.
 | `qa-automation-engineer` | E2E testing, CI pipelines  | webapp-testing, testing-patterns                         |
 | `code-archaeologist`     | Legacy code, refactoring   | clean-code, code-review-checklist                        |
 | `explorer-agent`         | Codebase analysis          | -                                                        |
+| `scroll-experience-architect` | Scroll experiences 3D/cinematic/video | three-js, scroll-film-studio, scroll-world |
 
 ---
 
-## 🧩 Skills (49)
+## 🧩 Skills (50)
 
 Modular knowledge domains that agents can load on-demand. based on task context.
 
@@ -76,6 +77,8 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 | `frontend-design`       | UI/UX patterns, design systems                                        |
 | `ui-ux-pro-max`         | 50 styles, 21 palettes, 50 fonts                                      |
 | `scroll-film-studio`   | Continuous animated scroll-scrubbed cinematic websites (scrollytelling) |
+| `scroll-world`         | Immersive scroll-scrubbed "fly through the world" landing pages (Higgsfield) |
+| `three-js`             | Scroll-driven Three.js/WebGL scenes — scene, camera, scroll, perf            |
 
 ### Backend & API
 
@@ -196,7 +199,7 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 
 ---
 
-## 🔄 Workflows (14)
+## 🔄 Workflows (16)
 
 Slash command procedures. Invoke with `/command`.
 
@@ -216,6 +219,8 @@ Slash command procedures. Invoke with `/command`.
 | `/html-it`       | HTML output framework    |
 | `/scroll-film`   | Animated scroll-film sites |
 | `/caveman`       | Toggle Caveman Mode      |
+| `/latex`         | Academic LaTeX writing/review |
+| `/scroll-experience` | Unifies three-js + scroll-film-studio + scroll-world |
 
 ---
 
@@ -297,9 +302,9 @@ For details, see [scripts/README.md](scripts/README.md)
 
 | Metric              | Value                         |
 | ------------------- | ----------------------------- |
-| **Total Agents**    | 25                            |
+| **Total Agents**    | 26                            |
 | **Total Skills**    | 48                            |
-| **Total Workflows** | 13                            |
+| **Total Workflows** | 16                            |
 | **Total Scripts**   | 2 (master) + 19 (skill-level) |
 | **Coverage**        | ~90% web/mobile development   |
 
