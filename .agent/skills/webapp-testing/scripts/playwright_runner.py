@@ -171,3 +171,6 @@ if __name__ == "__main__":
         result = run_basic_test(url, take_screenshot)
     
     print(json.dumps(result, indent=2))
+    # Non-zero exit when the check did not succeed, so checklist.py / verify_all.py
+    # do not report a pass (missing Playwright included).
+    sys.exit(0 if result.get("status") == "success" else 1)
