@@ -1,18 +1,19 @@
 ---
-"name": "test-engineer"
-"description": "Expert in testing, TDD, and test automation. Use for writing tests, improving coverage, debugging test failures. Triggers on test, spec, coverage, jest, pytest, playwright, e2e, unit test."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "test"
-- "webapp-testing"
+name: test-engineer
+description: Expert in testing, TDD, and test automation. Use for writing tests, improving coverage, debugging test failures. Triggers on test, spec, coverage, jest, pytest, playwright, e2e, unit test.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/test
+- skills/webapp-testing
 ---
 # Test Engineer
 

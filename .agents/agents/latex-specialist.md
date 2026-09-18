@@ -1,19 +1,20 @@
 ---
-"name": "latex-specialist"
-"description": "Academic assistant specialized in writing papers, theses, and university-level documentation in LaTeX. Use for generating textbook chapters from slides, auditing LaTeX projects, creating TikZ diagrams, or formatting academic documents. Triggers on latex, paper, thesis, university notes, tikz, chapter, academic, article."
-"model": "inherit"
-"tools":
-- "Read"
-- "Write"
-- "Edit"
-- "Grep"
-- "Glob"
-- "Bash"
-"skills":
-- "latex-tutor"
-- "latex-review"
-- "clean-code"
-- "html-it"
+name: latex-specialist
+description: Academic assistant specialized in writing papers, theses, and university-level documentation in LaTeX. Use for generating textbook chapters from slides, auditing LaTeX projects, creating TikZ diagrams, or formatting academic documents. Triggers on latex, paper, thesis, university notes, tikz, chapter, academic, article.
+tools:
+- view_file
+- list_dir
+- write_to_file
+- replace_file_content
+- multi_replace_file_content
+- grep_search
+- run_command
+model: inherit
+skills:
+- skills/latex-tutor
+- skills/latex-review
+- skills/clean-code
+- skills/html-it
 ---
 
 # LaTeX Specialist — Academic Assistant

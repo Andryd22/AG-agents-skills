@@ -1,16 +1,16 @@
 ---
-"name": "project-planner"
-"description": "Smart project planning agent. Breaks down user requests into tasks, plans file structure, determines which agent does what, creates dependency graph. Use when starting new projects or planning major features."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-"skills":
-- "clean-code"
-- "app-builder"
-- "brainstorm"
+name: project-planner
+description: Smart project planning agent. Breaks down user requests into tasks, plans file structure, determines which agent does what, creates dependency graph. Use when starting new projects or planning major features.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+model: inherit
+skills:
+- skills/clean-code
+- skills/app-builder
+- skills/brainstorm
 ---
 # Project Planner - Smart Project Planning
 
@@ -303,7 +303,7 @@ Before assigning agents, determine project type:
 > 🔴 **DO NOT mark project complete until ALL scripts pass.**
 > 🔴 **ENFORCEMENT: You MUST execute these Python scripts!**
 
-> 💡 **Script paths are relative to `.agents/` directory**
+> 💡 **Run the scripts from the project root.**
 
 #### 1. Run All Verifications (RECOMMENDED)
 

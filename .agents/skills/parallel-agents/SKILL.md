@@ -1,16 +1,15 @@
 ---
 name: parallel-agents
 description: Multi-agent orchestration patterns. Use when multiple independent tasks can run with different domain expertise or when comprehensive analysis requires multiple perspectives.
-allowed-tools: Read, Glob, Grep
 ---
 
 # Native Parallel Agents
 
-> Orchestration through the IDE's native subagent tool
+> Orchestration through Antigravity's `invoke_subagent` tool
 
 ## Overview
 
-This skill enables coordinating multiple specialized agents through the IDE's native subagent system. Unlike external scripts, this approach keeps all orchestration within the IDE's control.
+This skill coordinates the kit's specialized agents, which are Antigravity custom agents in `.agents/agents/`, through `invoke_subagent`. Each subagent starts with a clean context (none of this conversation), gets only the tools and skills in its frontmatter, and returns its result to the caller. Where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and apply it yourself, one domain at a time.
 
 ## When to Use Orchestration
 
@@ -47,9 +46,9 @@ Use the frontend-specialist to analyze React components.
 Based on those findings, have the test-engineer generate component tests.
 ```
 
-### Resume Previous Work
+### Continue Previous Work
 ```
-Resume agent [agentId] and continue with additional requirements.
+Send a follow-up message to the same subagent: it keeps its own context and wakes up when it receives the message.
 ```
 
 ---
@@ -92,7 +91,7 @@ Agents: explorer-agent → backend-specialist → synthesis
 
 The complete list of agents, their domains and trigger keywords lives in `@[skills/intelligent-routing]` (section "Agent Selection Matrix"). Use that table instead of keeping a second copy here.
 
-If the IDE provides its own built-in subagents (for example a fast read-only explorer), use them for quick searches and the kit's agents for domain expertise.
+Antigravity also has built-in subagents (`research` for codebase exploration, `browser` for web testing): use them for quick searches and the kit's agents for domain expertise.
 
 ---
 
@@ -137,8 +136,8 @@ After all agents complete, synthesize:
 
 ## Key Benefits
 
-- ✅ **Single session** - All agents share context
+- ✅ **Clean contexts** - Each agent sees only the prompt you pass, so pass the full context
 - ✅ **AI-controlled** - The model orchestrates autonomously
-- ✅ **Native integration** - Works alongside the IDE's built-in subagents
-- ✅ **Resume support** - Can continue previous agent work
+- ✅ **Native integration** - Works alongside Antigravity's built-in subagents
+- ✅ **Follow-ups** - A subagent can receive further messages and continue its work
 - ✅ **Context passing** - Findings flow between agents

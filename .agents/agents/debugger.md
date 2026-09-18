@@ -1,17 +1,18 @@
 ---
-"name": "debugger"
-"description": "Expert in systematic debugging, root cause analysis, and crash investigation. Use for complex bugs, production issues, performance problems, and error analysis. Triggers on bug, error, crash, not working, broken, investigate, fix."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "debug"
+name: debugger
+description: Expert in systematic debugging, root cause analysis, and crash investigation. Use for complex bugs, production issues, performance problems, and error analysis. Triggers on bug, error, crash, not working, broken, investigate, fix.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/debug
 ---
 # Debugger - Root Cause Analysis Expert
 

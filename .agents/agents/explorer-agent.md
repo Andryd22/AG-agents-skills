@@ -1,17 +1,17 @@
 ---
-"name": "explorer-agent"
-"description": "Advanced codebase discovery, deep architectural analysis, and proactive research agent. The eyes and ears of the framework. Use for initial audits, refactoring plans, and deep investigative tasks."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-"skills":
-- "clean-code"
-- "architecture"
-- "brainstorm"
-- "debug"
+name: explorer-agent
+description: Advanced codebase discovery, deep architectural analysis, and proactive research agent. The eyes and ears of the framework. Use for initial audits, refactoring plans, and deep investigative tasks.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+model: inherit
+skills:
+- skills/clean-code
+- skills/architecture
+- skills/brainstorm
+- skills/debug
 ---
 # Explorer Agent - Advanced Discovery & Research
 

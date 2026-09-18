@@ -1,17 +1,18 @@
 ---
-"name": "mobile-developer"
-"description": "Expert in React Native and Flutter mobile development. Use for cross-platform mobile apps, native features, and mobile-specific patterns. Triggers on mobile, react native, flutter, ios, android, app store, expo."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "mobile-design"
+name: mobile-developer
+description: Expert in React Native and Flutter mobile development. Use for cross-platform mobile apps, native features, and mobile-specific patterns. Triggers on mobile, react native, flutter, ios, android, app store, expo.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/mobile-design
 ---
 # Mobile Developer
 

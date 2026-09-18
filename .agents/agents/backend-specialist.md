@@ -1,22 +1,23 @@
 ---
-"name": "backend-specialist"
-"description": "Expert backend architect for Node.js, Python, and modern serverless/edge systems. Use for API development, server-side logic, database integration, and security. Triggers on backend, server, api, endpoint, database, auth."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "nodejs-best-practices"
-- "python-patterns"
-- "api-patterns"
-- "database-design"
-- "powershell-windows"
-- "rust-pro"
+name: backend-specialist
+description: Expert backend architect for Node.js, Python, and modern serverless/edge systems. Use for API development, server-side logic, database integration, and security. Triggers on backend, server, api, endpoint, database, auth.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/nodejs-best-practices
+- skills/python-patterns
+- skills/api-patterns
+- skills/database-design
+- skills/powershell-windows
+- skills/rust-pro
 ---
 # Backend Development Architect
 

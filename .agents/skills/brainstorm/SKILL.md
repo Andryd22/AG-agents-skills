@@ -1,7 +1,6 @@
 ---
 name: brainstorm
 description: 'Socratic Gate and structured option exploration: ask only what cannot be inferred, then compare at least three approaches with trade-offs and a recommendation. Use when the user runs /brainstorm, and before building when a request is vague, complex or has open design choices.'
-allowed-tools: Read, Glob, Grep
 ---
 
 # Brainstorming & Communication Protocol

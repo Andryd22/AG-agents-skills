@@ -1,21 +1,17 @@
 ---
 name: intelligent-routing
-description: Automatic agent selection and intelligent task routing. Analyzes user requests and automatically selects the best specialist agent(s) without requiring explicit user mentions.
+description: Automatic agent selection and task routing. Classifies each request, picks the specialist agent(s) from .agents/agents/ and hands the task off with invoke_subagent, without the user having to mention agents.
 metadata:
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Intelligent Agent Routing
 
-**Purpose**: Automatically analyze user requests and route them to the most appropriate specialist agent(s) without requiring explicit user mentions.
+**Purpose**: analyze each request and route it to the right specialist agent(s) without requiring explicit user mentions.
 
-## Core Principle
+> **The AI acts as a project manager**: it classifies the request, picks the specialists and hands the work off with full context.
 
-> **The AI should act as an intelligent Project Manager**, analyzing each request and automatically selecting the best specialist(s) for the job.
-
-## How It Works
-
-### 1. Request Classifier
+## 1. Request Classifier
 
 **Before ANY action, classify the request:**
 
@@ -26,334 +22,74 @@ metadata:
 | **SIMPLE CODE**  | "fix", "add", "change" (single file)       | TIER 0 + TIER 1 (lite)         | Inline Edit                 |
 | **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **`docs/PLAN-{slug}.md` required** |
 | **DESIGN/UI**    | "design", "UI", "page", "dashboard"        | TIER 0 + TIER 1 + Agent        | **`docs/PLAN-{slug}.md` required** |
-| **SLASH CMD**    | /create, /orchestrate, /debug              | Command-specific flow          | Variable                    |
-
-### 2. Request Analysis
-
-Before responding to ANY user request, perform automatic analysis:
-
-```mermaid
-graph TD
-    A[User Request: Add login] --> B[ANALYZE]
-    B --> C[Keywords]
-    B --> D[Domains]
-    B --> E[Complexity]
-    C --> F[SELECT AGENT]
-    D --> F
-    E --> F
-    F --> G[backend-specialist + test-engineer]
-    G --> H[AUTO-INVOKE with context]
-```
-
-### 3. Agent Selection Matrix
-
-**Use this matrix to automatically select agents.** It lists every agent in `.agents/agents/`; keep it complete when agents are added or removed.
-
-| User Intent          | Keywords / Domain                                   | Selected Agent(s) / REQUIRED (minimum)                                    | Auto-invoke?     |
-| -------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ---------------- |
-| **Authentication**   | "login", "auth", "signup", "password", "jwt"        | `backend-specialist` + `test-engineer`                                    | ✅ YES           |
-| **UI Component**     | "button", "card", "layout", "style"                 | `frontend-specialist`                                                     | ✅ YES           |
-| **Mobile UI**        | "screen", "navigation", "touch", "gesture"          | `mobile-developer`                                                        | ✅ YES           |
-| **Web App**          | "webapp", "nextjs", "react", "vue"                  | `frontend-specialist` + `backend-specialist` + `test-engineer`            | ⚠️ ASK FIRST     |
-| **API Design**       | "API design", "OpenAPI", "contract", "versioning"   | `api-designer`                                                            | ✅ YES           |
-| **API Endpoint**     | "endpoint", "route", "POST", "GET"                  | `backend-specialist` + `test-engineer`                                    | ✅ YES           |
-| **Database**         | "schema", "migration", "query", "table"             | `backend-specialist`                                                      | ✅ YES           |
-| **Bug Fix**          | "error", "bug", "not working", "broken"             | `debugger` + `explorer-agent` + `test-engineer`                           | ✅ YES           |
-| **Unit/Integration** | "test", "coverage", "unit", "tdd"                   | `test-engineer`                                                           | ✅ YES           |
-| **E2E / QA**         | "e2e", "playwright", "cypress", "regression"        | `qa-automation-engineer`                                                  | ✅ YES           |
-| **Deployment**       | "deploy", "production", "CI/CD", "docker"           | `backend-specialist` (with the `deploy` skill)                            | ✅ YES           |
-| **Security Review**  | "security", "vulnerability", "owasp"                | `backend-specialist` (no dedicated security agent)                        | ✅ YES           |
-| **Performance**      | "slow", "optimize", "performance", "speed"          | `frontend-specialist` (web) or `backend-specialist` (server)              | ✅ YES           |
-| **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap"         | `frontend-specialist`                                                     | ✅ YES           |
-| **AI / LLM**         | "LLM", "RAG", "prompt", "embedding", "AI agent"     | `ai-ml-engineer`                                                          | ✅ YES           |
-| **Scroll Experience**| "scrollytelling", "3D scroll", "fly-through", "WebGL" | `scroll-experience-architect`                                           | ✅ YES           |
-| **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter"       | `latex-specialist`                                                        | ✅ YES           |
-| **Documentation**    | "README", "API docs", "changelog"                   | `documentation-writer`                                                    | ❌ ONLY IF ASKED |
-| **Codebase Survey**  | "analyze repo", "explain codebase", "map structure" | `explorer-agent`                                                          | ✅ YES           |
-| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-owner`                                                           | ✅ YES           |
-| **Product Strategy** | "backlog", "roadmap", "MVP", "PRD", "stakeholder"   | `product-owner`                                                           | ✅ YES           |
-| **Planning**         | "plan", "break down", "task list"                   | `project-planner`                                                         | ✅ YES           |
-| **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist`          | ⚠️ ASK FIRST     |
-| **New Feature**      | "build", "create", "implement", "new app"           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
-| **Complex Task**     | Multiple domains detected                           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
-
-### 4. Automatic Routing Protocol
-
-## TIER 0 - Automatic Analysis (ALWAYS ACTIVE)
-
-Before responding to ANY request:
-
-```javascript
-// Pseudo-code for decision tree
-function analyzeRequest(userMessage) {
-    // 1. Classify request type
-    const requestType = classifyRequest(userMessage);
-
-    // 2. Detect domains
-    const domains = detectDomains(userMessage);
-
-    // 3. Determine complexity
-    const complexity = assessComplexity(domains);
-
-    // 4. Select agent(s)
-    if (complexity === "SIMPLE" && domains.length === 1) {
-        return selectSingleAgent(domains[0]);
-    } else if (complexity === "MODERATE" && domains.length <= 2) {
-        return selectMultipleAgents(domains);
-    } else {
-        return "orchestrator"; // Complex task
-    }
-}
-```
-
-## 5. Response Format
-
-**When auto-selecting an agent, inform the user concisely:**
-
-```markdown
-🤖 **Applying knowledge of `@backend-specialist` + `@test-engineer`...**
-
-[Proceed with specialized response]
-```
-
-**Benefits:**
-
-- ✅ User sees which expertise is being applied
-- ✅ Transparent decision-making
-- ✅ Still automatic (no /commands needed)
-
-## Domain Detection Rules
-
-### Single-Domain Tasks (Auto-invoke Single Agent)
-
-| Domain          | Patterns                                         | Agent                         |
-| --------------- | ------------------------------------------------ | ----------------------------- |
-| **Frontend**    | component, react, vue, css, html, tailwind, seo  | `frontend-specialist`         |
-| **Backend**     | api, server, express, fastapi, node, auth, jwt   | `backend-specialist`          |
-| **API Design**  | openapi, graphql schema, contract, versioning    | `api-designer`                |
-| **Mobile**      | react native, flutter, ios, android, expo        | `mobile-developer`            |
-| **Database**    | prisma, sql, mongodb, schema, migration          | `backend-specialist`          |
-| **Testing**     | test, jest, vitest, pytest, coverage             | `test-engineer`               |
-| **E2E / QA**    | playwright, cypress, e2e, regression suite       | `qa-automation-engineer`      |
-| **DevOps**      | docker, kubernetes, ci/cd, pm2, nginx            | `backend-specialist`          |
-| **Debug**       | error, bug, crash, not working, issue            | `debugger`                    |
-| **AI / LLM**    | llm, rag, prompt, embeddings, vector store       | `ai-ml-engineer`              |
-| **Scroll / 3D** | three.js, webgl, scrollytelling, gsap scroll     | `scroll-experience-architect` |
-| **Academic**    | latex, tikz, thesis, lecture notes to chapters   | `latex-specialist`            |
-| **Product**     | user story, acceptance criteria, backlog, mvp    | `product-owner`               |
-
-### Multi-Domain Tasks (Auto-invoke Orchestrator)
-
-If request matches **2+ domains from different categories**, automatically use `orchestrator`:
-
-```text
-Example: "Create a secure login system with dark mode UI"
-→ Detected: Backend (auth) + Frontend
-→ Auto-invoke: orchestrator
-→ Orchestrator will handle: backend-specialist, frontend-specialist, test-engineer
-```
-
-## Complexity Assessment
-
-### SIMPLE (Direct agent invocation)
-
-- Single file edit
-- Clear, specific task
-- One domain only
-- Example: "Fix the login button style"
-
-**Action**: Auto-invoke respective agent
-
-### MODERATE (2-3 agents)
-
-- 2-3 files affected
-- Clear requirements
-- 2 domains max
-- Example: "Add API endpoint for user profile"
-
-**Action**: Auto-invoke relevant agents sequentially
-
-### COMPLEX (Orchestrator required)
-
-- Multiple files/domains
-- Architectural decisions needed
-- Unclear requirements
-- Example: "Build a social media app"
-
-**Action**: Auto-invoke `orchestrator` → will ask Socratic questions
-
-## Implementation Rules
-
-### Rule 1: Silent Analysis
-
-#### DO NOT announce "I'm analyzing your request..."
-
-- ✅ Analyze silently
-- ✅ Inform which agent is being applied
-- ❌ Avoid verbose meta-commentary
-
-### Rule 2: Inform Agent Selection
-
-**DO inform which expertise is being applied:**
-
-```markdown
-🤖 **Applying knowledge of `@frontend-specialist`...**
-
-I will create the component with the following characteristics:
-[Continue with specialized response]
-```
-
-### Rule 3: Seamless Experience
-
-**The user should not notice a difference from talking to the right specialist directly.**
-
-### Rule 4: Override Capability
-
-**User can still explicitly mention agents:**
-
-```text
-User: "Use @backend-specialist to review this"
-→ Override auto-selection
-→ Use explicitly mentioned agent
-```
-
-## Edge Cases
-
-### Case 1: Generic Question
-
-```text
-User: "How does React work?"
-→ Type: QUESTION
-→ No agent needed
-→ Respond directly with explanation
-```
-
-### Case 2: Extremely Vague Request
-
-```text
-User: "Make it better"
-→ Complexity: UNCLEAR
-→ Action: Ask clarifying questions first
-→ Then route to appropriate agent
-```
-
-### Case 3: Contradictory Patterns
-
-```text
-User: "Add mobile support to the web app"
-→ Conflict: mobile vs web
-→ Action: Ask: "Do you want responsive web or native mobile app?"
-→ Then route accordingly
-```
-
-## Integration with Existing Workflows
-
-### With /orchestrate Command
-
-- **User types `/orchestrate`**: Explicit orchestration mode
-- **AI detects complex task**: Auto-invoke orchestrator (same result)
-
-**Difference**: User doesn't need to know the command exists.
-
-### With Socratic Gate
-
-- **Auto-routing does NOT bypass Socratic Gate**
-- If task is unclear, still ask questions first
-- Then route to appropriate agent
-
-### With GEMINI.md Rules
-
-- **Priority**: GEMINI.md rules > intelligent-routing
-- If GEMINI.md specifies explicit routing, follow it
-- Intelligent routing is the DEFAULT when no explicit rule exists
-
-## Testing the System
-
-### Test Cases
-
-#### Test 1: Simple Frontend Task
-
-```text
-User: "Create a dark mode toggle button"
-Expected: Auto-invoke frontend-specialist
-Verify: Response shows "Using @frontend-specialist"
-```
-
-#### Test 2: Security Task
-
-```text
-User: "Review the authentication flow for vulnerabilities"
-Expected: Auto-invoke backend-specialist (security review of auth code)
-Verify: Security-focused analysis
-```
-
-#### Test 3: Complex Multi-Domain
-
-```text
-User: "Build a chat application with real-time notifications"
-Expected: Auto-invoke orchestrator
-Verify: Multiple agents coordinated (backend, frontend, test)
-```
-
-#### Test 4: Bug Fix
-
-```text
-User: "Login is not working, getting 401 error"
-Expected: Auto-invoke debugger
-Verify: Systematic debugging approach
-```
-
-## Performance Considerations
-
-### Token Usage
-
-- Analysis adds ~50-100 tokens per request
-- Tradeoff: Better accuracy vs slight overhead
-- Overall SAVES tokens by reducing back-and-forth
-
-### Response Time
-
-- Analysis is instant (pattern matching)
-- No additional API calls required
-- Agent selection happens before first response
-
-## User Education
-
-### Optional: First-Time Explanation
-
-If this is the first interaction in a project:
-
-```markdown
-💡 **Tip**: I am configured with automatic specialist agent selection.
-I will always choose the most suitable specialist for your task. You can
-still mention agents explicitly with `@agent-name` if you prefer.
-```
-
-## Debugging Agent Selection
-
-### Enable Debug Mode (for development)
-
-Add to GEMINI.md temporarily:
-
-```markdown
-## DEBUG: Intelligent Routing
-
-Show selection reasoning:
-
-- Detected domains: [list]
-- Selected agent: [name]
-- Reasoning: [why]
-```
-
-## Summary
-
-**intelligent-routing skill enables:**
-
-✅ Zero-command operation (no need for `/orchestrate`)  
-✅ Automatic specialist selection based on request analysis  
-✅ Transparent communication of which expertise is being applied  
-✅ Seamless integration with existing workflows  
-✅ Override capability for explicit agent mentions  
-✅ Fallback to orchestrator for complex tasks
-
-**Result**: User gets specialist-level responses without needing to know the system architecture.
+| **SLASH CMD**    | /create, /orchestrate, /debug, ...         | The skill with that name       | Variable                    |
+
+## 2. Agent Selection Matrix
+
+**Use this matrix to select agents.** It lists every agent in `.agents/agents/`; keep it complete when agents are added or removed.
+
+| User Intent          | Keywords / Domain                                   | Selected Agent(s) (minimum)                                     | Auto-invoke?     |
+| -------------------- | --------------------------------------------------- | --------------------------------------------------------------- | ---------------- |
+| **Authentication**   | "login", "auth", "signup", "password", "jwt"        | `backend-specialist` + `test-engineer`                          | ✅ YES           |
+| **UI Component**     | "button", "card", "layout", "style"                 | `frontend-specialist`                                           | ✅ YES           |
+| **Mobile UI**        | "screen", "navigation", "touch", "gesture"          | `mobile-developer`                                              | ✅ YES           |
+| **Web App**          | "webapp", "nextjs", "react", "vue"                  | `frontend-specialist` + `backend-specialist` + `test-engineer`  | ⚠️ ASK FIRST     |
+| **API Design**       | "API design", "OpenAPI", "contract", "versioning"   | `api-designer`                                                  | ✅ YES           |
+| **API Endpoint**     | "endpoint", "route", "POST", "GET"                  | `backend-specialist` + `test-engineer`                          | ✅ YES           |
+| **Database**         | "schema", "migration", "query", "table"             | `backend-specialist`                                            | ✅ YES           |
+| **Bug Fix**          | "error", "bug", "not working", "broken"             | `debugger` + `explorer-agent` + `test-engineer`                 | ✅ YES           |
+| **Unit/Integration** | "test", "coverage", "unit", "tdd"                   | `test-engineer`                                                 | ✅ YES           |
+| **E2E / QA**         | "e2e", "playwright", "cypress", "regression"        | `qa-automation-engineer`                                        | ✅ YES           |
+| **Deployment**       | "deploy", "production", "CI/CD", "docker"           | `backend-specialist` (with the `deploy` skill)                  | ✅ YES           |
+| **Security Review**  | "security", "vulnerability", "owasp"                | `backend-specialist` (no dedicated security agent)              | ✅ YES           |
+| **Performance**      | "slow", "optimize", "performance", "speed"          | `frontend-specialist` (web) or `backend-specialist` (server)    | ✅ YES           |
+| **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap"         | `frontend-specialist`                                           | ✅ YES           |
+| **AI / LLM**         | "LLM", "RAG", "prompt", "embedding", "AI agent"     | `ai-ml-engineer`                                                | ✅ YES           |
+| **ML / Data Mining** | "scikit-learn", "classification", "clustering", "pandas", "association rules", "cross-validation" | `ai-ml-engineer` (with the `classic-ml` skill) | ✅ YES |
+| **Scroll Experience**| "scrollytelling", "3D scroll", "fly-through", "WebGL" | `scroll-experience-architect`                                 | ✅ YES           |
+| **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter"       | `latex-specialist`                                              | ✅ YES           |
+| **Documentation**    | "README", "API docs", "changelog"                   | `documentation-writer`                                          | ❌ ONLY IF ASKED |
+| **Codebase Survey**  | "analyze repo", "explain codebase", "map structure" | `explorer-agent`                                                | ✅ YES           |
+| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-owner`                                                 | ✅ YES           |
+| **Product Strategy** | "backlog", "roadmap", "MVP", "PRD", "stakeholder"   | `product-owner`                                                 | ✅ YES           |
+| **Planning**         | "plan", "break down", "task list"                   | `project-planner`                                               | ✅ YES           |
+| **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist` | ⚠️ ASK FIRST    |
+| **New Feature**      | "build", "create", "implement", "new app"           | `orchestrator` → multi-agent                                    | ⚠️ ASK FIRST     |
+| **Complex Task**     | Multiple domains detected                           | `orchestrator` → multi-agent                                    | ⚠️ ASK FIRST     |
+
+**Multi-domain rule:** if the request matches 2+ domains from different rows (e.g. "secure login with dark mode UI" = backend + frontend), route to `orchestrator`, which plans first and then coordinates the specialists.
+
+## 3. Handing Off
+
+- **Native (Antigravity app and CLI):** call `invoke_subagent` with the agent's name. The subagent starts with a clean context, so the prompt must contain the user's request in full, the decisions already taken (answers to the Socratic Gate), the relevant files and, if one exists, the plan in `docs/PLAN-{slug}.md`.
+- **Fallback (no custom agents, e.g. the Antigravity IDE until it supports them):** read `.agents/agents/<name>.md` and the `SKILL.md` of each skill in its frontmatter, then answer applying them.
+- **Questions and trivial edits** need no agent: answer directly.
+
+## 4. Complexity
+
+| Level | Signals | Action |
+|-------|---------|--------|
+| **SIMPLE** | One file, one domain, clear task ("fix the login button style") | One agent |
+| **MODERATE** | 2-3 files, 2 domains, clear requirements ("add a profile endpoint") | The relevant agents in sequence |
+| **COMPLEX** | Many files/domains, architectural choices, unclear requirements ("build a social app") | `orchestrator`, which asks the Socratic questions first |
+
+## 5. Rules
+
+1. **Silent analysis:** do not announce "I'm analyzing your request...".
+2. **Say which expertise is applied**, in one line:
+
+   ```markdown
+   🤖 **Applying knowledge of `@backend-specialist` + `@test-engineer`...**
+   ```
+
+3. **Override:** an explicit mention wins ("Use @backend-specialist to review this").
+4. **Socratic Gate first:** routing never skips the questions in GEMINI.md when something that changes the result is unclear.
+5. **Priority:** GEMINI.md rules > intelligent-routing.
+
+## 6. Edge Cases
+
+| Case | Example | Action |
+|------|---------|--------|
+| Generic question | "How does React work?" | No agent, answer directly |
+| Very vague | "Make it better" | Ask what to improve, then route |
+| Contradictory | "Add mobile support to the web app" | Ask: responsive web or native app? Then route |

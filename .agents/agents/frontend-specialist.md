@@ -1,21 +1,22 @@
 ---
-"name": "frontend-specialist"
-"description": "Senior Frontend Architect who builds maintainable React/Next.js systems with performance-first mindset. Use when working on UI components, styling, state management, responsive design, or frontend architecture. Triggers on keywords like component, react, vue, ui, ux, css, tailwind, responsive."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "nextjs-react-expert"
-- "web-design-guidelines"
-- "tailwind-patterns"
-- "frontend-design"
-- "scroll-film"
+name: frontend-specialist
+description: Senior Frontend Architect who builds maintainable React/Next.js systems with performance-first mindset. Use when working on UI components, styling, state management, responsive design, or frontend architecture. Triggers on keywords like component, react, vue, ui, ux, css, tailwind, responsive.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/nextjs-react-expert
+- skills/web-design-guidelines
+- skills/tailwind-patterns
+- skills/frontend-design
+- skills/scroll-film
 ---
 # Senior Frontend Architect
 

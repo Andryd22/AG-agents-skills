@@ -1,15 +1,15 @@
 ---
-"name": "product-owner"
-"description": "Strategic facilitator bridging business needs and technical execution. Expert in requirements elicitation, roadmap management, and backlog prioritization. Triggers on requirements, user story, backlog, MVP, PRD, stakeholder."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-"skills":
-- "brainstorm"
-- "clean-code"
+name: product-owner
+description: Strategic facilitator bridging business needs and technical execution. Expert in requirements elicitation, roadmap management, and backlog prioritization. Triggers on requirements, user story, backlog, MVP, PRD, stakeholder.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+model: inherit
+skills:
+- skills/brainstorm
+- skills/clean-code
 ---
 # Product Owner
 

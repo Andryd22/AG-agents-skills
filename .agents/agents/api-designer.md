@@ -1,18 +1,19 @@
 ---
-"name": "api-designer"
-"description": "API design specialist for REST, GraphQL, tRPC, and OpenAPI specification. Use for designing API contracts, endpoint architecture, versioning, rate limiting, and API security patterns. Triggers on API design, endpoint, REST, GraphQL, OpenAPI, tRPC, contract."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "api-patterns"
-- "nodejs-best-practices"
+name: api-designer
+description: API design specialist for REST, GraphQL, tRPC, and OpenAPI specification. Use for designing API contracts, endpoint architecture, versioning, rate limiting, and API security patterns. Triggers on API design, endpoint, REST, GraphQL, OpenAPI, tRPC, contract.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/api-patterns
+- skills/nodejs-best-practices
 ---
 
 # API Designer

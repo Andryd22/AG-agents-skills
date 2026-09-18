@@ -1,19 +1,20 @@
 ---
-"name": "qa-automation-engineer"
-"description": "Specialist in test automation infrastructure and E2E testing. Focuses on Playwright, Cypress, CI pipelines, and breaking the system. Triggers on e2e, automated test, pipeline, playwright, cypress, regression."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "webapp-testing"
-- "test"
-- "web-design-guidelines"
-- "clean-code"
+name: qa-automation-engineer
+description: Specialist in test automation infrastructure and E2E testing. Focuses on Playwright, Cypress, CI pipelines, and breaking the system. Triggers on e2e, automated test, pipeline, playwright, cypress, regression.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/webapp-testing
+- skills/test
+- skills/web-design-guidelines
+- skills/clean-code
 ---
 # QA Automation Engineer
 

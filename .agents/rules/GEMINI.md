@@ -10,20 +10,22 @@ trigger: always_on
 
 ## CRITICAL: AGENT & SKILL PROTOCOL (START HERE)
 
-> **MANDATORY:** You MUST read the appropriate agent file and its skills BEFORE performing any implementation. This is the highest priority rule.
+> **MANDATORY:** Before any implementation, route the request to the right agent and load its skills. This is the highest priority rule.
 
-### 1. Modular Skill Loading Protocol
+The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills live in `.agents/skills/` and double as slash commands (`/plan`, `/create`, `/debug`, `/test`, `/orchestrate`, ...).
 
-Agent activated → Check frontmatter "skills:" → Read SKILL.md (INDEX) → Read specific sections.
+### 1. Delegating to an Agent
 
-- **Selective Reading:** DO NOT read ALL files in a skill folder. Read `SKILL.md` first, then only read sections matching the user's request.
+- **Pick** the agent with `@[skills/intelligent-routing]`.
+- **Delegate** with `invoke_subagent`. The subagent starts with a clean context and gets the tools and skills in its frontmatter: the prompt must carry the user's request, the decisions already taken and the relevant files or plan.
+- **Fallback:** where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and the `SKILL.md` of each skill in its frontmatter, then apply them yourself.
+- The user can also pick a kit agent as the main agent (agent selector in the app, `agy --agent <name>` in the CLI).
+
+### 2. Skill Loading
+
+- **Selective Reading:** DO NOT read ALL files in a skill folder. Read `SKILL.md` first, then only the sections and reference files matching the request.
 - **Rule Priority:** P0 (GEMINI.md) > P1 (Agent .md) > P2 (SKILL.md). All rules are binding.
-
-### 2. Enforcement Protocol
-
-1. **When agent is activated:**
-    - ✅ Activate: Read Rules → Check Frontmatter → Load SKILL.md → Apply All.
-2. **Forbidden:** Never skip reading agent rules or skill instructions. "Read → Understand → Apply" is mandatory.
+- **Forbidden:** Never skip the agent's rules or the skill instructions. "Read → Understand → Apply" is mandatory.
 
 ---
 
@@ -68,9 +70,10 @@ When user's prompt is NOT in English:
 
 **Path Awareness:**
 
-- Agents: `.agents/` (Project)
-- Skills: `.agents/skills/` (Project)
-- Runtime Scripts: `.agents/skills/<skill>/scripts/`
+- Agents: `.agents/agents/`
+- Skills (and slash commands): `.agents/skills/`
+- Master scripts: `.agents/scripts/`
+- Skill scripts: `.agents/skills/<skill>/scripts/`
 
 ### 🧠 Read → Understand → Apply
 
@@ -129,7 +132,7 @@ When user's prompt is NOT in English:
 | -------- | ----------------- | -------------------------------------------- |
 | **plan** | `project-planner` | 4-phase methodology. NO CODE before Phase 4. |
 | **ask**  | -                 | Focus on understanding. Ask questions.       |
-| **edit** | `orchestrator`    | Execute. Check `docs/PLAN-{slug}.md` first.  |
+| **edit** | routed agent      | Execute. Multi-domain work goes to `orchestrator`, which checks `docs/PLAN-{slug}.md` first. |
 
 ---
 
@@ -137,8 +140,9 @@ When user's prompt is NOT in English:
 
 ### Agents & Skills
 
-- **Masters**: `orchestrator`, `project-planner`, `backend-specialist` (API/DB/security), `frontend-specialist` (UI/UX/performance/SEO), `mobile-developer`, `debugger`
+- **Masters**: `orchestrator`, `project-planner`, `backend-specialist` (API/DB/security/deploy), `frontend-specialist` (UI/UX/performance/SEO), `mobile-developer`, `debugger`
 - **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorm`, `app-builder`, `frontend-design`, `mobile-design`
+- **Commands**: `/brainstorm`, `/plan`, `/create`, `/enhance`, `/orchestrate`, `/debug`, `/test`, `/preview`, `/deploy`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/html-it`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
 
 ### Key Scripts
 

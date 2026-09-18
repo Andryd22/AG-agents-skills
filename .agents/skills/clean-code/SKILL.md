@@ -1,7 +1,6 @@
 ---
 name: clean-code
 description: Pragmatic coding standards - concise, direct, no over-engineering, no unnecessary comments
-allowed-tools: Read, Write, Edit
 metadata:
   version: "2.1"
   priority: CRITICAL

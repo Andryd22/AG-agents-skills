@@ -1,18 +1,19 @@
 ---
-"name": "ai-ml-engineer"
-"description": "AI/ML engineer specializing in LLM integration, prompt engineering, RAG pipelines, and AI application development. Use for integrating AI into apps, building RAG systems, LLM API design, or prompt optimization. Triggers on AI, LLM, GPT, Claude, RAG, prompt, embedding, LangChain, vector."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "clean-code"
-- "prompt-engineering"
-- "api-patterns"
+name: ai-ml-engineer
+description: AI/ML engineer specializing in LLM integration, prompt engineering, RAG pipelines, and AI application development. Use for integrating AI into apps, building RAG systems, LLM API design, or prompt optimization. Triggers on AI, LLM, GPT, Claude, RAG, prompt, embedding, LangChain, vector.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/clean-code
+- skills/prompt-engineering
+- skills/api-patterns
 ---
 
 # AI/ML Engineer

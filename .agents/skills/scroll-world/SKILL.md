@@ -10,7 +10,6 @@ description: >
   clips with Higgsfield and wires a portable, framework-agnostic scroll-scrub engine.
   Use when the user wants a "3D world" / "browse-through-the-industry" hero, a scroll
   cinematic, a diorama landing, or to turn a business into a scrollable world.
-allowed-tools: Bash, Read, Write, Edit, AskUserQuestion, Skill
 ---
 
 # scroll-world

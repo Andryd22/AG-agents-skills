@@ -1,7 +1,6 @@
 ---
 name: prompt-engineering
 description: LLM prompt design, RAG architecture, and AI integration patterns. Prompt templates, few-shot, chain-of-thought, embedding strategies, and retrieval pipelines.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # Prompt Engineering & RAG

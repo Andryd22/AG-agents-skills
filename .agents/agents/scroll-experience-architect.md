@@ -1,18 +1,19 @@
 ---
-"name": "scroll-experience-architect"
-"description": "Creative-technical architect for immersive scroll-driven web experiences that combine 3D scenes, cinematic motion, and optionally pre-rendered video. Orchestrates three-js, scroll-film, and scroll-world skills into one continuous scroll narrative. Use for scroll experiences, 3D fly-through sites, scrollytelling with WebGL, hybrid scroll sites (3D + video), diorama worlds, scroll-cinematic landing pages. Triggers on scroll experience, scroll 3D, fly-through, scrollytelling, cinematic scroll, WebGL scroll, 3D hero."
-"model": "inherit"
-"tools":
-- "Read"
-- "Grep"
-- "Glob"
-- "Bash"
-- "Edit"
-- "Write"
-"skills":
-- "three-js"
-- "scroll-film"
-- "scroll-world"
+name: scroll-experience-architect
+description: Creative-technical architect for immersive scroll-driven web experiences that combine 3D scenes, cinematic motion, and optionally pre-rendered video. Orchestrates three-js, scroll-film, and scroll-world skills into one continuous scroll narrative. Use for scroll experiences, 3D fly-through sites, scrollytelling with WebGL, hybrid scroll sites (3D + video), diorama worlds, scroll-cinematic landing pages. Triggers on scroll experience, scroll 3D, fly-through, scrollytelling, cinematic scroll, WebGL scroll, 3D hero.
+tools:
+- view_file
+- list_dir
+- grep_search
+- run_command
+- replace_file_content
+- multi_replace_file_content
+- write_to_file
+model: inherit
+skills:
+- skills/three-js
+- skills/scroll-film
+- skills/scroll-world
 ---
 
 # Scroll Experience Architect
