@@ -18,7 +18,7 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 </tr>
 <tr>
 <td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills update</code></td>
-<td>Aggiorna <code>.agent/</code> all'ultima versione da GitHub</td>
+<td>Aggiorna <code>.agent/</code> all'ultima versione da GitHub (le modifiche locali a <code>.agent/</code> non vengono mantenute)</td>
 </tr>
 </tbody>
 </table>
@@ -27,9 +27,11 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 
 | Componente    | Quantità | Descrizione                                                        |
 | ------------- | -------- | ------------------------------------------------------------------ |
-| **Agenti**    | 26       | Personas AI specializzate (frontend, backend, AI/ML, IoT, LaTeX, ecc.) |
-| **Skill**     | 51       | Moduli di conoscenza specifici per dominio                         |
+| **Agenti**    | 18       | Personas AI specializzate (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
+| **Skill**     | 30       | Moduli di conoscenza specifici per dominio                         |
 | **Workflow**  | 16       | Procedure attivabili tramite slash command                         |
+
+La mappa completa di agenti, skill e script è in [`.agent/ARCHITECTURE.md`](.agent/ARCHITECTURE.md).
 
 ## Utilizzo
 
@@ -39,7 +41,7 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 
 ```
 Utente: "Aggiungi l'autenticazione JWT"
-AI: 🤖 Applico @security-auditor + @backend-specialist...
+AI: 🤖 Applico @backend-specialist + @test-engineer...
 
 Utente: "Correggi il pulsante della dark mode"
 AI: 🤖 Uso @frontend-specialist...
@@ -65,6 +67,8 @@ AI: 🤖 Uso @debugger per un'analisi sistematica...
 
 ### Usare i Workflow
 
+> ⚠️ Antigravity ha deprecato i workflow: dal 1° novembre 2026 vengono ritirati e diventano skill richiamate con lo stesso `/nome`. La migrazione del kit è in programma.
+
 Richiama i workflow tramite gli slash command:
 
 | Comando          | Descrizione                           |
@@ -79,7 +83,7 @@ Richiama i workflow tramite gli slash command:
 | `/preview`       | Visualizza un'anteprima delle modifiche in locale |
 | `/status`        | Controlla lo stato del progetto        |
 | `/test`          | Genera ed esegue i test                |
-| `/ui-ux-pro-max` | Progetta interfacce con 50 stili       |
+| `/ui-ux-pro-max` | Progetta interfacce con 58 stili e 96 palette |
 | `/caveman`       | Attiva la modalità di risposta per risparmiare token |
 | `/html-it`       | Framework per output HTML di alta qualità |
 | `/scroll-film`   | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
@@ -97,6 +101,14 @@ Esempio:
 ### Usare le Skill
 
 Le skill vengono caricate automaticamente in base al contesto della task. L'AI legge le descrizioni delle skill e applica le conoscenze pertinenti.
+
+### Controlli finali
+
+`python .agent/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agent/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
+
+### Server MCP
+
+`.agent/mcp_config.json` è un modello: copia i server che ti servono in `~/.gemini/antigravity/mcp_config.json` e sostituisci `YOUR_API_KEY` con la tua chiave.
 
 ## 🪨 Caveman Mode
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.

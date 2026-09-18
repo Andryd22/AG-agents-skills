@@ -1,7 +1,7 @@
 {
   "name": "ag-agents-skills",
   "version": "2.1.1",
-  "description": "AI Agent templates - 51 Skills, 26 Agents, 16 Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, IoT, LaTeX, Three.js scroll experiences)",
+  "description": "AI Agent templates - 30 Skills, 18 Agents, 16 Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, LaTeX, Three.js scroll experiences)",
   "bin": {
     "ag-agents-skills": "./bin/install.js"
   },
@@ -27,8 +27,8 @@
     "templates",
     "caveman-mode",
     "latex",
-    "iot",
-    "data-engineering"
+    "threejs",
+    "scrollytelling"
   ],
   "author": "Andryd22 (forked from vudovn)",
   "license": "MIT"

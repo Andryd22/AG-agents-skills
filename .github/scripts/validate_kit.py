@@ -170,7 +170,7 @@ for p in doc_files:
         if a and a not in agent_names:
             err(f"{rel(p)}: reference to missing agent '{a}'")
     for m in SCRIPT_REF.finditer(t):
-        if m.group(1) not in kit_files:
+        if m.group(1) not in kit_files and not (ROOT / m.group(0)).is_file():
             err(f"{rel(p)}: reference to missing script '{m.group(0)}'")
 
 routing = SKILLS / "intelligent-routing" / "SKILL.md"
