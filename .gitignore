@@ -1,5 +1,7 @@
 # Ignore
 node_modules/
+__pycache__/
+*.pyc
 .temp_ag_kit/
 tests
 others

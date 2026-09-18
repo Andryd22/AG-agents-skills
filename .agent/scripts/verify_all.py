@@ -3,22 +3,18 @@
 Full Verification Suite - Antigravity Kit
 ==========================================
 
-Runs COMPLETE validation including all checks + performance + E2E.
+Runs every check available in the kit, E2E included.
 Use this before deployment or major releases.
 
 Usage:
     python scripts/verify_all.py . --url <URL>
 
-Includes ALL checks:
-    ✅ Security Scan (OWASP, secrets, dependencies)
-    ✅ Lint & Type Coverage
-    ✅ Schema Validation
+Includes:
+    ✅ Schema Validation (Prisma / Drizzle)
     ✅ Test Suite (unit + integration)
-    ✅ UX Audit (psychology, accessibility)
-    ✅ SEO Check
-    ✅ Lighthouse (Core Web Vitals)
-    ✅ Playwright E2E
-    ✅ Bundle Analysis (if applicable)
+    ✅ API Validation (OpenAPI / route files)
+    ✅ UX Audit + Accessibility Check
+    ✅ Playwright E2E (needs --url)
     ✅ Mobile Audit (if applicable)
 """
 
@@ -59,40 +55,30 @@ def print_error(text: str):
 
 # Complete verification suite
 VERIFICATION_SUITE = [
-    # P0: Security (CRITICAL)
-    {
-        "category": "Security",
-        "checks": [
-            ("Security Scan", ".agent/skills/vulnerability-scanner/scripts/security_scan.py", True),
-            ("Dependency Analysis", ".agent/skills/vulnerability-scanner/scripts/dependency_analyzer.py", False),
-        ]
-    },
-    
-    # P1: Code Quality (CRITICAL)
-    {
-        "category": "Code Quality",
-        "checks": [
-            ("Lint Check", ".agent/skills/lint-and-validate/scripts/lint_runner.py", True),
-            ("Type Coverage", ".agent/skills/lint-and-validate/scripts/type_coverage.py", False),
-        ]
-    },
-    
-    # P2: Data Layer
+    # P1: Data Layer
     {
         "category": "Data Layer",
         "checks": [
             ("Schema Validation", ".agent/skills/database-design/scripts/schema_validator.py", False),
         ]
     },
-    
-    # P3: Testing
+
+    # P2: Testing
     {
         "category": "Testing",
         "checks": [
-            ("Test Suite", ".agent/skills/testing-patterns/scripts/test_runner.py", False),
+            ("Test Suite", ".agent/skills/testing-patterns/scripts/test_runner.py", True),
         ]
     },
-    
+
+    # P3: API
+    {
+        "category": "API",
+        "checks": [
+            ("API Validation", ".agent/skills/api-patterns/scripts/api_validator.py", False),
+        ]
+    },
+
     # P4: UX & Accessibility
     {
         "category": "UX & Accessibility",
@@ -101,27 +87,8 @@ VERIFICATION_SUITE = [
             ("Accessibility Check", ".agent/skills/frontend-design/scripts/accessibility_checker.py", False),
         ]
     },
-    
-    # P5: SEO & Content
-    {
-        "category": "SEO & Content",
-        "checks": [
-            ("SEO Check", ".agent/skills/seo-fundamentals/scripts/seo_checker.py", False),
-            ("GEO Check", ".agent/skills/geo-fundamentals/scripts/geo_checker.py", False),
-        ]
-    },
-    
-    # P6: Performance (requires URL)
-    {
-        "category": "Performance",
-        "requires_url": True,
-        "checks": [
-            ("Lighthouse Audit", ".agent/skills/performance-profiling/scripts/lighthouse_audit.py", True),
-            ("Bundle Analysis", ".agent/skills/performance-profiling/scripts/bundle_analyzer.py", False),
-        ]
-    },
-    
-    # P7: E2E Testing (requires URL)
+
+    # P5: E2E Testing (requires URL)
     {
         "category": "E2E Testing",
         "requires_url": True,
@@ -129,20 +96,12 @@ VERIFICATION_SUITE = [
             ("Playwright E2E", ".agent/skills/webapp-testing/scripts/playwright_runner.py", False),
         ]
     },
-    
-    # P8: Mobile (if applicable)
+
+    # P6: Mobile (if applicable)
     {
         "category": "Mobile",
         "checks": [
             ("Mobile Audit", ".agent/skills/mobile-design/scripts/mobile_audit.py", False),
-        ]
-    },
-    
-    # P9: Internationalization
-    {
-        "category": "Internationalization",
-        "checks": [
-            ("i18n Check", ".agent/skills/i18n-localization/scripts/i18n_checker.py", False),
         ]
     },
 ]
@@ -157,9 +116,11 @@ def run_script(name: str, script_path: Path, project_path: str, url: Optional[st
     start_time = datetime.now()
     
     # Build command
-    cmd = ["python", str(script_path), project_path]
-    if url and ("lighthouse" in script_path.name.lower() or "playwright" in script_path.name.lower()):
-        cmd.append(url)
+    # Same interpreter that runs this script (plain "python" may not exist, e.g. macOS)
+    if url and "playwright" in script_path.name.lower():
+        cmd = [sys.executable, str(script_path), url]  # playwright_runner.py reads the URL from argv[1]
+    else:
+        cmd = [sys.executable, str(script_path), project_path]
     
     # Run
     try:

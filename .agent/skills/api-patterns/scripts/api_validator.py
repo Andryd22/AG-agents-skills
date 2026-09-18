@@ -32,7 +32,8 @@ def find_api_files(project_path: Path) -> list:
         files.extend(project_path.glob(pattern))
     
     # Exclude node_modules, etc.
-    return [f for f in files if not any(x in str(f) for x in ['node_modules', '.git', 'dist', 'build', '__pycache__'])]
+    skip = {'node_modules', '.git', 'dist', 'build', '__pycache__', '.agent', '.agents'}
+    return [f for f in files if not skip.intersection(f.parts)]
 
 def check_openapi_spec(file_path: Path) -> dict:
     """Check OpenAPI/Swagger specification."""

@@ -18,11 +18,19 @@ class PerformanceChecker:
         self.warnings = []
         self.passed = []
 
+    SKIP_DIRS = {'node_modules', '.git', '.next', 'dist', 'build', '.agent', '.agents'}
+
+    def _files(self, exts):
+        """Source files with the given extensions (pathlib has no {a,b} brace expansion)."""
+        for filepath in self.project_path.rglob('*'):
+            if filepath.suffix in exts and filepath.is_file() and not self.SKIP_DIRS.intersection(filepath.parts):
+                yield filepath
+
     def check_waterfalls(self):
         """Check for sequential await patterns (Section 1)"""
         print("\n[*] Checking for waterfalls (sequential awaits)...")
 
-        for filepath in self.project_path.rglob('*.{ts,tsx,js,jsx}'):
+        for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
                 continue
 
@@ -47,7 +55,7 @@ class PerformanceChecker:
         """Check for barrel imports (Section 2)"""
         print("[*] Checking for barrel imports...")
 
-        for filepath in self.project_path.rglob('*.{ts,tsx,js,jsx}'):
+        for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
                 continue
 
@@ -73,7 +81,7 @@ class PerformanceChecker:
         """Check if large components use dynamic imports (Section 2)"""
         print("[*] Checking for missing dynamic imports...")
 
-        for filepath in self.project_path.rglob('*.{ts,tsx}'):
+        for filepath in self._files(('.ts', '.tsx')):
             if 'node_modules' in str(filepath):
                 continue
 
@@ -86,7 +94,7 @@ class PerformanceChecker:
                     filename = filepath.stem
 
                     # Search for static imports of this component
-                    for check_file in self.project_path.rglob('*.{ts,tsx}'):
+                    for check_file in self._files(('.ts', '.tsx')):
                         if check_file == filepath or 'node_modules' in str(check_file):
                             continue
 
@@ -108,7 +116,7 @@ class PerformanceChecker:
         """Check for data fetching in useEffect (Section 4)"""
         print("[*] Checking for useEffect data fetching...")
 
-        for filepath in self.project_path.rglob('*.{ts,tsx}'):
+        for filepath in self._files(('.ts', '.tsx')):
             if 'node_modules' in str(filepath):
                 continue
 
@@ -132,7 +140,7 @@ class PerformanceChecker:
         """Check for missing React.memo, useMemo, useCallback (Section 5)"""
         print("[*] Checking for missing memoization...")
 
-        for filepath in self.project_path.rglob('*.{tsx}'):
+        for filepath in self._files(('.tsx',)):
             if 'node_modules' in str(filepath):
                 continue
 
@@ -159,7 +167,7 @@ class PerformanceChecker:
         """Check for unoptimized images (Section 6)"""
         print("[*] Checking for image optimization...")
 
-        for filepath in self.project_path.rglob('*.{ts,tsx,js,jsx}'):
+        for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
                 continue
 

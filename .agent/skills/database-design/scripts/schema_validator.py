@@ -41,6 +41,8 @@ def find_schema_files(project_path: Path) -> list:
         if 'schema' in f.name.lower() or 'table' in f.name.lower():
             schemas.append(('drizzle', f))
     
+    skip = {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents'}
+    schemas = [(kind, f) for kind, f in schemas if not skip.intersection(f.parts)]
     return schemas[:10]  # Limit
 
 

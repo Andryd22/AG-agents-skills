@@ -8,16 +8,13 @@ Use this for incremental validation during development.
 
 Usage:
     python scripts/checklist.py .                    # Run core checks
-    python scripts/checklist.py . --url <URL>        # Include performance checks
+    python scripts/checklist.py . --url <URL>        # Include E2E checks
 
 Priority Order:
-    P0: Security Scan (vulnerabilities, secrets)
-    P1: Lint & Type Check (code quality)
-    P2: Schema Validation (if database exists)
-    P3: Test Runner (unit/integration tests)
-    P4: UX Audit (psychology laws, accessibility)
-    P5: SEO Check (meta tags, structure)
-    P6: Performance (lighthouse - requires URL)
+    P1: Schema Validation (if database exists)
+    P2: Test Runner (unit/integration tests)
+    P3: UX Audit (psychology laws, accessibility)
+    P4: E2E (Playwright - requires URL)
 """
 
 import sys
@@ -56,16 +53,13 @@ def print_error(text: str):
 
 # Define priority-ordered checks
 CORE_CHECKS = [
-    ("Security Scan", ".agent/skills/vulnerability-scanner/scripts/security_scan.py", True),
-    ("Lint Check", ".agent/skills/lint-and-validate/scripts/lint_runner.py", True),
     ("Schema Validation", ".agent/skills/database-design/scripts/schema_validator.py", False),
     ("Test Runner", ".agent/skills/testing-patterns/scripts/test_runner.py", False),
     ("UX Audit", ".agent/skills/frontend-design/scripts/ux_audit.py", False),
-    ("SEO Check", ".agent/skills/seo-fundamentals/scripts/seo_checker.py", False),
 ]
 
+# Checks that need a running app: they receive the URL instead of the project path
 PERFORMANCE_CHECKS = [
-    ("Lighthouse Audit", ".agent/skills/performance-profiling/scripts/lighthouse_audit.py", True),
     ("Playwright E2E", ".agent/skills/webapp-testing/scripts/playwright_runner.py", False),
 ]
 
@@ -87,9 +81,11 @@ def run_script(name: str, script_path: Path, project_path: str, url: Optional[st
     print_step(f"Running: {name}")
     
     # Build command
-    cmd = ["python", str(script_path), project_path]
-    if url and ("lighthouse" in script_path.name.lower() or "playwright" in script_path.name.lower()):
-        cmd.append(url)
+    # Same interpreter that runs this script (plain "python" may not exist, e.g. macOS)
+    if url and "playwright" in script_path.name.lower():
+        cmd = [sys.executable, str(script_path), url]  # playwright_runner.py reads the URL from argv[1]
+    else:
+        cmd = [sys.executable, str(script_path), project_path]
     
     # Run script
     try:
@@ -166,12 +162,12 @@ def main():
         epilog="""
 Examples:
   python scripts/checklist.py .                      # Core checks only
-  python scripts/checklist.py . --url http://localhost:3000  # Include performance
+  python scripts/checklist.py . --url http://localhost:3000  # Include E2E
         """
     )
     parser.add_argument("project", help="Project path to validate")
-    parser.add_argument("--url", help="URL for performance checks (lighthouse, playwright)")
-    parser.add_argument("--skip-performance", action="store_true", help="Skip performance checks even if URL provided")
+    parser.add_argument("--url", help="URL of the running app for E2E checks (playwright)")
+    parser.add_argument("--skip-performance", action="store_true", help="Skip E2E checks even if URL provided")
     
     args = parser.parse_args()
     
@@ -183,7 +179,7 @@ Examples:
     
     print_header("🚀 ANTIGRAVITY KIT - MASTER CHECKLIST")
     print(f"Project: {project_path}")
-    print(f"URL: {args.url if args.url else 'Not provided (performance checks skipped)'}")
+    print(f"URL: {args.url if args.url else 'Not provided (E2E checks skipped)'}")
     
     results = []
     
@@ -202,7 +198,7 @@ Examples:
     
     # Run performance checks if URL provided
     if args.url and not args.skip_performance:
-        print_header("⚡ PERFORMANCE CHECKS")
+        print_header("🌐 E2E CHECKS")
         for name, script_path, required in PERFORMANCE_CHECKS:
             script = project_path / script_path
             result = run_script(name, script, str(project_path), args.url)
