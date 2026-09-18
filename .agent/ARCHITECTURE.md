@@ -26,8 +26,7 @@ Antigravity Kit is a modular system consisting of:
 ├── workflows/               # 16 Slash Commands
 ├── rules/                   # Global Rules (GEMINI.md always on, caveman-rules.md)
 ├── scripts/                 # 4 Master Scripts
-├── .shared/ui-ux-pro-max/   # Design database (CSV) + search.py, used by /ui-ux-pro-max
-└── mcp_config.json          # MCP servers template (copy to ~/.gemini/antigravity/)
+└── .shared/ui-ux-pro-max/   # Design database (CSV) + search.py, used by /ui-ux-pro-max
 ```
 
 ---

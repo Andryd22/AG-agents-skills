@@ -106,10 +106,6 @@ Le skill vengono caricate automaticamente in base al contesto della task. L'AI l
 
 `python .agent/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agent/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
 
-### Server MCP
-
-`.agent/mcp_config.json` è un modello: copia i server che ti servono in `~/.gemini/antigravity/mcp_config.json` e sostituisci `YOUR_API_KEY` con la tua chiave.
-
 ## 🪨 Caveman Mode
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.
 
