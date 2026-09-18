@@ -109,8 +109,8 @@ When user's prompt is NOT in English:
 
 | Task Stage       | Command                                            | Purpose                        |
 | ---------------- | -------------------------------------------------- | ------------------------------ |
-| **Manual Audit** | `python .agent/scripts/checklist.py .`             | Priority-based project audit   |
-| **Pre-Deploy**   | `python .agent/scripts/checklist.py . --url <URL>` | Full Suite + Performance + E2E |
+| **Manual Audit** | `python .agent/scripts/checklist.py .`             | Core checks: schema, tests, UX |
+| **Pre-Deploy**   | `python .agent/scripts/verify_all.py . --url <URL>` | Full suite + E2E              |
 
 **Priority Execution Order:**
 
