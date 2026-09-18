@@ -1,6 +1,6 @@
 ---
 name: latex
-description: Write or review academic LaTeX. Delegates to the latex-specialist agent, which applies the latex_tutor (generation) and latex_review (audit) skills. Use to turn slides/notes into textbook chapters or to audit a LaTeX project before submission.
+description: Write or review academic LaTeX. Delegates to the latex-specialist agent, which applies the latex-tutor (generation) and latex-review (audit) skills. Use to turn slides/notes into textbook chapters or to audit a LaTeX project before submission.
 ---
 
 # /latex — Academic LaTeX Workflow
@@ -15,8 +15,8 @@ Activate the **latex-specialist** agent to write or recheck LaTeX. The agent run
 
 | Mode | Skill | When |
 |------|-------|------|
-| **Generation** | `@[skills/latex_tutor]` | Turn PDF slides, notes, or transcripts into textbook-quality chapters |
-| **Audit** | `@[skills/latex_review]` | Review an existing LaTeX project for compiler-breaking and style issues |
+| **Generation** | `@[skills/latex-tutor]` | Turn PDF slides, notes, or transcripts into textbook-quality chapters |
+| **Audit** | `@[skills/latex-review]` | Review an existing LaTeX project for compiler-breaking and style issues |
 
 ---
 
@@ -46,13 +46,13 @@ Read `$ARGUMENTS` and pick the mode:
    - Inputs: [PDF / transcript / project path / main.tex]
    ```
 
-3. **Generation mode** — agent applies `@[skills/latex_tutor]`:
+3. **Generation mode** — agent applies `@[skills/latex-tutor]`:
    - Reads `preamble.tex` + course context first
    - Synthesizes slides by theme (not 1:1)
    - Emits LaTeX **body only** — no `\documentclass`, no preamble
    - Strips all `[cite]` / `<source>` tags
 
-4. **Audit mode** — agent applies `@[skills/latex_review]`:
+4. **Audit mode** — agent applies `@[skills/latex-review]`:
    - Reads `main.tex`, then every `\include`d file
    - Traces all `\label` → `\ref` chains
    - Reports by severity: 🔴 Critical → 🟡 Important → 🔵 Minor

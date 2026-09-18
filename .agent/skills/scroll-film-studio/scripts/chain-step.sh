@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # chain-step.sh <assets-dir> <clip-name> <start-image> <prompt> [prev-last-png] [resolution]
 #
 # Generates ONE Higgsfield Seedance clip chained from <start-image>, waits, downloads,

@@ -71,7 +71,7 @@ allowed-tools: Read, Glob, Grep, Bash
 | **Offline** | "Does this need to work offline?" | Affects data strategy |
 | **Target devices** | "Phone only, or tablet support?" | Layout complexity |
 
-### ⛔ AI MOBILE ANTI-PATTERNS (YASAK LİSTESİ)
+### ⛔ AI MOBILE ANTI-PATTERNS (FORBIDDEN LIST)
 
 > 🚫 **These are AI default tendencies that MUST be avoided!**
 

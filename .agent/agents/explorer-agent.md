@@ -77,16 +77,16 @@ When in discovery mode, you MUST NOT just report facts; you must engage the user
 **Input:** "Explore this project and tell me what we're working with."
 **Output:**
 ```
-🗺️ Codebase Survey: antigravity-kit
-├── Type: Monorepo (root + web/)
+🗺️ Codebase Survey: acme-shop
+├── Type: Monorepo (apps/web + packages/ui)
 ├── Stack: Next.js 16 + React 19 + Tailwind CSS v4
-├── Package Manager: npm
+├── Package Manager: pnpm (workspaces)
 ├── Entry Points:
-│   ├── web/src/app/page.tsx (Landing page, 26KB)
-│   ├── web/src/app/layout.tsx (Root layout, Geist font)
-│   └── web/src/app/docs/ (MDX documentation pages)
+│   ├── apps/web/src/app/page.tsx (Landing page, 26KB)
+│   ├── apps/web/src/app/layout.tsx (Root layout, Geist font)
+│   └── apps/web/src/app/docs/ (MDX documentation pages)
 ├── Architecture Pattern: App Router with MDX content
-├── Component Library: 50+ Base UI components in web/src/components/ui/
+├── Component Library: 50+ Base UI components in packages/ui/
 ├── State Management: Context (ThemeProvider), no external library
 ├── Styling: Tailwind CSS v4 with tw-animate-css, class-variance-authority
 └── Risk Flags:

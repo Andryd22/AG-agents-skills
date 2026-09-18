@@ -1,15 +1,11 @@
 ---
 name: ui-ux-pro-max
-description: Plan and implement UI
----
-
----
-description: AI-powered design intelligence with 50+ styles, 95+ color palettes, and automated design system generation
+description: Plan and implement UI with a searchable design database - 58 styles, 96 color palettes, 57 font pairings, UX guidelines and design system generation.
 ---
 
 # ui-ux-pro-max
 
-Comprehensive design guide for web and mobile applications. Contains 50+ styles, 97 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types across 9 technology stacks. Searchable database with priority-based recommendations.
+Comprehensive design guide for web and mobile applications. Contains 58 styles, 96 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types across 12 technology stacks. Searchable database with priority-based recommendations.
 
 ## Prerequisites
 
@@ -120,7 +116,7 @@ Get implementation-specific best practices. If user doesn't specify a stack, **d
 python3 .agent/.shared/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
 ```
 
-Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
+Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
 , `jetpack-compose`
 ---
 
@@ -149,6 +145,8 @@ Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`
 | `react` | State, hooks, performance, patterns |
 | `nextjs` | SSR, routing, images, API routes |
 | `vue` | Composition API, Pinia, Vue Router |
+| `nuxtjs` | Nuxt pages, data fetching, SSR |
+| `nuxt-ui` | Nuxt UI components and theming |
 | `svelte` | Runes, stores, SvelteKit |
 | `swiftui` | Views, State, Navigation, Animation |
 | `react-native` | Components, Navigation, Lists |

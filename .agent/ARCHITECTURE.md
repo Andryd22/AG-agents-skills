@@ -41,7 +41,7 @@ Specialist AI personas for different domains.
 | `ai-ml-engineer`         | LLM, RAG, prompt design    | prompt-engineering, api-patterns                         |
 | `data-engineer`          | ETL, pipelines, warehouses | data-engineering, python-patterns                        |
 | `embedded-engineer`      | Firmware, IoT, sensors     | embedded-systems                                        |
-| `latex-specialist`       | Academic LaTeX, papers     | latex_tutor, latex_review, clean-code                    |
+| `latex-specialist`       | Academic LaTeX, papers     | latex-tutor, latex-review, clean-code                    |
 | `backend-specialist`     | API, business logic        | api-patterns, nodejs-best-practices, database-design     |
 | `database-architect`     | Schema, SQL                | database-design, prisma-expert                           |
 | `mobile-developer`       | iOS, Android, RN           | mobile-design                                            |
@@ -138,8 +138,8 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 
 | Skill           | Description                        |
 | --------------- | ---------------------------------- |
-| `latex_tutor`   | LaTeX textbook chapters from slides |
-| `latex_review`  | LaTeX project audit & QA            |
+| `latex-tutor`   | LaTeX textbook chapters from slides |
+| `latex-review`  | LaTeX project audit & QA            |
 
 ### IoT & Embedded
 

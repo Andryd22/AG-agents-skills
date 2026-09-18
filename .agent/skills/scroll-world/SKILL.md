@@ -27,10 +27,8 @@ posters → an automated SSIM seam check → a portable scrub engine that plays 
 chain as one flight. Chain clips render on the cheap previz tier first by default;
 full-model credits are spent only after the user approves the draft.
 
-**The one rule that makes or breaks it:** seams must be *frame-identical*. Read
-[The seamless chain](#step-5--the-seamless-chain-the-critical-part) before generating any
-connector. Getting this wrong is the single most common failure and produces a visible
-"pop" between scenes.
+**The one rule that makes or breaks it:** seams must be *frame-identical*. Read Step 4 and
+Step 5 before generating any clip: getting this wrong is the most common failure (a "pop").
 
 Do not assume a frontend framework. The scrub engine in `references/scrub-engine.js` is
 self-contained vanilla JS (it builds its own DOM + injects its own CSS into a container
@@ -209,46 +207,12 @@ pick by aesthetic.
 
 ### Video model — pick ONE for the whole chain
 
-**This skill only ships seamless output**, so the only usable models are ones that can
-frame-lock a seam: every chained clip must accept `--start-image`, and connectors also
-need `--end-image`. That capability — not preference — is the selection rule. Check any
-model with `higgsfield model get <job_type>` and **skip anything whose media inputs are
-reference-only** (no start/end image): it can only *condition* a generation, not
-*continue* a shot, so it physically can't hold a seam. Schemas below were confirmed
-against the CLI:
-
-| Model | start/end image | Notes |
-|---|---|---|
-| `seedance_2_0` (default) | ✓ / ✓ | Full chain (legs + connectors). `--mode std --resolution 1080p`. Its NSFW filter is the touchy one (see Gotchas). |
-| `kling3_0` | ✓ / ✓ | Full chain — tested: `--mode std --sound off --duration 5` with start+end images accepted, seams frame-lock cleanly. **No `--resolution` param** (don't pass one; `--mode std` returns **720p native** — encode what ffprobe reports, never upscale). Sound defaults **on** → `--sound off`. `--duration` default 5, try 10 for legs. Different content filter than Seedance — the sanctioned NSFW fallback. |
-| `seedance_2_0_mini` | ✓ / ✓ | Cheap draft tier that keeps frame-locking (720p). The previz tier: run the whole chain here first, then re-render final legs on the full model — still seamless, so it translates directly. |
-
-Those three are the roster — all do both architectures. (`kling3_0_turbo` also frame-locks
-via `--start-image`, but has no `--end-image`, so it's architecture-A-only and can't make
-connectors; it also takes a different flag set — no `--mode`, has `--resolution` — so it
-doesn't drop into the pipeline as-is. It's not in the default roster; only reach for it, and
-wire it by hand, if architecture A's sequential render time is a proven bottleneck and you've
-benchmarked it as actually faster.)
-
-**Previz first (default, not optional-extra).** Unless the run is small (≤4 scenes),
-render the whole chain on `seedance_2_0_mini` first. It frame-locks, so everything that
-matters — journey order, camera grammar, seam continuity, copy pacing against the scrub —
-is validated at draft cost; assemble the page from the previz clips and review it with
-the user before a single full-model credit is spent. Then clear the draft clips, flip
-`$VMODEL`, and re-render final (stills are reused; the pipeline's idempotency makes the
-second pass mechanical — `references/pipeline.md`, setup block).
-
-Rules:
-- **One model for all chained clips.** Each renderer has its own motion/color/grain
-  character; mixing models mid-chain keeps *position* continuity (frames still hand off)
-  but the render-character shift reads as a subtle pop. The one sanctioned exception is
-  the NSFW fallback for a single stubborn clip (Gotchas) — a slight character shift on
-  one 5s connector beats a missing connector.
-- Default to `seedance_2_0`; honor a user's stated preference **only if the model
-  qualifies** (frame-locking). If it doesn't, say so and use a supported model — never
-  ship a non-seamless build to satisfy a model request.
-- The pipeline scripts take the model as `$VMODEL` with per-model flags already cased
-  out (`references/pipeline.md`).
+Only models that can frame-lock a seam are usable: every chained clip needs `--start-image`,
+connectors also need `--end-image`. Default roster: `seedance_2_0` (default),
+`kling3_0` (720p native, `--sound off`, the NSFW fallback), `seedance_2_0_mini` (previz tier).
+Previz the whole chain on `seedance_2_0_mini` first unless the run is ≤4 scenes, and use
+**one model for all chained clips**. Flags, the full comparison and the rules are in
+`references/video-models.md` — read it before the first generation.
 
 ### A) Continuous forward take — RECOMMENDED for grounded / realistic / walkthrough
 One camera that only ever glides **forward**, first scene through last, as a single take.
@@ -274,48 +238,11 @@ jarring **rewind/stutter**. Use B only for the map-like aesthetic. When in doubt
 
 ### Camera grammar — the move should fit the concept (A is NOT "forward only")
 
-"Forward only" is the *seam* rule, not the *leg* rule. The physics of the chain:
-
-- **Position continuity** at a seam comes from the frame handoff (next leg starts from the
-  previous leg's actual last frame).
-- **Velocity continuity** at a seam means the camera must never *reverse across a seam* —
-  that's the rewind stutter.
-- **Inside a single leg the camera is free.** One leg is one continuous render — there is
-  no seam to break mid-leg, so orbits, crane-ups, lateral tracking, even a push-in that
-  eases back out are all safe *within* the clip. Reversals are only fatal *across* seams.
-
-So give each leg an expressive move chosen from the scene's own logic, under a **motion
-handoff contract**: every leg **ends by settling into a slow, steady forward drift** toward
-the next destination (final ~1 s), and every leg **begins by continuing that same drift**.
-Keep both clauses in the prompts verbatim (templates in `references/prompts.md`).
-
-Pick the grammar from the concept:
-
-| Concept / tone | Mid-leg move |
-|---|---|
-| Product / luxury retail | slow half-orbit around the hero object, then continue past it |
-| Real estate / hospitality | steadicam glide through doorways; gentle crane-up in atria |
-| Industrial / process / logistics | low lateral track alongside the line, foreground parallax |
-| Travel / outdoors / campus | drone-style rise-and-reveal, then a descending swoop |
-| Food / craft / detail-driven | push in close to the craft moment, ease back, carry on |
-| Playful miniature (arch. B) | dives + aerial hops — the connector IS the grammar |
-
-Honest costs: expressive mid-leg moves raise re-roll odds — the model can end a fancy move
-in a state that isn't a clean forward drift. Mitigations: keep the final-second settle
-clause verbatim; **eyeball each leg's last frame before chaining the next** (it should look
-like a frame from a gentle forward glide — if not, re-roll before wasting the next leg);
-budget ~1 extra re-roll per expressive leg. A plain forward glide stays the zero-risk
-default — use it for legs where the scene itself is the show.
-
-Two related pacing knobs live in the engine (Step 7): per-section `scroll` (more scroll
-distance = longer dwell in that scene) and `linger` (the camera settles mid-scene exactly
-while the copy peaks, then picks up speed toward the seam). Prefer expressive motion in the
-*clip* and restraint in the *scrub mapping* — they compound.
-
-And remember scroll is a scrubber: visitors can scroll **up**, so every move also plays in
-reverse. That's free and expected — no extra work — but it's another reason seam velocity
-must be consistent in both directions (a seam that reads fine forward reads as a stutter
-backward too if velocity flips).
+"Forward only" is the *seam* rule, not the *leg* rule: inside one leg the camera is free
+(orbit, crane, lateral track), but it must never reverse **across** a seam. Every leg ends
+by settling into a slow forward drift (final ~1 s) and the next leg begins by continuing
+it — keep both clauses verbatim in the prompts. The concept → move table, the re-roll costs
+and the pacing knobs (`scroll`, `linger`) are in `references/camera-grammar.md`.
 
 **For B**, one camera flight per scene: starts high/outside, descends into the interior,
 structure opens. Model: the chain model you picked above (default **`seedance_2_0`**),
@@ -520,53 +447,24 @@ crossfade and accepted it). If you skipped it, run it now; browser QA below veri
 the *page*, the SSIM gate verifies the *assets*, and a red asset can't be QA'd into a
 green page.
 
-Then drive the page in a headless browser and **verify frame continuity at the seams**
-end-to-end:
+Then drive the page in a headless browser and verify, following the full checklist in
+`references/qa-checklist.md`:
 
-- Screenshot at scroll positions just before and just after each seam. The two frames
-  must be near-identical (the dive's last frame == the connector's first frame). If they
-  pop, you used the diorama still instead of the actual rendered frame (redo Step 5), or
-  the crossfade band is too short.
-- Confirm the first paint is clean: the poster (extracted frame) shows instantly, and
-  the poster→video takeover does not shift the image (if it does, `poster` is missing
-  or points at the still — Step 6).
-- Check the console for errors, confirm `video.seekable.end(0) > 0` (blob working), and
-  that `currentTime` tracks scroll across each clip's band.
-- **Stills-mode fallbacks (every build, cheap to check):**
-  - Data-saver: emulate `navigator.connection.saveData = true` (DevTools override or an
-    init script) — page must render as stills-with-crossfades, zero clip fetches in the
-    Network panel.
-  - Low Power Mode: hardest to emulate — on a real iPhone, enable it and confirm the
-    page falls back to stills on first touch instead of frozen video. Emulated proxy:
-    stub `HTMLMediaElement.play` to return a rejected promise, tap, confirm stills mode.
-  - Tablet tier: iPad viewport (834×1194, touch) must fetch the **desktop** clip
-    (Network panel), not the `-m.mp4` — while still getting touch behaviour.
-- **Mobile — full checklist only if the user picked a mobile tier (Step 1.6).**
-  For a crop-safe build, just sanity-check a phone viewport once: page loads, still
-  posters show, nothing overlaps — the engine's hardening covers graceful degradation.
-  For the mobile tiers (do this on a real phone or an emulated one, portrait + landscape):
-  - Emulate a phone viewport **with CPU throttled 4–6×** and scroll fast — the clip should
-    track without freezing (the seek-coalescing + `-m.mp4` encodes are what make this hold).
-  - Confirm the first scene shows immediately (its still is the poster) and the video takes
-    over the instant you scroll — no blank/black scene (the iOS priming fix). Test iOS Safari
-    specifically; it's the one that goes blank if this regresses.
-  - Verify the `-m.mp4` variant is actually served on mobile (Network panel), and the
-    heavy 1080p master on desktop.
-  - Slowly scroll so the URL bar collapses — the page must **not jump** (height-only resizes
-    are ignored on touch). Rotate the device — layout should recompose cleanly.
-  - Portrait crops a 16:9 clip to its centre; confirm the focal subject still reads. If a
-    hero scene's subject sits off-centre and gets cut, recompose it (prompts.md) or generate
-    a 9:16 variant for that scene.
-- Check reduced-motion (should fall back to the stills, no video, no particles).
+- frames just before and after each seam are near-identical;
+- first paint is clean (poster shows, no shift at the poster→video takeover), no console
+  errors, `video.seekable.end(0) > 0`;
+- stills-mode fallbacks work (data-saver, Low Power Mode, tablet gets the desktop clip);
+- the mobile checklist, only if the user picked a mobile tier (Step 1.6);
+- reduced-motion falls back to the stills.
 
 ---
 
-## Gotchas — top 5 inline; full list in `references/gotchas.md`
+## Gotchas — top 3 inline; full list in `references/gotchas.md`
 
 Read `references/gotchas.md` the moment any generation fails or any QA check reads
 wrong — it maps symptom → cause → fix for every failure seen in production (encode,
-theming, phone, iOS, Kling flags, portrait crops, and more). The five that block runs
-most often:
+theming, phone, iOS, Kling flags, portrait crops, frozen video, credit races, and more).
+The three that block runs most often:
 
 - **Seam pop** → connector endpoints were the diorama stills, not the neighbouring
   clips' actual frames. Always extract real frames (Step 5); the SSIM gate (pipeline
@@ -580,10 +478,6 @@ most often:
   → regenerate that one clip on `kling3_0` with the same start/end frames → set the
   connector slot to `null` (engine crossfades that seam directly). Budget re-rolls on
   interiors.
-- **Frozen video / stuck at frame 0** → host doesn't serve byte ranges, `seekable=[0,0]`.
-  Blob URLs fix it (engine does this).
-- **Concurrent gens 503 / "not_enough_credits" race** → transient under parallel launch;
-  re-roll the individual failure (verify credits with `higgsfield workspace list`).
 
 ## References
 
@@ -601,3 +495,6 @@ most often:
 - `references/knockout.py` — border-connected background knockout for floating scenes.
 - `references/gotchas.md` — the full symptom → cause → fix list, plus the canvas
   frame-sequence alternative for when video scrubbing isn't smooth enough.
+- `references/video-models.md` — the frame-locking model roster, flags and previz rule (Step 4).
+- `references/camera-grammar.md` — seam vs leg motion rules, concept → move table, pacing (Step 4).
+- `references/qa-checklist.md` — the full browser QA checklist, mobile included (Step 8).

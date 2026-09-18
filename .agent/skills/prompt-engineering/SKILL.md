@@ -79,7 +79,9 @@ User Query → Query Rewriting → Embedding → Vector Search → Reranking →
 ### Retrieval Optimization
 ```python
 # Hybrid search: combine vector + keyword
-from langchain.retrievers import EnsembleRetriever
+# LangChain v1: pip install langchain-classic langchain-community rank_bm25
+from langchain_classic.retrievers import EnsembleRetriever
+from langchain_community.retrievers import BM25Retriever
 
 vector_retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
 bm25_retriever = BM25Retriever.from_documents(docs)

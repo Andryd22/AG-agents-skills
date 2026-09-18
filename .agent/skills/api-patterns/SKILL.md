@@ -36,9 +36,9 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 
 | Need | Skill |
 |------|-------|
-| API implementation | `@[skills/backend-development]` |
+| API implementation | `@[skills/nodejs-best-practices]`, `@[skills/python-patterns]` |
 | Data structure | `@[skills/database-design]` |
-| Security details | `@[skills/security-hardening]` |
+| Security details | `security-testing.md` in this skill |
 
 ---
 

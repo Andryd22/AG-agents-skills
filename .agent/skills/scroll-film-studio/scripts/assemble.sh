@@ -1,12 +1,12 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # assemble.sh <assets-dir> <frames-out-dir> <clip1> <clip2> ...  (clip names, no .mp4, in order)
 #
 # Concats the chained clips (dropping the duplicate junction frame on clips 2+), encodes the
 # master with -fps_mode vfr (CFR padding causes frozen scrub zones), extracts ~300 JPEG frames
 # at 1280px for the canvas scrubber, and prints the final-frame seam colour for the handoff.
-# Mechanical lane — no model. Requires: ffmpeg, xxd.
+# Mechanical lane — no model. Requires: bash, ffmpeg >= 5.1 (-fps_mode), xxd.
 set -e -o pipefail
-setopt null_glob 2>/dev/null || true
+shopt -s nullglob   # an empty glob expands to nothing
 A=$1; F=$2; shift 2
 if [[ -z "$A" || -z "$F" || $# -lt 2 ]]; then
   echo "usage: assemble.sh <assets-dir> <frames-out-dir> <clip1> <clip2> ... (>=2 clips)"; exit 1
@@ -35,7 +35,7 @@ COUNT=${#FRAMES[@]}
 if (( COUNT == 0 )); then echo "FAILED — no frames were extracted"; exit 1; fi
 echo "frames: $COUNT at 1280w, $(du -sh "$F" | cut -f1)  ->  set FRAME_COUNT=$COUNT in the engine"
 
-LAST=${FRAMES[-1]}
+LAST=${FRAMES[$((COUNT-1))]}   # bash 3.2 (macOS) has no negative indexes
 SEAM=$(ffmpeg -v error -i "$LAST" -vf "crop=iw:ih*0.12:0:ih*0.88,scale=1:1" -frames:v 1 -f rawvideo -pix_fmt rgb24 - | xxd -p | cut -c1-6)
 if [[ -z "$SEAM" ]]; then echo "warning: seam colour could not be sampled — sample $LAST manually"; else
 echo "seam colour of $(basename $LAST): #$SEAM   (start the after-film section background here)"; fi

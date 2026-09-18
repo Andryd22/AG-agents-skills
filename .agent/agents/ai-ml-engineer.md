@@ -64,9 +64,11 @@ Use: Customer support bots, research assistants
 ## RAG Implementation
 
 ```python
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+# LangChain v1: integrations live in their own packages
+# pip install langchain-text-splitters langchain-openai langchain-chroma
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
 
 # 1. Chunk documents
 splitter = RecursiveCharacterTextSplitter(
@@ -79,7 +81,7 @@ chunks = splitter.split_documents(docs)
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 vectorstore = Chroma.from_documents(chunks, embeddings)
 
-# 3. Retrieve with reranking
+# 3. Retrieve with MMR (diverse results; add a reranker if precision matters)
 retriever = vectorstore.as_retriever(
     search_type="mmr",  # Max Marginal Relevance: diverse results
     search_kwargs={"k": 8, "fetch_k": 20}

@@ -37,18 +37,18 @@ user has a video engine.
 
 ---
 
-## THE GOLDEN RULE — design is done by you, the Anthropic model
+## THE GOLDEN RULE — design is done by you, the main model
 
-Every decision that involves **taste** is done by you, the Claude model running this
-skill: concepts, art direction, palette, type, layout, motion design, copy, the build
-itself (all HTML/CSS/JS), and the final design review. **No other model ever touches
-the design space.** If you delegate, delegate only:
+Every decision that involves **taste** is done by you, the model running this skill
+(use the strongest one the IDE offers): concepts, art direction, palette, type, layout,
+motion design, copy, the build itself (all HTML/CSS/JS), and the final design review.
+**No other model ever touches the design space.** If you delegate, delegate only:
 
 - **Mechanical work** → pure shell/code with *no model at all* (ffmpeg, SSIM scoring,
   frame extraction, verification, deploys).
-- **Bounded drafting** → sub-agents *that are also Claude* (e.g. drafting one chapter's
-  video prompt, writing one after-film section). Never route design or code to a
-  non-Anthropic model.
+- **Bounded drafting** → sub-agents running the *same model* as you (e.g. drafting one
+  chapter's video prompt, writing one after-film section). Never route design or code to
+  a different or weaker model.
 
 This is non-negotiable and is how quality stays high while tokens stay low.
 
@@ -99,12 +99,12 @@ From the interview, develop **2–3 named creative concepts** and pitch them. Ru
   count, and (Lane B) the estimated credits.
 - **Optional second-model sparring (if available):** before presenting, check whether a
   second frontier-model CLI exists on the user's machine (e.g. `codex`, `gemini`, or
-  similar). If one does, hand it the concepts *as text* and ask it to (a) attack each
+  similar — any model other than the one running this skill). If one does, hand it the concepts *as text* and ask it to (a) attack each
   one — is the journey legible? memorable? feasible in N chapters? — and (b) propose one
   wildcard angle you haven't considered. Fold what survives into your pitch (credit the
   sparring in one line). **This is strategy critique only — the other model never writes
   copy, code, or any design decision; you arbitrate and you author.** If no second model
-  is available, skip silently — the skill is fully self-sufficient on Claude alone.
+  is available, skip silently — the skill is fully self-sufficient on the main model alone.
 - Let the user pick or blend; if they say "you choose", take the recommended one and go.
 
 Only after a concept is chosen do you build.
@@ -173,9 +173,9 @@ You are the orchestrator and the designer. Spend frontier tokens only where tast
 
 | Work | Who does it | Cost |
 |---|---|---|
-| Concepts, art direction, palette, type, layout, motion, final copy, the build, design review | **You (Claude)** — never delegated. Run design on the strongest Claude model available. | frontier, worth it |
-| Concept sparring — attacking the pitch, one wildcard angle (optional, if a second CLI exists) | **Another frontier model** (e.g. GPT/Codex, Gemini) — strategy text only, never design | one cheap call |
-| First drafts only: a chapter's video prompt, an after-film section's copy — **you review and rewrite every draft; nothing a sub-agent wrote ships unedited** | Claude **sub-agents**, fanned out in parallel | cheap, parallel |
+| Concepts, art direction, palette, type, layout, motion, final copy, the build, design review | **You (the main model)** — never delegated. Run design on the strongest model available. | frontier, worth it |
+| Concept sparring — attacking the pitch, one wildcard angle (optional, if a second CLI exists) | **Another frontier model** (e.g. GPT/Codex, Claude, Gemini — whichever is not you) — strategy text only, never design | one cheap call |
+| First drafts only: a chapter's video prompt, an after-film section's copy — **you review and rewrite every draft; nothing a sub-agent wrote ships unedited** | **Sub-agents** on the same model, fanned out in parallel | cheap, parallel |
 | Frame extraction, SSIM gating, assembly, seam sampling, jank test, screenshots, deploy | **Pure shell — no model** (`scripts/*`, ffmpeg, puppeteer, vercel) | ~free |
 
 Fan out independent pieces concurrently; keep the taste-bearing spine on yourself.
@@ -221,9 +221,10 @@ Protection) — point them there, don't change their security settings for them.
 
 - **This skill ships with zero personal data** — no API keys, no accounts, no personal
   paths. Every user brings their own video engine + Vercel. Never bake credentials in.
-- Design + build stay on Claude. Mechanical work goes to code; design never does.
+- Design + build stay on the main model. Mechanical work goes to code; design never does.
 - Confirm credits before spending; show the receipt after.
 - One continuous shot; one world per brand; no visible seams; no dissolve masking.
 - Respect `prefers-reduced-motion` in every build.
 - Reference files: `references/playbook.md` (footage law), `references/engine.md`
   (build recipes), `scripts/chain-step.sh`, `scripts/assemble.sh`, `scripts/verify.js`.
+  The `.sh` scripts are bash: macOS and Linux run them as they are, on Windows use Git Bash or WSL.

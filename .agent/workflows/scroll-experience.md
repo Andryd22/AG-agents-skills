@@ -12,7 +12,7 @@ Use this command when you want a full scroll-driven experience that may mix mult
 1. **Step 0 — Interview**: topic, story beats, brand kit, budget tier, mobile tier. Decide engine: 3D code (three-js), video (scroll-world), cinematic code (scroll-film-studio), or hybrid.
 2. **Step 1 — Concept Pitch**: 2-3 named concepts, each with a camera path and engine map per section.
 3. **Step 2 — Build**: delegate to the chosen engine's skill; follow its golden rules and build flow. For hybrid, build section-by-section, keeping the single-driver rule.
-4. **Step 3 — Seam & Hybrid Check**: verify transitions. Video↔video: SSIM seam check (scroll-world knockout). 3D↔video↔code: visual continuity walk — end position of shot N must equal start of shot N+1; no camera snaps.
+4. **Step 3 — Seam & Hybrid Check**: verify transitions. Video↔video: SSIM seam check (scroll-world `references/pipeline.md` §5c; `knockout.py` only removes backgrounds). 3D↔video↔code: visual continuity walk — end position of shot N must equal start of shot N+1; no camera snaps.
 5. **Step 4 — Verify & Deploy**: run jank test + GPU budget (three-js verification.md), then optional Vercel deploy.
 
 ## Usage

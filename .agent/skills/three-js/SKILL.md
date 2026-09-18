@@ -33,7 +33,7 @@ Build code-rendered WebGL scenes driven by scroll. Camera is the narrator; scrol
 3. **Renderer config** — `antialias: true` only on desktop; cap `renderer.setPixelRatio(Math.min(devicePixelRatio, 2))`; mobile cap 1.5.
 4. **Dispose pattern** — every `new THREE.XxxGeometry/Material/Texture` must have a matching `.dispose()` on teardown. Use `renderer.dispose()`, traverse scene and dispose children, remove listeners. Memory leak = page death on re-navigation.
 5. **No rAF conflict** — drive animation from ONE source. If GSAP ScrollTrigger scrubs, use `scrub: true` callbacks, not a separate rAF loop mutating the same transforms. Pause heavy work when tab hidden (visibilitychange).
-6. **Scroll hijacking** — never fight native scroll. Lenis (smooth) + ScrollTrigger `scrollerProxy` if you must; otherwise let native scroll drive progress via `scrollTrigger.onUpdate`.
+6. **Scroll hijacking** — never fight native scroll. If you need smoothing, use Lenis driven by `gsap.ticker` with `lenis.on('scroll', ScrollTrigger.update)` (see `references/scroll-integration.md`); otherwise let native scroll drive progress via `scrollTrigger.onUpdate`.
 7. **Lighting** — cheap lights first: ambient + directional, or hemisphere + one directional. Shadow maps only on desktop, small map size (1024), `shadow.camera` frustum tightly fitted.
 8. **Textures** — power-of-two sizes, `colorSpace = THREE.SRGBColorSpace`, `texture.anisotropy = renderer.capabilities.getMaxAnisotropy()` when magnifying. Compress with basis/KTX2 for big sets.
 

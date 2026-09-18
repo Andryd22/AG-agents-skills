@@ -48,13 +48,13 @@ tl.fromTo(camera.position, { z: 12 }, { z: 2 })
 
 ## Lenis smooth scroll (optional)
 
+Integration documented by Lenis, same as `scroll-film-studio/references/engine.md`: GSAP's ticker drives Lenis, so there is one loop and no `scrollerProxy`.
+
 ```js
 const lenis = new Lenis({ smoothWheel: true });
-function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
-ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(value) { return arguments.length ? lenis.scrollTo(value, { immediate: true }) : lenis.scroll; },
-});
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
 ```
 
 ## Pause when hidden
