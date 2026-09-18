@@ -9,7 +9,7 @@ description: >
   LOD, pixel ratio, 60fps target). Use when the user wants a 3D scene, WebGL
   experience, scroll-scrubbed 3D hero, 3D camera fly-through, parallax layers,
   product viewer, or immersive scroll 3D — and the answer should be code-rendered
-  WebGL rather than pre-rendered video. Complements scroll-film-studio (cinematic
+  WebGL rather than pre-rendered video. Complements scroll-film (cinematic
   code lanes) and scroll-world (pre-rendered video clips).
 ---
 
@@ -22,7 +22,7 @@ Build code-rendered WebGL scenes driven by scroll. Camera is the narrator; scrol
 | Request shape | Skill |
 | --- | --- |
 | 3D scene, WebGL, scroll 3D, camera fly-through, parallax, product viewer — code-rendered | **three-js** (this) |
-| Cinematic continuous-camera site, pure-code GSAP/Lenis scrub, single unbroken shot | `scroll-film-studio` |
+| Cinematic continuous-camera site, pure-code GSAP/Lenis scrub, single unbroken shot | `scroll-film` |
 | Photo-realistic fly-through with pre-rendered video clips (Higgsfield) | `scroll-world` |
 | Mixed sections (3D hero + video + code) | delegate to agent `scroll-experience-architect` |
 

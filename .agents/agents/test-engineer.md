@@ -11,7 +11,7 @@
 - "Write"
 "skills":
 - "clean-code"
-- "testing-patterns"
+- "test"
 - "webapp-testing"
 ---
 # Test Engineer

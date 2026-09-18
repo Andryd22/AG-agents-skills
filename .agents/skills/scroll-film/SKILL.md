@@ -1,16 +1,6 @@
 ---
-name: scroll-film-studio
-description: >-
-  Build a genuinely beautiful animated scroll-film website — the whole page is one
-  continuous cinematic shot that plays as the visitor scrolls. Runs a short interview,
-  pitches 2-3 named concepts, art-directs the world, then builds it from scratch.
-  Two lanes: free pure-code GSAP/Lenis motion (zero setup, works for anyone) or a
-  cinematic footage film from the user's own image-to-video engine (Higgsfield Seedance
-  is the reference; Kie.ai, fal, Replicate or any start-image-capable model works).
-  Trigger on "scroll-film", "cinematic scroll site", "scrollytelling website", "build me
-  an animated/scroll website", "film-scroll site", "one continuous shot website", or any
-  request for a premium scroll-scrubbed animated site. NOT for slide decks / HTML
-  explainers or static brochure sites.
+name: scroll-film
+description: 'Build a genuinely beautiful animated scroll-film website — the whole page is one continuous cinematic shot that plays as the visitor scrolls. Runs a short interview, pitches 2-3 named concepts, art-directs the world, then builds it from scratch. Two lanes: free pure-code GSAP/Lenis motion (zero setup, works for anyone) or a cinematic footage film from the user''s own image-to-video engine (Higgsfield Seedance is the reference; Kie.ai, fal, Replicate or any start-image-capable model works). Trigger on "scroll-film", "cinematic scroll site", "scrollytelling website", "build me an animated/scroll website", "film-scroll site", "one continuous shot website", or any request for a premium scroll-scrubbed animated site. NOT for slide decks / HTML explainers or static brochure sites. Use when the user runs /scroll-film.'
 ---
 
 # Scroll-Film Studio
@@ -228,3 +218,10 @@ Protection) — point them there, don't change their security settings for them.
 - Reference files: `references/playbook.md` (footage law), `references/engine.md`
   (build recipes), `scripts/chain-step.sh`, `scripts/assemble.sh`, `scripts/verify.js`.
   The `.sh` scripts are bash: macOS and Linux run them as they are, on Windows use Git Bash or WSL.
+
+## Usage
+
+```
+/scroll-film VOLTA electric race team continuous camera site
+/scroll-film scrollytelling page for luxury perfume brand
+```

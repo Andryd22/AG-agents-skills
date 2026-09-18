@@ -13,7 +13,7 @@
 "skills":
 - "clean-code"
 - "parallel-agents"
-- "brainstorming"
+- "brainstorm"
 - "architecture"
 - "powershell-windows"
 ---

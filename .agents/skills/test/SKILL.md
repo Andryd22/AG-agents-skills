@@ -1,17 +1,23 @@
 ---
 name: test
-description: Test generation and test running command. Creates and executes tests for code.
+description: Generate tests, run the project's test suite (scripts/test_runner.py) and report coverage. Use when the user runs /test or asks to write, run or fix tests.
 ---
 
 # /test - Test Generation and Execution
 
-$ARGUMENTS
+The request is the text that follows `/test`.
 
 ---
 
 ## Purpose
 
 This command generates tests, runs existing tests, or checks test coverage.
+
+---
+
+## Running the Suite
+
+`python .agents/skills/test/scripts/test_runner.py . [--coverage]` detects the framework (Jest, Vitest, pytest, ...), runs the suite and exits non-zero on failure. `checklist.py` and `verify_all.py` call it too.
 
 ---
 

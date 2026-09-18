@@ -1,11 +1,11 @@
 ---
 name: preview
-description: Preview server start, stop, and status check. Local development server management.
+description: Start, stop, restart or check the local development server with auto_preview.py. Use when the user runs /preview or asks to see the app running locally.
 ---
 
 # /preview - Preview Management
 
-$ARGUMENTS
+The request is the text that follows `/preview`.
 
 ---
 

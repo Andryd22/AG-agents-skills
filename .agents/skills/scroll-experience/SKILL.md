@@ -1,6 +1,6 @@
 ---
 name: scroll-experience
-description: Build an immersive scroll-driven experience orchestrating three-js, scroll-film-studio, and scroll-world — code-first WebGL, cinematic code lanes, or pre-rendered video, chosen per interview. Trigger to unify multiple scroll techniques in one continuous narrative.
+description: Build an immersive scroll-driven experience orchestrating three-js, scroll-film, and scroll-world — code-first WebGL, cinematic code lanes, or pre-rendered video, chosen per interview. Trigger to unify multiple scroll techniques in one continuous narrative. Use when the user runs /scroll-experience.
 ---
 
 # /scroll-experience
@@ -9,7 +9,7 @@ Use this command when you want a full scroll-driven experience that may mix mult
 
 ## Flow
 
-1. **Step 0 — Interview**: topic, story beats, brand kit, budget tier, mobile tier. Decide engine: 3D code (three-js), video (scroll-world), cinematic code (scroll-film-studio), or hybrid.
+1. **Step 0 — Interview**: topic, story beats, brand kit, budget tier, mobile tier. Decide engine: 3D code (three-js), video (scroll-world), cinematic code (scroll-film), or hybrid.
 2. **Step 1 — Concept Pitch**: 2-3 named concepts, each with a camera path and engine map per section.
 3. **Step 2 — Build**: delegate to the chosen engine's skill; follow its golden rules and build flow. For hybrid, build section-by-section, keeping the single-driver rule.
 4. **Step 3 — Seam & Hybrid Check**: verify transitions. Video↔video: SSIM seam check (scroll-world `references/pipeline.md` §5c; `knockout.py` only removes backgrounds). 3D↔video↔code: visual continuity walk — end position of shot N must equal start of shot N+1; no camera snaps.

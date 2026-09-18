@@ -1,11 +1,11 @@
 ---
 name: create
-description: Create new application command. Triggers App Builder skill and starts interactive dialogue with user.
+description: 'Create a new application from a description: clarify what is missing, plan with project-planner, build with app-builder and the specialist agents, then start a preview. Use when the user runs /create or asks to build a new app from scratch.'
 ---
 
 # /create - Create Application
 
-$ARGUMENTS
+The request is the text that follows `/create`.
 
 ---
 
@@ -17,7 +17,7 @@ This command starts a new application creation process.
 
 1. **Request Analysis**
    - Understand what the user wants
-   - If information is missing, ask using the `brainstorming` skill (Socratic Gate)
+   - If information is missing, ask using the `brainstorm` skill (Socratic Gate)
 
 2. **Project Planning**
    - Use `project-planner` agent for task breakdown

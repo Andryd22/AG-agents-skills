@@ -1,6 +1,6 @@
 ---
-name: brainstorming
-description: Socratic questioning protocol + user communication. MANDATORY for complex requests, new features, or unclear requirements. Includes progress reporting and error handling.
+name: brainstorm
+description: 'Socratic Gate and structured option exploration: ask only what cannot be inferred, then compare at least three approaches with trade-offs and a recommendation. Use when the user runs /brainstorm, and before building when a request is vague, complex or has open design choices.'
 allowed-tools: Read, Glob, Grep
 ---
 
@@ -161,3 +161,114 @@ allowed-tools: Read, Glob, Grep
 | "I think" phrases | Uncertainty → Ask instead |
 
 ---
+
+---
+## /brainstorm - Structured Idea Exploration
+
+The request is the text that follows `/brainstorm`.
+
+---
+
+### Purpose
+
+This command activates BRAINSTORM mode for structured idea exploration. Use when you need to explore options before committing to an implementation.
+
+---
+
+### Behavior
+
+When `/brainstorm` is triggered:
+
+1. **Understand the goal**
+   - What problem are we solving?
+   - Who is the user?
+   - What constraints exist?
+
+2. **Generate options**
+   - Provide at least 3 different approaches
+   - Each with pros and cons
+   - Consider unconventional solutions
+
+3. **Compare and recommend**
+   - Summarize tradeoffs
+   - Give a recommendation with reasoning
+
+---
+
+### Output Format
+
+```markdown
+## 🧠 Brainstorm: [Topic]
+
+### Context
+[Brief problem statement]
+
+---
+
+### Option A: [Name]
+[Description]
+
+✅ **Pros:**
+- [benefit 1]
+- [benefit 2]
+
+❌ **Cons:**
+- [drawback 1]
+
+📊 **Effort:** Low | Medium | High
+
+---
+
+### Option B: [Name]
+[Description]
+
+✅ **Pros:**
+- [benefit 1]
+
+❌ **Cons:**
+- [drawback 1]
+- [drawback 2]
+
+📊 **Effort:** Low | Medium | High
+
+---
+
+### Option C: [Name]
+[Description]
+
+✅ **Pros:**
+- [benefit 1]
+
+❌ **Cons:**
+- [drawback 1]
+
+📊 **Effort:** Low | Medium | High
+
+---
+
+## 💡 Recommendation
+
+**Option [X]** because [reasoning].
+
+What direction would you like to explore?
+```
+
+---
+
+### Examples
+
+```
+/brainstorm authentication system
+/brainstorm state management for complex form
+/brainstorm database schema for social app
+/brainstorm caching strategy
+```
+
+---
+
+### Key Principles
+
+- **No code** - this is about ideas, not implementation
+- **Visual when helpful** - use diagrams for architecture
+- **Honest tradeoffs** - don't hide complexity
+- **Defer to user** - present options, let them decide

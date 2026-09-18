@@ -154,7 +154,7 @@ File to edit: UserService.ts
 | **mobile-developer** | Mobile Audit | `python .agents/skills/mobile-design/scripts/mobile_audit.py .` |
 | **database-architect** | Schema Validate | `python .agents/skills/database-design/scripts/schema_validator.py .` |
 | **frontend-specialist** | React Performance | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py .` |
-| **test-engineer** | Test Runner | `python .agents/skills/testing-patterns/scripts/test_runner.py .` |
+| **test-engineer** | Test Runner | `python .agents/skills/test/scripts/test_runner.py .` |
 | **qa-automation-engineer** | Playwright | `python .agents/skills/webapp-testing/scripts/playwright_runner.py <url>` |
 | **Any agent** | Lint & Types | the project's own tooling: `npm run lint`, `npx tsc --noEmit`, `ruff check`, `mypy` |
 

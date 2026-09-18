@@ -8,7 +8,7 @@
 - "Glob"
 - "Bash"
 "skills":
-- "brainstorming"
+- "brainstorm"
 - "clean-code"
 ---
 # Product Manager

@@ -88,7 +88,7 @@ Richiama i workflow tramite gli slash command:
 | `/html-it`       | Framework per output HTML di alta qualità |
 | `/scroll-film`   | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
 | `/latex`         | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
-| `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film-studio) + video (scroll-world) |
+| `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
 
 Esempio:
 

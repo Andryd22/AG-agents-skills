@@ -1,11 +1,11 @@
 ---
 name: plan
-description: Create project plan using project-planner agent. No code writing - only plan file generation.
+description: Write a project plan in docs/PLAN-{slug}.md with the project-planner agent, without writing code. Use when the user runs /plan or asks for a plan before building.
 ---
 
 # /plan - Project Planning Mode
 
-$ARGUMENTS
+The request is the text that follows `/plan`.
 
 ---
 
@@ -24,7 +24,7 @@ Use the `project-planner` agent with this context:
 
 ```
 CONTEXT:
-- User Request: $ARGUMENTS
+- User Request: [the text after /plan]
 - Mode: PLANNING ONLY (no code)
 - Output: docs/PLAN-{slug}.md (dynamic naming)
 

@@ -67,7 +67,7 @@ VERIFICATION_SUITE = [
     {
         "category": "Testing",
         "checks": [
-            ("Test Suite", ".agents/skills/testing-patterns/scripts/test_runner.py", True),
+            ("Test Suite", ".agents/skills/test/scripts/test_runner.py", True),
         ]
     },
 

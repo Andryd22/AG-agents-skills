@@ -1,11 +1,11 @@
 ---
 name: deploy
-description: Deployment command for production releases. Pre-flight checks and deployment execution.
+description: 'Production deployment: pre-flight checks, build, deploy, health check and rollback. Use when the user runs /deploy or asks to deploy, publish to staging/production or roll back.'
 ---
 
 # /deploy - Production Deployment
 
-$ARGUMENTS
+The request is the text that follows `/deploy`.
 
 ---
 

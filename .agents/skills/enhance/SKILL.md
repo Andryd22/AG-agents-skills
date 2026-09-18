@@ -1,11 +1,11 @@
 ---
 name: enhance
-description: Add or update features in existing application. Used for iterative development.
+description: 'Add or change features in an existing application: read the project state, plan the change, get approval for large changes, apply and test. Use when the user runs /enhance or asks to extend an app that already exists.'
 ---
 
 # /enhance - Update Application
 
-$ARGUMENTS
+The request is the text that follows `/enhance`.
 
 ---
 

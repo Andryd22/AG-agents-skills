@@ -1,11 +1,11 @@
 ---
 name: status
-description: Display agent and project status. Progress tracking and status board.
+description: 'Show project and agent status: stack, features, pending work, file counts and preview server. Use when the user runs /status or asks where the project stands.'
 ---
 
 # /status - Show Status
 
-$ARGUMENTS
+The request is the text that follows `/status`.
 
 ---
 

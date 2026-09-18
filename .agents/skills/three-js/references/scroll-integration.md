@@ -48,7 +48,7 @@ tl.fromTo(camera.position, { z: 12 }, { z: 2 })
 
 ## Lenis smooth scroll (optional)
 
-Integration documented by Lenis, same as `scroll-film-studio/references/engine.md`: GSAP's ticker drives Lenis, so there is one loop and no `scrollerProxy`.
+Integration documented by Lenis, same as `scroll-film/references/engine.md`: GSAP's ticker drives Lenis, so there is one loop and no `scrollerProxy`.
 
 ```js
 const lenis = new Lenis({ smoothWheel: true });

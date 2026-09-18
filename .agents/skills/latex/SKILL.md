@@ -1,11 +1,11 @@
 ---
 name: latex
-description: Write or review academic LaTeX. Delegates to the latex-specialist agent, which applies the latex-tutor (generation) and latex-review (audit) skills. Use to turn slides/notes into textbook chapters or to audit a LaTeX project before submission.
+description: Write or review academic LaTeX. Delegates to the latex-specialist agent, which applies the latex-tutor (generation) and latex-review (audit) skills. Use to turn slides/notes into textbook chapters or to audit a LaTeX project before submission. Use when the user runs /latex.
 ---
 
 # /latex — Academic LaTeX Workflow
 
-$ARGUMENTS
+The request is the text that follows `/latex`.
 
 ---
 
@@ -22,7 +22,7 @@ Activate the **latex-specialist** agent to write or recheck LaTeX. The agent run
 
 ## Mode Detection
 
-Read `$ARGUMENTS` and pick the mode:
+Read the request and pick the mode:
 
 | Signal in request | Mode |
 |-------------------|------|
@@ -34,11 +34,11 @@ Read `$ARGUMENTS` and pick the mode:
 
 ## Flow
 
-1. **Detect mode** from `$ARGUMENTS` (see table above).
+1. **Detect mode** from the request (see table above).
 2. **Delegate to the agent** with full context:
 
    ```
-   Use the latex-specialist agent to [generate chapter from / audit] the LaTeX in $ARGUMENTS.
+   Use the latex-specialist agent to [generate chapter from / audit] the LaTeX in [files or inputs from the request].
 
    CONTEXT:
    - User Request: [full text]

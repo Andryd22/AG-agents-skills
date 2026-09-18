@@ -40,7 +40,7 @@ Specialist AI personas. `GEMINI.md` routes every request through `intelligent-ro
 | `orchestrator` | Multi-agent coordination | parallel-agents, brainstorming, architecture, powershell-windows |
 | `project-planner` | Discovery, task planning | app-builder, brainstorming |
 | `explorer-agent` | Codebase analysis | architecture, brainstorming, systematic-debugging |
-| `frontend-specialist` | Web UI/UX, performance, SEO | nextjs-react-expert, typescript-expert, web-design-guidelines, tailwind-patterns, frontend-design, scroll-film-studio |
+| `frontend-specialist` | Web UI/UX, performance, SEO | nextjs-react-expert, typescript-expert, web-design-guidelines, tailwind-patterns, frontend-design, scroll-film |
 | `backend-specialist` | API, business logic, security review | nodejs-best-practices, typescript-expert, python-patterns, api-patterns, database-design, powershell-windows, rust-pro |
 | `api-designer` | API contracts, OpenAPI | api-patterns, nodejs-best-practices |
 | `database-architect` | Schema, SQL, migrations | database-design |
@@ -50,7 +50,7 @@ Specialist AI personas. `GEMINI.md` routes every request through `intelligent-ro
 | `qa-automation-engineer` | E2E testing, CI test jobs | webapp-testing, testing-patterns, web-design-guidelines |
 | `debugger` | Root cause analysis | systematic-debugging |
 | `ai-ml-engineer` | LLM, RAG, prompt design | prompt-engineering, api-patterns |
-| `scroll-experience-architect` | Scroll experiences 3D/cinematic/video | three-js, scroll-film-studio, scroll-world |
+| `scroll-experience-architect` | Scroll experiences 3D/cinematic/video | three-js, scroll-film, scroll-world |
 | `latex-specialist` | Academic LaTeX, papers | latex-tutor, latex-review, html-it |
 | `documentation-writer` | Docs (only on request) | html-it |
 | `product-manager` | Requirements, user stories | brainstorming |
@@ -70,7 +70,7 @@ Modular knowledge domains that agents load on demand, based on task context.
 | ---------------------- | ------------------------------------------------- |
 | `intelligent-routing`  | Picks the right agent(s) for each request         |
 | `clean-code`           | Coding standards (global)                         |
-| `brainstorming`        | Socratic Gate, clarifying questions               |
+| `brainstorm`        | Socratic Gate, clarifying questions               |
 | `parallel-agents`      | Multi-agent orchestration patterns                |
 | `systematic-debugging` | 4-phase root cause analysis                       |
 | `caveman-mode`         | Terse, token-efficient responses                  |
@@ -90,7 +90,7 @@ Modular knowledge domains that agents load on demand, based on task context.
 | Skill                | Description                                                            |
 | -------------------- | ---------------------------------------------------------------------- |
 | `three-js`           | Scroll-driven Three.js/WebGL scenes — scene, camera, scroll, perf      |
-| `scroll-film-studio` | Continuous cinematic scroll-scrubbed websites (scrollytelling)         |
+| `scroll-film` | Continuous cinematic scroll-scrubbed websites (scrollytelling)         |
 | `scroll-world`       | "Fly through the world" landing pages from pre-rendered video          |
 
 ### Backend & API
@@ -165,7 +165,7 @@ Slash command procedures. Invoke with `/command`.
 | `/ui-ux-pro-max`     | Design with the searchable design database              |
 | `/html-it`           | HTML output instead of markdown                         |
 | `/scroll-film`       | Animated scroll-film sites                              |
-| `/scroll-experience` | Unifies three-js + scroll-film-studio + scroll-world    |
+| `/scroll-experience` | Unifies three-js + scroll-film + scroll-world    |
 | `/caveman`           | Toggle Caveman Mode                                     |
 | `/latex`             | Academic LaTeX writing/review                           |
 
@@ -229,8 +229,8 @@ The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 | `nextjs-react-expert` | `convert_rules.py`              | Rebuilds the rule files                   |
 | `testing-patterns`    | `test_runner.py`                | Runs the project's test suite             |
 | `webapp-testing`      | `playwright_runner.py`          | E2E smoke test of a running URL           |
-| `scroll-film-studio`  | `assemble.sh`, `chain-step.sh`  | Video chain assembly (bash, ffmpeg ≥ 5.1) |
-| `scroll-film-studio`  | `verify.js`                     | Screenshots + jank test (puppeteer-core)  |
+| `scroll-film`  | `assemble.sh`, `chain-step.sh`  | Video chain assembly (bash, ffmpeg ≥ 5.1) |
+| `scroll-film`  | `verify.js`                     | Screenshots + jank test (puppeteer-core)  |
 
 `scroll-world/references/` also ships `knockout.py` (background removal) and `scrub-engine.js` (the scrub engine).
 
@@ -262,5 +262,5 @@ Counts are checked by `.github/scripts/validate_kit.py` in CI.
 | Debug        | `debugger`                    | systematic-debugging                   |
 | Plan         | `project-planner`             | brainstorming, app-builder             |
 | AI / LLM     | `ai-ml-engineer`              | prompt-engineering                     |
-| Scroll / 3D  | `scroll-experience-architect` | three-js, scroll-film-studio, scroll-world |
+| Scroll / 3D  | `scroll-experience-architect` | three-js, scroll-film, scroll-world |
 | LaTeX        | `latex-specialist`            | latex-tutor, latex-review              |

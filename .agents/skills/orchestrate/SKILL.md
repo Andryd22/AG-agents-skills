@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Coordinate multiple agents for complex tasks. Use for multi-perspective analysis, comprehensive reviews, or tasks requiring different domain expertise.
+description: 'Coordinate at least three specialist agents on a complex, multi-domain task: plan first with project-planner, get approval, then delegate in parallel and verify. Use when the user runs /orchestrate or the task spans several domains.'
 ---
 
 # Multi-Agent Orchestration
@@ -8,7 +8,8 @@ description: Coordinate multiple agents for complex tasks. Use for multi-perspec
 You are now in **ORCHESTRATION MODE**. Your task: coordinate specialized agents to solve this complex problem.
 
 ## Task to Orchestrate
-$ARGUMENTS
+
+The request is the text that follows `/orchestrate`.
 
 ---
 

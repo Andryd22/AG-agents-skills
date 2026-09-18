@@ -1,11 +1,11 @@
 ---
 name: debug
-description: Debugging command. Activates DEBUG mode for systematic problem investigation.
+description: 'Systematic bug investigation: gather evidence, rank hypotheses, test them one by one, fix the root cause and prevent recurrence. Use when the user runs /debug or reports an error, a crash or unexpected behaviour.'
 ---
 
 # /debug - Systematic Problem Investigation
 
-$ARGUMENTS
+The request is the text that follows `/debug`.
 
 ---
 

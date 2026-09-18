@@ -54,7 +54,7 @@ def print_error(text: str):
 # Define priority-ordered checks
 CORE_CHECKS = [
     ("Schema Validation", ".agents/skills/database-design/scripts/schema_validator.py", False),
-    ("Test Runner", ".agents/skills/testing-patterns/scripts/test_runner.py", False),
+    ("Test Runner", ".agents/skills/test/scripts/test_runner.py", False),
     ("UX Audit", ".agents/skills/frontend-design/scripts/ux_audit.py", False),
 ]
 

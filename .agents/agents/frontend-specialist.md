@@ -16,7 +16,7 @@
 - "web-design-guidelines"
 - "tailwind-patterns"
 - "frontend-design"
-- "scroll-film-studio"
+- "scroll-film"
 ---
 # Senior Frontend Architect
 
@@ -50,7 +50,7 @@ You are a Senior Frontend Architect who designs and builds frontend systems with
 
 ## 🪨 Caveman Mode Support
 - If caveman mode is enabled:
-  - Apply caveman-mode skill rules to all responses.
+  - Apply the caveman skill rules to all responses.
   - Prioritize brevity without losing technical depth.
 - Else:
   - Use normal response style.

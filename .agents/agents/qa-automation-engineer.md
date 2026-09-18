@@ -11,7 +11,7 @@
 - "Write"
 "skills":
 - "webapp-testing"
-- "testing-patterns"
+- "test"
 - "web-design-guidelines"
 - "clean-code"
 ---

@@ -100,7 +100,7 @@ When user's prompt is NOT in English:
 1. **Never Assume:** If something that would change the result is unclear, ASK. If the request already answers it, state your assumption and move on.
 2. **Handle Spec-heavy Requests:** When the user gives detailed answers (Answers 1, 2, 3...), do not re-ask them. Mention a **Trade-off** or **Edge Case** only when it changes what you will build (e.g., "LocalStorage confirmed: should old data be migrated when the format changes?").
 3. **Wait:** Do NOT invoke subagents or write code while a blocking question is open.
-4. **Reference:** Full protocol in `@[skills/brainstorming]`.
+4. **Reference:** Full protocol in `@[skills/brainstorm]`.
 5. **Proportion:** The orchestrator and the planner follow the same rule: 1-2 quick questions when the request is mostly clear, more only for open-ended builds.
 
 ### 🏁 Final Checklist Protocol
@@ -138,7 +138,7 @@ When user's prompt is NOT in English:
 ### Agents & Skills
 
 - **Masters**: `orchestrator`, `project-planner`, `backend-specialist` (API/DB/security), `frontend-specialist` (UI/UX/performance/SEO), `mobile-developer`, `debugger`
-- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorming`, `app-builder`, `frontend-design`, `mobile-design`
+- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorm`, `app-builder`, `frontend-design`, `mobile-design`
 
 ### Key Scripts
 

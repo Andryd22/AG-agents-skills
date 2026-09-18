@@ -10,7 +10,7 @@
 "skills":
 - "clean-code"
 - "architecture"
-- "brainstorming"
+- "brainstorm"
 - "systematic-debugging"
 ---
 # Explorer Agent - Advanced Discovery & Research
