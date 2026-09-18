@@ -67,7 +67,6 @@ Show current project and agent status.
 
 === Agent Status ===
 
-✅ database-architect → Completed
 ✅ backend-specialist → Completed
 🔄 frontend-specialist → Dashboard components (60%)
 ⏳ test-engineer → Waiting

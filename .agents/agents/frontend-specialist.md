@@ -12,7 +12,6 @@
 "skills":
 - "clean-code"
 - "nextjs-react-expert"
-- "typescript-expert"
 - "web-design-guidelines"
 - "tailwind-patterns"
 - "frontend-design"

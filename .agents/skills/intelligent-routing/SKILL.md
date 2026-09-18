@@ -57,12 +57,12 @@ graph TD
 | **Web App**          | "webapp", "nextjs", "react", "vue"                  | `frontend-specialist` + `backend-specialist` + `test-engineer`            | ⚠️ ASK FIRST     |
 | **API Design**       | "API design", "OpenAPI", "contract", "versioning"   | `api-designer`                                                            | ✅ YES           |
 | **API Endpoint**     | "endpoint", "route", "POST", "GET"                  | `backend-specialist` + `test-engineer`                                    | ✅ YES           |
-| **Database**         | "schema", "migration", "query", "table"             | `database-architect` + `backend-specialist`                               | ✅ YES           |
+| **Database**         | "schema", "migration", "query", "table"             | `backend-specialist`                                                      | ✅ YES           |
 | **Bug Fix**          | "error", "bug", "not working", "broken"             | `debugger` + `explorer-agent` + `test-engineer`                           | ✅ YES           |
 | **Unit/Integration** | "test", "coverage", "unit", "tdd"                   | `test-engineer`                                                           | ✅ YES           |
 | **E2E / QA**         | "e2e", "playwright", "cypress", "regression"        | `qa-automation-engineer`                                                  | ✅ YES           |
-| **Deployment**       | "deploy", "production", "CI/CD", "docker"           | `devops-engineer`                                                         | ✅ YES           |
-| **Security Review**  | "security", "vulnerability", "owasp"                | `backend-specialist` + `devops-engineer` (no dedicated security agent)    | ✅ YES           |
+| **Deployment**       | "deploy", "production", "CI/CD", "docker"           | `backend-specialist` (with the `deploy` skill)                            | ✅ YES           |
+| **Security Review**  | "security", "vulnerability", "owasp"                | `backend-specialist` (no dedicated security agent)                        | ✅ YES           |
 | **Performance**      | "slow", "optimize", "performance", "speed"          | `frontend-specialist` (web) or `backend-specialist` (server)              | ✅ YES           |
 | **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap"         | `frontend-specialist`                                                     | ✅ YES           |
 | **AI / LLM**         | "LLM", "RAG", "prompt", "embedding", "AI agent"     | `ai-ml-engineer`                                                          | ✅ YES           |
@@ -70,10 +70,10 @@ graph TD
 | **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter"       | `latex-specialist`                                                        | ✅ YES           |
 | **Documentation**    | "README", "API docs", "changelog"                   | `documentation-writer`                                                    | ❌ ONLY IF ASKED |
 | **Codebase Survey**  | "analyze repo", "explain codebase", "map structure" | `explorer-agent`                                                          | ✅ YES           |
-| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-manager`                                                         | ✅ YES           |
+| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-owner`                                                           | ✅ YES           |
 | **Product Strategy** | "backlog", "roadmap", "MVP", "PRD", "stakeholder"   | `product-owner`                                                           | ✅ YES           |
 | **Planning**         | "plan", "break down", "task list"                   | `project-planner`                                                         | ✅ YES           |
-| **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist` + `devops-engineer` | ⚠️ ASK FIRST |
+| **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist`          | ⚠️ ASK FIRST     |
 | **New Feature**      | "build", "create", "implement", "new app"           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
 | **Complex Task**     | Multiple domains detected                           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
 
@@ -132,15 +132,15 @@ function analyzeRequest(userMessage) {
 | **Backend**     | api, server, express, fastapi, node, auth, jwt   | `backend-specialist`          |
 | **API Design**  | openapi, graphql schema, contract, versioning    | `api-designer`                |
 | **Mobile**      | react native, flutter, ios, android, expo        | `mobile-developer`            |
-| **Database**    | prisma, sql, mongodb, schema, migration          | `database-architect`          |
+| **Database**    | prisma, sql, mongodb, schema, migration          | `backend-specialist`          |
 | **Testing**     | test, jest, vitest, pytest, coverage             | `test-engineer`               |
 | **E2E / QA**    | playwright, cypress, e2e, regression suite       | `qa-automation-engineer`      |
-| **DevOps**      | docker, kubernetes, ci/cd, pm2, nginx            | `devops-engineer`             |
+| **DevOps**      | docker, kubernetes, ci/cd, pm2, nginx            | `backend-specialist`          |
 | **Debug**       | error, bug, crash, not working, issue            | `debugger`                    |
 | **AI / LLM**    | llm, rag, prompt, embeddings, vector store       | `ai-ml-engineer`              |
 | **Scroll / 3D** | three.js, webgl, scrollytelling, gsap scroll     | `scroll-experience-architect` |
 | **Academic**    | latex, tikz, thesis, lecture notes to chapters   | `latex-specialist`            |
-| **Product**     | user story, acceptance criteria, backlog, mvp    | `product-manager` / `product-owner` |
+| **Product**     | user story, acceptance criteria, backlog, mvp    | `product-owner`               |
 
 ### Multi-Domain Tasks (Auto-invoke Orchestrator)
 

@@ -28,8 +28,7 @@ This command starts a new application creation process.
 3. **Application Building (After Approval)**
    - Orchestrate with `app-builder` skill
    - Coordinate expert agents:
-     - `database-architect` → Schema
-     - `backend-specialist` → API
+     - `backend-specialist` → Schema and API
      - `frontend-specialist` → UI
 
 4. **Preview**

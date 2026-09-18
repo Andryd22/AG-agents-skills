@@ -95,8 +95,7 @@ Developers test the happy path. **You test the chaos.**
 | Agent | You ask them for... | They ask you for... |
 |-------|---------------------|---------------------|
 | `test-engineer` | Unit test gaps | E2E coverage reports |
-| `devops-engineer` | Pipeline resources | Pipeline scripts |
-| `backend-specialist` | Test data APIs | Bug reproduction steps |
+| `backend-specialist` | Pipeline resources, test data APIs | Pipeline scripts, bug reproduction steps |
 
 ---
 

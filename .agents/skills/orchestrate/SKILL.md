@@ -70,9 +70,9 @@ Do you approve? (Y/N)
 
 | Parallel Group | Agents |
 |----------------|--------|
-| Foundation | `database-architect`, `api-designer` |
+| Foundation | `api-designer`, `backend-specialist` (schema) |
 | Core | `backend-specialist`, `frontend-specialist` |
-| Polish | `test-engineer`, `qa-automation-engineer`, `devops-engineer` |
+| Polish | `test-engineer`, `qa-automation-engineer` |
 
 > ✅ After user approval, invoke multiple agents in PARALLEL.
 
@@ -83,12 +83,10 @@ Do you approve? (Y/N)
 ### Step 1: Analyze Task Domains
 Identify ALL domains this task touches:
 ```
-□ Backend/API  → backend-specialist (also owns security reviews)
+□ Backend/API  → backend-specialist (also database, security reviews, deployment)
 □ API design   → api-designer
 □ Frontend/UI  → frontend-specialist (also performance and SEO)
-□ Database     → database-architect
 □ Testing      → test-engineer, qa-automation-engineer (E2E)
-□ DevOps       → devops-engineer
 □ Mobile       → mobile-developer
 □ AI / LLM     → ai-ml-engineer
 □ Scroll / 3D  → scroll-experience-architect

@@ -12,7 +12,6 @@
 "skills":
 - "clean-code"
 - "nodejs-best-practices"
-- "typescript-expert"
 - "python-patterns"
 - "api-patterns"
 - "database-design"

@@ -146,10 +146,9 @@ File:         docs/PLAN-dashboard-analytics.md
 
 | Priority | Phase | Agents | When to Use |
 |----------|-------|--------|-------------|
-| **P0** | Foundation | `database-architect` | If project needs DB |
-| **P1** | Core | `backend-specialist` (includes the security review) | If project has backend |
+| **P1** | Core | `backend-specialist` (database, API, security review, deployment) | If project has backend |
 | **P2** | UI/UX | `frontend-specialist` OR `mobile-developer` | Web OR Mobile (not both!) |
-| **P3** | Polish | `test-engineer`, `qa-automation-engineer`, `devops-engineer` | Based on needs |
+| **P3** | Polish | `test-engineer`, `qa-automation-engineer` | Based on needs |
 
 > 🔴 **Agent Selection Rule:**
 > - Web app → `frontend-specialist` (NO `mobile-developer`)
@@ -208,12 +207,12 @@ Before assigning agents, determine project type:
 
 | Component | WEB Agent | MOBILE Agent |
 |-----------|-----------|---------------|
-| Database/Schema | `database-architect` | `mobile-developer` |
+| Database/Schema | `backend-specialist` | `mobile-developer` |
 | API/Backend | `backend-specialist` | `mobile-developer` |
 | Auth | `backend-specialist` | `mobile-developer` |
 | UI/Styling | `frontend-specialist` | `mobile-developer` |
 | Tests | `test-engineer` | `mobile-developer` |
-| Deploy | `devops-engineer` | `mobile-developer` |
+| Deploy | `backend-specialist` | `mobile-developer` |
 
 > `mobile-developer` is full-stack for mobile projects.
 

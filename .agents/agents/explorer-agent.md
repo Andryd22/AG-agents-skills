@@ -11,7 +11,7 @@
 - "clean-code"
 - "architecture"
 - "brainstorm"
-- "systematic-debugging"
+- "debug"
 ---
 # Explorer Agent - Advanced Discovery & Research
 

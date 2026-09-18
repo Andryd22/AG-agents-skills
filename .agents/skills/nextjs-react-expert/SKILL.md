@@ -111,10 +111,9 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 | ----------------------- | --------------------------------- |
 | API design patterns     | `@[skills/api-patterns]`          |
 | Database optimization   | `@[skills/database-design]`       |
-| Testing strategies      | `@[skills/test]`      |
+| Testing strategies      | `@[skills/test]`                  |
 | UI/UX design principles | `@[skills/frontend-design]`       |
-| TypeScript patterns     | `@[skills/typescript-expert]`     |
-| Deployment & DevOps     | `@[skills/server-management]`     |
+| Deployment              | `@[skills/deploy]`                |
 
 ---
 

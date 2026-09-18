@@ -127,11 +127,9 @@ Before I coordinate the agents, I need to understand your requirements better:
 | Agent | CAN Do | CANNOT Do |
 |-------|--------|-----------|
 | `frontend-specialist` | Components, UI, styles, hooks | ❌ Test files, API routes, DB |
-| `backend-specialist` | API, server logic, DB queries | ❌ UI components, styles |
+| `backend-specialist` | API, server logic, database schema and migrations, deployment config | ❌ UI components, styles |
 | `test-engineer` | Test files, mocks, coverage | ❌ Production code |
 | `mobile-developer` | RN/Flutter components, mobile UX | ❌ Web components |
-| `database-architect` | Schema, migrations, queries | ❌ UI, API logic |
-| `devops-engineer` | CI/CD, deployment, infra config | ❌ Application code |
 | `api-designer` | API specs, OpenAPI, GraphQL schema | ❌ UI code |
 | `qa-automation-engineer` | E2E suites, test infrastructure, CI test jobs | ❌ Production code |
 | `ai-ml-engineer` | LLM integration, RAG, prompts, embeddings | ❌ UI components |
@@ -139,7 +137,7 @@ Before I coordinate the agents, I need to understand your requirements better:
 | `latex-specialist` | LaTeX documents, TikZ, academic formatting | ❌ Application code |
 | `documentation-writer` | Docs, README, comments | ❌ Code logic, **auto-invoke without explicit request** |
 | `project-planner` | `docs/PLAN-{slug}.md`, task breakdown | ❌ Code files |
-| `product-manager` / `product-owner` | Requirements, user stories, backlog | ❌ Code files |
+| `product-owner` | Requirements, user stories, backlog | ❌ Code files |
 | `debugger` | Bug fixes, root cause | ❌ New features |
 | `explorer-agent` | Codebase discovery | ❌ Write operations |
 
@@ -153,7 +151,7 @@ Before I coordinate the agents, I need to understand your requirements better:
 | `**/__tests__/**` | `test-engineer` | ❌ All others |
 | `**/components/**` | `frontend-specialist` | ❌ backend, test |
 | `**/api/**`, `**/server/**` | `backend-specialist` | ❌ frontend |
-| `**/prisma/**`, `**/drizzle/**` | `database-architect` | ❌ frontend |
+| `**/prisma/**`, `**/drizzle/**` | `backend-specialist` | ❌ frontend |
 
 ### Enforcement Protocol
 
@@ -365,7 +363,7 @@ I'll coordinate multiple agents for a comprehensive review:
 2. Now using backend-specialist to review the implementation and its security posture...
    [Agent executes, returns findings]
 
-3. Having database-architect check how credentials and sessions are stored...
+3. Having backend-specialist check how credentials and sessions are stored...
    [Agent executes, returns findings]
 
 4. Finally, test-engineer to check test coverage...

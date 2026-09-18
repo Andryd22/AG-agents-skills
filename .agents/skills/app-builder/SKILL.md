@@ -50,9 +50,7 @@ Quick-start scaffolding for new projects. **Read the matching template only!**
 |-------|------|
 | `project-planner` | Task breakdown, dependency graph |
 | `frontend-specialist` | UI components, pages |
-| `backend-specialist` | API, business logic |
-| `database-architect` | Schema, migrations |
-| `devops-engineer` | Deployment, preview |
+| `backend-specialist` | API, business logic, schema and migrations, deployment |
 
 ---
 

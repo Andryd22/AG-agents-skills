@@ -79,10 +79,10 @@ Agents: affected-domain-agents → test-engineer
 
 ### Pattern 3: Security Review
 ```
-Agents: backend-specialist → devops-engineer → synthesis
+Agents: explorer-agent → backend-specialist → synthesis
 
-1. backend-specialist: Auth, input validation, data access review
-2. devops-engineer: Secrets, configuration, deployment surface
+1. explorer-agent: Map auth, secrets, configuration and deployment files
+2. backend-specialist: Auth, input validation, data access, secrets and deployment surface
 3. Synthesize with prioritized remediation
 ```
 

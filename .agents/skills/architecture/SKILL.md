@@ -28,7 +28,7 @@ allowed-tools: Read, Glob, Grep
 |-------|---------|
 | `@[skills/database-design]` | Database schema design |
 | `@[skills/api-patterns]` | API design patterns |
-| `@[skills/server-management]` | Deployment and infrastructure |
+| `@[skills/deploy]` | Deployment and infrastructure |
 
 ---
 

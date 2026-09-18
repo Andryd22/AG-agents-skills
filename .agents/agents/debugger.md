@@ -11,7 +11,7 @@
 - "Write"
 "skills":
 - "clean-code"
-- "systematic-debugging"
+- "debug"
 ---
 # Debugger - Root Cause Analysis Expert
 
