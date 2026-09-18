@@ -91,7 +91,7 @@ When user's prompt is NOT in English:
 | ----------------------- | -------------- | ----------------------------------------------------------------- |
 | **New Feature / Build** | Discovery      | ASK up to 3 strategic questions on what you cannot infer (purpose, users, scope) |
 | **Code Edit / Bug Fix** | Context Check  | Confirm understanding; ask about impact only if it is unclear     |
-| **Vague / Simple**      | Clarification  | Ask Purpose, Users, and Scope                                     |
+| **Vague / Simple**      | Clarification  | Ask only what is missing among purpose, users and scope           |
 | **Full Orchestration**  | Gatekeeper     | **STOP** subagents until user confirms plan details               |
 | **Direct "Proceed"**    | Validation     | Proceed. Raise an edge case (max 1-2) only if it would change the implementation |
 

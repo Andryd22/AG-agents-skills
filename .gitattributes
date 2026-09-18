@@ -1,0 +1,2 @@
+# bash rejects scripts with CRLF line endings, whatever core.autocrlf says
+*.sh text eol=lf
