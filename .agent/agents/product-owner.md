@@ -8,7 +8,6 @@
 - "Glob"
 - "Bash"
 "skills":
-- "plan-writing"
 - "brainstorming"
 - "clean-code"
 ---

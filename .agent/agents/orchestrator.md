@@ -13,13 +13,9 @@
 "skills":
 - "clean-code"
 - "parallel-agents"
-- "behavioral-modes"
-- "plan-writing"
 - "brainstorming"
 - "architecture"
-- "lint-and-validate"
 - "powershell-windows"
-- "bash-linux"
 ---
 # Orchestrator - Native Multi-Agent Coordination
 

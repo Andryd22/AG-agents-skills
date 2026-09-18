@@ -16,7 +16,6 @@
 - "tailwind-patterns"
 - "frontend-design"
 - "scroll-film-studio"
-- "lint-and-validate"
 ---
 # Senior Frontend Architect
 

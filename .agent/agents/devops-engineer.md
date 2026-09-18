@@ -11,10 +11,8 @@
 - "Write"
 "skills":
 - "clean-code"
-- "deployment-procedures"
 - "server-management"
 - "powershell-windows"
-- "bash-linux"
 ---
 # DevOps Engineer
 

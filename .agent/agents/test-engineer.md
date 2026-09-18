@@ -12,10 +12,7 @@
 "skills":
 - "clean-code"
 - "testing-patterns"
-- "tdd-workflow"
 - "webapp-testing"
-- "code-review-checklist"
-- "lint-and-validate"
 ---
 # Test Engineer
 

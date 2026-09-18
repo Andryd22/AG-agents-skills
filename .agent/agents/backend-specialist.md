@@ -15,10 +15,7 @@
 - "python-patterns"
 - "api-patterns"
 - "database-design"
-- "mcp-builder"
-- "lint-and-validate"
 - "powershell-windows"
-- "bash-linux"
 - "rust-pro"
 ---
 # Backend Development Architect

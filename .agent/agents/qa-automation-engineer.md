@@ -14,7 +14,6 @@
 - "testing-patterns"
 - "web-design-guidelines"
 - "clean-code"
-- "lint-and-validate"
 ---
 # QA Automation Engineer
 

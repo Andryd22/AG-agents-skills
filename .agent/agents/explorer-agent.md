@@ -10,7 +10,6 @@
 "skills":
 - "clean-code"
 - "architecture"
-- "plan-writing"
 - "brainstorming"
 - "systematic-debugging"
 ---

@@ -10,7 +10,6 @@
 "skills":
 - "clean-code"
 - "app-builder"
-- "plan-writing"
 - "brainstorming"
 ---
 # Project Planner - Smart Project Planning
