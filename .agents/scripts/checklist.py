@@ -53,14 +53,14 @@ def print_error(text: str):
 
 # Define priority-ordered checks
 CORE_CHECKS = [
-    ("Schema Validation", ".agent/skills/database-design/scripts/schema_validator.py", False),
-    ("Test Runner", ".agent/skills/testing-patterns/scripts/test_runner.py", False),
-    ("UX Audit", ".agent/skills/frontend-design/scripts/ux_audit.py", False),
+    ("Schema Validation", ".agents/skills/database-design/scripts/schema_validator.py", False),
+    ("Test Runner", ".agents/skills/testing-patterns/scripts/test_runner.py", False),
+    ("UX Audit", ".agents/skills/frontend-design/scripts/ux_audit.py", False),
 ]
 
 # Checks that need a running app: they receive the URL instead of the project path
 PERFORMANCE_CHECKS = [
-    ("Playwright E2E", ".agent/skills/webapp-testing/scripts/playwright_runner.py", False),
+    ("Playwright E2E", ".agents/skills/webapp-testing/scripts/playwright_runner.py", False),
 ]
 
 def check_script_exists(script_path: Path) -> bool:

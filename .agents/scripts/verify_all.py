@@ -59,7 +59,7 @@ VERIFICATION_SUITE = [
     {
         "category": "Data Layer",
         "checks": [
-            ("Schema Validation", ".agent/skills/database-design/scripts/schema_validator.py", False),
+            ("Schema Validation", ".agents/skills/database-design/scripts/schema_validator.py", False),
         ]
     },
 
@@ -67,7 +67,7 @@ VERIFICATION_SUITE = [
     {
         "category": "Testing",
         "checks": [
-            ("Test Suite", ".agent/skills/testing-patterns/scripts/test_runner.py", True),
+            ("Test Suite", ".agents/skills/testing-patterns/scripts/test_runner.py", True),
         ]
     },
 
@@ -75,7 +75,7 @@ VERIFICATION_SUITE = [
     {
         "category": "API",
         "checks": [
-            ("API Validation", ".agent/skills/api-patterns/scripts/api_validator.py", False),
+            ("API Validation", ".agents/skills/api-patterns/scripts/api_validator.py", False),
         ]
     },
 
@@ -83,8 +83,8 @@ VERIFICATION_SUITE = [
     {
         "category": "UX & Accessibility",
         "checks": [
-            ("UX Audit", ".agent/skills/frontend-design/scripts/ux_audit.py", False),
-            ("Accessibility Check", ".agent/skills/frontend-design/scripts/accessibility_checker.py", False),
+            ("UX Audit", ".agents/skills/frontend-design/scripts/ux_audit.py", False),
+            ("Accessibility Check", ".agents/skills/frontend-design/scripts/accessibility_checker.py", False),
         ]
     },
 
@@ -93,7 +93,7 @@ VERIFICATION_SUITE = [
         "category": "E2E Testing",
         "requires_url": True,
         "checks": [
-            ("Playwright E2E", ".agent/skills/webapp-testing/scripts/playwright_runner.py", False),
+            ("Playwright E2E", ".agents/skills/webapp-testing/scripts/playwright_runner.py", False),
         ]
     },
 
@@ -101,7 +101,7 @@ VERIFICATION_SUITE = [
     {
         "category": "Mobile",
         "checks": [
-            ("Mobile Audit", ".agent/skills/mobile-design/scripts/mobile_audit.py", False),
+            ("Mobile Audit", ".agents/skills/mobile-design/scripts/mobile_audit.py", False),
         ]
     },
 ]

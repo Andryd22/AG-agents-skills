@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Antigravity Kit (.agent/) before it ships.
+"""Validate the Antigravity Kit (.agents/) before it ships.
 
 Run from the repository root:  python .github/scripts/validate_kit.py
 Needs PyYAML (pip install pyyaml). Node is optional: without it the
@@ -22,7 +22,7 @@ except ImportError:
     sys.exit("PyYAML missing: pip install pyyaml")
 
 ROOT = Path(__file__).resolve().parents[2]
-KIT = ROOT / ".agent"
+KIT = ROOT / ".agents"
 SKILLS, AGENTS, WORKFLOWS, RULES = (KIT / d for d in ("skills", "agents", "workflows", "rules"))
 
 errors, warnings = [], []
@@ -153,7 +153,7 @@ AGENT_REF = re.compile(
     r"(?:@|`)([a-z]+(?:-[a-z]+)*-(?:specialist|engineer|architect|writer|agent|planner|manager|owner"
     r"|developer|designer|tester|auditor|optimizer|archaeologist))\b"
 )
-SKILL_REF = re.compile(r"@\[skills/([\w-]+)\]|\.agent/skills/([\w-]+)/|@\[agents/([\w-]+)\]")
+SKILL_REF = re.compile(r"@\[skills/([\w-]+)\]|\.agents/skills/([\w-]+)/|@\[agents/([\w-]+)\]")
 SCRIPT_REF = re.compile(r"(?:[\w./-]*/)?scripts/([\w-]+\.(?:py|sh|js))")
 kit_files = {p.name for p in KIT.rglob("*") if p.is_file()}
 # skills/README.md is a how-to guide whose examples name skills that do not exist on purpose
@@ -182,7 +182,7 @@ if routing.is_file():
 
 # ------------------------------------------------------------ master scripts
 for p in sorted((KIT / "scripts").glob("*.py")):
-    for m in re.finditer(r"\"(\.agent/[\w./-]+\.py)\"", text(p)):
+    for m in re.finditer(r"\"(\.agents/[\w./-]+\.py)\"", text(p)):
         if not (ROOT / m.group(1)).is_file():
             err(f"{rel(p)}: runs missing script {m.group(1)}")
 
@@ -240,7 +240,7 @@ arch = text(KIT / "ARCHITECTURE.md")
 for kind, names in (("agent", agent_names), ("skill", skill_names), ("workflow", workflow_names)):
     for n in sorted(names):
         if not re.search(rf"`/?{re.escape(n)}`", arch):
-            err(f".agent/ARCHITECTURE.md: {kind} '{n}' not listed")
+            err(f".agents/ARCHITECTURE.md: {kind} '{n}' not listed")
 
 # ---------------------------------------------------------- installer smoke
 node = shutil.which("node")
@@ -249,19 +249,19 @@ if node:
     expected = sum(1 for p in KIT.rglob("*") if p.is_file() and "__pycache__" not in p.parts)
     with tempfile.TemporaryDirectory() as tmp:
         r = subprocess.run([node, str(installer), "init", "-y"], cwd=tmp, capture_output=True, text=True)
-        got = sum(1 for p in (Path(tmp) / ".agent").rglob("*") if p.is_file()) if (Path(tmp) / ".agent").exists() else 0
+        got = sum(1 for p in (Path(tmp) / ".agents").rglob("*") if p.is_file()) if (Path(tmp) / ".agents").exists() else 0
         if r.returncode != 0 or got != expected:
             err(f"installer: init -y into empty project copied {got}/{expected} files (exit {r.returncode}) {r.stderr.strip()[:200]}")
-        # running inside the kit itself must refuse and leave .agent/ untouched
+        # running inside the kit itself must refuse and leave .agents/ untouched
         kit_copy = Path(tmp) / "kit"
         shutil.copytree(ROOT / "bin", kit_copy / "bin")
-        shutil.copytree(KIT, kit_copy / ".agent")
+        shutil.copytree(KIT, kit_copy / ".agents")
         shutil.copy(ROOT / "package.json", kit_copy / "package.json")
-        before = sum(1 for p in (kit_copy / ".agent").rglob("*") if p.is_file())
+        before = sum(1 for p in (kit_copy / ".agents").rglob("*") if p.is_file())
         r = subprocess.run([node, "bin/install.js", "init", "-y"], cwd=kit_copy, capture_output=True, text=True)
-        after = sum(1 for p in (kit_copy / ".agent").rglob("*") if p.is_file())
+        after = sum(1 for p in (kit_copy / ".agents").rglob("*") if p.is_file())
         if r.returncode == 0 or after != before:
-            err(f"installer: init -y inside the kit must fail and keep .agent/ ({before} -> {after} files, exit {r.returncode})")
+            err(f"installer: init -y inside the kit must fail and keep .agents/ ({before} -> {after} files, exit {r.returncode})")
 else:
     warn("node not found: installer smoke test skipped")
 

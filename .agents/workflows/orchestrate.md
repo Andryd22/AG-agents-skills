@@ -146,9 +146,9 @@ Use the project-planner agent to create docs/PLAN-student-social.md:
 ### Step 4: Verification (MANDATORY)
 The LAST agent must run appropriate verification scripts:
 ```bash
-python .agent/scripts/checklist.py .
+python .agents/scripts/checklist.py .
 # with a running app, the full suite:
-python .agent/scripts/verify_all.py . --url http://localhost:3000
+python .agents/scripts/verify_all.py . --url http://localhost:3000
 ```
 
 ### Step 5: Synthesize Results

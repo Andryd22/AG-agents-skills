@@ -6,7 +6,7 @@
     "ag-agents-skills": "./bin/install.js"
   },
   "files": [
-    ".agent/",
+    ".agents/",
     "bin/",
     "README.md"
   ],

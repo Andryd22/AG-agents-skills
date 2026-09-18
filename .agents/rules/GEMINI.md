@@ -64,13 +64,13 @@ When user's prompt is NOT in English:
 
 ### 🗺️ System Map Read
 
-> 🔴 **MANDATORY:** Read `.agent/ARCHITECTURE.md` at session start to understand Agents, Skills, and Scripts.
+> 🔴 **MANDATORY:** Read `.agents/ARCHITECTURE.md` at session start to understand Agents, Skills, and Scripts.
 
 **Path Awareness:**
 
-- Agents: `.agent/` (Project)
-- Skills: `.agent/skills/` (Project)
-- Runtime Scripts: `.agent/skills/<skill>/scripts/`
+- Agents: `.agents/` (Project)
+- Skills: `.agents/skills/` (Project)
+- Runtime Scripts: `.agents/skills/<skill>/scripts/`
 
 ### 🧠 Read → Understand → Apply
 
@@ -109,8 +109,8 @@ When user's prompt is NOT in English:
 
 | Task Stage       | Command                                            | Purpose                        |
 | ---------------- | -------------------------------------------------- | ------------------------------ |
-| **Manual Audit** | `python .agent/scripts/checklist.py .`             | Core checks: schema, tests, UX |
-| **Pre-Deploy**   | `python .agent/scripts/verify_all.py . --url <URL>` | Full suite + E2E              |
+| **Manual Audit** | `python .agents/scripts/checklist.py .`             | Core checks: schema, tests, UX |
+| **Pre-Deploy**   | `python .agents/scripts/verify_all.py . --url <URL>` | Full suite + E2E              |
 
 **Priority Execution Order:**
 
@@ -121,7 +121,7 @@ When user's prompt is NOT in English:
 - **Completion:** A task is NOT finished until `checklist.py` returns success.
 - **Reporting:** If it fails, fix the blocking failures first (tests, schema).
 
-> 🔴 **Agents & Skills can invoke ANY script** via `python .agent/skills/<skill>/scripts/<script>.py` (See `ARCHITECTURE.md` or Agent `.md` for available scripts).
+> 🔴 **Agents & Skills can invoke ANY script** via `python .agents/skills/<skill>/scripts/<script>.py` (See `ARCHITECTURE.md` or Agent `.md` for available scripts).
 
 ### 🎭 Gemini Mode Mapping
 
@@ -142,6 +142,6 @@ When user's prompt is NOT in English:
 
 ### Key Scripts
 
-- **Verify**: `.agent/scripts/verify_all.py`, `.agent/scripts/checklist.py`
+- **Verify**: `.agents/scripts/verify_all.py`, `.agents/scripts/checklist.py`
 - **Audits**: `ux_audit.py`, `accessibility_checker.py`, `mobile_audit.py`, `schema_validator.py`, `api_validator.py`
 - **Test**: `playwright_runner.py`, `test_runner.py`

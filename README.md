@@ -2,7 +2,7 @@
 
 ## Installazione Rapida
 
-Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
+Installa la cartella `.agents/` contenente tutti i template nel tuo progetto:
 
 <table>
 <thead>
@@ -14,11 +14,11 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 <tbody>
 <tr>
 <td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills init -⁠y</code></td>
-<td>Installa <code>.agent/</code> nel progetto corrente (sovrascrive se già presente)</td>
+<td>Installa <code>.agents/</code> nel progetto corrente (sovrascrive se già presente)</td>
 </tr>
 <tr>
 <td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills update</code></td>
-<td>Aggiorna <code>.agent/</code> all'ultima versione da GitHub (le modifiche locali a <code>.agent/</code> non vengono mantenute)</td>
+<td>Aggiorna <code>.agents/</code> all'ultima versione da GitHub (le modifiche locali a <code>.agents/</code> non vengono mantenute)</td>
 </tr>
 </tbody>
 </table>
@@ -31,7 +31,7 @@ Installa la cartella `.agent/` contenente tutti i template nel tuo progetto:
 | **Skill**     | 30       | Moduli di conoscenza specifici per dominio                         |
 | **Workflow**  | 16       | Procedure attivabili tramite slash command                         |
 
-La mappa completa di agenti, skill e script è in [`.agent/ARCHITECTURE.md`](.agent/ARCHITECTURE.md).
+La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.agents/ARCHITECTURE.md).
 
 ## Utilizzo
 
@@ -104,7 +104,7 @@ Le skill vengono caricate automaticamente in base al contesto della task. L'AI l
 
 ### Controlli finali
 
-`python .agent/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agent/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
+`python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
 
 ## 🪨 Caveman Mode
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.

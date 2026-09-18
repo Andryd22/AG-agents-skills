@@ -47,7 +47,7 @@ graph TD
 
 ### 3. Agent Selection Matrix
 
-**Use this matrix to automatically select agents.** It lists every agent in `.agent/agents/`; keep it complete when agents are added or removed.
+**Use this matrix to automatically select agents.** It lists every agent in `.agents/agents/`; keep it complete when agents are added or removed.
 
 | User Intent          | Keywords / Domain                                   | Selected Agent(s) / REQUIRED (minimum)                                    | Auto-invoke?     |
 | -------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ---------------- |
