@@ -77,7 +77,7 @@ skill_names = {d.name for d in skill_dirs}
 agent_files = sorted(AGENTS.glob("*.md"))
 agent_names = {f.stem for f in agent_files}
 counts = {"agents": len(agent_names), "skills": len(skill_names)}
-# Antigravity retired workflows on 1 November 2026: commands are skills now
+# Antigravity retires workflows on 1 November 2026: commands are skills
 if (KIT / "workflows").exists():
     err(".agents/workflows/: workflows are retired, turn them into skills")
 

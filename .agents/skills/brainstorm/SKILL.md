@@ -161,7 +161,6 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 
 ---
 
----
 ## /brainstorm - Structured Idea Exploration
 
 The request is the text that follows `/brainstorm`.

@@ -2,7 +2,7 @@
 
 ## Installazione Rapida
 
-Installa la cartella `.agents/` contenente tutti i template nel tuo progetto:
+Installa agenti, skill e regole del kit nella cartella `.agents/` del tuo progetto:
 
 <table>
 <thead>
@@ -14,22 +14,24 @@ Installa la cartella `.agents/` contenente tutti i template nel tuo progetto:
 <tbody>
 <tr>
 <td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills init -⁠y</code></td>
-<td>Installa <code>.agents/</code> nel progetto corrente (sovrascrive se già presente)</td>
+<td>Installa il kit in <code>.agents/</code> del progetto corrente</td>
 </tr>
 <tr>
 <td style="white-space: nowrap"><code>npx github:Andryd22/⁠AG-⁠agents-⁠skills update</code></td>
-<td>Aggiorna <code>.agents/</code> all'ultima versione da GitHub (le modifiche locali a <code>.agents/</code> non vengono mantenute)</td>
+<td>Aggiorna il kit all'ultima versione da GitHub</td>
 </tr>
 </tbody>
 </table>
+
+L'installer sostituisce solo agenti, skill, regole e script del kit (li annota in `.agents/.ag-kit.json`): le modifiche locali a quei file non vengono mantenute, mentre gli agenti, le skill e le regole tuoi restano. Se trova una vecchia installazione in `.agent/`, la sposta in `.agent.bak/`.
 
 ## Cosa è Incluso
 
 | Componente    | Quantità | Descrizione                                                        |
 | ------------- | -------- | ------------------------------------------------------------------ |
-| **Agenti**    | 18       | Personas AI specializzate (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
-| **Skill**     | 30       | Moduli di conoscenza specifici per dominio                         |
-| **Workflow**  | 16       | Procedure attivabili tramite slash command                         |
+| **Agenti**    | 15       | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
+| **Skill**     | 39       | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
+| **Regole**    | 2        | `GEMINI.md` (sempre attiva) e `caveman-rules.md`                   |
 
 La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.agents/ARCHITECTURE.md).
 
@@ -37,7 +39,7 @@ La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.a
 
 ### Usare gli Agenti
 
-**Non c'è bisogno di menzionare esplicitamente gli agenti!** Il sistema rileva automaticamente e applica l'Agent (o gli Agents) giusti:
+Gli agenti sono custom agent di Antigravity in `.agents/agents/`. **Non c'è bisogno di menzionarli:** la regola `GEMINI.md` sceglie lo specialista giusto e gli passa il lavoro come subagent (`invoke_subagent`):
 
 ```
 Utente: "Aggiungi l'autenticazione JWT"
@@ -63,13 +65,13 @@ AI: 🤖 Uso @debugger per un'analisi sistematica...
 - ✅ Nessuna curva di apprendimento: descrivi solo ciò di cui hai bisogno
 - ✅ Ottieni sempre risposte da esperti
 - ✅ Trasparenza: mostra quale agente viene utilizzato
-- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente
+- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente, o sceglierlo come agente principale (selettore nell'app, `agy --agent <nome>` nella CLI)
 
-### Usare i Workflow
+L'IDE di Antigravity non supporta ancora i custom agent: lì il modello legge il file dell'agente e lo applica direttamente.
 
-> ⚠️ Antigravity ha deprecato i workflow: dal 1° novembre 2026 vengono ritirati e diventano skill richiamate con lo stesso `/nome`. La migrazione del kit è in programma.
+### Usare i comandi
 
-Richiama i workflow tramite gli slash command:
+Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: i comandi del kit sono già skill e si richiamano con lo stesso `/nome`.
 
 | Comando          | Descrizione                           |
 | ---------------- | ------------------------------------- |
@@ -89,6 +91,7 @@ Richiama i workflow tramite gli slash command:
 | `/scroll-film`   | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
 | `/latex`         | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
 | `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
+| `/classic-ml`    | Data mining e machine learning classico con pandas e scikit-learn |
 
 Esempio:
 
@@ -100,7 +103,7 @@ Esempio:
 
 ### Usare le Skill
 
-Le skill vengono caricate automaticamente in base al contesto della task. L'AI legge le descrizioni delle skill e applica le conoscenze pertinenti.
+Le skill vengono caricate automaticamente in base al contesto della task: ogni agente carica quelle del suo frontmatter, e Antigravity sceglie le altre leggendone la descrizione.
 
 ### Controlli finali
 

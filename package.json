@@ -1,7 +1,7 @@
 {
   "name": "ag-agents-skills",
-  "version": "2.1.1",
-  "description": "AI Agent templates - 30 Skills, 18 Agents, 16 Workflows for enhanced coding assistance (Andryd22 fork with Caveman Mode, AI/ML, LaTeX, Three.js scroll experiences)",
+  "version": "3.0.0",
+  "description": "AI Agent templates for Google Antigravity - 15 Agents, 39 Skills (Andryd22 fork with Caveman Mode, AI/ML and classic ML, LaTeX, Three.js scroll experiences)",
   "bin": {
     "ag-agents-skills": "./bin/install.js"
   },
@@ -28,7 +28,8 @@
     "caveman",
     "latex",
     "threejs",
-    "scrollytelling"
+    "scrollytelling",
+    "machine-learning"
   ],
   "author": "Andryd22 (forked from vudovn)",
   "license": "MIT"
