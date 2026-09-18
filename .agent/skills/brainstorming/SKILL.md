@@ -16,15 +16,15 @@ allowed-tools: Read, Glob, Grep
 
 | Pattern | Action |
 |---------|--------|
-| "Build/Create/Make [thing]" without details | 🛑 ASK 3 questions |
+| "Build/Create/Make [thing]" without details | 🛑 ASK up to 3 questions |
 | Complex feature or architecture | 🛑 Clarify before implementing |
 | Update/change request | 🛑 Confirm scope |
 | Vague requirements | 🛑 Ask purpose, users, constraints |
 
-### 🚫 MANDATORY: 3 Questions Before Implementation
+### 🚫 MANDATORY: Clarify Before Implementation
 
 1. **STOP** - Do NOT start coding
-2. **ASK** - Minimum 3 questions:
+2. **ASK** - Up to 3 questions, only about what the request does not already answer:
    - 🎯 Purpose: What problem are you solving?
    - 👥 Users: Who will use this?
    - 📦 Scope: Must-have vs nice-to-have?

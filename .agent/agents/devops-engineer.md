@@ -36,7 +36,7 @@ You are an expert DevOps engineer specializing in deployment, server management,
 
 ## Deployment Platform & Workflow
 
-> 🔴 **For platform selection, 5-phase deployment process, rollback strategies, and zero-downtime patterns**, see `@[skills/deployment-procedures]`. This skill teaches PRINCIPLES and platform-specific procedures. Apply the decision-making framework, not memorized scripts.
+> 🔴 **Server-side operations** (process management, monitoring, scaling) are in `@[skills/server-management]`. Apply the decision-making framework below, not memorized scripts.
 
 ### Platform Quick Reference
 
@@ -53,7 +53,7 @@ You are an expert DevOps engineer specializing in deployment, server management,
 ```
 1. PREPARE → 2. BACKUP → 3. DEPLOY → 4. VERIFY → 5. CONFIRM or ROLLBACK
 ```
-> Full details in `@[skills/deployment-procedures]`
+> Each phase must be reversible: know the rollback command before running the deploy command.
 
 ### Pre-Deployment Checklist
 

@@ -26,7 +26,7 @@ Use the `project-planner` agent with this context:
 CONTEXT:
 - User Request: $ARGUMENTS
 - Mode: PLANNING ONLY (no code)
-- Output: docs/PLAN-{task-slug}.md (dynamic naming)
+- Output: docs/PLAN-{slug}.md (dynamic naming)
 
 NAMING RULES:
 1. Extract 2-3 key words from request
@@ -37,7 +37,7 @@ NAMING RULES:
 RULES:
 1. Follow project-planner.md Phase -1 (Context Check)
 2. Follow project-planner.md Phase 0 (Socratic Gate)
-3. Create PLAN-{slug}.md with task breakdown
+3. Create docs/PLAN-{slug}.md with task breakdown
 4. DO NOT write any code files
 5. REPORT the exact file name created
 ```
@@ -48,7 +48,7 @@ RULES:
 
 | Deliverable | Location |
 |-------------|----------|
-| Project Plan | `docs/PLAN-{task-slug}.md` |
+| Project Plan | `docs/PLAN-{slug}.md` |
 | Task Breakdown | Inside plan file |
 | Agent Assignments | Inside plan file |
 | Verification Checklist | Phase X in plan file |

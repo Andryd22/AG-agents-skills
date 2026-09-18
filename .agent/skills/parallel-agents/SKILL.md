@@ -6,11 +6,11 @@ allowed-tools: Read, Glob, Grep
 
 # Native Parallel Agents
 
-> Orchestration through Antigravity's built-in Agent Tool
+> Orchestration through the IDE's native subagent tool
 
 ## Overview
 
-This skill enables coordinating multiple specialized agents through Antigravity's native agent system. Unlike external scripts, this approach keeps all orchestration within Antigravity's control.
+This skill enables coordinating multiple specialized agents through the IDE's native subagent system. Unlike external scripts, this approach keeps all orchestration within the IDE's control.
 
 ## When to Use Orchestration
 
@@ -31,7 +31,7 @@ This skill enables coordinating multiple specialized agents through Antigravity'
 
 ### Single Agent
 ```
-Use the security-auditor agent to review authentication
+Use the backend-specialist agent to review authentication for vulnerabilities
 ```
 
 ### Sequential Chain
@@ -61,11 +61,10 @@ Resume agent [agentId] and continue with additional requirements.
 Agents: explorer-agent → [domain-agents] → synthesis
 
 1. explorer-agent: Map codebase structure
-2. security-auditor: Security posture
-3. backend-specialist: API quality
-4. frontend-specialist: UI/UX patterns
-5. test-engineer: Test coverage
-6. Synthesize all findings
+2. backend-specialist: API quality and security posture
+3. frontend-specialist: UI/UX patterns
+4. test-engineer: Test coverage
+5. Synthesize all findings
 ```
 
 ### Pattern 2: Feature Review
@@ -78,12 +77,12 @@ Agents: affected-domain-agents → test-engineer
 4. Synthesize recommendations
 ```
 
-### Pattern 3: Security Audit
+### Pattern 3: Security Review
 ```
-Agents: security-auditor → penetration-tester → synthesis
+Agents: backend-specialist → devops-engineer → synthesis
 
-1. security-auditor: Configuration and code review
-2. penetration-tester: Active vulnerability testing
+1. backend-specialist: Auth, input validation, data access review
+2. devops-engineer: Secrets, configuration, deployment surface
 3. Synthesize with prioritized remediation
 ```
 
@@ -91,39 +90,9 @@ Agents: security-auditor → penetration-tester → synthesis
 
 ## Available Agents
 
-| Agent | Expertise | Trigger Phrases |
-|-------|-----------|-----------------|
-| `orchestrator` | Coordination | "comprehensive", "multi-perspective" |
-| `security-auditor` | Security | "security", "auth", "vulnerabilities" |
-| `penetration-tester` | Security Testing | "pentest", "red team", "exploit" |
-| `backend-specialist` | Backend | "API", "server", "Node.js", "Express" |
-| `frontend-specialist` | Frontend | "React", "UI", "components", "Next.js" |
-| `test-engineer` | Testing | "tests", "coverage", "TDD" |
-| `devops-engineer` | DevOps | "deploy", "CI/CD", "infrastructure" |
-| `database-architect` | Database | "schema", "Prisma", "migrations" |
-| `mobile-developer` | Mobile | "React Native", "Flutter", "mobile" |
-| `api-designer` | API Design | "REST", "GraphQL", "OpenAPI" |
-| `debugger` | Debugging | "bug", "error", "not working" |
-| `explorer-agent` | Discovery | "explore", "map", "structure" |
-| `documentation-writer` | Documentation | "write docs", "create README", "generate API docs" |
-| `performance-optimizer` | Performance | "slow", "optimize", "profiling" |
-| `project-planner` | Planning | "plan", "roadmap", "milestones" |
-| `seo-specialist` | SEO | "SEO", "meta tags", "search ranking" |
-| `game-developer` | Game Development | "game", "Unity", "Godot", "Phaser" |
+The complete list of agents, their domains and trigger keywords lives in `@[skills/intelligent-routing]` (section "Agent Selection Matrix"). Use that table instead of keeping a second copy here.
 
----
-
-## Antigravity Built-in Agents
-
-These work alongside custom agents:
-
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| **Explore** | Haiku | Fast read-only codebase search |
-| **Plan** | Sonnet | Research during plan mode |
-| **General-purpose** | Sonnet | Complex multi-step modifications |
-
-Use **Explore** for quick searches, **custom agents** for domain expertise.
+If the IDE provides its own built-in subagents (for example a fast read-only explorer), use them for quick searches and the kit's agents for domain expertise.
 
 ---
 
@@ -140,8 +109,8 @@ After all agents complete, synthesize:
 ### Agent Contributions
 | Agent | Finding |
 |-------|---------|
-| security-auditor | Found X |
-| backend-specialist | Identified Y |
+| backend-specialist | Found X |
+| test-engineer | Identified Y |
 
 ### Consolidated Recommendations
 1. **Critical**: [Issue from Agent A]
@@ -158,7 +127,7 @@ After all agents complete, synthesize:
 
 ## Best Practices
 
-1. **Available agents** - 17 specialized agents can be orchestrated
+1. **Available agents** - every agent listed in `@[skills/intelligent-routing]` can be orchestrated
 2. **Logical order** - Discovery → Analysis → Implementation → Testing
 3. **Share context** - Pass relevant findings to subsequent agents
 4. **Single synthesis** - One unified report, not separate outputs
@@ -169,7 +138,7 @@ After all agents complete, synthesize:
 ## Key Benefits
 
 - ✅ **Single session** - All agents share context
-- ✅ **AI-controlled** - Claude orchestrates autonomously
-- ✅ **Native integration** - Works with built-in Explore, Plan agents
+- ✅ **AI-controlled** - The model orchestrates autonomously
+- ✅ **Native integration** - Works alongside the IDE's built-in subagents
 - ✅ **Resume support** - Can continue previous agent work
 - ✅ **Context passing** - Findings flow between agents

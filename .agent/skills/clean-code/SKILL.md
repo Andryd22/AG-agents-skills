@@ -2,8 +2,9 @@
 name: clean-code
 description: Pragmatic coding standards - concise, direct, no over-engineering, no unnecessary comments
 allowed-tools: Read, Write, Edit
-version: 2.0
-priority: CRITICAL
+metadata:
+  version: "2.1"
+  priority: CRITICAL
 ---
 
 # Clean Code - Pragmatic AI Coding Standards
@@ -152,15 +153,10 @@ File to edit: UserService.ts
 | **backend-specialist** | API Validator | `python .agent/skills/api-patterns/scripts/api_validator.py .` |
 | **mobile-developer** | Mobile Audit | `python .agent/skills/mobile-design/scripts/mobile_audit.py .` |
 | **database-architect** | Schema Validate | `python .agent/skills/database-design/scripts/schema_validator.py .` |
-| **security-auditor** | Security Scan | `python .agent/skills/vulnerability-scanner/scripts/security_scan.py .` |
-| **seo-specialist** | SEO Check | `python .agent/skills/seo-fundamentals/scripts/seo_checker.py .` |
-| **seo-specialist** | GEO Check | `python .agent/skills/geo-fundamentals/scripts/geo_checker.py .` |
-| **performance-optimizer** | Lighthouse | `python .agent/skills/performance-profiling/scripts/lighthouse_audit.py <url>` |
+| **frontend-specialist** | React Performance | `python .agent/skills/nextjs-react-expert/scripts/react_performance_checker.py .` |
 | **test-engineer** | Test Runner | `python .agent/skills/testing-patterns/scripts/test_runner.py .` |
-| **test-engineer** | Playwright | `python .agent/skills/webapp-testing/scripts/playwright_runner.py <url>` |
-| **Any agent** | Lint Check | `python .agent/skills/lint-and-validate/scripts/lint_runner.py .` |
-| **Any agent** | Type Coverage | `python .agent/skills/lint-and-validate/scripts/type_coverage.py .` |
-| **Any agent** | i18n Check | `python .agent/skills/i18n-localization/scripts/i18n_checker.py .` |
+| **qa-automation-engineer** | Playwright | `python .agent/skills/webapp-testing/scripts/playwright_runner.py <url>` |
+| **Any agent** | Lint & Types | the project's own tooling: `npm run lint`, `npx tsc --noEmit`, `ruff check`, `mypy` |
 
 > ❌ **WRONG:** `test-engineer` running `ux_audit.py`
 > ✅ **CORRECT:** `frontend-specialist` running `ux_audit.py`

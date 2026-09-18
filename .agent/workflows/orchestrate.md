@@ -46,7 +46,7 @@ $ARGUMENTS
 
 | Step | Agent | Action |
 |------|-------|--------|
-| 1 | `project-planner` | Create docs/PLAN.md |
+| 1 | `project-planner` | Create `docs/PLAN-{slug}.md` |
 | 2 | (optional) `explorer-agent` | Codebase discovery if needed |
 
 > 🔴 **NO OTHER AGENTS during planning!** Only project-planner and explorer-agent.
@@ -54,9 +54,9 @@ $ARGUMENTS
 ### ⏸️ CHECKPOINT: User Approval
 
 ```
-After PLAN.md is complete, ASK:
+After the plan is complete, ASK:
 
-"✅ Plan created: docs/PLAN.md
+"✅ Plan created: docs/PLAN-{slug}.md
 
 Do you approve? (Y/N)
 - Y: Start implementation
@@ -69,9 +69,9 @@ Do you approve? (Y/N)
 
 | Parallel Group | Agents |
 |----------------|--------|
-| Foundation | `database-architect`, `security-auditor` |
+| Foundation | `database-architect`, `api-designer` |
 | Core | `backend-specialist`, `frontend-specialist` |
-| Polish | `test-engineer`, `devops-engineer` |
+| Polish | `test-engineer`, `qa-automation-engineer`, `devops-engineer` |
 
 > ✅ After user approval, invoke multiple agents in PARALLEL.
 
@@ -82,15 +82,15 @@ Do you approve? (Y/N)
 ### Step 1: Analyze Task Domains
 Identify ALL domains this task touches:
 ```
-□ Security     → security-auditor, penetration-tester
-□ Backend/API  → backend-specialist
-□ Frontend/UI  → frontend-specialist
+□ Backend/API  → backend-specialist (also owns security reviews)
+□ API design   → api-designer
+□ Frontend/UI  → frontend-specialist (also performance and SEO)
 □ Database     → database-architect
-□ Testing      → test-engineer
+□ Testing      → test-engineer, qa-automation-engineer (E2E)
 □ DevOps       → devops-engineer
 □ Mobile       → mobile-developer
-□ Performance  → performance-optimizer
-□ SEO          → seo-specialist
+□ AI / LLM     → ai-ml-engineer
+□ Scroll / 3D  → scroll-experience-architect
 □ Planning     → project-planner
 ```
 
@@ -98,14 +98,14 @@ Identify ALL domains this task touches:
 
 | If Plan Exists | Action |
 |----------------|--------|
-| NO `docs/PLAN.md` | → Go to PHASE 1 (planning only) |
-| YES `docs/PLAN.md` + user approved | → Go to PHASE 2 (implementation) |
+| NO `docs/PLAN-{slug}.md` | → Go to PHASE 1 (planning only) |
+| YES `docs/PLAN-{slug}.md` + user approved | → Go to PHASE 2 (implementation) |
 
 ### Step 3: Execute Based on Phase
 
 **PHASE 1 (Planning):**
 ```
-Use the project-planner agent to create PLAN.md
+Use the project-planner agent to create docs/PLAN-{slug}.md
 → STOP after plan is created
 → ASK user for approval
 ```
@@ -129,15 +129,15 @@ When invoking ANY subagent, you MUST include:
 
 **Example with FULL context:**
 ```
-Use the project-planner agent to create PLAN.md:
+Use the project-planner agent to create docs/PLAN-student-social.md:
 
 **CONTEXT:**
 - User Request: "A social platform for students, using mock data"
 - Decisions: Tech=Vue 3, Layout=Grid Widgets, Auth=Mock, Design=Youthful & dynamic
 - Previous Work: Orchestrator asked 6 questions, user chose all options
-- Current Plan: playful-roaming-dream.md exists in workspace with initial structure
+- Current Plan: docs/PLAN-student-social.md exists with initial structure
 
-**TASK:** Create detailed PLAN.md based on ABOVE decisions. Do NOT infer from folder name.
+**TASK:** Complete the plan based on ABOVE decisions. Do NOT infer from folder name.
 ```
 
 > ⚠️ **VIOLATION:** Invoking subagent without full context = subagent will make wrong assumptions!
@@ -146,8 +146,9 @@ Use the project-planner agent to create PLAN.md:
 ### Step 4: Verification (MANDATORY)
 The LAST agent must run appropriate verification scripts:
 ```bash
-python .agent/skills/vulnerability-scanner/scripts/security_scan.py .
-python .agent/skills/lint-and-validate/scripts/lint_runner.py .
+python .agent/scripts/checklist.py .
+# with a running app, the full suite:
+python .agent/scripts/verify_all.py . --url http://localhost:3000
 ```
 
 ### Step 5: Synthesize Results
@@ -174,8 +175,8 @@ Combine all agent outputs into unified report.
 | 3 | test-engineer | Verification scripts | ✅ |
 
 ### Verification Scripts Executed
-- [x] security_scan.py → Pass/Fail
-- [x] lint_runner.py → Pass/Fail
+- [x] checklist.py → Pass/Fail
+- [x] verify_all.py → Pass/Fail (if an app URL is available)
 
 ### Key Findings
 1. **[Agent 1]**: Finding
@@ -183,7 +184,7 @@ Combine all agent outputs into unified report.
 3. **[Agent 3]**: Finding
 
 ### Deliverables
-- [ ] PLAN.md created
+- [ ] docs/PLAN-{slug}.md created
 - [ ] Code implemented
 - [ ] Tests passing
 - [ ] Scripts verified
@@ -199,7 +200,7 @@ Combine all agent outputs into unified report.
 Before completing orchestration, verify:
 
 1. ✅ **Agent Count:** `invoked_agents >= 3`
-2. ✅ **Scripts Executed:** At least `security_scan.py` ran
+2. ✅ **Scripts Executed:** At least `checklist.py` ran
 3. ✅ **Report Generated:** Orchestration Report with all agents listed
 
 > **If any check fails → DO NOT mark orchestration complete. Invoke more agents or run scripts.**

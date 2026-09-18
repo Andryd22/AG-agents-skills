@@ -21,7 +21,7 @@ description: Minimize token consumption by using terse, technically accurate res
 ### 2. `full` (High Compression - Default)
 - **Target**: ~65% token reduction.
 - **Rules**:
-  - **Drop Articles**: Remove 'a', 'an', 'the' where possible.
+  - **Drop Articles**: Remove 'a', 'an', 'the' where possible (see *Other languages* below).
   - **Keyword Focus**: Priority on verbs and nouns.
   - **No Subjectivity**: Omit fluff, greetings, and closings.
   - **Bullet Points**: Use single-line bullet points for instructions.
@@ -43,6 +43,16 @@ description: Minimize token consumption by using terse, technically accurate res
 | How to fix 404 in Next.js? | `full` | Check route file path. Rename `page.js` if needed. Verify `next.config.js` rewrites. |
 | Explain React State. | `ultra` | State = UI data. Update => Rerender. Persistent across cycles. Hooks: `useState`. |
 | Is this SQL safe? | `lite` | No. Vulnerable to SQL injection. Use parameterized queries or ORM. |
+
+---
+
+## 🌐 Other Languages
+
+Caveman mode never switches language: answer in the user's language (GEMINI.md rule). The English-specific rules translate as follows:
+
+- **Articles**: drop them only where the sentence stays unambiguous (Italian "il file", "la funzione" → "file", "funzione" in `full`/`ultra`); keep them in `lite`.
+- **Connectors**: drop "e", "ma", "quindi" (or the equivalent) only in `ultra`, as in English.
+- **Grammar**: telegraphic style is fine, wrong agreement or verb forms are not.
 
 ---
 

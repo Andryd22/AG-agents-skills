@@ -58,13 +58,13 @@ When user's prompt is NOT in English:
 
 **Before modifying ANY file:**
 
-1. Check `CODEBASE.md` → File Dependencies
+1. Find what depends on it: search for its imports/usages (and, if the project has a `CODEBASE.md`, read its File Dependencies section)
 2. Identify dependent files
 3. Update ALL affected files together
 
 ### 🗺️ System Map Read
 
-> 🔴 **MANDATORY:** Read `ARCHITECTURE.md` at session start to understand Agents, Skills, and Scripts.
+> 🔴 **MANDATORY:** Read `.agent/ARCHITECTURE.md` at session start to understand Agents, Skills, and Scripts.
 
 **Path Awareness:**
 
@@ -89,22 +89,23 @@ When user's prompt is NOT in English:
 
 | Request Type            | Strategy       | Required Action                                                   |
 | ----------------------- | -------------- | ----------------------------------------------------------------- |
-| **New Feature / Build** | Deep Discovery | ASK minimum 3 strategic questions                                 |
-| **Code Edit / Bug Fix** | Context Check  | Confirm understanding + ask impact questions                      |
+| **New Feature / Build** | Discovery      | ASK up to 3 strategic questions on what you cannot infer (purpose, users, scope) |
+| **Code Edit / Bug Fix** | Context Check  | Confirm understanding; ask about impact only if it is unclear     |
 | **Vague / Simple**      | Clarification  | Ask Purpose, Users, and Scope                                     |
 | **Full Orchestration**  | Gatekeeper     | **STOP** subagents until user confirms plan details               |
-| **Direct "Proceed"**    | Validation     | **STOP** → Even if answers are given, ask 2 "Edge Case" questions |
+| **Direct "Proceed"**    | Validation     | Proceed. Raise an edge case (max 1-2) only if it would change the implementation |
 
 **Protocol:**
 
-1. **Never Assume:** If even 1% is unclear, ASK.
-2. **Handle Spec-heavy Requests:** When user gives a list (Answers 1, 2, 3...), do NOT skip the gate. Instead, ask about **Trade-offs** or **Edge Cases** (e.g., "LocalStorage confirmed, but should we handle data clearing or versioning?") before starting.
-3. **Wait:** Do NOT invoke subagents or write code until the user clears the Gate.
+1. **Never Assume:** If something that would change the result is unclear, ASK. If the request already answers it, state your assumption and move on.
+2. **Handle Spec-heavy Requests:** When the user gives detailed answers (Answers 1, 2, 3...), do not re-ask them. Mention a **Trade-off** or **Edge Case** only when it changes what you will build (e.g., "LocalStorage confirmed: should old data be migrated when the format changes?").
+3. **Wait:** Do NOT invoke subagents or write code while a blocking question is open.
 4. **Reference:** Full protocol in `@[skills/brainstorming]`.
+5. **Proportion:** The orchestrator and the planner follow the same rule: 1-2 quick questions when the request is mostly clear, more only for open-ended builds.
 
 ### 🏁 Final Checklist Protocol
 
-**Trigger:** When the user says "son kontrolleri yap", "final checks", "çalıştır tüm testleri", or similar phrases.
+**Trigger:** When the user says "final checks", "run all checks", "controlli finali", or similar phrases in any language.
 
 | Task Stage       | Command                                            | Purpose                        |
 | ---------------- | -------------------------------------------------- | ------------------------------ |
@@ -113,12 +114,12 @@ When user's prompt is NOT in English:
 
 **Priority Execution Order:**
 
-1. **Security** → 2. **Lint** → 3. **Schema** → 4. **Tests** → 5. **UX** → 6. **Seo** → 7. **Lighthouse/E2E**
+1. **Lint & types** (project tooling: `npm run lint`, `tsc --noEmit`, `ruff`...) → 2. **Schema** → 3. **Tests** → 4. **UX** → 5. **E2E** (with `--url`)
 
 **Rules:**
 
 - **Completion:** A task is NOT finished until `checklist.py` returns success.
-- **Reporting:** If it fails, fix the **Critical** blockers first (Security/Lint).
+- **Reporting:** If it fails, fix the blocking failures first (tests, schema).
 
 > 🔴 **Agents & Skills can invoke ANY script** via `python .agent/skills/<skill>/scripts/<script>.py` (See `ARCHITECTURE.md` or Agent `.md` for available scripts).
 
@@ -128,7 +129,7 @@ When user's prompt is NOT in English:
 | -------- | ----------------- | -------------------------------------------- |
 | **plan** | `project-planner` | 4-phase methodology. NO CODE before Phase 4. |
 | **ask**  | -                 | Focus on understanding. Ask questions.       |
-| **edit** | `orchestrator`    | Execute. Check `{task-slug}.md` first.       |
+| **edit** | `orchestrator`    | Execute. Check `docs/PLAN-{slug}.md` first.  |
 
 ---
 
@@ -136,12 +137,11 @@ When user's prompt is NOT in English:
 
 ### Agents & Skills
 
-- **Masters**: `orchestrator`, `project-planner`, `security-auditor` (Cyber/Audit), `backend-specialist` (API/DB), `frontend-specialist` (UI/UX), `mobile-developer`, `debugger`, `game-developer`
-- **Key Skills**: `clean-code`, `brainstorming`, `app-builder`, `frontend-design`, `mobile-design`, `plan-writing`, `behavioral-modes`
+- **Masters**: `orchestrator`, `project-planner`, `backend-specialist` (API/DB/security), `frontend-specialist` (UI/UX/performance/SEO), `mobile-developer`, `debugger`
+- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorming`, `app-builder`, `frontend-design`, `mobile-design`
 
 ### Key Scripts
 
 - **Verify**: `.agent/scripts/verify_all.py`, `.agent/scripts/checklist.py`
-- **Scanners**: `security_scan.py`, `dependency_analyzer.py`
-- **Audits**: `ux_audit.py`, `mobile_audit.py`, `lighthouse_audit.py`, `seo_checker.py`
+- **Audits**: `ux_audit.py`, `accessibility_checker.py`, `mobile_audit.py`, `schema_validator.py`, `api_validator.py`
 - **Test**: `playwright_runner.py`, `test_runner.py`

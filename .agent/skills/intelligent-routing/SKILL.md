@@ -1,7 +1,8 @@
 ---
 name: intelligent-routing
 description: Automatic agent selection and intelligent task routing. Analyzes user requests and automatically selects the best specialist agent(s) without requiring explicit user mentions.
-version: 1.0.0
+metadata:
+  version: "1.1.0"
 ---
 
 # Intelligent Agent Routing
@@ -23,8 +24,8 @@ version: 1.0.0
 | **QUESTION**     | "what is", "how does", "explain"           | TIER 0 only                    | Text Response               |
 | **SURVEY/INTEL** | "analyze", "list files", "overview"        | TIER 0 + Explorer              | Session Intel (No File)     |
 | **SIMPLE CODE**  | "fix", "add", "change" (single file)       | TIER 0 + TIER 1 (lite)         | Inline Edit                 |
-| **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **{task-slug}.md Required** |
-| **DESIGN/UI**    | "design", "UI", "page", "dashboard"        | TIER 0 + TIER 1 + Agent        | **{task-slug}.md Required** |
+| **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **`docs/PLAN-{slug}.md` required** |
+| **DESIGN/UI**    | "design", "UI", "page", "dashboard"        | TIER 0 + TIER 1 + Agent        | **`docs/PLAN-{slug}.md` required** |
 | **SLASH CMD**    | /create, /orchestrate, /debug              | Command-specific flow          | Variable                    |
 
 ### 2. Request Analysis
@@ -40,32 +41,41 @@ graph TD
     C --> F[SELECT AGENT]
     D --> F
     E --> F
-    F --> G[security-auditor + backend-specialist]
+    F --> G[backend-specialist + test-engineer]
     G --> H[AUTO-INVOKE with context]
 ```
 
 ### 3. Agent Selection Matrix
 
-**Use this matrix to automatically select agents:**
+**Use this matrix to automatically select agents.** It lists every agent in `.agent/agents/`; keep it complete when agents are added or removed.
 
-| User Intent         | Keywords / Domain                          | Selected Agent(s) / REQUIRED (minimum)      | Auto-invoke? |
-| ------------------- | ------------------------------------------ | ------------------------------------------- | ------------ |
-| **Authentication**  | "login", "auth", "signup", "password"      | `security-auditor` + `backend-specialist`   | ✅ YES       |
-| **UI Component**    | "button", "card", "layout", "style"        | `frontend-specialist`                       | ✅ YES       |
-| **Mobile UI**       | "screen", "navigation", "touch", "gesture" | `mobile-developer`                          | ✅ YES       |
-| **Web App**         | "webapp", "nextjs", "react", "vue"         | `frontend-specialist` + `backend-specialist` + `test-engineer` | ⚠️ ASK FIRST |
-| **API Endpoint**    | "endpoint", "route", "API", "POST", "GET"  | `backend-specialist` + `security-auditor` + `test-engineer` | ✅ YES       |
-| **Database**        | "schema", "migration", "query", "table"    | `database-architect` + `backend-specialist` + `security-auditor` | ✅ YES       |
-| **Bug Fix**         | "error", "bug", "not working", "broken"    | `debugger` + `explorer-agent` + `test-engineer` | ✅ YES       |
-| **Test**            | "test", "coverage", "unit", "e2e"          | `test-engineer`                             | ✅ YES       |
-| **Deployment**      | "deploy", "production", "CI/CD", "docker"  | `devops-engineer`                           | ✅ YES       |
-| **Security Review** | "security", "vulnerability", "exploit"     | `security-auditor` + `penetration-tester` + `devops-engineer` | ✅ YES       |
-| **Performance**     | "slow", "optimize", "performance", "speed" | `performance-optimizer`                     | ✅ YES       |
-| **UI/Design**       | "design", "layout", "seo", "core web vitals" | `frontend-specialist` + `seo-specialist` + `performance-optimizer` | ✅ YES       |
-| **Full Stack**      | "build app", "fullstack", "platform"       | `project-planner` + `frontend-specialist` + `backend-specialist` + `devops-engineer` | ⚠️ ASK FIRST |
-| **Product Def**     | "requirements", "user story", "backlog"    | `product-owner`                             | ✅ YES       |
-| **New Feature**     | "build", "create", "implement", "new app"  | `orchestrator` → multi-agent                | ⚠️ ASK FIRST |
-| **Complex Task**    | Multiple domains detected                  | `orchestrator` → multi-agent                | ⚠️ ASK FIRST |
+| User Intent          | Keywords / Domain                                   | Selected Agent(s) / REQUIRED (minimum)                                    | Auto-invoke?     |
+| -------------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | ---------------- |
+| **Authentication**   | "login", "auth", "signup", "password", "jwt"        | `backend-specialist` + `test-engineer`                                    | ✅ YES           |
+| **UI Component**     | "button", "card", "layout", "style"                 | `frontend-specialist`                                                     | ✅ YES           |
+| **Mobile UI**        | "screen", "navigation", "touch", "gesture"          | `mobile-developer`                                                        | ✅ YES           |
+| **Web App**          | "webapp", "nextjs", "react", "vue"                  | `frontend-specialist` + `backend-specialist` + `test-engineer`            | ⚠️ ASK FIRST     |
+| **API Design**       | "API design", "OpenAPI", "contract", "versioning"   | `api-designer`                                                            | ✅ YES           |
+| **API Endpoint**     | "endpoint", "route", "POST", "GET"                  | `backend-specialist` + `test-engineer`                                    | ✅ YES           |
+| **Database**         | "schema", "migration", "query", "table"             | `database-architect` + `backend-specialist`                               | ✅ YES           |
+| **Bug Fix**          | "error", "bug", "not working", "broken"             | `debugger` + `explorer-agent` + `test-engineer`                           | ✅ YES           |
+| **Unit/Integration** | "test", "coverage", "unit", "tdd"                   | `test-engineer`                                                           | ✅ YES           |
+| **E2E / QA**         | "e2e", "playwright", "cypress", "regression"        | `qa-automation-engineer`                                                  | ✅ YES           |
+| **Deployment**       | "deploy", "production", "CI/CD", "docker"           | `devops-engineer`                                                         | ✅ YES           |
+| **Security Review**  | "security", "vulnerability", "owasp"                | `backend-specialist` + `devops-engineer` (no dedicated security agent)    | ✅ YES           |
+| **Performance**      | "slow", "optimize", "performance", "speed"          | `frontend-specialist` (web) or `backend-specialist` (server)              | ✅ YES           |
+| **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap"         | `frontend-specialist`                                                     | ✅ YES           |
+| **AI / LLM**         | "LLM", "RAG", "prompt", "embedding", "AI agent"     | `ai-ml-engineer`                                                          | ✅ YES           |
+| **Scroll Experience**| "scrollytelling", "3D scroll", "fly-through", "WebGL" | `scroll-experience-architect`                                           | ✅ YES           |
+| **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter"       | `latex-specialist`                                                        | ✅ YES           |
+| **Documentation**    | "README", "API docs", "changelog"                   | `documentation-writer`                                                    | ❌ ONLY IF ASKED |
+| **Codebase Survey**  | "analyze repo", "explain codebase", "map structure" | `explorer-agent`                                                          | ✅ YES           |
+| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-manager`                                                         | ✅ YES           |
+| **Product Strategy** | "backlog", "roadmap", "MVP", "PRD", "stakeholder"   | `product-owner`                                                           | ✅ YES           |
+| **Planning**         | "plan", "break down", "task list"                   | `project-planner`                                                         | ✅ YES           |
+| **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist` + `devops-engineer` | ⚠️ ASK FIRST |
+| **New Feature**      | "build", "create", "implement", "new app"           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
+| **Complex Task**     | Multiple domains detected                           | `orchestrator` → multi-agent                                              | ⚠️ ASK FIRST     |
 
 ### 4. Automatic Routing Protocol
 
@@ -101,7 +111,7 @@ function analyzeRequest(userMessage) {
 **When auto-selecting an agent, inform the user concisely:**
 
 ```markdown
-🤖 **Applying knowledge of `@security-auditor` + `@backend-specialist`...**
+🤖 **Applying knowledge of `@backend-specialist` + `@test-engineer`...**
 
 [Proceed with specialized response]
 ```
@@ -116,19 +126,21 @@ function analyzeRequest(userMessage) {
 
 ### Single-Domain Tasks (Auto-invoke Single Agent)
 
-| Domain          | Patterns                                   | Agent                   |
-| --------------- | ------------------------------------------ | ----------------------- |
-| **Security**    | auth, login, jwt, password, hash, token    | `security-auditor`      |
-| **Frontend**    | component, react, vue, css, html, tailwind | `frontend-specialist`   |
-| **Backend**     | api, server, express, fastapi, node        | `backend-specialist`    |
-| **Mobile**      | react native, flutter, ios, android, expo  | `mobile-developer`      |
-| **Database**    | prisma, sql, mongodb, schema, migration    | `database-architect`    |
-| **Testing**     | test, jest, vitest, playwright, cypress    | `test-engineer`         |
-| **DevOps**      | docker, kubernetes, ci/cd, pm2, nginx      | `devops-engineer`       |
-| **Debug**       | error, bug, crash, not working, issue      | `debugger`              |
-| **Performance** | slow, lag, optimize, cache, performance    | `performance-optimizer` |
-| **SEO**         | seo, meta, analytics, sitemap, robots      | `seo-specialist`        |
-| **Game**        | unity, godot, phaser, game, multiplayer    | `game-developer`        |
+| Domain          | Patterns                                         | Agent                         |
+| --------------- | ------------------------------------------------ | ----------------------------- |
+| **Frontend**    | component, react, vue, css, html, tailwind, seo  | `frontend-specialist`         |
+| **Backend**     | api, server, express, fastapi, node, auth, jwt   | `backend-specialist`          |
+| **API Design**  | openapi, graphql schema, contract, versioning    | `api-designer`                |
+| **Mobile**      | react native, flutter, ios, android, expo        | `mobile-developer`            |
+| **Database**    | prisma, sql, mongodb, schema, migration          | `database-architect`          |
+| **Testing**     | test, jest, vitest, pytest, coverage             | `test-engineer`               |
+| **E2E / QA**    | playwright, cypress, e2e, regression suite       | `qa-automation-engineer`      |
+| **DevOps**      | docker, kubernetes, ci/cd, pm2, nginx            | `devops-engineer`             |
+| **Debug**       | error, bug, crash, not working, issue            | `debugger`                    |
+| **AI / LLM**    | llm, rag, prompt, embeddings, vector store       | `ai-ml-engineer`              |
+| **Scroll / 3D** | three.js, webgl, scrollytelling, gsap scroll     | `scroll-experience-architect` |
+| **Academic**    | latex, tikz, thesis, lecture notes to chapters   | `latex-specialist`            |
+| **Product**     | user story, acceptance criteria, backlog, mvp    | `product-manager` / `product-owner` |
 
 ### Multi-Domain Tasks (Auto-invoke Orchestrator)
 
@@ -136,9 +148,9 @@ If request matches **2+ domains from different categories**, automatically use `
 
 ```text
 Example: "Create a secure login system with dark mode UI"
-→ Detected: Security + Frontend
+→ Detected: Backend (auth) + Frontend
 → Auto-invoke: orchestrator
-→ Orchestrator will handle: security-auditor, frontend-specialist, test-engineer
+→ Orchestrator will handle: backend-specialist, frontend-specialist, test-engineer
 ```
 
 ## Complexity Assessment
@@ -271,7 +283,7 @@ Verify: Response shows "Using @frontend-specialist"
 
 ```text
 User: "Review the authentication flow for vulnerabilities"
-Expected: Auto-invoke security-auditor
+Expected: Auto-invoke backend-specialist (security review of auth code)
 Verify: Security-focused analysis
 ```
 

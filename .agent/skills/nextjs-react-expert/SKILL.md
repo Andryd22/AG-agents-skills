@@ -114,7 +114,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 | Testing strategies      | `@[skills/testing-patterns]`      |
 | UI/UX design principles | `@[skills/frontend-design]`       |
 | TypeScript patterns     | `@[skills/typescript-expert]`     |
-| Deployment & DevOps     | `@[skills/deployment-procedures]` |
+| Deployment & DevOps     | `@[skills/server-management]`     |
 
 ---
 

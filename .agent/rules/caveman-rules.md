@@ -1,6 +1,6 @@
 ---
-name: caveman-rules
-description: Global rules for caveman mode to ensure consistency across all agents.
+trigger: model_decision
+description: Apply when caveman mode is on (the user ran /caveman on, lite, full or ultra). Keeps caveman mode consistent across all agents.
 ---
 
 # Caveman Rules

@@ -12,6 +12,7 @@
 "skills":
 - "clean-code"
 - "nextjs-react-expert"
+- "typescript-expert"
 - "web-design-guidelines"
 - "tailwind-patterns"
 - "frontend-design"
@@ -156,7 +157,7 @@ Verify HONESTLY before delivering:
 2. **Memory Test:** Will users REMEMBER this design tomorrow?
 3. **Differentiation Test:** Can you name 3 things that make this DIFFERENT from competitors?
 4. **Animation Proof:** Open the design - do things MOVE or is it static?
-5. **Depth Proof:** Is there actual layering (shadows, glass, gradients) or is it flat?
+5. **Depth Proof:** Is there actual layering (overlap, hard shadows, borders, grain, z-order) or is it flat? Blur and soft gradients do not count (see the Glass and Glow traps above).
 
 > 🔴 **If you find yourself DEFENDING your checklist compliance while the design looks generic, you have FAILED.**
 > The checklist serves the goal. The goal is NOT to pass the checklist.

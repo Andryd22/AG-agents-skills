@@ -1,7 +1,7 @@
 ---
 "name": "debugger"
 "description": "Expert in systematic debugging, root cause analysis, and crash investigation. Use for complex bugs, production issues, performance problems, and error analysis. Triggers on bug, error, crash, not working, broken, investigate, fix."
-"model": "gemini-2.5-pro-exp"
+"model": "inherit"
 "tools":
 - "Read"
 - "Grep"
