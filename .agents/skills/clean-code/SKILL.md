@@ -1,195 +1,197 @@
 ---
 name: clean-code
-description: Pragmatic coding standards - concise, direct, no over-engineering, no unnecessary comments
+description: Regole pragmatiche per scrivere codice - conciso, diretto, niente sovraingegnerizzazione, niente commenti inutili. Commenti in italiano, nomi in inglese.
 metadata:
   version: "2.1"
   priority: CRITICAL
 ---
 
-# Clean Code - Pragmatic AI Coding Standards
+# Clean Code - Regole pragmatiche per l'AI
 
-> **CRITICAL SKILL** - Be **concise, direct, and solution-focused**.
-
----
-
-## Core Principles
-
-| Principle | Rule |
-| ----------- | ------ |
-| **SRP** | Single Responsibility - each function/class does ONE thing |
-| **DRY** | Don't Repeat Yourself - extract duplicates, reuse |
-| **KISS** | Keep It Simple - simplest solution that works |
-| **YAGNI** | You Aren't Gonna Need It - don't build unused features |
-| **Boy Scout** | Leave code cleaner than you found it |
+> **SKILL CRITICA** - Sii **conciso, diretto e concentrato sulla soluzione**.
 
 ---
 
-## Naming Rules
+## Principi
 
-| Element | Convention |
-| --------- | ------------ |
-| **Variables** | Reveal intent: `userCount` not `n` |
-| **Functions** | Verb + noun: `getUserById()` not `user()` |
-| **Booleans** | Question form: `isActive`, `hasPermission`, `canEdit` |
-| **Constants** | SCREAMING_SNAKE: `MAX_RETRY_COUNT` |
-
-> **Rule:** If you need a comment to explain a name, rename it.
-
----
-
-## Function Rules
-
-| Rule | Description |
-| ------ | ------------- |
-| **Small** | Max 20 lines, ideally 5-10 |
-| **One Thing** | Does one thing, does it well |
-| **One Level** | One level of abstraction per function |
-| **Few Args** | Max 3 arguments, prefer 0-2 |
-| **No Side Effects** | Don't mutate inputs unexpectedly |
+| Principio | Regola |
+| --- | --- |
+| **SRP** | Responsabilità singola: ogni funzione o classe fa UNA cosa |
+| **DRY** | Non ripeterti: estrai i duplicati, riusa |
+| **KISS** | Tienilo semplice: la soluzione più semplice che funziona |
+| **YAGNI** | Non ti servirà: non costruire funzionalità che nessuno usa |
+| **Boy Scout** | Lascia il codice più pulito di come l'hai trovato |
 
 ---
 
-## Code Structure
+## Nomi e lingua
 
-| Pattern | Apply |
-| --------- | ------- |
-| **Guard Clauses** | Early returns for edge cases |
-| **Flat > Nested** | Avoid deep nesting (max 2 levels) |
-| **Composition** | Small functions composed together |
-| **Colocation** | Keep related code close |
+| Elemento | Convenzione |
+| --- | --- |
+| **Variabili** | Rivelano l'intento: `userCount`, non `n` |
+| **Funzioni** | Verbo + nome: `getUserById()`, non `user()` |
+| **Booleani** | Forma di domanda: `isActive`, `hasPermission`, `canEdit` |
+| **Costanti** | SCREAMING_SNAKE: `MAX_RETRY_COUNT` |
+| **Lingua** | Nomi (variabili, funzioni, classi, file) in inglese; commenti, docstring e messaggi per l'utente in italiano |
 
----
-
-## AI Coding Style
-
-| Situation | Action |
-| ----------- | -------- |
-| User asks for feature | Write it directly |
-| User reports bug | Fix it, don't explain |
-| No clear requirement | Ask, don't assume |
+> **Regola:** se un nome ha bisogno di un commento per essere capito, cambia il nome.
 
 ---
 
-## Anti-Patterns (DON'T)
+## Funzioni
 
-| ❌ Pattern | ✅ Fix |
-| ----------- | ------- |
-| Comment every line | Delete obvious comments |
-| Helper for one-liner | Inline the code |
-| Factory for 2 objects | Direct instantiation |
-| utils.ts with 1 function | Put code where used |
-| "First we import..." | Just write code |
-| Deep nesting | Guard clauses |
-| Magic numbers | Named constants |
-| God functions | Split by responsibility |
+| Regola | Descrizione |
+| --- | --- |
+| **Piccole** | Massimo 20 righe, meglio 5-10 |
+| **Una cosa** | Fa una cosa sola, e la fa bene |
+| **Un livello** | Un solo livello di astrazione per funzione |
+| **Pochi argomenti** | Massimo 3, meglio 0-2 |
+| **Niente effetti collaterali** | Non modificare gli input quando nessuno se lo aspetta |
 
 ---
 
-## 🔴 Before Editing ANY File (THINK FIRST!)
+## Struttura del codice
 
-**Before changing a file, ask yourself:**
+| Schema | Come |
+| --- | --- |
+| **Guard clause** | Uscite anticipate per i casi limite |
+| **Piatto > annidato** | Evita l'annidamento profondo (massimo 2 livelli) |
+| **Composizione** | Funzioni piccole messe insieme |
+| **Vicinanza** | Il codice che va insieme sta vicino |
 
-| Question | Why |
-| ---------- | ----- |
-| **What imports this file?** | They might break |
-| **What does this file import?** | Interface changes |
-| **What tests cover this?** | Tests might fail |
-| **Is this a shared component?** | Multiple places affected |
+---
 
-**Quick Check:**
+## Stile dell'AI
+
+| Situazione | Cosa fare |
+| --- | --- |
+| L'utente chiede una funzionalità | Scrivila direttamente |
+| L'utente segnala un bug | Correggilo, senza fare lezioni |
+| Requisito poco chiaro | Chiedi, non dare per scontato |
+
+---
+
+## Anti-pattern (DA NON FARE)
+
+| ❌ Schema | ✅ Correzione |
+| --- | --- |
+| Commentare ogni riga | Togli i commenti ovvi |
+| Helper per una riga | Scrivi il codice sul posto |
+| Factory per 2 oggetti | Istanziali direttamente |
+| utils.ts con 1 funzione | Metti il codice dove si usa |
+| "Per prima cosa importiamo..." | Scrivi il codice e basta |
+| Annidamento profondo | Guard clause |
+| Numeri magici | Costanti con un nome |
+| Funzioni onnipotenti | Dividile per responsabilità |
+
+---
+
+## 🔴 Prima di modificare QUALSIASI file (PRIMA PENSA!)
+
+**Prima di cambiare un file, chiediti:**
+
+| Domanda | Perché |
+| --- | --- |
+| **Chi importa questo file?** | Potrebbe rompersi |
+| **Cosa importa questo file?** | Cambi di interfaccia |
+| **Quali test lo coprono?** | I test potrebbero fallire |
+| **È un componente condiviso?** | Cambia in più punti |
+
+**Controllo rapido:**
 
 ```text
-File to edit: UserService.ts
-└── Who imports this? → UserController.ts, AuthController.ts
-└── Do they need changes too? → Check function signatures
+File da modificare: UserService.ts
+└── Chi lo importa? → UserController.ts, AuthController.ts
+└── Vanno cambiati anche loro? → Controlla le firme delle funzioni
 ```
 
-> 🔴 **Rule:** Edit the file + all dependent files in the SAME task.
-> 🔴 **Never leave broken imports or missing updates.**
+> 🔴 **Regola:** modifica il file e tutti i file che ne dipendono NELLO STESSO task.
+> 🔴 **Mai lasciare import rotti o aggiornamenti mancanti.**
 
 ---
 
-## Summary
+## Riassunto
 
-| Do | Don't |
-| ---- | ------- |
-| Write code directly | Write tutorials |
-| Let code self-document | Add obvious comments |
-| Fix bugs immediately | Explain the fix first |
-| Inline small things | Create unnecessary files |
-| Name things clearly | Use abbreviations |
-| Keep functions small | Write 100+ line functions |
+| Fai | Non fare |
+| --- | --- |
+| Scrivi il codice direttamente | Scrivere tutorial |
+| Lascia che il codice si spieghi | Aggiungere commenti ovvi |
+| Correggi subito i bug | Spiegare la correzione prima di farla |
+| Scrivi sul posto le cose piccole | Creare file inutili |
+| Dai nomi chiari | Usare abbreviazioni |
+| Tieni piccole le funzioni | Scrivere funzioni da 100+ righe |
 
-> **Remember: The user wants working code, not a programming lesson.**
-
----
-
-## 🔴 Self-Check Before Completing (MANDATORY)
-
-**Before saying "task complete", verify:**
-
-| Check | Question |
-| ------- | ---------- |
-| ✅ **Goal met?** | Did I do exactly what user asked? |
-| ✅ **Files edited?** | Did I modify all necessary files? |
-| ✅ **Code works?** | Did I test/verify the change? |
-| ✅ **No errors?** | Lint and TypeScript pass? |
-| ✅ **Nothing forgotten?** | Any edge cases missed? |
-
-> 🔴 **Rule:** If ANY check fails, fix it before completing.
+> **Ricorda: l'utente vuole codice che funziona, non una lezione di programmazione.**
 
 ---
 
-## Verification Scripts (MANDATORY)
+## 🔴 Controllo prima di chiudere (OBBLIGATORIO)
 
-> 🔴 **CRITICAL:** Each agent runs ONLY their own skill's scripts after completing work.
+**Prima di dire "fatto", verifica:**
 
-### Agent → Script Mapping
+| Controllo | Domanda |
+| --- | --- |
+| ✅ **Obiettivo raggiunto?** | Ho fatto esattamente quello che l'utente ha chiesto? |
+| ✅ **File modificati?** | Ho cambiato tutti i file necessari? |
+| ✅ **Il codice funziona?** | Ho provato o verificato la modifica? |
+| ✅ **Nessun errore?** | Lint e TypeScript passano? |
+| ✅ **Niente di dimenticato?** | Ho saltato qualche caso limite? |
 
-| Agent | Script | Command |
-| ------- | -------- | --------- |
-| **frontend-specialist** | UX Audit | `python .agents/skills/frontend-design/scripts/ux_audit.py .` |
-| **frontend-specialist** | A11y Check | `python .agents/skills/frontend-design/scripts/accessibility_checker.py .` |
-| **backend-specialist** | API Validator | `python .agents/skills/api-patterns/scripts/api_validator.py .` |
-| **backend-specialist** | Schema Validate | `python .agents/skills/database-design/scripts/schema_validator.py .` |
-| **frontend-specialist** | React Performance | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py .` |
-| **test-engineer** | Test Runner | `python .agents/skills/test/scripts/test_runner.py .` |
+> 🔴 **Regola:** se QUALSIASI controllo fallisce, correggilo prima di chiudere.
+
+---
+
+## Script di verifica (OBBLIGATORI)
+
+> 🔴 **CRITICO:** ogni agente, finito il lavoro, esegue SOLO gli script delle proprie skill.
+
+### Agente → script
+
+| Agente | Script | Comando |
+| --- | --- | --- |
+| **frontend-specialist** | Audit UX | `python .agents/skills/frontend-design/scripts/ux_audit.py .` |
+| **frontend-specialist** | Accessibilità | `python .agents/skills/frontend-design/scripts/accessibility_checker.py .` |
+| **backend-specialist** | Validazione API | `python .agents/skills/api-patterns/scripts/api_validator.py .` |
+| **backend-specialist** | Validazione schema | `python .agents/skills/database-design/scripts/schema_validator.py .` |
+| **frontend-specialist** | Prestazioni React | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py .` |
+| **test-engineer** | Test | `python .agents/skills/test/scripts/test_runner.py .` |
 | **qa-automation-engineer** | Playwright | `python .agents/skills/webapp-testing/scripts/playwright_runner.py <url>` |
-| **Any agent** | Lint & Types | the project's own tooling: `npm run lint`, `npx tsc --noEmit`, `ruff check`, `mypy` |
+| **latex-specialist** | Controllo del progetto | `python .agents/skills/latex-review/scripts/check_project.py .` |
+| **Qualsiasi agente** | Lint e tipi | gli strumenti del progetto: `npm run lint`, `npx tsc --noEmit`, `ruff check`, `mypy` |
 
-> ❌ **WRONG:** `test-engineer` running `ux_audit.py`
-> ✅ **CORRECT:** `frontend-specialist` running `ux_audit.py`
+> ❌ **SBAGLIATO:** `test-engineer` che lancia `ux_audit.py`
+> ✅ **GIUSTO:** `frontend-specialist` che lancia `ux_audit.py`
 
 ---
 
-### 🔴 Script Output Handling (READ → SUMMARIZE → ASK)
+### 🔴 Output degli script (LEGGI → RIASSUMI → CHIEDI)
 
-**When running a validation script, you MUST:**
+**Quando lanci uno script di validazione, DEVI:**
 
-1. **Run the script** and capture ALL output
-2. **Parse the output** - identify errors, warnings, and passes
-3. **Summarize to user** in this format:
+1. **Lanciare lo script** e raccogliere TUTTO l'output
+2. **Analizzare l'output**: errori, avvisi, controlli superati
+3. **Riassumere all'utente** in questo formato:
 
 ```markdown
-## Script Results: [script_name.py]
+## Risultati dello script: [nome_script.py]
 
-### ❌ Errors Found (X items)
-- [File:Line] Error description 1
-- [File:Line] Error description 2
+### ❌ Errori (X)
+- [File:riga] Descrizione dell'errore 1
+- [File:riga] Descrizione dell'errore 2
 
-### ⚠️ Warnings (Y items)
-- [File:Line] Warning description
+### ⚠️ Avvisi (Y)
+- [File:riga] Descrizione dell'avviso
 
-### ✅ Passed (Z items)
-- Check 1 passed
-- Check 2 passed
+### ✅ Superati (Z)
+- Controllo 1 superato
+- Controllo 2 superato
 
-**Should I fix the X errors?**
+**Correggo gli X errori?**
 ```
 
-1. **Wait for user confirmation** before fixing
-2. **After fixing** → Re-run script to confirm
+1. **Aspettare la conferma dell'utente** prima di correggere
+2. **Dopo la correzione** → rilanciare lo script per conferma
 
-> 🔴 **VIOLATION:** Running script and ignoring output = FAILED task.
-> 🔴 **VIOLATION:** Auto-fixing without asking = Not allowed.
-> 🔴 **Rule:** Always READ output → SUMMARIZE → ASK → then fix.
+> 🔴 **VIOLAZIONE:** lanciare lo script e ignorarne l'output = task FALLITO.
+> 🔴 **VIOLAZIONE:** correggere da solo senza chiedere = non permesso.
+> 🔴 **Regola:** sempre LEGGI l'output → RIASSUMI → CHIEDI → poi correggi.

@@ -35,7 +35,7 @@ L'installer sostituisce solo i propri agenti, skill, regole e script: i file del
 
 ## 🤖 Agenti (12)
 
-Custom agent di Antigravity (`.agents/agents/<nome>.md`): il frontmatter fissa gli strumenti (con i nomi di Antigravity) e il modello (`inherit`); il corpo è il system prompt e nomina le skill dell'agente ("Your skills"). I custom agent ereditano tutte le skill del workspace, quindi il frontmatter non ha la chiave `skills`: i suoi percorsi verrebbero risolti dalla cartella dell'agente e fallirebbero per gli agenti fatti di un solo file. `GEMINI.md` fa passare ogni richiesta da `intelligent-routing` e delega con `invoke_subagent`; dove i custom agent non ci sono (per ora l'IDE di Antigravity) il file dell'agente viene letto e applicato direttamente.
+Custom agent di Antigravity (`.agents/agents/<nome>.md`): il frontmatter fissa gli strumenti (con i nomi di Antigravity) e il modello (`inherit`); il corpo è il system prompt e nomina le skill dell'agente ("Le tue skill"). I custom agent ereditano tutte le skill del workspace, quindi il frontmatter non ha la chiave `skills`: i suoi percorsi verrebbero risolti dalla cartella dell'agente e fallirebbero per gli agenti fatti di un solo file. `GEMINI.md` fa passare ogni richiesta da `intelligent-routing` e delega con `invoke_subagent`; dove i custom agent non ci sono (per ora l'IDE di Antigravity) il file dell'agente viene letto e applicato direttamente.
 
 | Agente | Ambito | Skill |
 | --- | --- | --- |

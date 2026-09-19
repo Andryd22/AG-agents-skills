@@ -102,7 +102,7 @@ Esempio:
 
 ### Usare le Skill
 
-Le skill vengono caricate automaticamente in base al contesto della task: ogni agente vede tutte le skill del kit (nome e descrizione), legge per prime quelle elencate nel suo corpo ("Your skills") e sceglie le altre dalla descrizione.
+Le skill vengono caricate automaticamente in base al contesto della task: ogni agente vede tutte le skill del kit (nome e descrizione), legge per prime quelle elencate nel suo corpo ("Le tue skill") e sceglie le altre dalla descrizione.
 
 ### Controlli finali
 

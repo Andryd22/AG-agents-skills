@@ -1,95 +1,95 @@
 ---
 name: intelligent-routing
-description: Automatic agent selection and task routing. Classifies each request, picks the specialist agent(s) from .agents/agents/ and hands the task off with invoke_subagent, without the user having to mention agents.
+description: Scelta automatica dell'agente e smistamento dei compiti. Classifica ogni richiesta, sceglie gli agenti specialisti in .agents/agents/ e passa loro il lavoro con invoke_subagent, senza che l'utente debba nominarli.
 metadata:
   version: "2.0.0"
 ---
 
-# Intelligent Agent Routing
+# Routing intelligente degli agenti
 
-**Purpose**: analyze each request and route it to the right specialist agent(s) without requiring explicit user mentions.
+**Scopo**: analizzare ogni richiesta e affidarla agli agenti specialisti giusti, senza che l'utente debba nominarli.
 
-> **The AI acts as a project manager**: it classifies the request, picks the specialists and hands the work off with full context.
+> **L'AI fa da project manager**: classifica la richiesta, sceglie gli specialisti e passa loro il lavoro con tutto il contesto.
 
-## 1. Request Classifier
+## 1. Classificazione della richiesta
 
-**Before ANY action, classify the request:**
+**Prima di QUALSIASI azione, classifica la richiesta:**
 
-| Request Type | Trigger Keywords | Active Tiers | Result |
+| Tipo di richiesta | Parole chiave | Livelli attivi | Risultato |
 | --- | --- | --- | --- |
-| **QUESTION** | "what is", "how does", "explain" | TIER 0 only | Text Response |
-| **SURVEY/INTEL** | "analyze", "list files", "overview" | TIER 0 + Explorer | Session Intel (No File) |
-| **SIMPLE CODE** | "fix", "add", "change" (single file) | TIER 0 + TIER 1 (lite) | Inline Edit |
-| **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **`docs/PLAN-{slug}.md` required** |
-| **DESIGN/UI** | "design", "UI", "page", "dashboard" | TIER 0 + TIER 1 + Agent | **`docs/PLAN-{slug}.md` required** |
-| **SLASH CMD** | /plan, /orchestrate, /debug, ... | The skill with that name | Variable |
+| **DOMANDA** | "cos'è", "come funziona", "spiegami" | Solo LIVELLO 0 | Risposta testuale |
+| **ANALISI** | "analizza", "elenca i file", "panoramica" | LIVELLO 0 + explorer-agent | Resoconto in chat (nessun file) |
+| **CODICE SEMPLICE** | "correggi", "aggiungi", "cambia" (un solo file) | LIVELLO 0 + LIVELLO 1 (leggero) | Modifica diretta |
+| **CODICE COMPLESSO** | "costruisci", "crea", "implementa", "refactoring" | LIVELLO 0 + LIVELLO 1 (completo) + agente | **Serve `docs/PLAN-{slug}.md`** |
+| **DESIGN/UI** | "design", "UI", "pagina", "dashboard" | LIVELLO 0 + LIVELLO 1 + agente | **Serve `docs/PLAN-{slug}.md`** |
+| **SLASH COMMAND** | /plan, /orchestrate, /debug, ... | La skill con quel nome | Variabile |
 
-## 2. Agent Selection Matrix
+## 2. Tabella di scelta degli agenti
 
-**Use this matrix to select agents.** It lists every agent in `.agents/agents/`; keep it complete when agents are added or removed.
+**Usa questa tabella per scegliere gli agenti.** Elenca tutti gli agenti di `.agents/agents/`; tienila completa quando se ne aggiungono o se ne tolgono.
 
-| User Intent | Keywords / Domain | Selected Agent(s) (minimum) | Auto-invoke? |
+| Intento dell'utente | Parole chiave / dominio | Agenti scelti (minimo) | Automatico? |
 | --- | --- | --- | --- |
-| **Authentication** | "login", "auth", "signup", "password", "jwt" | `backend-specialist` + `test-engineer` | ✅ YES |
-| **UI Component** | "button", "card", "layout", "style" | `frontend-specialist` | ✅ YES |
-| **Web App** | "webapp", "nextjs", "react", "vue" | `frontend-specialist` + `backend-specialist` + `test-engineer` | ⚠️ ASK FIRST |
-| **API Design** | "API design", "OpenAPI", "contract", "versioning" | `api-designer` | ✅ YES |
-| **API Endpoint** | "endpoint", "route", "POST", "GET" | `backend-specialist` + `test-engineer` | ✅ YES |
-| **Database** | "schema", "migration", "query", "table" | `backend-specialist` | ✅ YES |
-| **Bug Fix** | "error", "bug", "not working", "broken" | `debugger` + `explorer-agent` + `test-engineer` | ✅ YES |
-| **Unit/Integration** | "test", "coverage", "unit", "tdd" | `test-engineer` | ✅ YES |
-| **E2E / QA** | "e2e", "playwright", "cypress", "regression" | `qa-automation-engineer` | ✅ YES |
-| **Deployment** | "deploy", "production", "CI/CD", "docker" | `backend-specialist` | ✅ YES |
-| **Security Review** | "security", "vulnerability", "owasp" | `backend-specialist` (no dedicated security agent) | ✅ YES |
-| **Performance** | "slow", "optimize", "performance", "speed" | `frontend-specialist` (web) or `backend-specialist` (server) | ✅ YES |
-| **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap" | `frontend-specialist` | ✅ YES |
-| **AI / LLM** | "LLM", "RAG", "prompt", "embedding", "AI agent" | `ai-ml-engineer` | ✅ YES |
-| **ML / Data Mining** | "scikit-learn", "classification", "clustering", "pandas", "association rules", "cross-validation" | `ai-ml-engineer` (with the `classic-ml` skill) | ✅ YES |
-| **Scroll Experience** | "scrollytelling", "3D scroll", "fly-through", "WebGL" | `scroll-experience-architect` | ✅ YES |
-| **LaTeX / Academic** | "latex", "lecture notes", "slides to chapter", "thesis", "paper", "tikz" | `latex-specialist` | ✅ YES |
-| **Documentation** | "README", "API docs", "changelog" | `documentation-writer` | ❌ ONLY IF ASKED |
-| **Codebase Survey** | "analyze repo", "explain codebase", "map structure" | `explorer-agent` | ✅ YES |
-| **Requirements** | "user story", "acceptance criteria", "specs", "backlog", "roadmap", "MVP", "PRD" | No agent: the `plan` skill | ✅ YES |
-| **Planning** | "plan", "break down", "task list" | No agent: the `plan` skill | ✅ YES |
-| **Full Stack** | "build app", "fullstack", "platform" | `orchestrator` (plan with `/plan`, then `frontend-specialist` + `backend-specialist`) | ⚠️ ASK FIRST |
-| **New Feature** | "build", "create", "implement", "new app" | `orchestrator` → multi-agent | ⚠️ ASK FIRST |
-| **Complex Task** | Multiple domains detected | `orchestrator` → multi-agent | ⚠️ ASK FIRST |
+| **Autenticazione** | "login", "auth", "registrazione", "password", "jwt" | `backend-specialist` + `test-engineer` | ✅ SÌ |
+| **Componente UI** | "pulsante", "card", "layout", "stile" | `frontend-specialist` | ✅ SÌ |
+| **App web** | "webapp", "nextjs", "react", "vue" | `frontend-specialist` + `backend-specialist` + `test-engineer` | ⚠️ PRIMA CHIEDI |
+| **Design di API** | "design delle API", "OpenAPI", "contratto", "versioning" | `api-designer` | ✅ SÌ |
+| **Endpoint** | "endpoint", "rotta", "POST", "GET" | `backend-specialist` + `test-engineer` | ✅ SÌ |
+| **Database** | "schema", "migrazione", "query", "tabella" | `backend-specialist` | ✅ SÌ |
+| **Bug** | "errore", "bug", "non funziona", "rotto" | `debugger` + `explorer-agent` + `test-engineer` | ✅ SÌ |
+| **Test unitari e di integrazione** | "test", "copertura", "unit", "tdd" | `test-engineer` | ✅ SÌ |
+| **E2E / QA** | "e2e", "playwright", "cypress", "regressione" | `qa-automation-engineer` | ✅ SÌ |
+| **Deploy** | "deploy", "produzione", "CI/CD", "docker" | `backend-specialist` | ✅ SÌ |
+| **Revisione di sicurezza** | "sicurezza", "vulnerabilità", "owasp" | `backend-specialist` (non c'è un agente per la sicurezza) | ✅ SÌ |
+| **Prestazioni** | "lento", "ottimizza", "prestazioni", "velocità" | `frontend-specialist` (web) o `backend-specialist` (server) | ✅ SÌ |
+| **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap" | `frontend-specialist` | ✅ SÌ |
+| **AI / LLM** | "LLM", "RAG", "prompt", "embedding", "agente AI" | `ai-ml-engineer` | ✅ SÌ |
+| **ML / data mining** | "scikit-learn", "classificazione", "clustering", "pandas", "regole di associazione", "cross-validation" | `ai-ml-engineer` (con la skill `classic-ml`) | ✅ SÌ |
+| **Esperienza scroll** | "scrollytelling", "scroll 3D", "fly-through", "WebGL" | `scroll-experience-architect` | ✅ SÌ |
+| **LaTeX / università** | "latex", "appunti", "dalle slide al capitolo", "tesi", "paper", "tikz" | `latex-specialist` | ✅ SÌ |
+| **Documentazione** | "README", "documentazione delle API", "changelog" | `documentation-writer` | ❌ SOLO SE RICHIESTO |
+| **Analisi del codice** | "analizza il repo", "spiega il codice", "mappa la struttura" | `explorer-agent` | ✅ SÌ |
+| **Requisiti** | "user story", "criteri di accettazione", "specifiche", "backlog", "roadmap", "MVP", "PRD" | Nessun agente: la skill `plan` | ✅ SÌ |
+| **Piano** | "piano", "pianifica", "suddividi", "lista dei task" | Nessun agente: la skill `plan` | ✅ SÌ |
+| **Full stack** | "costruisci un'app", "fullstack", "piattaforma" | `orchestrator` (piano con `/plan`, poi `frontend-specialist` + `backend-specialist`) | ⚠️ PRIMA CHIEDI |
+| **Nuova funzionalità** | "costruisci", "crea", "implementa", "nuova app" | `orchestrator` → più agenti | ⚠️ PRIMA CHIEDI |
+| **Compito complesso** | Più domini riconosciuti | `orchestrator` → più agenti | ⚠️ PRIMA CHIEDI |
 
-**Multi-domain rule:** if the request matches 2+ domains from different rows (e.g. "secure login with dark mode UI" = backend + frontend), route to `orchestrator`, which plans first and then coordinates the specialists.
+**Regola dei più domini:** se la richiesta corrisponde a 2 o più domini di righe diverse (es. "login sicuro con UI in dark mode" = backend + frontend), affidala all'`orchestrator`, che prima pianifica e poi coordina gli specialisti.
 
-## 3. Handing Off
+## 3. Passare il lavoro
 
-- **Native (Antigravity app and CLI):** call `invoke_subagent` with the agent's name. The subagent starts with a clean context, so the prompt must contain the user's request in full, the decisions already taken (answers to the Socratic Gate), the relevant files and, if one exists, the plan in `docs/PLAN-{slug}.md`.
-- **Fallback (no custom agents, e.g. the Antigravity IDE until it supports them):** read `.agents/agents/<name>.md` and the `SKILL.md` of each skill its "Your skills" line names, then answer applying them.
-- **Questions and trivial edits** need no agent: answer directly.
+- **Nativo (app e CLI di Antigravity):** chiama `invoke_subagent` con il nome dell'agente. Il subagent parte con un contesto pulito, quindi il prompt deve contenere la richiesta completa dell'utente, le decisioni già prese (risposte al Socratic Gate), i file che servono e, se esiste, il piano in `docs/PLAN-{slug}.md`.
+- **Ripiego (senza custom agent, es. l'IDE di Antigravity finché non li supporta):** leggi `.agents/agents/<nome>.md` e lo `SKILL.md` di ogni skill nominata nella sua riga "Le tue skill", poi rispondi applicandoli.
+- **Domande e modifiche banali** non hanno bisogno di un agente: rispondi direttamente.
 
-## 4. Complexity
+## 4. Complessità
 
-| Level | Signals | Action |
-| ------- | --------- | -------- |
-| **SIMPLE** | One file, one domain, clear task ("fix the login button style") | One agent |
-| **MODERATE** | 2-3 files, 2 domains, clear requirements ("add a profile endpoint") | The relevant agents in sequence |
-| **COMPLEX** | Many files/domains, architectural choices, unclear requirements ("build a social app") | `orchestrator`, which asks the Socratic questions first |
+| Livello | Segnali | Azione |
+| --- | --- | --- |
+| **SEMPLICE** | Un file, un dominio, compito chiaro ("sistema lo stile del pulsante di login") | Un agente |
+| **MEDIA** | 2-3 file, 2 domini, requisiti chiari ("aggiungi un endpoint per il profilo") | Gli agenti coinvolti, uno dopo l'altro |
+| **COMPLESSA** | Molti file o domini, scelte di architettura, requisiti poco chiari ("costruisci un social") | `orchestrator`, che prima fa le domande del Socratic Gate |
 
-## 5. Rules
+## 5. Regole
 
-1. **Silent analysis:** do not announce "I'm analyzing your request...".
-2. **Say which agents and skills are applied**, in the first line of the answer, as defined in "Announce Agents and Skills" in `rules/GEMINI.md`:
+1. **Analisi silenziosa:** non annunciare "Sto analizzando la tua richiesta...".
+2. **Di' quali agenti e skill usi**, nella prima riga della risposta, come stabilito in "Annuncia agenti e skill" in `rules/GEMINI.md`:
 
    ```text
    🤖 @backend-specialist + @test-engineer · 📚 api-patterns, test
    ```
 
-   Before a hand-off write `↪ @<agent>: <task>`, when it returns `↩ @<agent>`.
+   Prima di passare il lavoro scrivi `↪ @<agente>: <compito>`, quando torna `↩ @<agente>`.
 
-3. **Override:** an explicit mention wins ("Use @backend-specialist to review this").
-4. **Socratic Gate first:** routing never skips the questions in GEMINI.md when something that changes the result is unclear.
-5. **Priority:** GEMINI.md rules > intelligent-routing.
+3. **Precedenza:** una menzione esplicita vince ("Usa @backend-specialist per rivedere questo").
+4. **Prima il Socratic Gate:** il routing non salta mai le domande di GEMINI.md quando non è chiaro qualcosa che cambia il risultato.
+5. **Priorità:** regole di GEMINI.md > intelligent-routing.
 
-## 6. Edge Cases
+## 6. Casi limite
 
-| Case | Example | Action |
-| ------ | --------- | -------- |
-| Generic question | "How does React work?" | No agent, answer directly |
-| Very vague | "Make it better" | Ask what to improve, then route |
-| Contradictory | "Add mobile support to the web app" | Ask: responsive web (`frontend-specialist`) or native app (not covered by the kit)? Then route |
+| Caso | Esempio | Azione |
+| --- | --- | --- |
+| Domanda generica | "Come funziona React?" | Nessun agente, rispondi direttamente |
+| Molto vaga | "Miglioralo" | Chiedi cosa migliorare, poi scegli l'agente |
+| Contraddittoria | "Aggiungi il supporto mobile alla web app" | Chiedi: web responsive (`frontend-specialist`) o app nativa (il kit non la copre)? Poi scegli l'agente |

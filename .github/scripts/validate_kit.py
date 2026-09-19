@@ -110,7 +110,7 @@ for p in sorted(SKILLS.rglob("SKILL.md")):
 # ------------------------------------------------------------------- agents
 # Antigravity custom agents (.agents/agents/<name>.md). An unknown tool name can hang the subagent.
 # Agents inherit every workspace skill; a `skills` key would be resolved from .agents/agents/ and fail,
-# so each agent names its skills in the body: "> 📚 Your skills: `a`, `b`."
+# so each agent names its skills in the body: "> 📚 Le tue skill: `a`, `b`."
 AGENT_KEYS = {"name", "description", "tools", "mainAgent", "subagent", "model", "commandExecutionPolicy",
               "mcpServers", "skills", "plugins"}
 # agy 1.2.7 gives a custom agent only these tools (plus manage_task) and silently drops
@@ -121,7 +121,7 @@ AGENT_TOOLS = {"view_file", "list_dir", "grep_search", "run_command", "write_to_
                "call_mcp_tool", "find_by_name", "search_web", "read_url_content", "generate_image", "schedule"}
 AGENT_MODELS = {"inherit", "flash", "pro"}
 EXEC_POLICIES = {"off", "auto", "eager", "sandbox"}
-YOUR_SKILLS = re.compile(r"^> 📚 Your skills: (.+?)\. ", re.M)
+YOUR_SKILLS = re.compile(r"^> 📚 Le tue skill: (.+?)\. ", re.M)
 for p in agent_files:
     data, body = frontmatter(p)
     if data is None:
@@ -144,11 +144,11 @@ for p in agent_files:
         err(f"{rel(p)}: no `skills` key (paths resolve from .agents/agents/ and fail): name them in the body")
     m = YOUR_SKILLS.search(body)
     if not m:
-        err(f"{rel(p)}: missing the line '> 📚 Your skills: `a`, `b`.' after the announce line")
+        err(f"{rel(p)}: missing the line '> 📚 Le tue skill: `a`, `b`.' after the announce line")
     else:
         for s in re.findall(r"`([^`]+)`", m.group(1)):
             if s not in skill_names:
-                err(f"{rel(p)}: 'Your skills' names '{s}', which is not a skill")
+                err(f"{rel(p)}: 'Le tue skill' names '{s}', which is not a skill")
     if f"🤖 @{p.stem}" not in body:
         err(f"{rel(p)}: missing the announce line with 🤖 @{p.stem}")
 

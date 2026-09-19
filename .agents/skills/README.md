@@ -1,84 +1,84 @@
-# Antigravity Skills
+# Skill di Antigravity
 
-> **Guide to creating and using Skills in the Antigravity Kit**
-
----
-
-## 📋 Overview
-
-While Antigravity's base models (like Gemini) are powerful generalists, they don't know your specific project context or your team's standards. Loading every rule or tool into the agent's context window leads to "tool bloat," higher costs, latency, and confusion.
-
-**Antigravity Skills** solve this through **Progressive Disclosure**. A Skill is a package of specialized knowledge that remains dormant until needed. This information is only loaded into the agent's context when your specific request matches the skill's description.
+> **Guida per creare e usare le skill nell'Antigravity Kit**
 
 ---
 
-## 📁 Structure and Scope
+## 📋 Panoramica
 
-Skills are folder-based packages. You can define these scopes based on your needs:
+I modelli di base di Antigravity (come Gemini) sono generalisti potenti, ma non conoscono il contesto del tuo progetto né gli standard del tuo team. Caricare ogni regola o strumento nella finestra di contesto dell'agente porta a "tool bloat": costi più alti, latenza e confusione.
 
-| Scope | Path | Description |
+Le **skill di Antigravity** risolvono il problema con la **divulgazione progressiva** (progressive disclosure). Una skill è un pacchetto di conoscenza specialistica che resta inattivo finché non serve: entra nel contesto dell'agente solo quando la tua richiesta corrisponde alla descrizione della skill.
+
+---
+
+## 📁 Struttura e ambito
+
+Le skill sono pacchetti a cartella. Puoi definire questi ambiti secondo le tue esigenze:
+
+| Ambito | Percorso | Descrizione |
 | --- | --- | --- |
-| **Workspace** | `<workspace-root>/.agents/skills/` | Available only in a specific project |
+| **Workspace** | `<radice-del-workspace>/.agents/skills/` | Disponibile solo in un progetto specifico |
 
-### Skill Directory Structure
+### Struttura della cartella di una skill
 
 ```text
 my-skill/
-├── SKILL.md      # (Required) Metadata & instructions
-├── scripts/      # (Optional) Python or Bash scripts
-├── references/   # (Optional) Text, documentation, templates
-└── assets/       # (Optional) Images or logos
+├── SKILL.md      # (Obbligatorio) Metadati e istruzioni
+├── scripts/      # (Facoltativo) Script Python o Bash
+├── references/   # (Facoltativo) Testi, documentazione, modelli
+└── assets/       # (Facoltativo) Immagini o loghi
 ```
 
 ---
 
-## 🔍 Example 1: Code Review Skill
+## 🔍 Esempio 1: skill di code review
 
-This is an instruction-only skill; you only need to create the `SKILL.md` file.
+È una skill fatta solo di istruzioni: basta creare il file `SKILL.md`.
 
-### Step 1: Create the directory
+### Passo 1: crea la cartella
 
 ```bash
 mkdir -p .agents/skills/code-review
 ```
 
-### Step 2: Create SKILL.md
+### Passo 2: crea SKILL.md
 
 ```markdown
 ---
 name: code-review
-description: Reviews code changes for bugs, style issues, and best practices. Use when reviewing PRs or checking code quality.
+description: Rivede le modifiche al codice cercando bug, problemi di stile e violazioni delle buone pratiche. Usala per rivedere una PR o controllare la qualità del codice.
 ---
 
-# Code Review Skill
+# Skill di code review
 
-When reviewing code, follow these steps:
+Quando rivedi il codice, segui questi passi:
 
-## Review checklist
+## Checklist di revisione
 
-1. **Correctness**: Does the code do what it's supposed to?
-2. **Edge cases**: Are error conditions handled?
-3. **Style**: Does it follow project conventions?
-4. **Performance**: Are there obvious inefficiencies?
+1. **Correttezza**: il codice fa quello che deve?
+2. **Casi limite**: le condizioni di errore sono gestite?
+3. **Stile**: segue le convenzioni del progetto?
+4. **Prestazioni**: ci sono inefficienze evidenti?
 
-## How to provide feedback
+## Come dare il feedback
 
-- Be specific about what needs to change
-- Explain why, not just what
-- Suggest alternatives when possible
+- Sii preciso su cosa va cambiato
+- Spiega il perché, non solo il cosa
+- Proponi alternative quando puoi
 ```
 
-> **Note**: The `SKILL.md` file contains metadata (name, description) at the top, followed by the instructions. The agent will only read the metadata and load the full instructions only when needed.
+> **Nota**: il file `SKILL.md` contiene in cima i metadati (nome, descrizione), seguiti dalle istruzioni. L'agente legge solo i metadati e carica le istruzioni complete solo quando servono.
 
-### Try it out
+### Prova
 
-Create a file `demo_bad_code.py`:
+Crea un file `demo_bad_code.py`:
 
 ```python
 import time
 
 def get_user_data(users, id):
-    # Find user by ID
+    # Cerca l'utente per ID
     for u in users:
         if u['id'] == id:
             return u
@@ -87,10 +87,10 @@ def get_user_data(users, id):
 def process_payments(items):
     total = 0
     for i in items:
-        # Calculate tax
+        # Calcola la tassa
         tax = i['price'] * 0.1
         total = total + i['price'] + tax
-        time.sleep(0.1)  # Simulate slow network call
+        time.sleep(0.1)  # Simula una chiamata di rete lenta
     return total
 
 def run_batch():
@@ -98,80 +98,80 @@ def run_batch():
     items = [{'price': 10}, {'price': 20}, {'price': 100}]
 
     u = get_user_data(users, 3)
-    print("User found: " + u['name'])  # Will crash if None
+    print("Utente trovato: " + u['name'])  # Va in crash se è None
 
-    print("Total: " + str(process_payments(items)))
+    print("Totale: " + str(process_payments(items)))
 
 if __name__ == "__main__":
     run_batch()
 ```
 
-**Prompt**: `review the @demo_bad_code.py file`
+**Prompt**: `rivedi il file @demo_bad_code.py`
 
-The Agent will automatically identify the `code-review` skill, load the information, and follow the instructions.
+L'agente riconosce da solo la skill `code-review`, ne carica le istruzioni e le segue.
 
 ---
 
-## 📄 Example 2: License Header Skill
+## 📄 Esempio 2: skill per l'intestazione di licenza
 
-This skill uses a reference file in the `resources/` (or `references/`) directory.
+Questa skill usa un file di riferimento nella cartella `resources/` (o `references/`).
 
-### Step 1: Create the directory
+### Passo 1: crea la cartella
 
 ```bash
 mkdir -p .agents/skills/license-header-adder/resources
 ```
 
-### Step 2: Create the template file
+### Passo 2: crea il file modello
 
 **`.agents/skills/license-header-adder/resources/HEADER.txt`**:
 
 ```text
 /*
- * Copyright (c) 2026 YOUR_COMPANY_NAME LLC.
- * All rights reserved.
- * This code is proprietary and confidential.
+ * Copyright (c) 2026 NOME_AZIENDA S.r.l.
+ * Tutti i diritti riservati.
+ * Codice proprietario e riservato.
  */
 ```
 
-### Step 3: Create SKILL.md
+### Passo 3: crea SKILL.md
 
 **`.agents/skills/license-header-adder/SKILL.md`**:
 
 ```markdown
 ---
 name: license-header-adder
-description: Adds the standard corporate license header to new source files.
+description: Aggiunge l'intestazione di licenza aziendale standard ai nuovi file sorgente.
 ---
 
-# License Header Adder
+# Intestazione di licenza
 
-This skill ensures that all new source files have the correct copyright header.
+Questa skill fa in modo che ogni nuovo file sorgente abbia l'intestazione di copyright corretta.
 
-## Instructions
+## Istruzioni
 
-1. **Read the Template**: Read the content of `resources/HEADER.txt`.
-2. **Apply to File**: When creating a new file, prepend this exact content.
-3. **Adapt Syntax**:
-   - For C-style languages (Java, TS), keep the `/* */` block.
-   - For Python/Shell, convert to `#` comments.
+1. **Leggi il modello**: leggi il contenuto di `resources/HEADER.txt`.
+2. **Applicalo al file**: quando crei un nuovo file, metti in cima esattamente questo contenuto.
+3. **Adatta la sintassi**:
+   - Per i linguaggi in stile C (Java, TS) tieni il blocco `/* */`.
+   - Per Python e shell trasformalo in commenti `#`.
 ```
 
-### Try it out
+### Prova
 
-**Prompt**: `Create a new Python script named data_processor.py that prints 'Hello World'.`
+**Prompt**: `Crea un nuovo script Python chiamato data_processor.py che stampa 'Hello World'.`
 
-The Agent will read the template, convert the comments to Python style, and automatically add it to the top of the file.
+L'agente legge il modello, trasforma i commenti nello stile di Python e li aggiunge da solo in cima al file.
 
 ---
 
-## 🎯 Conclusion
+## 🎯 Conclusione
 
-By creating Skills, you transform a general AI model into an expert for your project:
+Creando skill trasformi un modello di AI generico in un esperto del tuo progetto:
 
-- ✅ Systematize best practices
-- ✅ Adhere to code review rules
-- ✅ Automatically add license headers
-- ✅ The Agent automatically knows how to work with your team
+- ✅ Rendi sistematiche le buone pratiche
+- ✅ Rispetti le regole di code review
+- ✅ Aggiungi da solo le intestazioni di licenza
+- ✅ L'agente sa già come lavorare con il tuo team
 
-Instead of constantly reminding the AI to "remember to add the license" or "fix the commit format," now the Agent will do it automatically!
+Invece di ricordare di continuo all'AI "ricordati di aggiungere la licenza" o "sistema il formato del commit", ora l'agente lo fa da solo.

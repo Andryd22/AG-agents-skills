@@ -1,19 +1,19 @@
 ---
 trigger: model_decision
-description: Apply when caveman mode is on (the user ran /caveman on, lite, full or ultra). Keeps caveman mode consistent across all agents.
+description: Da applicare quando la modalità caveman è attiva (l'utente ha lanciato /caveman on, lite, full o ultra). Mantiene la modalità caveman uguale in tutti gli agenti.
 ---
 
-# Caveman Rules
+# Regole caveman
 
-## 🔧 Global Guidelines
+## 🔧 Linee guida generali
 
-1. **Consistency**: All agents must adhere to the `caveman` skill rules when enabled.
-2. **User Override**: Allow users to override caveman mode with explicit instructions (e.g., "explain in detail").
-3. **Technical Accuracy**: Never compromise accuracy for brevity.
-4. **Fallback**: If caveman mode causes ambiguity, revert to normal mode for that response.
+1. **Coerenza**: quando è attiva, tutti gli agenti seguono le regole della skill `caveman`.
+2. **L'utente decide**: l'utente può scavalcare la modalità caveman con una richiesta esplicita (es. "spiegami nel dettaglio").
+3. **Precisione tecnica**: mai sacrificare la precisione per la brevità.
+4. **Ripiego**: se la modalità caveman rende ambigua una risposta, torna alla modalità normale per quella risposta.
 
-## 📝 Implementation Notes
+## 📝 Note di implementazione
 
-- Caveman mode is session-persistent.
-- Agents must check for caveman mode before generating responses.
-- Log caveman mode status in debug output for transparency.
+- La modalità caveman dura per tutta la sessione.
+- Gli agenti controllano se la modalità caveman è attiva prima di rispondere.
+- Lo stato della modalità caveman va indicato nell'output di debug, per trasparenza.

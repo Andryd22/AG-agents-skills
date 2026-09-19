@@ -4,163 +4,162 @@ trigger: always_on
 
 # GEMINI.md - Antigravity Kit
 
-> This file defines how the AI behaves in this workspace.
+> Questo file stabilisce come si comporta l'AI in questo workspace.
 
 ---
 
-## CRITICAL: AGENT & SKILL PROTOCOL (START HERE)
+## CRITICO: PROTOCOLLO DI AGENTI E SKILL (PARTI DA QUI)
 
-> **MANDATORY:** Before any implementation, route the request to the right agent and load its skills. This is the highest priority rule.
+> **OBBLIGATORIO:** prima di qualsiasi implementazione, assegna la richiesta all'agente giusto e carica le sue skill. È la regola con la priorità più alta.
 
-The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills live in `.agents/skills/` and double as slash commands (`/plan`, `/debug`, `/test`, `/orchestrate`, ...).
+Gli agenti del kit sono custom agent di Antigravity in `.agents/agents/`. Le skill stanno in `.agents/skills/` e fanno anche da slash command (`/plan`, `/debug`, `/test`, `/orchestrate`, ...).
 
-### 1. Delegating to an Agent
+### 1. Delegare a un agente
 
-- **Pick** the agent with `@[skills/intelligent-routing]`.
-- **Delegate** with `invoke_subagent`. The subagent starts with a clean context, gets the tools in its frontmatter and sees every skill of the workspace; its body names the skills to read first. The prompt must carry the user's request, the decisions already taken and the relevant files or plan.
-- **Fallback:** where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and the `SKILL.md` of each skill its "Your skills" line names, then apply them yourself.
-- The user can also pick a kit agent as the main agent (agent selector in the app, `/agents` in the CLI).
-- **Tools:** a kit agent gets only the tools in its frontmatter (plus `manage_task`); the CLI default agent lacks `list_dir` and `grep_search`, and in the CLI no agent has `multi_replace_file_content`. Without `list_dir` or `grep_search`, list folders and search with `run_command` (`Get-ChildItem`, `Select-String` on Windows; `ls`, `grep` elsewhere); never guess file names. Edit only the lines that change: one replacement per separate spot, not one block that rewrites the lines in between.
+- **Scegli** l'agente con `@[skills/intelligent-routing]`.
+- **Delega** con `invoke_subagent`. Il subagent parte con un contesto pulito, ha gli strumenti del suo frontmatter e vede tutte le skill del workspace; il suo corpo nomina le skill da leggere per prime. Il prompt deve contenere la richiesta dell'utente, le decisioni già prese e i file o il piano che servono.
+- **Ripiego:** dove i custom agent non ci sono (l'IDE di Antigravity finché non li supporta), leggi `.agents/agents/<nome>.md` e lo `SKILL.md` di ogni skill nominata nella sua riga "Le tue skill", poi applicali tu.
+- L'utente può anche scegliere un agente del kit come agente principale (selettore nell'app, `/agents` nella CLI).
+- **Strumenti:** un agente del kit ha solo gli strumenti del suo frontmatter (più `manage_task`); l'agente di default della CLI non ha `list_dir` e `grep_search`, e nella CLI nessun agente ha `multi_replace_file_content`. Senza `list_dir` o `grep_search`, elenca le cartelle e cerca con `run_command` (`Get-ChildItem`, `Select-String` su Windows; `ls`, `grep` altrove); non tirare mai a indovinare i nomi dei file. Modifica solo le righe che cambiano: una sostituzione per ogni punto separato, non un blocco che riscrive anche le righe in mezzo.
 
-### 2. Skill Loading
+### 2. Caricare le skill
 
-- **Selective Reading:** DO NOT read ALL files in a skill folder. Read `SKILL.md` first, then only the sections and reference files matching the request.
-- **Rule Priority:** P0 (GEMINI.md) > P1 (Agent .md) > P2 (SKILL.md). All rules are binding.
-- **Forbidden:** Never skip the agent's rules or the skill instructions. "Read → Understand → Apply" is mandatory.
+- **Lettura selettiva:** NON leggere TUTTI i file di una skill. Leggi prima `SKILL.md`, poi solo le sezioni e i file di riferimento che servono alla richiesta.
+- **Priorità delle regole:** P0 (GEMINI.md) > P1 (file .md dell'agente) > P2 (SKILL.md). Tutte le regole sono vincolanti.
+- **Vietato:** saltare le regole dell'agente o le istruzioni della skill. "Leggi → Capisci → Applica" è obbligatorio.
 
-### 3. Announce Agents and Skills
+### 3. Annuncia agenti e skill
 
-The user must always see which agent and which skills are at work. Every answer that uses a kit agent or skill starts with one line:
+L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risposta che usa un agente o una skill del kit comincia con una riga:
 
 ```text
 🤖 @debugger · 📚 debug, clean-code
 ```
 
-- **🤖** the agent whose rules you are applying: the one you are running as, or the one you routed to (`@frontend-specialist + @backend-specialist` when you combine two). Running as a kit agent (`--agent`, a subagent, an agent file applied in the IDE) always counts: the line is there even for a one-line answer.
-- **📚** every skill whose `SKILL.md` you read for this answer; a slash command is a skill (`/plan` → `📚 plan`). No skill: leave out `· 📚 …`.
-- **Delegating:** write `↪ @explorer-agent: <task in a few words>` before calling `invoke_subagent`, and `↩ @explorer-agent` when its result comes back.
-- **A skill loaded halfway through:** write `📚 + <skill>` where you start using it.
-- **Nothing used** (the default agent answering a plain question, without routing and without skills): no line.
+- **🤖** l'agente di cui stai applicando le regole: quello con cui stai girando o quello a cui hai assegnato la richiesta (`@frontend-specialist + @backend-specialist` quando ne combini due). Girare come agente del kit (`--agent`, subagent, file di un agente applicato nell'IDE) conta sempre: la riga c'è anche per una risposta di una riga.
+- **📚** ogni skill di cui hai letto lo `SKILL.md` per questa risposta; uno slash command è una skill (`/plan` → `📚 plan`). Nessuna skill: togli `· 📚 …`.
+- **Delega:** scrivi `↪ @explorer-agent: <compito in poche parole>` prima di chiamare `invoke_subagent`, e `↩ @explorer-agent` quando torna il risultato.
+- **Skill caricata a metà:** scrivi `📚 + <skill>` nel punto in cui inizi a usarla.
+- **Niente di usato** (l'agente di default che risponde a una domanda semplice, senza routing e senza skill): nessuna riga.
 
 ---
 
-## 🤖 INTELLIGENT AGENT ROUTING
+## 🤖 ROUTING INTELLIGENTE DEGLI AGENTI
 
-**ALWAYS ACTIVE: Before responding to ANY request, automatically analyze and select the best agent(s).**
+**SEMPRE ATTIVO: prima di rispondere a QUALSIASI richiesta, analizzala e scegli da solo gli agenti migliori.**
 
-> 🔴 **MANDATORY:** You MUST follow the protocol defined in `@[skills/intelligent-routing]` for Request Classification and Agent Routing. This rule is **always_on** and must execute before every response.
+> 🔴 **OBBLIGATORIO:** segui il protocollo di `@[skills/intelligent-routing]` per classificare la richiesta e scegliere l'agente. Questa regola è **always_on** e va eseguita prima di ogni risposta.
 
 ---
 
-## TIER 0: UNIVERSAL RULES (Always Active)
+## LIVELLO 0: REGOLE UNIVERSALI (sempre attive)
 
-### 🌐 Language Handling
+### 🌐 Lingua
 
-When user's prompt is NOT in English:
+1. **Rispondi in italiano**, o nella lingua dell'utente se scrive in un'altra.
+2. **Codice:** commenti, docstring e messaggi per chi lo usa (log, errori, output) in italiano; nomi di variabili, funzioni, classi e file in inglese.
+3. **Documenti** (piani, README, appunti): in italiano. Gli appunti di un corso già scritto in un'altra lingua seguono quella lingua (vedi `latex-tutor`).
+4. **Nomi del kit** (agenti, skill, comandi, percorsi) restano in inglese.
 
-1. **Internally translate** for better comprehension
-2. **Respond in user's language** - match their communication
-3. **Code comments/variables** remain in English
+### 🧹 Clean Code (obbligatorio ovunque)
 
-### 🧹 Clean Code (Global Mandatory)
+**TUTTO il codice DEVE seguire le regole di `@[skills/clean-code]`. Nessuna eccezione.**
 
-**ALL code MUST follow `@[skills/clean-code]` rules. No exceptions.**
+- **Codice**: conciso, diretto, niente sovraingegnerizzazione. Si spiega da solo.
+- **Test**: obbligatori. Piramide (unit > integrazione > E2E) + schema AAA.
+- **Prestazioni**: prima misura. Segui gli standard attuali (Core Web Vitals).
+- **Infrastruttura e sicurezza**: controlla che i segreti siano al sicuro.
 
-- **Code**: Concise, direct, no over-engineering. Self-documenting.
-- **Testing**: Mandatory. Pyramid (Unit > Int > E2E) + AAA Pattern.
-- **Performance**: Measure first. Adhere to 2025 standards (Core Web Vitals).
-- **Infra/Safety**: Verify secrets security.
+### 📁 Dipendenze tra file
 
-### 📁 File Dependency Awareness
+**Prima di modificare QUALSIASI file:**
 
-**Before modifying ANY file:**
+1. Trova cosa dipende da lui: cerca import e usi (e, se il progetto ha un `CODEBASE.md`, leggi la sua sezione File Dependencies)
+2. Individua i file che ne dipendono
+3. Aggiorna INSIEME tutti i file coinvolti
 
-1. Find what depends on it: search for its imports/usages (and, if the project has a `CODEBASE.md`, read its File Dependencies section)
-2. Identify dependent files
-3. Update ALL affected files together
+### 🗺️ Mappa del sistema
 
-### 🗺️ System Map Read
+> 🔴 **OBBLIGATORIO:** a inizio sessione leggi `.agents/ARCHITECTURE.md` per conoscere agenti, skill e script.
 
-> 🔴 **MANDATORY:** Read `.agents/ARCHITECTURE.md` at session start to understand Agents, Skills, and Scripts.
+**Percorsi:**
 
-**Path Awareness:**
+- Agenti: `.agents/agents/`
+- Skill (e slash command): `.agents/skills/`
+- Script master: `.agents/scripts/`
+- Script delle skill: `.agents/skills/<skill>/scripts/`
 
-- Agents: `.agents/agents/`
-- Skills (and slash commands): `.agents/skills/`
-- Master scripts: `.agents/scripts/`
-- Skill scripts: `.agents/skills/<skill>/scripts/`
-
-### 🧠 Read → Understand → Apply
+### 🧠 Leggi → Capisci → Applica
 
 ```text
-❌ WRONG: Read agent file → Start coding
-✅ CORRECT: Read → Understand WHY → Apply PRINCIPLES → Code
+❌ SBAGLIATO: leggi il file dell'agente → inizia a scrivere codice
+✅ GIUSTO: leggi → capisci il PERCHÉ → applica i PRINCIPI → scrivi codice
 ```
 
 ---
 
-## TIER 1: CODE RULES (When Writing Code)
+## LIVELLO 1: REGOLE PER IL CODICE (quando scrivi codice)
 
 ### 🛑 Socratic Gate
 
-**MANDATORY: Every user request must pass through the Socratic Gate before implementation (writing code, creating files, delegating work). Reading files to understand the request is always allowed.**
+**OBBLIGATORIO: ogni richiesta dell'utente passa dal Socratic Gate prima dell'implementazione (scrivere codice, creare file, delegare lavoro). Leggere file per capire la richiesta è sempre permesso.**
 
-| Request Type | Strategy | Required Action |
+| Tipo di richiesta | Strategia | Cosa fare |
 | --- | --- | --- |
-| **New Feature / Build** | Discovery | ASK up to 3 strategic questions on what you cannot infer (purpose, users, scope) |
-| **Code Edit / Bug Fix** | Context Check | Confirm understanding; ask about impact only if it is unclear |
-| **Vague / Simple** | Clarification | Ask only what is missing among purpose, users and scope |
-| **Full Orchestration** | Gatekeeper | **STOP** subagents until user confirms plan details |
-| **Direct "Proceed"** | Validation | Proceed. Raise an edge case (max 1-2) only if it would change the implementation |
+| **Nuova funzionalità / costruzione** | Scoperta | CHIEDI al massimo 3 domande strategiche su ciò che non puoi dedurre (scopo, utenti, perimetro) |
+| **Modifica / bug fix** | Verifica del contesto | Conferma di aver capito; chiedi dell'impatto solo se non è chiaro |
+| **Vaga / semplice** | Chiarimento | Chiedi solo ciò che manca tra scopo, utenti e perimetro |
+| **Orchestrazione completa** | Guardiano | **FERMA** i subagent finché l'utente non conferma i dettagli del piano |
+| **"Procedi" diretto** | Convalida | Procedi. Segnala un caso limite (massimo 1-2) solo se cambierebbe l'implementazione |
 
-**Protocol:**
+**Protocollo:**
 
-1. **Never Assume:** If something that would change the result is unclear, ASK. If the request already answers it, state your assumption and move on.
-2. **Handle Spec-heavy Requests:** When the user gives detailed answers (Answers 1, 2, 3...), do not re-ask them. Mention a **Trade-off** or **Edge Case** only when it changes what you will build (e.g., "LocalStorage confirmed: should old data be migrated when the format changes?").
-3. **Wait:** Do NOT invoke subagents or write code while a blocking question is open.
-4. **Reference:** Full protocol in `@[skills/brainstorm]`.
-5. **Proportion:** The orchestrator and `/plan` follow the same rule: 1-2 quick questions when the request is mostly clear, more only for open-ended builds.
+1. **Mai dare per scontato:** se non è chiaro qualcosa che cambierebbe il risultato, CHIEDI. Se la richiesta ha già la risposta, dichiara la tua ipotesi e vai avanti.
+2. **Richieste già dettagliate:** quando l'utente dà risposte precise (Risposta 1, 2, 3...), non richiederle. Nomina un **compromesso** o un **caso limite** solo quando cambia ciò che costruirai (es. "LocalStorage confermato: i dati vecchi vanno migrati quando cambia il formato?").
+3. **Aspetta:** NON invocare subagent e non scrivere codice finché c'è una domanda bloccante aperta.
+4. **Riferimento:** il protocollo completo è in `@[skills/brainstorm]`.
+5. **Proporzione:** l'orchestrator e `/plan` seguono la stessa regola: 1-2 domande veloci quando la richiesta è quasi chiara, di più solo per costruzioni aperte.
 
-### 🏁 Final Checklist Protocol
+### 🏁 Controlli finali
 
-**Trigger:** When the user says "final checks", "run all checks", "controlli finali", or similar phrases in any language.
+**Quando:** l'utente dice "controlli finali", "esegui tutti i controlli", "final checks" o frasi simili.
 
-| Task Stage | Command | Purpose |
+| Fase | Comando | Scopo |
 | --- | --- | --- |
-| **Manual Audit** | `python .agents/scripts/checklist.py .` | Core checks: schema, tests, UX |
-| **Pre-Deploy** | `python .agents/scripts/verify_all.py . --url <URL>` | Full suite + E2E |
+| **Controllo manuale** | `python .agents/scripts/checklist.py .` | Controlli di base: schema, test, UX |
+| **Prima del deploy** | `python .agents/scripts/verify_all.py . --url <URL>` | Suite completa + E2E |
 
-**Priority Execution Order:**
+**Ordine di esecuzione:**
 
-1. **Lint & types** (project tooling: `npm run lint`, `tsc --noEmit`, `ruff`...) → 2. **Schema** → 3. **Tests** → 4. **UX** → 5. **E2E** (with `--url`)
+1. **Lint e tipi** (strumenti del progetto: `npm run lint`, `tsc --noEmit`, `ruff`...) → 2. **Schema** → 3. **Test** → 4. **UX** → 5. **E2E** (con `--url`)
 
-**Rules:**
+**Regole:**
 
-- **Completion:** A task is NOT finished until `checklist.py` returns success.
-- **Reporting:** If it fails, fix the blocking failures first (tests, schema).
+- **Completamento:** un task NON è finito finché `checklist.py` non passa.
+- **Report:** se fallisce, correggi prima i problemi bloccanti (test, schema).
 
-> 🔴 **Agents & Skills can invoke ANY script** via `python .agents/skills/<skill>/scripts/<script>.py` (See `ARCHITECTURE.md` or Agent `.md` for available scripts).
+> 🔴 **Agenti e skill possono lanciare QUALSIASI script** con `python .agents/skills/<skill>/scripts/<script>.py` (gli script disponibili sono in `ARCHITECTURE.md` o nel file `.md` dell'agente).
 
-### 🎭 Gemini Mode Mapping
+### 🎭 Modalità di Gemini
 
-| Mode | Agent | Behavior |
+| Modalità | Agente | Comportamento |
 | --- | --- | --- |
-| **plan** | `/plan` skill | Plan in `docs/PLAN-{slug}.md`. NO CODE until the plan is approved. |
-| **ask** | - | Focus on understanding. Ask questions. |
-| **edit** | routed agent | Execute. Multi-domain work goes to `orchestrator`, which checks `docs/PLAN-{slug}.md` first. |
+| **plan** | skill `/plan` | Piano in `docs/PLAN-{slug}.md`. NIENTE CODICE finché il piano non è approvato. |
+| **ask** | - | Punta a capire. Fai domande. |
+| **edit** | agente scelto dal routing | Esegui. Il lavoro su più domini va all'`orchestrator`, che prima controlla `docs/PLAN-{slug}.md`. |
 
 ---
 
-## 📁 QUICK REFERENCE
+## 📁 RIFERIMENTO RAPIDO
 
-### Agents & Skills
+### Agenti e skill
 
-- **Masters**: `orchestrator`, `backend-specialist` (API/DB/security/deploy), `frontend-specialist` (UI/UX/performance/SEO), `debugger`
-- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorm`, `plan`, `frontend-design`
-- **Commands**: `/brainstorm`, `/plan`, `/orchestrate`, `/debug`, `/test`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
+- **Principali**: `orchestrator`, `backend-specialist` (API/DB/sicurezza/deploy), `frontend-specialist` (UI/UX/prestazioni/SEO), `debugger`
+- **Skill chiave**: `clean-code`, `intelligent-routing`, `brainstorm`, `plan`, `frontend-design`
+- **Comandi**: `/brainstorm`, `/plan`, `/orchestrate`, `/debug`, `/test`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
 
-### Key Scripts
+### Script principali
 
-- **Verify**: `.agents/scripts/verify_all.py`, `.agents/scripts/checklist.py`
-- **Audits**: `ux_audit.py`, `accessibility_checker.py`, `schema_validator.py`, `api_validator.py`
+- **Verifica**: `.agents/scripts/verify_all.py`, `.agents/scripts/checklist.py`
+- **Audit**: `ux_audit.py`, `accessibility_checker.py`, `schema_validator.py`, `api_validator.py`
 - **Test**: `playwright_runner.py`, `test_runner.py`
