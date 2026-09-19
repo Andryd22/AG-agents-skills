@@ -191,8 +191,9 @@ for p in doc_files:
         if m.group(1) not in kit_files and not (ROOT / m.group(0)).is_file():
             err(f"{rel(p)}: reference to missing script '{m.group(0)}'")
 
-# `/name` in backticks is a command: it must be a skill (a few backticked paths are not commands)
-NOT_COMMANDS = {"g", "nome"}
+# `/name` in backticks is a command: it must be a skill (a few backticked paths are not commands,
+# and /agents is an Antigravity CLI built-in)
+NOT_COMMANDS = {"g", "nome", "agents"}
 for p in doc_files:
     for m in re.finditer(r"`/([a-z][a-z0-9-]*)`", text(p)):
         if m.group(1) not in skill_names and m.group(1) not in NOT_COMMANDS:

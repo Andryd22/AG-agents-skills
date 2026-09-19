@@ -69,7 +69,7 @@ Ogni risposta che usa un agente o una skill del kit comincia con una riga così:
 - ✅ Nessuna curva di apprendimento: descrivi solo ciò di cui hai bisogno
 - ✅ Ottieni sempre risposte da esperti
 - ✅ Trasparenza: mostra quale agente viene utilizzato
-- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente, o sceglierlo come agente principale (selettore nell'app, `agy --agent <nome>` nella CLI)
+- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente, o sceglierlo come agente principale (selettore nell'app, `/agents` nella CLI: in agy 1.2.7 `agy --agent <nome>` non trova gli agenti del progetto e usa quello di default senza avvisare)
 
 L'IDE di Antigravity non supporta ancora i custom agent: lì il modello legge il file dell'agente e lo applica direttamente.
 
