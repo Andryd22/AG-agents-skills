@@ -1,140 +1,140 @@
 ---
 name: test
-description: Generate tests, run the project's test suite (scripts/test_runner.py) and report coverage. Use when the user runs /test or asks to write, run or fix tests.
+description: Genera test, esegue la suite di test del progetto (scripts/test_runner.py) e riporta la copertura. Usala quando l'utente lancia /test o chiede di scrivere, eseguire o correggere dei test.
 ---
 
-# /test - Test Generation and Execution
+# /test - Generare ed eseguire test
 
-The request is the text that follows `/test`.
-
----
-
-## Purpose
-
-This command generates tests, runs existing tests, or checks test coverage.
+La richiesta è il testo che segue `/test`.
 
 ---
 
-## Running the Suite
+## Scopo
 
-`python .agents/skills/test/scripts/test_runner.py . [--coverage]` detects the framework (Jest, Vitest, pytest, ...), runs the suite and exits non-zero on failure. `checklist.py` and `verify_all.py` call it too.
+Questo comando genera test, esegue quelli esistenti o controlla la copertura.
 
 ---
 
-## Sub-commands
+## Eseguire la suite
+
+`python .agents/skills/test/scripts/test_runner.py . [--coverage]` riconosce il framework (Jest, Vitest, pytest, ...), esegue la suite ed esce con un codice diverso da zero se qualcosa fallisce. Lo usano anche `checklist.py` e `verify_all.py`.
+
+---
+
+## Sottocomandi
 
 ```text
-/test                - Run all tests
-/test [file/feature] - Generate tests for specific target
-/test coverage       - Show test coverage report
-/test watch          - Run tests in watch mode
+/test                  - Esegue tutti i test
+/test [file/funzione]  - Genera i test per un obiettivo preciso
+/test coverage         - Mostra il report di copertura
+/test watch            - Esegue i test in modalità watch
 ```
 
 ---
 
-## Behavior
+## Comportamento
 
-### Generate Tests
+### Generare i test
 
-When asked to test a file or feature:
+Quando ti chiedono di testare un file o una funzionalità:
 
-1. **Analyze the code**
-   - Identify functions and methods
-   - Find edge cases
-   - Detect dependencies to mock
+1. **Analizza il codice**
+   - Individua funzioni e metodi
+   - Trova i casi limite
+   - Individua le dipendenze da simulare (mock)
 
-2. **Generate test cases**
-   - Happy path tests
-   - Error cases
-   - Edge cases
-   - Integration tests (if needed)
+2. **Genera i casi di test**
+   - Percorso felice
+   - Casi di errore
+   - Casi limite
+   - Test di integrazione (se servono)
 
-3. **Write tests**
-   - Use project's test framework (Jest, Vitest, etc.)
-   - Follow existing test patterns
-   - Mock external dependencies
+3. **Scrivi i test**
+   - Usa il framework di test del progetto (Jest, Vitest, ...)
+   - Segui gli schemi dei test esistenti
+   - Simula le dipendenze esterne
 
 ---
 
-## Output Format
+## Formato dell'output
 
-### For Test Generation
+### Per la generazione dei test
 
 ```markdown
-## 🧪 Tests: [Target]
+## 🧪 Test: [obiettivo]
 
-### Test Plan
-| Test Case | Type | Coverage |
-|-----------|------|----------|
-| Should create user | Unit | Happy path |
-| Should reject invalid email | Unit | Validation |
-| Should handle db error | Unit | Error case |
+### Piano dei test
+| Caso di test | Tipo | Copertura |
+|--------------|------|-----------|
+| Crea l'utente | Unit | Percorso felice |
+| Rifiuta un'email non valida | Unit | Validazione |
+| Gestisce un errore del database | Unit | Caso di errore |
 
-### Generated Tests
+### Test generati
 
 `tests/[file].test.ts`
 
-[Code block with tests]
+[blocco di codice con i test]
 
 ---
 
-Run with: `npm test`
+Esegui con: `npm test`
 ```
 
-### For Test Execution
+### Per l'esecuzione dei test
 
 ```text
-🧪 Running tests...
+🧪 Esecuzione dei test...
 
-✅ auth.test.ts (5 passed)
-✅ user.test.ts (8 passed)
-❌ order.test.ts (2 passed, 1 failed)
+✅ auth.test.ts (5 superati)
+✅ user.test.ts (8 superati)
+❌ order.test.ts (2 superati, 1 fallito)
 
-Failed:
-  ✗ should calculate total with discount
-    Expected: 90
-    Received: 100
+Falliti:
+  ✗ calcola il totale con lo sconto
+    Atteso: 90
+    Ottenuto: 100
 
-Total: 15 tests (14 passed, 1 failed)
+Totale: 15 test (14 superati, 1 fallito)
 ```
 
 ---
 
-## Examples
+## Esempi
 
 ```text
 /test src/services/auth.service.ts
-/test user registration flow
+/test flusso di registrazione dell'utente
 /test coverage
-/test fix failed tests
+/test correggi i test falliti
 ```
 
 ---
 
-## Test Patterns
+## Schemi di test
 
-### Unit Test Structure
+### Struttura di un test unitario
 
 ```typescript
 describe('AuthService', () => {
   describe('login', () => {
-    it('should return token for valid credentials', async () => {
-      // Arrange
+    it('restituisce il token con credenziali valide', async () => {
+      // Prepara
       const credentials = { email: 'test@test.com', password: 'pass123' };
-      
-      // Act
+
+      // Esegui
       const result = await authService.login(credentials);
-      
-      // Assert
+
+      // Verifica
       expect(result.token).toBeDefined();
     });
 
-    it('should throw for invalid password', async () => {
-      // Arrange
-      const credentials = { email: 'test@test.com', password: 'wrong' };
-      
-      // Act & Assert
-      await expect(authService.login(credentials)).rejects.toThrow('Invalid credentials');
+    it('lancia un errore con una password sbagliata', async () => {
+      // Prepara
+      const credentials = { email: 'test@test.com', password: 'sbagliata' };
+
+      // Esegui e verifica
+      await expect(authService.login(credentials)).rejects.toThrow('Credenziali non valide');
     });
   });
 });
@@ -142,10 +142,10 @@ describe('AuthService', () => {
 
 ---
 
-## Key Principles
+## Principi chiave
 
-- **Test behavior not implementation**
-- **One assertion per test** (when practical)
-- **Descriptive test names**
-- **Arrange-Act-Assert pattern**
-- **Mock external dependencies**
+- **Testa il comportamento, non l'implementazione**
+- **Una verifica per test** (quando è pratico)
+- **Nomi dei test descrittivi**, in italiano
+- **Schema Arrange-Act-Assert** (prepara, esegui, verifica)
+- **Simula le dipendenze esterne**

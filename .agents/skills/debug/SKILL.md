@@ -1,108 +1,104 @@
 ---
 name: debug
-description: 'Systematic bug investigation: gather evidence, rank hypotheses, test them one by one, fix the root cause and prevent recurrence. Use when the user runs /debug or reports an error, a crash or unexpected behaviour.'
+description: 'Indagine sistematica sui bug: raccogli le prove, ordina le ipotesi, verificale una alla volta, correggi la causa radice e impedisci che si ripresenti. Usala quando l''utente lancia /debug o segnala un errore, un crash o un comportamento inatteso.'
 ---
 
-# /debug - Systematic Problem Investigation
+# /debug - Indagine sistematica su un problema
 
-The request is the text that follows `/debug`.
-
----
-
-## Purpose
-
-This command activates DEBUG mode for systematic investigation of issues, errors, or unexpected behavior.
+La richiesta è il testo che segue `/debug`.
 
 ---
 
-## Behavior
+## Scopo
 
-When `/debug` is triggered:
-
-1. **Gather information**
-   - Error message
-   - Reproduction steps
-   - Expected vs actual behavior
-   - Recent changes
-
-2. **Form hypotheses**
-   - List possible causes
-   - Order by likelihood
-
-3. **Investigate systematically**
-   - Test each hypothesis
-   - Check logs, data flow
-   - Use elimination method
-
-4. **Fix and prevent**
-   - Apply fix
-   - Explain root cause
-   - Add prevention measures
+Questo comando attiva la modalità DEBUG per indagare in modo sistematico su problemi, errori o comportamenti inattesi.
 
 ---
 
-## Output Format
+## Comportamento
 
-```markdown
-## 🔍 Debug: [Issue]
+Quando parte `/debug`:
 
-### 1. Symptom
-[What's happening]
+1. **Raccogli le informazioni**
+   - Messaggio di errore
+   - Passi per riprodurlo
+   - Comportamento atteso e comportamento reale
+   - Modifiche recenti
 
-### 2. Information Gathered
-- Error: `[error message]`
-- File: `[filepath]`
-- Line: [line number]
+2. **Formula le ipotesi**
+   - Elenca le cause possibili
+   - Ordinale per probabilità
 
-### 3. Hypotheses
-1. ❓ [Most likely cause]
-2. ❓ [Second possibility]
-3. ❓ [Less likely cause]
+3. **Indaga con metodo**
+   - Verifica ogni ipotesi
+   - Controlla i log e il flusso dei dati
+   - Procedi per eliminazione
 
-### 4. Investigation
+4. **Correggi e previeni**
+   - Applica la correzione
+   - Spiega la causa radice
+   - Aggiungi misure che impediscano di ricaderci
 
-**Testing hypothesis 1:**
-[What I checked] → [Result]
+---
 
-**Testing hypothesis 2:**
-[What I checked] → [Result]
+## Formato dell'output
 
-### 5. Root Cause
-🎯 **[Explanation of why this happened]**
+````markdown
+## 🔍 Debug: [problema]
 
-### 6. Fix
-```[language]
-// Before
-[broken code]
+### 1. Sintomo
+[cosa succede]
 
-// After
-[fixed code]
+### 2. Informazioni raccolte
+- Errore: `[messaggio di errore]`
+- File: `[percorso]`
+- Riga: [numero di riga]
+
+### 3. Ipotesi
+1. ❓ [causa più probabile]
+2. ❓ [seconda possibilità]
+3. ❓ [causa meno probabile]
+
+### 4. Indagine
+
+**Verifica dell'ipotesi 1:**
+[cosa ho controllato] → [risultato]
+
+**Verifica dell'ipotesi 2:**
+[cosa ho controllato] → [risultato]
+
+### 5. Causa radice
+🎯 **[spiegazione del perché è successo]**
+
+### 6. Correzione
+```[linguaggio]
+// Prima
+[codice rotto]
+
+// Dopo
+[codice corretto]
 ```
 
-### 7. Prevention
-
-🛡️ [How to prevent this in the future]
-
-```text
+### 7. Prevenzione
+🛡️ [come evitare che succeda di nuovo]
+````
 
 ---
 
-## Examples
+## Esempi
 
+```text
+/debug il login non funziona
+/debug l'API restituisce 500
+/debug il form non si invia
+/debug i dati non vengono salvati
 ```
 
-/debug login not working
-/debug API returns 500
-/debug form doesn't submit
-/debug data not saving
-
-```text
-
 ---
 
-## Key Principles
+## Principi chiave
 
-- **Ask before assuming** - get full error context
-- **Test hypotheses** - don't guess randomly
-- **Explain why** - not just what to fix
-- **Prevent recurrence** - add tests, validation
+- **Chiedi prima di supporre** - fatti dare il contesto completo dell'errore
+- **Verifica le ipotesi** - non tirare a indovinare
+- **Spiega il perché** - non solo cosa correggere
+- **Evita le ricadute** - aggiungi test e validazioni

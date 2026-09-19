@@ -1,76 +1,76 @@
 ---
 name: status
-description: 'Show project and agent status: stack, features, pending work and file counts. Use when the user runs /status or asks where the project stands.'
+description: 'Mostra lo stato del progetto e degli agenti: stack, funzionalità, lavoro in sospeso e conteggio dei file. Usala quando l''utente lancia /status o chiede a che punto è il progetto.'
 ---
 
-# /status - Show Status
+# /status - Stato del progetto
 
-The request is the text that follows `/status`.
-
----
-
-## Task
-
-Show current project and agent status.
-
-### What It Shows
-
-1. **Project Info**
-   - Project name and path
-   - Tech stack
-   - Current features
-
-2. **Agent Status Board**
-   - Which agents are running
-   - Which tasks are completed
-   - Pending work
-
-3. **File Statistics**
-   - Files created count
-   - Files modified count
+La richiesta è il testo che segue `/status`.
 
 ---
 
-## Example Output
+## Compito
+
+Mostra lo stato attuale del progetto e degli agenti.
+
+### Cosa mostra
+
+1. **Informazioni sul progetto**
+   - Nome e percorso del progetto
+   - Stack tecnologico
+   - Funzionalità presenti
+
+2. **Tabella degli agenti**
+   - Quali agenti stanno lavorando
+   - Quali compiti sono finiti
+   - Lavoro in sospeso
+
+3. **Statistiche sui file**
+   - Numero di file creati
+   - Numero di file modificati
+
+---
+
+## Esempio di output
 
 ```text
-=== Project Status ===
+=== Stato del progetto ===
 
-📁 Project: my-ecommerce
-📂 Path: C:/projects/my-ecommerce
-🏷️ Type: nextjs-ecommerce
-📊 Status: active
+📁 Progetto: my-ecommerce
+📂 Percorso: C:/projects/my-ecommerce
+🏷️ Tipo: nextjs-ecommerce
+📊 Stato: attivo
 
-🔧 Tech Stack:
+🔧 Stack:
    Framework: next.js
    Database: postgresql
    Auth: clerk
-   Payment: stripe
+   Pagamenti: stripe
 
-✅ Features (5):
-   • product-listing
-   • cart
+✅ Funzionalità (5):
+   • elenco prodotti
+   • carrello
    • checkout
-   • user-auth
-   • order-history
+   • autenticazione
+   • storico ordini
 
-⏳ Pending (2):
-   • admin-panel
-   • email-notifications
+⏳ In sospeso (2):
+   • pannello di amministrazione
+   • notifiche email
 
-📄 Files: 73 created, 12 modified
+📄 File: 73 creati, 12 modificati
 
-=== Agent Status ===
+=== Stato degli agenti ===
 
-✅ backend-specialist → Completed
-🔄 frontend-specialist → Dashboard components (60%)
-⏳ test-engineer → Waiting
+✅ backend-specialist → finito
+🔄 frontend-specialist → componenti della dashboard (60%)
+⏳ test-engineer → in attesa
 ```
 
 ---
 
-## Technical
+## Dettagli tecnici
 
-Status uses this script:
+Lo stato usa questo script:
 
 - `python .agents/scripts/session_manager.py status`

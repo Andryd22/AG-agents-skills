@@ -1,152 +1,152 @@
 ---
 name: parallel-agents
-description: Multi-agent orchestration patterns. Use when multiple independent tasks can run with different domain expertise or when comprehensive analysis requires multiple perspectives.
+description: Schemi per coordinare più agenti. Usala quando più compiti indipendenti possono andare avanti con competenze di dominio diverse, o quando un'analisi completa richiede più punti di vista.
 ---
 
-# Native Parallel Agents
+# Agenti in parallelo nativi
 
-> Orchestration through Antigravity's `invoke_subagent` tool
+> Orchestrazione con lo strumento `invoke_subagent` di Antigravity
 
-## Overview
+## Panoramica
 
-This skill coordinates the kit's specialized agents, which are Antigravity custom agents in `.agents/agents/`, through `invoke_subagent`. Each subagent starts with a clean context (none of this conversation), gets the tools in its frontmatter, reads the skills its body names, and returns its result to the caller. Where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and apply it yourself, one domain at a time.
+Questa skill coordina gli agenti specialisti del kit, che sono custom agent di Antigravity in `.agents/agents/`, con `invoke_subagent`. Ogni subagent parte con un contesto pulito (non vede questa conversazione), ha gli strumenti del suo frontmatter, legge le skill nominate nel suo corpo e restituisce il risultato a chi l'ha chiamato. Dove i custom agent non ci sono (l'IDE di Antigravity finché non li supporta), leggi `.agents/agents/<nome>.md` e applicalo tu, un dominio alla volta.
 
-## When to Use Orchestration
+## Quando orchestrare
 
-✅ **Good for:**
+✅ **Va bene per:**
 
-- Complex tasks requiring multiple expertise domains
-- Code analysis from security, performance, and quality perspectives
-- Comprehensive reviews (architecture + security + testing)
-- Feature implementation needing backend + frontend + database work
+- Compiti complessi che richiedono più domini di competenza
+- Analisi del codice dal punto di vista di sicurezza, prestazioni e qualità
+- Revisioni complete (architettura + sicurezza + test)
+- Funzionalità che richiedono lavoro su backend + frontend + database
 
-❌ **Not for:**
+❌ **Non serve per:**
 
-- Simple, single-domain tasks
-- Quick fixes or small changes
-- Tasks where one agent suffices
-
----
-
-## Native Agent Invocation
-
-### Single Agent
-
-```text
-Use the backend-specialist agent to review authentication for vulnerabilities
-```
-
-### Sequential Chain
-
-```text
-First, use the explorer-agent to discover project structure.
-Then, use the backend-specialist to review API endpoints.
-Finally, use the test-engineer to identify test gaps.
-```
-
-### With Context Passing
-
-```text
-Use the frontend-specialist to analyze React components.
-Based on those findings, have the test-engineer generate component tests.
-```
-
-### Continue Previous Work
-
-```text
-Send a follow-up message to the same subagent: it keeps its own context and wakes up when it receives the message.
-```
+- Compiti semplici, di un solo dominio
+- Correzioni veloci o piccole modifiche
+- Compiti per cui basta un agente
 
 ---
 
-## Orchestration Patterns
+## Chiamare gli agenti
 
-### Pattern 1: Comprehensive Analysis
+### Un agente
 
 ```text
-Agents: explorer-agent → [domain-agents] → synthesis
-
-1. explorer-agent: Map codebase structure
-2. backend-specialist: API quality and security posture
-3. frontend-specialist: UI/UX patterns
-4. test-engineer: Test coverage
-5. Synthesize all findings
+Usa l'agente backend-specialist per cercare vulnerabilità nell'autenticazione
 ```
 
-### Pattern 2: Feature Review
+### Catena in sequenza
 
 ```text
-Agents: affected-domain-agents → test-engineer
-
-1. Identify affected domains (backend? frontend? both?)
-2. Invoke relevant domain agents
-3. test-engineer verifies changes
-4. Synthesize recommendations
+Prima usa explorer-agent per scoprire la struttura del progetto.
+Poi usa backend-specialist per rivedere gli endpoint delle API.
+Infine usa test-engineer per individuare i test mancanti.
 ```
 
-### Pattern 3: Security Review
+### Passando il contesto
 
 ```text
-Agents: explorer-agent → backend-specialist → synthesis
+Usa frontend-specialist per analizzare i componenti React.
+In base a quello che trova, fai generare a test-engineer i test dei componenti.
+```
 
-1. explorer-agent: Map auth, secrets, configuration and deployment files
-2. backend-specialist: Auth, input validation, data access, secrets and deployment surface
-3. Synthesize with prioritized remediation
+### Continuare un lavoro
+
+```text
+Manda un altro messaggio allo stesso subagent: tiene il suo contesto e riparte quando riceve il messaggio.
 ```
 
 ---
 
-## Available Agents
+## Schemi di orchestrazione
 
-The complete list of agents, their domains and trigger keywords lives in `@[skills/intelligent-routing]` (section "Agent Selection Matrix"). Use that table instead of keeping a second copy here.
+### Schema 1: analisi completa
 
-Antigravity also has built-in subagents (`research` for codebase exploration, `browser` for web testing): use them for quick searches and the kit's agents for domain expertise.
+```text
+Agenti: explorer-agent → [agenti di dominio] → sintesi
+
+1. explorer-agent: mappa la struttura del codice
+2. backend-specialist: qualità delle API e sicurezza
+3. frontend-specialist: schemi UI/UX
+4. test-engineer: copertura dei test
+5. Sintesi di tutti i risultati
+```
+
+### Schema 2: revisione di una funzionalità
+
+```text
+Agenti: agenti dei domini coinvolti → test-engineer
+
+1. Individua i domini coinvolti (backend? frontend? entrambi?)
+2. Chiama gli agenti di quei domini
+3. test-engineer verifica le modifiche
+4. Sintesi delle raccomandazioni
+```
+
+### Schema 3: revisione di sicurezza
+
+```text
+Agenti: explorer-agent → backend-specialist → sintesi
+
+1. explorer-agent: mappa autenticazione, segreti, configurazione e file di deploy
+2. backend-specialist: autenticazione, validazione degli input, accesso ai dati, segreti e superficie di deploy
+3. Sintesi con le correzioni in ordine di priorità
+```
 
 ---
 
-## Synthesis Protocol
+## Agenti disponibili
 
-After all agents complete, synthesize:
+L'elenco completo degli agenti, con i loro domini e le parole chiave, sta in `@[skills/intelligent-routing]` (sezione "Tabella di scelta degli agenti"). Usa quella tabella invece di tenerne una seconda copia qui.
+
+Antigravity ha anche dei subagent integrati (`research` per esplorare il codice, `browser` per i test sul web): usali per le ricerche veloci e gli agenti del kit per le competenze di dominio.
+
+---
+
+## Sintesi finale
+
+Quando tutti gli agenti hanno finito, fai la sintesi:
 
 ```markdown
-## Orchestration Synthesis
+## Sintesi dell'orchestrazione
 
-### Task Summary
-[What was accomplished]
+### Riepilogo del compito
+[cosa è stato fatto]
 
-### Agent Contributions
-| Agent | Finding |
-|-------|---------|
-| backend-specialist | Found X |
-| test-engineer | Identified Y |
+### Contributi degli agenti
+| Agente | Risultato |
+|--------|-----------|
+| backend-specialist | Ha trovato X |
+| test-engineer | Ha individuato Y |
 
-### Consolidated Recommendations
-1. **Critical**: [Issue from Agent A]
-2. **Important**: [Issue from Agent B]
-3. **Nice-to-have**: [Enhancement from Agent C]
+### Raccomandazioni unificate
+1. **Critico**: [problema dall'agente A]
+2. **Importante**: [problema dall'agente B]
+3. **Facoltativo**: [miglioramento dall'agente C]
 
-### Action Items
-- [ ] Fix critical security issue
-- [ ] Refactor API endpoint
-- [ ] Add missing tests
+### Azioni
+- [ ] Correggere il problema di sicurezza critico
+- [ ] Rifare l'endpoint dell'API
+- [ ] Aggiungere i test mancanti
 ```
 
 ---
 
-## Best Practices
+## Buone pratiche
 
-1. **Available agents** - every agent listed in `@[skills/intelligent-routing]` can be orchestrated
-2. **Logical order** - Discovery → Analysis → Implementation → Testing
-3. **Share context** - Pass relevant findings to subsequent agents
-4. **Single synthesis** - One unified report, not separate outputs
-5. **Verify changes** - Always include test-engineer for code modifications
+1. **Agenti disponibili** - si può orchestrare ogni agente elencato in `@[skills/intelligent-routing]`
+2. **Ordine logico** - scoperta → analisi → implementazione → test
+3. **Condividi il contesto** - passa agli agenti successivi i risultati che servono
+4. **Una sola sintesi** - un report unico, non output separati
+5. **Verifica le modifiche** - con modifiche al codice includi sempre test-engineer
 
 ---
 
-## Key Benefits
+## Vantaggi
 
-- ✅ **Clean contexts** - Each agent sees only the prompt you pass, so pass the full context
-- ✅ **AI-controlled** - The model orchestrates autonomously
-- ✅ **Native integration** - Works alongside Antigravity's built-in subagents
-- ✅ **Follow-ups** - A subagent can receive further messages and continue its work
-- ✅ **Context passing** - Findings flow between agents
+- ✅ **Contesti puliti** - ogni agente vede solo il prompt che gli passi, quindi passagli tutto il contesto
+- ✅ **Guidato dall'AI** - il modello orchestra da solo
+- ✅ **Integrazione nativa** - funziona insieme ai subagent integrati di Antigravity
+- ✅ **Messaggi successivi** - un subagent può ricevere altri messaggi e continuare il lavoro
+- ✅ **Passaggio del contesto** - i risultati passano da un agente all'altro

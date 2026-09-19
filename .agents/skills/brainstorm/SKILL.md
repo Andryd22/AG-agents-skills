@@ -1,272 +1,272 @@
 ---
 name: brainstorm
-description: 'Socratic Gate and structured option exploration: ask only what cannot be inferred, then compare at least three approaches with trade-offs and a recommendation. Use when the user runs /brainstorm, and before building when a request is vague, complex or has open design choices.'
+description: 'Socratic Gate ed esplorazione strutturata delle opzioni: chiedi solo quello che non si può dedurre, poi confronta almeno tre approcci con pro, contro e una raccomandazione. Usala quando l''utente lancia /brainstorm, e prima di costruire quando una richiesta è vaga, complessa o ha scelte di design aperte.'
 ---
 
-# Brainstorming & Communication Protocol
+# Brainstorming e protocollo di comunicazione
 
-> **MANDATORY:** Use for complex/vague requests, new features, updates.
-
----
-
-## 🛑 SOCRATIC GATE (ENFORCEMENT)
-
-### When to Trigger
-
-| Pattern | Action |
-| --------- | -------- |
-| "Build/Create/Make [thing]" without details | 🛑 ASK up to 3 questions |
-| Complex feature or architecture | 🛑 Clarify before implementing |
-| Update/change request | 🛑 Confirm scope |
-| Vague requirements | 🛑 Ask purpose, users, constraints |
-
-### 🚫 MANDATORY: Clarify Before Implementation
-
-1. **STOP** - Do NOT start coding
-2. **ASK** - Up to 3 questions, only about what the request does not already answer:
-   - 🎯 Purpose: What problem are you solving?
-   - 👥 Users: Who will use this?
-   - 📦 Scope: Must-have vs nice-to-have?
-3. **WAIT** - Get response before proceeding
+> **OBBLIGATORIA:** per richieste complesse o vaghe, nuove funzionalità, modifiche.
 
 ---
 
-## 🧠 Dynamic Question Generation
+## 🛑 SOCRATIC GATE (APPLICAZIONE)
 
-**⛔ NEVER use static templates.** Read `references/dynamic-questioning.md` for principles.
+### Quando scatta
 
-### Core Principles
+| Situazione | Azione |
+| --- | --- |
+| "Costruisci/crea/fai [cosa]" senza dettagli | 🛑 CHIEDI al massimo 3 domande |
+| Funzionalità o architettura complessa | 🛑 Chiarisci prima di implementare |
+| Richiesta di modifica | 🛑 Conferma il perimetro |
+| Requisiti vaghi | 🛑 Chiedi scopo, utenti, vincoli |
 
-| Principle | Meaning |
-| ----------- | --------- |
-| **Questions Reveal Consequences** | Each question connects to an architectural decision |
-| **Context Before Content** | Understand greenfield/feature/refactor/debug context first |
-| **Minimum Viable Questions** | Each question must eliminate implementation paths |
-| **Generate Data, Not Assumptions** | Don't guess—ask with trade-offs |
+### 🚫 OBBLIGATORIO: chiarire prima di implementare
 
-### Question Generation Process
+1. **FERMATI** - NON iniziare a scrivere codice
+2. **CHIEDI** - Al massimo 3 domande, solo su ciò a cui la richiesta non risponde già:
+   - 🎯 Scopo: quale problema stai risolvendo?
+   - 👥 Utenti: chi lo userà?
+   - 📦 Perimetro: indispensabile o facoltativo?
+3. **ASPETTA** - Ottieni la risposta prima di procedere
+
+---
+
+## 🧠 Domande costruite sul caso
+
+**⛔ MAI usare modelli fissi.** I principi sono in `references/dynamic-questioning.md`.
+
+### Principi
+
+| Principio | Significato |
+| --- | --- |
+| **Le domande rivelano conseguenze** | Ogni domanda è legata a una decisione di architettura |
+| **Prima il contesto** | Capisci prima se è un progetto nuovo, una funzionalità, un refactoring o un debug |
+| **Il minimo di domande** | Ogni domanda deve eliminare strade di implementazione |
+| **Dati, non supposizioni** | Non tirare a indovinare: chiedi mostrando i compromessi |
+
+### Come nascono le domande
 
 ```text
-1. Parse request → Extract domain, features, scale indicators
-2. Identify decision points → Blocking vs. deferable
-3. Generate questions → Priority: P0 (blocking) > P1 (high-leverage) > P2 (nice-to-have)
-4. Format with trade-offs → What, Why, Options, Default
+1. Analizza la richiesta → dominio, funzionalità, indizi sulla scala
+2. Trova i punti di decisione → bloccanti o rimandabili
+3. Genera le domande → priorità: P0 (bloccante) > P1 (grande effetto) > P2 (facoltativa)
+4. Formattale con i compromessi → cosa, perché, opzioni, predefinito
 ```
 
-### Question Format (MANDATORY)
+### Formato delle domande (OBBLIGATORIO)
 
 ```markdown
-### [PRIORITY] **[DECISION POINT]**
+### [PRIORITÀ] **[PUNTO DI DECISIONE]**
 
-**Question:** [Clear question]
+**Domanda:** [domanda chiara]
 
-**Why This Matters:**
-- [Architectural consequence]
-- [Affects: cost/complexity/timeline/scale]
+**Perché conta:**
+- [conseguenza sull'architettura]
+- [incide su: costo/complessità/tempi/scala]
 
-**Options:**
-| Option | Pros | Cons | Best For |
-|--------|------|------|----------|
-| A | [+] | [-] | [Use case] |
+**Opzioni:**
+| Opzione | Pro | Contro | Ideale per |
+|---------|-----|--------|------------|
+| A | [+] | [-] | [caso d'uso] |
 
-**If Not Specified:** [Default + rationale]
+**Se non specificato:** [predefinito + motivo]
 ```
 
-**For detailed domain-specific question banks and algorithms**, see: `references/dynamic-questioning.md`
+**Banche di domande per dominio e algoritmi dettagliati**: vedi `references/dynamic-questioning.md`
 
 ---
 
-## Progress Reporting (PRINCIPLE-BASED)
+## Aggiornamenti di avanzamento (PER PRINCIPI)
 
-**PRINCIPLE:** Transparency builds trust. Status must be visible and actionable.
+**PRINCIPIO:** la trasparenza crea fiducia. Lo stato deve essere visibile e utile.
 
-### Status Board Format
+### Tabella di stato
 
-| Agent | Status | Current Task | Progress |
+| Agente | Stato | Compito attuale | Avanzamento |
 | --- | --- | --- | --- |
-| [Agent Name] | ✅🔄⏳❌⚠️ | [Task description] | [% or count] |
+| [Nome agente] | ✅🔄⏳❌⚠️ | [descrizione del compito] | [% o conteggio] |
 
-### Status Icons
+### Icone di stato
 
-| Icon | Meaning | Usage |
-| ------ | --------- | ------- |
-| ✅ | Completed | Task finished successfully |
-| 🔄 | Running | Currently executing |
-| ⏳ | Waiting | Blocked, waiting for dependency |
-| ❌ | Error | Failed, needs attention |
-| ⚠️ | Warning | Potential issue, not blocking |
+| Icona | Significato | Uso |
+| --- | --- | --- |
+| ✅ | Completato | Compito finito con successo |
+| 🔄 | In corso | In esecuzione adesso |
+| ⏳ | In attesa | Bloccato, aspetta una dipendenza |
+| ❌ | Errore | Fallito, serve attenzione |
+| ⚠️ | Avviso | Possibile problema, non bloccante |
 
 ---
 
-## Error Handling (PRINCIPLE-BASED)
+## Gestione degli errori (PER PRINCIPI)
 
-**PRINCIPLE:** Errors are opportunities for clear communication.
+**PRINCIPIO:** un errore è un'occasione per comunicare con chiarezza.
 
-### Error Response Pattern
+### Come rispondere a un errore
 
 ```text
-1. Acknowledge the error
-2. Explain what happened (user-friendly)
-3. Offer specific solutions with trade-offs
-4. Ask user to choose or provide alternative
+1. Riconosci l'errore
+2. Spiega cosa è successo (in modo comprensibile)
+3. Proponi soluzioni precise con i loro compromessi
+4. Chiedi all'utente di scegliere o di proporre un'alternativa
 ```
 
-### Error Categories
+### Categorie di errori
 
-| Category | Response Strategy |
-| ---------- | ------------------- |
-| **Port Conflict** | Offer alternative port or close existing |
-| **Dependency Missing** | Auto-install or ask permission |
-| **Build Failure** | Show specific error + suggested fix |
-| **Unclear Error** | Ask for specifics: screenshot, console output |
+| Categoria | Strategia |
+| --- | --- |
+| **Porta occupata** | Proponi un'altra porta o di chiudere il processo che la usa |
+| **Dipendenza mancante** | Installala o chiedi il permesso |
+| **Build fallita** | Mostra l'errore preciso + la correzione proposta |
+| **Errore poco chiaro** | Chiedi dettagli: screenshot, output della console |
 
 ---
 
-## Completion Message (PRINCIPLE-BASED)
+## Messaggio di chiusura (PER PRINCIPI)
 
-**PRINCIPLE:** Celebrate success, guide next steps.
+**PRINCIPIO:** conferma il risultato, indica i passi successivi.
 
-### Completion Structure
+### Struttura
 
 ```text
-1. Success confirmation (celebrate briefly)
-2. Summary of what was done (concrete)
-3. How to verify/test (actionable)
-4. Next steps suggestion (proactive)
+1. Conferma del risultato (breve)
+2. Riassunto di cosa è stato fatto (concreto)
+3. Come verificarlo o provarlo (pratico)
+4. Prossimo passo suggerito (proattivo)
 ```
 
 ---
 
-## Communication Principles
+## Principi di comunicazione
 
-| Principle | Implementation |
-| ----------- | ---------------- |
-| **Concise** | No unnecessary details, get to point |
-| **Visual** | Use emojis (✅🔄⏳❌) for quick scanning |
-| **Specific** | "~2 minutes" not "wait a bit" |
-| **Alternatives** | Offer multiple paths when stuck |
-| **Proactive** | Suggest next step after completion |
-
----
-
-## Anti-Patterns (AVOID)
-
-| Anti-Pattern | Why |
-| -------------- | ----- |
-| Jumping to solutions before understanding | Wastes time on wrong problem |
-| Assuming requirements without asking | Creates wrong output |
-| Over-engineering first version | Delays value delivery |
-| Ignoring constraints | Creates unusable solutions |
-| "I think" phrases | Uncertainty → Ask instead |
+| Principio | Come |
+| --- | --- |
+| **Conciso** | Niente dettagli inutili, vai al punto |
+| **Visivo** | Emoji (✅🔄⏳❌) per leggere al volo |
+| **Preciso** | "~2 minuti", non "aspetta un po'" |
+| **Alternative** | Offri più strade quando sei bloccato |
+| **Proattivo** | Suggerisci il passo successivo dopo aver finito |
 
 ---
 
-## /brainstorm - Structured Idea Exploration
+## Anti-pattern (DA EVITARE)
 
-The request is the text that follows `/brainstorm`.
-
----
-
-### Purpose
-
-This command activates BRAINSTORM mode for structured idea exploration. Use when you need to explore options before committing to an implementation.
-
----
-
-### Behavior
-
-When `/brainstorm` is triggered:
-
-1. **Understand the goal**
-   - What problem are we solving?
-   - Who is the user?
-   - What constraints exist?
-
-2. **Generate options**
-   - Provide at least 3 different approaches
-   - Each with pros and cons
-   - Consider unconventional solutions
-
-3. **Compare and recommend**
-   - Summarize tradeoffs
-   - Give a recommendation with reasoning
+| Anti-pattern | Perché |
+| --- | --- |
+| Saltare alla soluzione prima di capire | Si perde tempo sul problema sbagliato |
+| Dare per scontati i requisiti senza chiedere | Il risultato è sbagliato |
+| Sovraingegnerizzare la prima versione | Ritarda il valore |
+| Ignorare i vincoli | Soluzioni inutilizzabili |
+| Frasi del tipo "Credo che" | Incertezza → meglio chiedere |
 
 ---
 
-### Output Format
+## /brainstorm - Esplorazione strutturata delle idee
+
+La richiesta è il testo che segue `/brainstorm`.
+
+---
+
+### Scopo
+
+Questo comando attiva la modalità BRAINSTORM per esplorare le idee in modo strutturato. Usalo quando servono opzioni prima di impegnarsi in un'implementazione.
+
+---
+
+### Comportamento
+
+Quando parte `/brainstorm`:
+
+1. **Capisci l'obiettivo**
+   - Quale problema stiamo risolvendo?
+   - Chi è l'utente?
+   - Quali vincoli ci sono?
+
+2. **Genera le opzioni**
+   - Almeno 3 approcci diversi
+   - Ognuno con pro e contro
+   - Considera anche soluzioni non convenzionali
+
+3. **Confronta e raccomanda**
+   - Riassumi i compromessi
+   - Dai una raccomandazione motivata
+
+---
+
+### Formato dell'output
 
 ```markdown
-## 🧠 Brainstorm: [Topic]
+## 🧠 Brainstorm: [argomento]
 
-### Context
-[Brief problem statement]
-
----
-
-### Option A: [Name]
-[Description]
-
-✅ **Pros:**
-- [benefit 1]
-- [benefit 2]
-
-❌ **Cons:**
-- [drawback 1]
-
-📊 **Effort:** Low | Medium | High
+### Contesto
+[breve descrizione del problema]
 
 ---
 
-### Option B: [Name]
-[Description]
+### Opzione A: [nome]
+[descrizione]
 
-✅ **Pros:**
-- [benefit 1]
+✅ **Pro:**
+- [vantaggio 1]
+- [vantaggio 2]
 
-❌ **Cons:**
-- [drawback 1]
-- [drawback 2]
+❌ **Contro:**
+- [svantaggio 1]
 
-📊 **Effort:** Low | Medium | High
-
----
-
-### Option C: [Name]
-[Description]
-
-✅ **Pros:**
-- [benefit 1]
-
-❌ **Cons:**
-- [drawback 1]
-
-📊 **Effort:** Low | Medium | High
+📊 **Impegno:** basso | medio | alto
 
 ---
 
-## 💡 Recommendation
+### Opzione B: [nome]
+[descrizione]
 
-**Option [X]** because [reasoning].
+✅ **Pro:**
+- [vantaggio 1]
 
-What direction would you like to explore?
+❌ **Contro:**
+- [svantaggio 1]
+- [svantaggio 2]
+
+📊 **Impegno:** basso | medio | alto
+
+---
+
+### Opzione C: [nome]
+[descrizione]
+
+✅ **Pro:**
+- [vantaggio 1]
+
+❌ **Contro:**
+- [svantaggio 1]
+
+📊 **Impegno:** basso | medio | alto
+
+---
+
+## 💡 Raccomandazione
+
+**Opzione [X]** perché [motivo].
+
+In quale direzione vuoi andare?
 ```
 
 ---
 
-### Examples
+### Esempi
 
 ```text
-/brainstorm authentication system
-/brainstorm state management for complex form
-/brainstorm database schema for social app
-/brainstorm caching strategy
+/brainstorm sistema di autenticazione
+/brainstorm gestione dello stato per un form complesso
+/brainstorm schema del database per un social
+/brainstorm strategia di caching
 ```
 
 ---
 
-### Key Principles
+### Principi chiave
 
-- **No code** - this is about ideas, not implementation
-- **Visual when helpful** - use diagrams for architecture
-- **Honest tradeoffs** - don't hide complexity
-- **Defer to user** - present options, let them decide
+- **Niente codice** - si parla di idee, non di implementazione
+- **Visivo quando aiuta** - diagrammi per l'architettura
+- **Compromessi onesti** - non nascondere la complessità
+- **Decide l'utente** - presenta le opzioni, lascia scegliere a lui

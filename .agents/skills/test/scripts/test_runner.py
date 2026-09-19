@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Test Runner - Unified test execution and coverage reporting
-Runs tests and generates coverage report based on project type.
+Test Runner - esecuzione dei test e report di copertura
+Esegue i test e genera il report di copertura in base al tipo di progetto.
 
-Usage:
-    python test_runner.py <project_path> [--coverage]
+Uso:
+    python test_runner.py <cartella_progetto> [--coverage]
 
-Supports:
+Supporta:
     - Node.js: npm test, jest, vitest
     - Python: pytest, unittest
 """
@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-# Fix Windows console encoding
+# Codifica della console di Windows
 try:
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 except:
@@ -25,7 +25,7 @@ except:
 
 
 def detect_test_framework(project_path: Path) -> dict:
-    """Detect test framework and commands."""
+    """Riconosce il framework di test e i comandi."""
     result = {
         "type": "unknown",
         "framework": None,
@@ -33,7 +33,7 @@ def detect_test_framework(project_path: Path) -> dict:
         "coverage_cmd": None
     }
     
-    # Node.js project
+    # Progetto Node.js
     package_json = project_path / "package.json"
     if package_json.exists():
         result["type"] = "node"
@@ -42,12 +42,12 @@ def detect_test_framework(project_path: Path) -> dict:
             scripts = pkg.get("scripts", {})
             deps = {**pkg.get("dependencies", {}), **pkg.get("devDependencies", {})}
             
-            # Check for test script
+            # C'è uno script "test"?
             if "test" in scripts:
                 result["framework"] = "npm test"
                 result["cmd"] = ["npm", "test"]
                 
-                # Try to detect specific framework for coverage
+                # Prova a riconoscere il framework per la copertura
                 if "vitest" in deps:
                     result["framework"] = "vitest"
                     result["coverage_cmd"] = ["npx", "vitest", "run", "--coverage"]
@@ -66,18 +66,18 @@ def detect_test_framework(project_path: Path) -> dict:
         except:
             pass
     
-    # Python project
+    # Progetto Python
     if (project_path / "pyproject.toml").exists() or (project_path / "requirements.txt").exists():
         result["type"] = "python"
         result["framework"] = "pytest"
-        result["cmd"] = ["python", "-m", "pytest", "-v"]
-        result["coverage_cmd"] = ["python", "-m", "pytest", "--cov", "--cov-report=term-missing"]
+        result["cmd"] = [sys.executable, "-m", "pytest", "-v"]
+        result["coverage_cmd"] = [sys.executable, "-m", "pytest", "--cov", "--cov-report=term-missing"]
     
     return result
 
 
 def run_tests(cmd: list, cwd: Path) -> dict:
-    """Run tests and return results."""
+    """Esegue i test e restituisce i risultati."""
     result = {
         "passed": False,
         "output": "",
@@ -95,17 +95,17 @@ def run_tests(cmd: list, cwd: Path) -> dict:
             text=True,
             encoding='utf-8',
             errors='replace',
-            timeout=300  # 5 min timeout for tests
+            timeout=300  # 5 minuti al massimo per i test
         )
         
         result["output"] = proc.stdout[:3000] if proc.stdout else ""
         result["error"] = proc.stderr[:500] if proc.stderr else ""
         result["passed"] = proc.returncode == 0
         
-        # Try to parse test counts from output
+        # Prova a leggere dall'output quanti test sono passati e falliti
         output = proc.stdout or ""
         
-        # Jest/Vitest pattern: "Tests: X passed, Y failed, Z total"
+        # Formato di Jest/Vitest: "Tests: X passed, Y failed, Z total"
         if "passed" in output.lower() and "failed" in output.lower():
             import re
             match = re.search(r'(\d+)\s+passed', output, re.IGNORECASE)
@@ -116,7 +116,7 @@ def run_tests(cmd: list, cwd: Path) -> dict:
                 result["tests_failed"] = int(match.group(1))
             result["tests_run"] = result["tests_passed"] + result["tests_failed"]
         
-        # Pytest pattern: "X passed, Y failed"
+        # Formato di pytest: "X passed, Y failed"
         if "pytest" in str(cmd):
             import re
             match = re.search(r'(\d+)\s+passed', output)
@@ -128,9 +128,9 @@ def run_tests(cmd: list, cwd: Path) -> dict:
             result["tests_run"] = result["tests_passed"] + result["tests_failed"]
         
     except FileNotFoundError:
-        result["error"] = f"Command not found: {cmd[0]}"
+        result["error"] = f"Comando non trovato: {cmd[0]}"
     except subprocess.TimeoutExpired:
-        result["error"] = "Timeout after 300s"
+        result["error"] = "Timeout dopo 300 s"
     except Exception as e:
         result["error"] = str(e)
     
@@ -142,62 +142,62 @@ def main():
     with_coverage = "--coverage" in sys.argv
     
     print(f"\n{'='*60}")
-    print(f"[TEST RUNNER] Unified Test Execution")
+    print("[TEST RUNNER] Esecuzione dei test")
     print(f"{'='*60}")
-    print(f"Project: {project_path}")
-    print(f"Coverage: {'enabled' if with_coverage else 'disabled'}")
-    print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Progetto: {project_path}")
+    print(f"Copertura: {'attiva' if with_coverage else 'disattivata'}")
+    print(f"Ora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    # Detect test framework
+    # Riconosce il framework di test
     test_info = detect_test_framework(project_path)
-    print(f"Type: {test_info['type']}")
+    print(f"Tipo: {test_info['type']}")
     print(f"Framework: {test_info['framework']}")
     print("-"*60)
     
     if not test_info["cmd"]:
-        print("No test framework found for this project.")
+        print("Nessun framework di test trovato in questo progetto.")
         output = {
             "script": "test_runner",
             "project": str(project_path),
             "type": test_info["type"],
             "framework": None,
             "passed": True,
-            "message": "No tests configured"
+            "message": "Nessun test configurato"
         }
         print(json.dumps(output, indent=2))
         sys.exit(0)
     
-    # Choose command
+    # Sceglie il comando
     cmd = test_info["coverage_cmd"] if with_coverage and test_info["coverage_cmd"] else test_info["cmd"]
     
-    print(f"Running: {' '.join(cmd)}")
+    print(f"Eseguo: {' '.join(cmd)}")
     print("-"*60)
     
-    # Run tests
+    # Esegue i test
     result = run_tests(cmd, project_path)
     
-    # Print output (truncated)
+    # Stampa l'output (troncato)
     if result["output"]:
         lines = result["output"].split("\n")
         for line in lines[:30]:
             print(line)
         if len(lines) > 30:
-            print(f"... ({len(lines) - 30} more lines)")
+            print(f"... (altre {len(lines) - 30} righe)")
     
-    # Summary
+    # Riepilogo
     print("\n" + "="*60)
-    print("SUMMARY")
+    print("RIEPILOGO")
     print("="*60)
     
     if result["passed"]:
-        print("[PASS] All tests passed")
+        print("[OK] Tutti i test sono passati")
     else:
-        print("[FAIL] Some tests failed")
+        print("[KO] Alcuni test sono falliti")
         if result["error"]:
-            print(f"Error: {result['error'][:200]}")
+            print(f"Errore: {result['error'][:200]}")
     
     if result["tests_run"] > 0:
-        print(f"Tests: {result['tests_run']} total, {result['tests_passed']} passed, {result['tests_failed']} failed")
+        print(f"Test: {result['tests_run']} in totale, {result['tests_passed']} passati, {result['tests_failed']} falliti")
     
     output = {
         "script": "test_runner",

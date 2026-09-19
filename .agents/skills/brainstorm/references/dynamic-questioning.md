@@ -1,355 +1,355 @@
-# Dynamic Question Generation
+# Domande costruite sul caso
 
-> **PRINCIPLE:** Questions are not about gathering data—they are about **revealing architectural consequences**.
+> **PRINCIPIO:** le domande non servono a raccogliere dati: servono a **far emergere le conseguenze sull'architettura**.
 >
-> Every question must connect to a concrete implementation decision that affects cost, complexity, or timeline.
+> Ogni domanda deve essere legata a una decisione concreta di implementazione che incide su costi, complessità o tempi.
 
 ---
 
-## 🧠 Core Principles
+## 🧠 Principi
 
-### 1. Questions Reveal Consequences
+### 1. Le domande rivelano conseguenze
 
-A good question is not "What color do you want?" but:
+Una buona domanda non è "Che colore vuoi?", ma:
 
 ```markdown
-❌ BAD: "What authentication method?"
-✅ GOOD: "Should users sign up with email/password or social login?
+❌ MALE: "Quale metodo di autenticazione?"
+✅ BENE: "Gli utenti si registrano con email e password o con login social?
 
-   Impact:
-   - Email/Pass → Need password reset, hashing, 2FA infrastructure
-   - Social → OAuth providers, user profile mapping, less control
+   Impatto:
+   - Email/password → servono reset della password, hashing, infrastruttura 2FA
+   - Social → provider OAuth, mappatura del profilo utente, meno controllo
 
-   Trade-off: Security vs. Development time vs. User friction"
+   Compromesso: sicurezza contro tempo di sviluppo contro attrito per l'utente"
 ```
 
-### 2. Context Before Content
+### 2. Prima il contesto
 
-First understand **where** this request fits:
+Prima capisci **dove** si colloca la richiesta:
 
-| Context | Question Focus |
-| --------- | ---------------- |
-| **Greenfield** (new project) | Foundation decisions: stack, hosting, scale |
-| **Feature Addition** | Integration points, existing patterns, breaking changes |
-| **Refactor** | Why refactor? Performance? Maintainability? What's broken? |
-| **Debug** | Symptoms → Root cause → Reproduction path |
+| Contesto | Su cosa puntano le domande |
+| --- | --- |
+| **Progetto nuovo** | Decisioni di base: stack, hosting, scala |
+| **Nuova funzionalità** | Punti di integrazione, schemi esistenti, modifiche che rompono qualcosa |
+| **Refactoring** | Perché? Prestazioni? Manutenibilità? Cosa non va? |
+| **Debug** | Sintomi → causa radice → come riprodurlo |
 
-### 3. Minimum Viable Questions
+### 3. Il minimo di domande
 
-**PRINCIPLE:** Each question must eliminate a fork in the implementation road.
+**PRINCIPIO:** ogni domanda deve eliminare un bivio nella strada dell'implementazione.
 
 ```text
-Before Question:
-├── Path A: Do X (5 min)
-├── Path B: Do Y (15 min)
-└── Path C: Do Z (1 hour)
+Prima della domanda:
+├── Strada A: fai X (5 min)
+├── Strada B: fai Y (15 min)
+└── Strada C: fai Z (1 ora)
 
-After Question:
-└── Path Confirmed: Do X (5 min)
+Dopo la domanda:
+└── Strada confermata: fai X (5 min)
 ```
 
-If a question doesn't reduce implementation paths → **DELETE IT**.
+Se una domanda non riduce le strade possibili → **TOGLILA**.
 
-### 4. Questions Generate Data, Not Assumptions
+### 4. Le domande producono dati, non supposizioni
 
 ```markdown
-❌ ASSUMPTION: "User probably wants Stripe for payments"
-✅ QUESTION: "Which payment provider fits your needs?
+❌ SUPPOSIZIONE: "Probabilmente l'utente vuole Stripe per i pagamenti"
+✅ DOMANDA: "Quale provider di pagamento fa per te?
 
-   Stripe → Best documentation, 2.9% + $0.30, US-centric
-   LemonSqueezy → Merchant of Record, 5% + $0.50, global taxes
-   Paddle → Complex pricing, handles EU VAT, enterprise focus"
+   Stripe → documentazione migliore, 2,9% + 0,30 $, pensato per gli USA
+   LemonSqueezy → Merchant of Record, 5% + 0,50 $, gestisce le tasse ovunque
+   Paddle → prezzi complessi, gestisce l'IVA UE, orientato alle aziende"
 ```
 
 ---
 
-## 📋 Question Generation Algorithm
+## 📋 Algoritmo per generare le domande
 
 ```text
-INPUT: User request + Context (greenfield/feature/refactor/debug)
+INPUT: richiesta dell'utente + contesto (nuovo/funzionalità/refactoring/debug)
 │
-├── STEP 1: Parse Request
-│   ├── Extract domain (ecommerce, auth, realtime, cms, etc.)
-│   ├── Extract features (explicit and implied)
-│   └── Extract scale indicators (users, data volume, frequency)
+├── PASSO 1: analizza la richiesta
+│   ├── Ricava il dominio (e-commerce, auth, realtime, cms, ...)
+│   ├── Ricava le funzionalità (esplicite e implicite)
+│   └── Ricava gli indizi sulla scala (utenti, volume di dati, frequenza)
 │
-├── STEP 2: Identify Decision Points
-│   ├── What MUST be decided before coding? (blocking)
-│   ├── What COULD be decided later? (deferable)
-│   └── What has ARCHITECTURAL impact? (high-leverage)
+├── PASSO 2: trova i punti di decisione
+│   ├── Cosa VA deciso prima di scrivere codice? (bloccante)
+│   ├── Cosa si PUÒ decidere dopo? (rimandabile)
+│   └── Cosa ha impatto sull'ARCHITETTURA? (grande effetto)
 │
-├── STEP 3: Generate Questions (Priority Order)
-│   ├── P0: Blocking decisions (cannot proceed without answer)
-│   ├── P1: High-leverage (affects >30% of implementation)
-│   ├── P2: Medium-leverage (affects specific features)
-│   └── P3: Nice-to-have (edge cases, optimization)
+├── PASSO 3: genera le domande (in ordine di priorità)
+│   ├── P0: decisioni bloccanti (senza risposta non si procede)
+│   ├── P1: grande effetto (tocca >30% dell'implementazione)
+│   ├── P2: effetto medio (tocca funzionalità specifiche)
+│   └── P3: facoltative (casi limite, ottimizzazione)
 │
-└── STEP 4: Format Each Question
-    ├── What: Clear question
-    ├── Why: Impact on implementation
-    ├── Options: Trade-offs (not just A vs B)
-    └── Default: What happens if user doesn't answer
+└── PASSO 4: formatta ogni domanda
+    ├── Cosa: domanda chiara
+    ├── Perché: impatto sull'implementazione
+    ├── Opzioni: compromessi (non solo A contro B)
+    └── Predefinito: cosa succede se l'utente non risponde
 ```
 
 ---
 
-## 🎯 Domain-Specific Question Banks
+## 🎯 Banche di domande per dominio
 
-### E-Commerce
+### E-commerce
 
-| Question | Why It Matters | Trade-offs |
-| ---------- | ---------------- | ------------ |
-| **Single or Multi-vendor?** | Multi-vendor → Commission logic, vendor dashboards, split payments | +Revenue, -Complexity |
-| **Inventory Tracking?** | Needs stock tables, reservation logic, low-stock alerts | +Accuracy, -Development time |
-| **Digital or Physical Products?** | Digital → Download links, no shipping | Physical → Shipping APIs, tracking |
-| **Subscription or One-time?** | Subscription → Recurring billing, dunning, proration | +Revenue, -Complexity |
+| Domanda | Perché conta | Compromessi |
+| --- | --- | --- |
+| **Un solo venditore o più venditori?** | Più venditori → logica delle commissioni, dashboard dei venditori, pagamenti divisi | +ricavi, -complessità |
+| **Gestione del magazzino?** | Servono tabelle delle scorte, logica di prenotazione, avvisi di scorta bassa | +precisione, -tempo di sviluppo |
+| **Prodotti digitali o fisici?** | Digitali → link di download, niente spedizione | Fisici → API di spedizione, tracciamento |
+| **Abbonamento o acquisto singolo?** | Abbonamento → addebiti ricorrenti, solleciti, pro rata | +ricavi, -complessità |
 
-### Authentication
+### Autenticazione
 
-| Question | Why It Matters | Trade-offs |
-| ---------- | ---------------- | ------------ |
-| **Social Login Needed?** | OAuth providers vs. password reset infrastructure | +UX, -Control |
-| **Role-Based Permissions?** | RBAC tables, policy enforcement, admin UI | +Security, -Development time |
-| **2FA Required?** | TOTP/SMI infrastructure, backup codes, recovery flow | +Security, -UX friction |
-| **Email Verification?** | Verification tokens, email service, resend logic | +Security, -Sign-up friction |
+| Domanda | Perché conta | Compromessi |
+| --- | --- | --- |
+| **Serve il login social?** | Provider OAuth contro infrastruttura per il reset della password | +UX, -controllo |
+| **Permessi per ruolo?** | Tabelle RBAC, applicazione delle policy, UI di amministrazione | +sicurezza, -tempo di sviluppo |
+| **Serve la 2FA?** | Infrastruttura TOTP/SMS, codici di backup, procedura di recupero | +sicurezza, -attrito nella UX |
+| **Verifica dell'email?** | Token di verifica, servizio email, logica di reinvio | +sicurezza, -attrito in registrazione |
 
-### Real-time
+### Tempo reale
 
-| Question | Why It Matters | Trade-offs |
-| ---------- | ---------------- | ------------ |
-| **WebSocket or Polling?** | WS → Server scaling, connection management | Polling → Simpler, higher latency |
-| **Expected Concurrent Users?** | <100 → Single server, >1000 → Redis pub/sub, >10k → specialized infra | +Scale, -Complexity |
-| **Message Persistence?** | History tables, storage costs, pagination | +UX, -Storage |
-| **Ephemeral or Durable?** | Ephemeral → In-memory, Durable → Database write before emit | +Reliability, -Latency |
+| Domanda | Perché conta | Compromessi |
+| --- | --- | --- |
+| **WebSocket o polling?** | WS → scalare il server, gestire le connessioni | Polling → più semplice, più latenza |
+| **Utenti contemporanei previsti?** | <100 → un server, >1000 → Redis pub/sub, >10k → infrastruttura dedicata | +scala, -complessità |
+| **Messaggi da conservare?** | Tabelle dello storico, costi di storage, paginazione | +UX, -spazio |
+| **Effimeri o persistenti?** | Effimeri → in memoria, persistenti → scrittura su database prima dell'invio | +affidabilità, -latenza |
 
-### Content/CMS
+### Contenuti/CMS
 
-| Question | Why It Matters | Trade-offs |
-| ---------- | ---------------- | ------------ |
-| **Rich Text or Markdown?** | Rich Text → Sanitization, XSS risks | Markdown → Simple, no WYSIWYG |
-| **Draft/Publish Workflow?** | Status field, scheduled jobs, versioning | +Control, -Complexity |
-| **Media Handling?** | Upload endpoints, storage, optimization | +Features, -Development time |
-| **Multi-language?** | i18n tables, translation UI, fallback logic | +Reach, -Complexity |
+| Domanda | Perché conta | Compromessi |
+| --- | --- | --- |
+| **Rich text o Markdown?** | Rich text → sanificazione, rischi XSS | Markdown → semplice, niente WYSIWYG |
+| **Flusso bozza/pubblicazione?** | Campo di stato, job programmati, versioni | +controllo, -complessità |
+| **Gestione dei media?** | Endpoint di upload, storage, ottimizzazione | +funzionalità, -tempo di sviluppo |
+| **Più lingue?** | Tabelle i18n, UI di traduzione, logica di ripiego | +pubblico, -complessità |
 
 ---
 
-## 📐 Dynamic Question Template
+## 📐 Modello di domande
 
 ```markdown
-Based on your request for [DOMAIN] [FEATURE]:
+In base alla tua richiesta di [DOMINIO] [FUNZIONALITÀ]:
 
-## 🔴 CRITICAL (Blocking Decisions)
+## 🔴 CRITICHE (decisioni bloccanti)
 
-### 1. **[DECISION POINT]**
+### 1. **[PUNTO DI DECISIONE]**
 
-**Question:** [Clear, specific question]
+**Domanda:** [domanda chiara e precisa]
 
-**Why This Matters:**
-- [Explain architectural consequence]
-- [Affects: cost / complexity / timeline / scale]
+**Perché conta:**
+- [conseguenza sull'architettura]
+- [incide su: costo / complessità / tempi / scala]
 
-**Options:**
-| Option | Pros | Cons | Best For |
-|--------|------|------|----------|
-| A | [Advantage] | [Disadvantage] | [Use case] |
-| B | [Advantage] | [Disadvantage] | [Use case] |
+**Opzioni:**
+| Opzione | Pro | Contro | Ideale per |
+|---------|-----|--------|------------|
+| A | [vantaggio] | [svantaggio] | [caso d'uso] |
+| B | [vantaggio] | [svantaggio] | [caso d'uso] |
 
-**If Not Specified:** [Default choice + rationale]
-
----
-
-## 🟡 HIGH-LEVERAGE (Affects Implementation)
-
-### 2. **[DECISION POINT]**
-[Same format]
+**Se non specificato:** [scelta predefinita + motivo]
 
 ---
 
-## 🟢 NICE-TO-HAVE (Edge Cases)
+## 🟡 GRANDE EFFETTO (cambiano l'implementazione)
 
-### 3. **[DECISION POINT]**
-[Same format]
+### 2. **[PUNTO DI DECISIONE]**
+[stesso formato]
+
+---
+
+## 🟢 FACOLTATIVE (casi limite)
+
+### 3. **[PUNTO DI DECISIONE]**
+[stesso formato]
 ```
 
 ---
 
-## 🔄 Iterative Questioning
+## 🔄 Domande per giri successivi
 
-### First Pass (3-5 Questions)
+### Primo giro (1-3 domande)
 
-Focus on **blocking decisions**. Don't proceed without answers.
+Punta sulle **decisioni bloccanti**, come vuole il Socratic Gate di `GEMINI.md`. Senza risposte non si procede.
 
-### Second Pass (After Initial Implementation)
+### Secondo giro (dopo la prima implementazione)
 
-As patterns emerge, ask:
+Quando emergono gli schemi, chiedi:
 
-- "This feature implies [X]. Should we handle [edge case] now or defer?"
-- "We're using [Pattern A]. Should [Feature B] follow the same pattern?"
+- "Questa funzionalità implica [X]. Gestiamo adesso [caso limite] o lo rimandiamo?"
+- "Stiamo usando [schema A]. [Funzionalità B] deve seguire lo stesso schema?"
 
-### Third Pass (Optimization)
+### Terzo giro (ottimizzazione)
 
-When functionality works:
+Quando tutto funziona:
 
-- "Performance bottleneck at [X]. Optimize now or acceptable for now?"
-- "Refactor [Y] for maintainability or ship as-is?"
+- "Collo di bottiglia su [X]. Ottimizziamo ora o per adesso va bene così?"
+- "Facciamo refactoring di [Y] per la manutenibilità o lo rilasciamo così?"
 
 ---
 
-## 🎭 Example: Full Question Generation
+## 🎭 Esempio completo
 
 ```text
-USER REQUEST: "Build an Instagram clone"
+RICHIESTA: "Costruisci un clone di Instagram"
 
-STEP 1: Parse
-├── Domain: Social Media
-├── Features: Photo sharing, engagement (likes/comments), user profiles
-├── Implied: Feed, following, authentication
-└── Scale: Potentially high (social apps go viral)
+PASSO 1: analisi
+├── Dominio: social media
+├── Funzionalità: condivisione di foto, interazioni (like/commenti), profili utente
+├── Implicite: feed, follower, autenticazione
+└── Scala: potenzialmente alta (le app social diventano virali)
 
-STEP 2: Decision Points
-├── Blocking: Storage strategy, authentication method, feed type
-├── High-leverage: Real-time notifications, data model complexity
-└── Deferable: Analytics, advanced search, reels/video
+PASSO 2: punti di decisione
+├── Bloccanti: strategia di storage, metodo di autenticazione, tipo di feed
+├── Grande effetto: notifiche in tempo reale, complessità del modello dati
+└── Rimandabili: analytics, ricerca avanzata, reel/video
 
-STEP 3: Generate Questions (Priority)
+PASSO 3: domande (per priorità)
 
-P0 (Blocking):
-1. Storage Strategy → Affects architecture, cost, speed
-2. Feed Algorithm → Affects database queries, complexity
-3. Auth Method → Affects dev time, UX, security
+P0 (bloccanti):
+1. Strategia di storage → incide su architettura, costi, velocità
+2. Algoritmo del feed → incide sulle query al database, complessità
+3. Metodo di autenticazione → incide su tempi, UX, sicurezza
 
-P1 (High-leverage):
-4. Real-time Notifications → WebSocket vs polling
-5. Media Processing → Client-side vs server-side optimization
+P1 (grande effetto):
+4. Notifiche in tempo reale → WebSocket o polling
+5. Elaborazione dei media → ottimizzazione lato client o lato server
 
-P2 (Deferable):
-6. Story/Reels → Major feature creep, defer to v2
-7. DM/Chat → Separate subsystem, defer to v2
+P2 (rimandabili):
+6. Storie/reel → grosso allargamento del perimetro, rimandare alla v2
+7. Messaggi diretti → sottosistema a parte, rimandare alla v2
 
-STEP 4: Format Output
+PASSO 4: formatta l'output
 ```
 
 ---
 
-## 📊 Generated Output (Example)
+## 📊 Output generato (esempio)
 
 ```text
-Based on your Instagram clone request:
+In base alla tua richiesta di un clone di Instagram:
 
-## 🔴 CRITICAL DECISIONS (Cannot Proceed Without Answers)
+## 🔴 DECISIONI CRITICHE (senza risposta non si procede)
 
-### 1. **Photo Storage Strategy**
+### 1. **Dove salvare le foto**
 
-**Question:** Where will user photos be stored and served?
+**Domanda:** dove vengono salvate e servite le foto degli utenti?
 
-**Why This Matters:**
-- Affects: Monthly hosting costs, page load speed, CDN complexity
-- High-volume social apps: 1000 users × 10 photos × 2MB = 20GB storage
+**Perché conta:**
+- Incide su: costi mensili di hosting, velocità di caricamento, complessità della CDN
+- App social ad alto volume: 1000 utenti × 10 foto × 2 MB = 20 GB di spazio
 
-**Options:**
-| Option | Cost | Speed | Complexity | Best For |
-|--------|------|-------|------------|----------|
-| **Cloudinary** | $89/mo (25GB) | Fast (CDN) | Low | MVP, rapid launch |
-| **AWS S3 + CloudFront** | $0.023/GB | Fast (CDN) | Medium | Production, cost-optimized |
-| **Supabase Storage** | Free tier 1GB | Medium | Low | Small scale, simple |
-| **Local Storage** | Server cost | Slow | Low | Development only |
+**Opzioni:**
+| Opzione | Costo | Velocità | Complessità | Ideale per |
+|---------|-------|----------|-------------|------------|
+| **Cloudinary** | 89 $/mese (25 GB) | Veloce (CDN) | Bassa | MVP, lancio rapido |
+| **AWS S3 + CloudFront** | 0,023 $/GB | Veloce (CDN) | Media | Produzione, costi ottimizzati |
+| **Supabase Storage** | Gratis fino a 1 GB | Media | Bassa | Piccola scala, semplice |
+| **Disco locale** | Costo del server | Lenta | Bassa | Solo sviluppo |
 
-**If Not Specified:** Cloudinary (balanced for MVP)
-
----
-
-### 2. **Feed Algorithm Choice**
-
-**Question:** How should the main feed work?
-
-**Why This Matters:**
-- Affects: Database query complexity, caching strategy, development time
-- Algorithmic feeds require ML infrastructure, ranking signals
-
-**Options:**
-| Option | Complexity | Database Impact | Best For |
-|--------|------------|-----------------|----------|
-| **Chronological** | Low | Simple query | Early stage, transparency |
-| **Follow-Only** | Medium | JOIN with pagination | Most social apps |
-| **Algorithmic** | High | Pre-computed feed tables | Instagram competitor |
-
-**If Not Specified:** Follow-Only (balanced for social app)
+**Se non specificato:** Cloudinary (equilibrato per un MVP)
 
 ---
 
-### 3. **Authentication Approach**
+### 2. **Algoritmo del feed**
 
-**Question:** How do users sign up and login?
+**Domanda:** come funziona il feed principale?
 
-**Why This Matters:**
-- Affects: Development time (2-5 hours), security posture, UX friction
+**Perché conta:**
+- Incide su: complessità delle query, strategia di cache, tempi di sviluppo
+- I feed algoritmici richiedono infrastruttura ML e segnali di ranking
 
-**Options:**
-| Option | Dev Time | Security | UX | Best For |
-|--------|----------|----------|-----|----------|
-| **Email/Password** | 4-5 hrs | High (if 2FA) | Medium | Full control needed |
-| **Social Only** | 1-2 hrs | Provider-dependent | Smooth | B2C, rapid launch |
-| **Magic Link** | 2-3 hrs | Medium | Very smooth | Security-focused |
-| **Clerk/Auth0** | 1 hr | High | Smooth | Fastest to market |
+**Opzioni:**
+| Opzione | Complessità | Impatto sul database | Ideale per |
+|---------|-------------|----------------------|------------|
+| **Cronologico** | Bassa | Query semplice | Fase iniziale, trasparenza |
+| **Solo chi segui** | Media | JOIN con paginazione | La maggior parte dei social |
+| **Algoritmico** | Alta | Tabelle di feed precalcolate | Concorrente di Instagram |
 
-**If Not Specified:** Clerk (fastest for MVP)
-
----
-
-## 🟡 HIGH-LEVERAGE (Affects Architecture)
-
-### 4. **Real-time Notifications**
-
-**Question:** Do users need instant notifications for likes/comments?
-
-**Why This Matters:**
-- WebSocket adds infrastructure complexity (Redis pub/sub for scaling)
-- Polling is simpler but higher latency
-
-**Options:**
-| Option | Complexity | Scale Cost | Best For |
-|--------|------------|------------|----------|
-| **WebSocket + Redis** | High | $10+/mo | >1000 concurrent users |
-| **Polling (30s)** | Low | DB queries | <1000 users |
-| **No Real-time** | None | None | MVP, validate first |
-
-**If Not Specified:** Polling for MVP (defer WebSocket until validated)
+**Se non specificato:** solo chi segui (equilibrato per un social)
 
 ---
 
-## 🟢 NICE-TO-HAVE (Defer to v2)
+### 3. **Autenticazione**
 
-### 5. **Video/Reels Support**
-- Major complexity (video processing, streaming infrastructure)
-- Recommendation: Launch with photos only, add video after validation
+**Domanda:** come si registrano e accedono gli utenti?
 
-### 6. **Direct Messaging**
-- Separate subsystem (chat infrastructure different from feed)
-- Recommendation: Use Pusher/Stream for real-time or defer entirely
+**Perché conta:**
+- Incide su: tempo di sviluppo (2-5 ore), sicurezza, attrito nella UX
+
+**Opzioni:**
+| Opzione | Tempo | Sicurezza | UX | Ideale per |
+|---------|-------|-----------|-----|------------|
+| **Email/password** | 4-5 ore | Alta (con 2FA) | Media | Serve pieno controllo |
+| **Solo social** | 1-2 ore | Dipende dal provider | Fluida | B2C, lancio rapido |
+| **Magic link** | 2-3 ore | Media | Molto fluida | Attenzione alla sicurezza |
+| **Clerk/Auth0** | 1 ora | Alta | Fluida | Arrivare prima sul mercato |
+
+**Se non specificato:** Clerk (il più rapido per un MVP)
 
 ---
 
-## 📋 Summary
+## 🟡 GRANDE EFFETTO (cambiano l'architettura)
 
-| Decision | Recommendation | If Changed |
-|----------|----------------|------------|
-| Storage | Cloudinary | +3 hrs setup |
-| Feed | Follow-only | +2 hrs query optimization |
-| Auth | Clerk | -3 hrs dev time |
-| Real-time | Polling | +5 hrs WebSocket setup |
-| Video | Defer to v2 | N/A |
-| DM | Defer to v2 | N/A |
+### 4. **Notifiche in tempo reale**
 
-**Total Estimated MVP Time:** 15-20 hours with recommendations above
+**Domanda:** gli utenti devono ricevere subito le notifiche di like e commenti?
+
+**Perché conta:**
+- WebSocket aggiunge complessità all'infrastruttura (Redis pub/sub per scalare)
+- Il polling è più semplice ma ha più latenza
+
+**Opzioni:**
+| Opzione | Complessità | Costo per scalare | Ideale per |
+|---------|-------------|-------------------|------------|
+| **WebSocket + Redis** | Alta | 10+ $/mese | >1000 utenti contemporanei |
+| **Polling (30 s)** | Bassa | Query al DB | <1000 utenti |
+| **Niente tempo reale** | Nessuna | Nessuno | MVP, prima validare |
+
+**Se non specificato:** polling per l'MVP (WebSocket dopo la validazione)
+
+---
+
+## 🟢 FACOLTATIVE (rimandare alla v2)
+
+### 5. **Video/reel**
+- Grande complessità (elaborazione video, infrastruttura di streaming)
+- Raccomandazione: lanciare solo con le foto, aggiungere i video dopo la validazione
+
+### 6. **Messaggi diretti**
+- Sottosistema a parte (l'infrastruttura di chat è diversa da quella del feed)
+- Raccomandazione: Pusher/Stream per il tempo reale, oppure rimandare del tutto
+
+---
+
+## 📋 Riepilogo
+
+| Decisione | Raccomandazione | Se cambia |
+|-----------|-----------------|-----------|
+| Storage | Cloudinary | +3 ore di configurazione |
+| Feed | Solo chi segui | +2 ore di ottimizzazione delle query |
+| Autenticazione | Clerk | -3 ore di sviluppo |
+| Tempo reale | Polling | +5 ore per WebSocket |
+| Video | Rimandato alla v2 | - |
+| Messaggi | Rimandati alla v2 | - |
+
+**Tempo stimato per l'MVP:** 15-20 ore con le raccomandazioni qui sopra
 ```
 
 ---
 
-## 🎯 Principles Recap
+## 🎯 Riepilogo dei principi
 
-1. **Every question = Architectural decision** → Not data gathering
-2. **Show trade-offs** → User understands consequences
-3. **Prioritize blocking decisions** → Cannot proceed without
-4. **Provide defaults** → If user doesn't answer, we proceed anyway
-5. **Domain-aware** → Ecommerce questions ≠ Auth questions ≠ Real-time questions
-6. **Iterative** → More questions as patterns emerge during implementation
+1. **Ogni domanda = una decisione di architettura** → non raccolta di dati
+2. **Mostra i compromessi** → l'utente capisce le conseguenze
+3. **Prima le decisioni bloccanti** → senza, non si procede
+4. **Dai un predefinito** → se l'utente non risponde, si va avanti lo stesso
+5. **Attento al dominio** → le domande di un e-commerce ≠ autenticazione ≠ tempo reale
+6. **Per giri successivi** → nuove domande quando emergono gli schemi durante l'implementazione
