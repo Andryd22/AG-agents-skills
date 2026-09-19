@@ -1,19 +1,19 @@
-# The Scroll-Film Playbook (Lane B — cinematic footage)
+# Il playbook dello scroll film (percorso B — riprese cinematiche)
 
-Hard-won rules for making the whole page one continuous Higgsfield film. These are a
-floor, not a ceiling — break them knowingly, never by accident.
+Regole imparate a fatica per fare di tutta la pagina un unico film continuo di Higgsfield.
+Sono un pavimento, non un soffitto: violale sapendo quello che fai, mai per sbaglio.
 
-## 1. Footage-first law
+## 1. Legge: prima le riprese
 
-The film is the source of truth; the website is a player. Design the camera arc first
-(one continuous journey, ~5 chapters), then build the page around whatever footage
-actually comes back. Never storyboard the site and force footage to match — footage
-drifts, copy is cheap to move.
+Il film è la fonte di verità; il sito è un lettore. Progetta prima l'arco della camera (un
+unico viaggio continuo, ~5 capitoli), poi costruisci la pagina intorno alle riprese che
+arrivano davvero. Mai fare lo storyboard del sito e forzare le riprese ad adattarsi: le
+riprese derivano, i testi si spostano facilmente.
 
-## 2. Chaining law (flawless joins)
+## 2. Legge della concatenazione (giunture perfette)
 
-Each clip's `--start-image` is the **ffmpeg-extracted literal last frame** of the previous
-clip — not a lookalike keyframe, the actual pixels:
+Lo `--start-image` di ogni clip è **l'ultimo frame letterale estratto con ffmpeg** dalla
+clip precedente: non un fotogramma che gli somiglia, i pixel veri:
 
 ```bash
 ffmpeg -sseof -0.05 -i clipN.mp4 -update 1 -q:v 1 clipN-last.png
@@ -22,84 +22,100 @@ higgsfield generate create seedance_2_0 --prompt "..." \
   --mode std --generate-audio false
 ```
 
-Only the opening keyframe (Nano Banana Pro) starts the chain; every later start-image is a
-real last frame. Keep one continuous camera direction (always descending / always pushing
-in) — reversals read as cuts. Uniform clip length = constant scrub speed.
+Solo il fotogramma iniziale (Nano Banana Pro) apre la catena; ogni start-image successivo è
+un vero ultimo frame. Mantieni un'unica direzione di camera (sempre in discesa / sempre in
+avanti): le inversioni si leggono come tagli. Clip della stessa durata = scrub a velocità
+costante.
 
-## 3. The junction gate (measured, never eyeballed)
+## 3. Il controllo delle giunture (misurato, mai a occhio)
 
 ```bash
 ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 ```
 
-- **≥ 0.88 pass** · 0.80–0.88 watch it in motion · a true fail is **structural**.
-- SSIM under-reads on stochastic texture (clouds ~0.66, embers ~0.72, liquid caustics
-  ~0.60 can all be seamless). The number says *where* to look; the side-by-side decides.
-- The #1 real failure is **grade/geometry drift** (an invented sunrise, a new horizon).
-  Fix by regenerating with: *"Continue the exact same shot from the reference frame,
-  identical framing, identical colour grade. Do not change the colour grade."*
-- **Dissolves/crossfades over a bad junction are forbidden** — the scrub lets the user
-  park on the seam, which exposes the mask instantly. Fix the join, don't hide it.
+- **≥ 0.88 superato** · 0.80-0.88 guardalo in movimento · un vero fallimento è **strutturale**.
+- L'SSIM sottostima le texture casuali (nuvole ~0.66, braci ~0.72, caustiche dei liquidi
+  ~0.60 possono essere tutte senza giuntura visibile). Il numero dice *dove* guardare; decide
+  il confronto affiancato.
+- Il fallimento vero più comune è la **deriva di colore o di geometria** (un'alba inventata,
+  un nuovo orizzonte). Si corregge rigenerando con: *"Continue the exact same shot from the
+  reference frame, identical framing, identical colour grade. Do not change the colour
+  grade."* (i prompt per il modello video restano in inglese).
+- **Vietate le dissolvenze/incroci sopra una giuntura venuta male**: con lo scrub l'utente
+  può fermarsi sulla giuntura, e la maschera si vede subito. Correggi la giuntura, non
+  nasconderla.
 
-## 4. Billing truths (verify by balance delta, not docs)
+## 4. La verità sui costi (verificala con la differenza di saldo, non con la documentazione)
 
-- `--generate-audio false` is *the* cost lever — audio ON silently ~3×'s the bill.
-- Measured price ladder per 5s clip (confirm with `higgsfield generate cost`):
-  1080p/std ≈ 45 · 720p/std ≈ 22.5 · 720p/fast ≈ 17.5 · 480p/fast ≈ 7.5. 10s = 2×5s.
-- **Draft the whole chain at 480p/fast to validate, then re-run approved prompts at
-  1080p.** A regen at draft tier costs a fraction of a full one.
-- ~15% of jobs fail server-side with no reason and don't bill — just retry the same call.
+- `--generate-audio false` è *la* leva dei costi: l'audio acceso triplica il conto senza avvisare.
+- Prezzi misurati per clip da 5 s (conferma con `higgsfield generate cost`):
+  1080p/std ≈ 45 · 720p/std ≈ 22,5 · 720p/fast ≈ 17,5 · 480p/fast ≈ 7,5. 10 s = 2×5 s.
+- **Fai la bozza di tutta la catena a 480p/fast per convalidarla, poi rigenera i prompt
+  approvati a 1080p.** Rigenerare al livello di bozza costa una frazione di una generazione
+  completa.
+- Circa il 15% dei job fallisce lato server senza motivo e non viene addebitato: ripeti la
+  stessa chiamata.
 
-## 5. Assembly
+## 5. Montaggio
 
-- Concat dropping the duplicate junction frame (`select='gte(n,1)'` on clips 2+), and
-  **always `-fps_mode vfr`** on the master encode — default CFR sync pads ~5 dup frames per
-  junction = frozen scrub zones.
-- Extract every 2nd frame to ~300 JPEGs at ~1280px, `-q:v 4`. (Dark, grainy footage nearly
-  doubles JPEG bytes — 1280/q4 keeps the payload light without visible loss at cover-fit.)
-- Sample the final frame's edge colour → the seam hex for the film→content handoff.
+- Concatena togliendo il frame duplicato alla giuntura (`select='gte(n,1)'` dalla clip 2 in
+  poi) e **sempre `-fps_mode vfr`** nella codifica finale: la sincronizzazione CFR predefinita
+  aggiunge ~5 frame duplicati per giuntura = zone di scrub congelate.
+- Estrai un frame ogni 2 in ~300 JPEG a ~1280 px, `-q:v 4`. (Le riprese scure e granulose
+  quasi raddoppiano i byte dei JPEG: 1280/q4 tiene leggero il carico senza perdite visibili
+  con il riempimento a copertura.)
+- Campiona il colore del bordo dell'ultimo frame → l'hex della giuntura per il passaggio
+  film→contenuti.
 
-`scripts/chain-step.sh` and `scripts/assemble.sh` do all of this.
+`scripts/chain-step.sh` e `scripts/assemble.sh` fanno tutto questo.
 
-## 6. The scrub engine (why it's jank-free)
+## 6. Il motore di scrub (perché non ha jank)
 
-- **Canvas + pre-extracted JPEGs**, never `<video currentTime>` scrubbing (seek stutter).
-- **ImageBitmap sliding window**: `drawImage(HTMLImageElement)` forces a *synchronous* JPEG
-  decode on first paint (and after cache eviction) — that decode spike *is* the frame-by-
-  frame jank. `createImageBitmap` decodes off-thread; keep a window of decoded bitmaps
-  around the playhead (±18 ahead, evict/close beyond ±28) so every draw is a pure GPU blit.
-- Lerp the frame index (`current += (target-current)*0.14`) for butter. Cap DPR at ~1.5.
-- Lenis smooth scroll; a concurrency-capped image pump; `nearestFrame()` fallback so a
-  missing frame never blanks the canvas.
-- **Measure jank with rAF deltas (p95/max), not average fps.** Target max < 50ms.
+- **Canvas + JPEG estratti prima**, mai lo scrub con `<video currentTime>` (scatti di seek).
+- **Finestra scorrevole di ImageBitmap**: `drawImage(HTMLImageElement)` costringe a una
+  decodifica JPEG *sincrona* al primo disegno (e dopo che la cache è stata svuotata): quel
+  picco di decodifica *è* il jank frame per frame. `createImageBitmap` decodifica fuori dal
+  thread principale; tieni una finestra di bitmap decodificate intorno alla testina (±18 in
+  avanti, libera/chiudi oltre ±28), così ogni disegno è una pura copia sulla GPU.
+- Interpola l'indice del frame (`current += (target-current)*0.14`) per la morbidezza.
+  Limita il DPR a ~1.5.
+- Scroll morbido con Lenis; una pompa di immagini con concorrenza limitata; ripiego
+  `nearestFrame()`, così un frame mancante non svuota mai il canvas.
+- **Misura il jank con i delta di rAF (p95/massimo), non con gli fps medi.** Obiettivo
+  massimo < 50 ms.
 
-## 7. Chrome, seam, and the ambient layer
+## 7. Interfaccia, giuntura e livello di sfondo
 
-- **Adaptive header**: sample the drawn frame's top strip luminance (~every 180ms) → toggle
-  a `.on-light` class. Fixed chrome over changing film can't be one hard-coded colour.
-- **Seamless handoff**: start the next section's background gradient at the *sampled* final-
-  frame colour. No visible line between film and content.
-- **Ambient hero layer** (optional, free): sprite-based canvas particles themed to the world
-  (snow glisten, gold pollen) over the static first frame, fading out across the first ~7%
-  of scroll — the hero feels alive before the scrub starts. Use one offscreen radial-gradient
-  sprite + `drawImage` per particle (never `shadowBlur`); stop rendering entirely at alpha 0.
-- Film grain + vignette sell the "one shot" feel; fade both out with the handoff.
+- **Header adattivo**: campiona la luminanza della striscia in alto del frame disegnato
+  (~ogni 180 ms) → attiva o disattiva una classe `.on-light`. Un'interfaccia fissa sopra un
+  film che cambia non può avere un solo colore fisso.
+- **Passaggio senza giuntura**: fai partire il gradiente di sfondo della sezione successiva
+  dal colore *campionato* dell'ultimo frame. Nessuna linea visibile tra film e contenuti.
+- **Livello hero di sfondo** (facoltativo, gratis): particelle su canvas a tema con il
+  mondo (neve che brilla, polline d'oro) sopra il primo frame fermo, che svaniscono nel primo
+  ~7% dello scroll: l'hero sembra vivo prima che parta lo scrub. Usa uno sprite fuori schermo
+  con gradiente radiale + un `drawImage` per particella (mai `shadowBlur`); smetti del tutto
+  di disegnare ad alpha 0.
+- Grana e vignettatura vendono la sensazione di "unica inquadratura"; falle svanire entrambe
+  al passaggio.
 
-## 8. Verification harness
+## 8. Strumento di verifica
 
-Host preview panes throttle hidden tabs (rAF freezes → stale screenshots). The reliable path:
-puppeteer-core + system Chrome + a page dev-contract:
+Le anteprime dell'host rallentano le schede nascoste (rAF congelato → screenshot vecchi).
+La strada affidabile: puppeteer-core + Chrome di sistema + un contratto di sviluppo nella
+pagina:
 
-- `?jump=<scrollY>` → land pre-scrolled and force-settle all scroll state.
-- `window.__ready = true` only after frames are decoded and settled.
-- Capture: `goto → waitForFunction(__ready) → wait ~1200ms → screenshot`. Shoot every beat
-  position *and* every junction. Hide any cursor-follower until first real mousemove or it
-  photobombs captures at 0,0.
+- `?jump=<scrollY>` → apri la pagina già scrollata e assesta a forza tutto lo stato dello scroll.
+- `window.__ready = true` solo dopo che i frame sono decodificati e assestati.
+- Cattura: `goto → waitForFunction(__ready) → aspetta ~1200 ms → screenshot`. Fotografa ogni
+  posizione dei momenti *e* ogni giuntura. Nascondi qualsiasi elemento che segue il cursore
+  fino al primo vero mousemove, altrimenti compare nelle catture a 0,0.
 
-`scripts/verify.js` does capture + jank-test.
+`scripts/verify.js` fa cattura e test di jank.
 
-## 9. Governance
+## 9. Chi fa cosa
 
-Design taste and design code are done by the main model only (the one running the skill). Mechanical steps (ffmpeg,
-SSIM, puppeteer, vercel) are pure code — no model. Quote credits before spending; show the
-receipt after. One continuous shot, one world per brand.
+Gusto e codice del design li fa solo il modello principale (quello che esegue la skill). I
+passaggi meccanici (ffmpeg, SSIM, puppeteer, vercel) sono codice puro, senza modello. Indica
+i crediti prima di spendere; mostra il saldo dopo. Un'unica inquadratura continua, un mondo
+per marchio.

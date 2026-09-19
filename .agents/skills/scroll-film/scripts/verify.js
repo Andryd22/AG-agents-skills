@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 /*
- * verify.js — the visual-verification harness (mechanical lane, no model).
+ * verify.js — lo strumento di verifica visiva (lavoro meccanico, nessun modello).
  *
- *   node verify.js shot   <url> <outfile.png> [width] [height]   # screenshot at ?jump position
- *   node verify.js jank   <url>                                  # scroll-through jank test
+ *   node verify.js shot   <url> <file.png> [larghezza] [altezza]   # screenshot alla posizione ?jump
+ *   node verify.js jank   <url>                                    # test di jank scorrendo tutta la pagina
  *
- * Uses puppeteer-core + your system Chrome (host preview panes throttle hidden tabs, freezing
- * rAF and returning stale screenshots — this path is immune). The page under test must
- * implement the dev contract described in references/engine.md: ?jump=<scrollY> lands
- * pre-scrolled+settled, and window.__ready === true fires once the page is truly ready.
- * If __ready never fires, this harness FAILS — a screenshot of an unready page is not proof.
+ * Usa puppeteer-core + il Chrome di sistema (le anteprime dell'host rallentano le schede nascoste,
+ * congelano il rAF e restituiscono screenshot vecchi: questa strada no). La pagina sotto test deve
+ * implementare il contratto di sviluppo di references/engine.md: ?jump=<scrollY> apre la pagina già
+ * scrollata e assestata, e window.__ready === true scatta quando la pagina è davvero pronta.
+ * Se __ready non scatta mai, lo strumento FALLISCE: lo screenshot di una pagina non pronta non prova niente.
  *
- * Setup once:  npm i puppeteer-core   (and have Google Chrome installed)
- * Chrome path is auto-detected for macOS/Linux/Windows; override with CHROME_PATH=/path.
+ * Da fare una volta:  npm i puppeteer-core   (e avere Google Chrome installato)
+ * Il percorso di Chrome è trovato da solo su macOS/Linux/Windows; per cambiarlo CHROME_PATH=/percorso.
  */
 const puppeteer = require('puppeteer-core');
 
@@ -36,7 +36,7 @@ async function withBrowser(fn) {
 
 async function ready(page) {
   await page.waitForFunction('window.__ready === true', { timeout: 45000 })
-    .catch(() => { throw new Error('window.__ready never fired — page not ready, refusing to capture (implement the dev contract)'); });
+    .catch(() => { throw new Error('window.__ready non è mai scattato — pagina non pronta, niente cattura (implementa il contratto di sviluppo)'); });
 }
 
 async function shot(url, out, w = 1440, h = 900) {
@@ -45,9 +45,9 @@ async function shot(url, out, w = 1440, h = 900) {
     await page.setViewport({ width: +w, height: +h, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 60000 });
     await ready(page);
-    await new Promise(r => setTimeout(r, 1200)); // let lerps/entrances settle
+    await new Promise(r => setTimeout(r, 1200)); // lascia assestare interpolazioni e animazioni di ingresso
     await page.screenshot({ path: out });
-    console.log('captured', out);
+    console.log('catturato', out);
   });
 }
 
@@ -78,7 +78,7 @@ async function jank(url) {
       requestAnimationFrame(tick);
     }));
     console.log(JSON.stringify(stats));
-    console.log(stats.max < 50 ? 'PASS (max < 50ms)' : 'JANK — investigate the bitmap window / DPR / frame weight');
+    console.log(stats.max < 50 ? 'SUPERATO (max < 50 ms)' : 'JANK — controlla la finestra di bitmap, il DPR e il peso dei frame');
     if (stats.max >= 50) process.exitCode = 2;
   });
 }
@@ -87,5 +87,5 @@ const [mode, url, out, w, h] = process.argv.slice(2);
 (async () => {
   if (mode === 'shot') await shot(url, out, w, h);
   else if (mode === 'jank') await jank(url);
-  else { console.error('usage: node verify.js shot <url> <out.png> [w] [h]  |  node verify.js jank <url>'); process.exit(1); }
+  else { console.error('uso: node verify.js shot <url> <file.png> [larg] [alt]  |  node verify.js jank <url>'); process.exit(1); }
 })().catch(e => { console.error(e.message); process.exit(1); });

@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-# assemble.sh <assets-dir> <frames-out-dir> <clip1> <clip2> ...  (clip names, no .mp4, in order)
+# assemble.sh <cartella-assets> <cartella-frame> <clip1> <clip2> ...  (nomi delle clip senza .mp4, in ordine)
 #
-# Concats the chained clips (dropping the duplicate junction frame on clips 2+), encodes the
-# master with -fps_mode vfr (CFR padding causes frozen scrub zones), extracts ~300 JPEG frames
-# at 1280px for the canvas scrubber, and prints the final-frame seam colour for the handoff.
-# Mechanical lane — no model. Requires: bash, ffmpeg >= 5.1 (-fps_mode), xxd.
+# Concatena le clip della catena (togliendo il frame duplicato alla giuntura dalla clip 2 in poi),
+# codifica il master con -fps_mode vfr (il riempimento CFR crea zone di scrub congelate), estrae
+# ~300 frame JPEG a 1280 px per lo scrub su canvas e stampa il colore della giuntura dell'ultimo
+# frame per il passaggio ai contenuti.
+# Lavoro meccanico, nessun modello. Richiede: bash, ffmpeg >= 5.1 (-fps_mode), xxd.
 set -e -o pipefail
-shopt -s nullglob   # an empty glob expands to nothing
-A=$1; F=$2; shift 2
-if [[ -z "$A" || -z "$F" || $# -lt 2 ]]; then
-  echo "usage: assemble.sh <assets-dir> <frames-out-dir> <clip1> <clip2> ... (>=2 clips)"; exit 1
+shopt -s nullglob   # un glob senza corrispondenze non produce niente
+if (( $# < 4 )); then   # prima di shift 2: con meno argomenti set -e uscirebbe senza messaggio
+  echo "uso: assemble.sh <cartella-assets> <cartella-frame> <clip1> <clip2> ... (almeno 2 clip)"; exit 1
 fi
-for CLIP in "$@"; do [[ -r "$A/$CLIP.mp4" ]] || { echo "missing clip: $A/$CLIP.mp4"; exit 1; }; done
+A=$1; F=$2; shift 2
+for CLIP in "$@"; do [[ -r "$A/$CLIP.mp4" ]] || { echo "clip mancante: $A/$CLIP.mp4"; exit 1; }; done
 mkdir -p "$F"
 
 INPUTS=(); FILTER=""; N=0
@@ -32,10 +33,10 @@ rm -f "$F"/f_*.jpg
 ffmpeg -v error -i "$A/master.mp4" -vf "select='not(mod(n\\,2))',scale=1280:-2" -vsync vfr -q:v 4 "$F/f_%04d.jpg"
 FRAMES=("$F"/f_*.jpg)
 COUNT=${#FRAMES[@]}
-if (( COUNT == 0 )); then echo "FAILED — no frames were extracted"; exit 1; fi
-echo "frames: $COUNT at 1280w, $(du -sh "$F" | cut -f1)  ->  set FRAME_COUNT=$COUNT in the engine"
+if (( COUNT == 0 )); then echo "FALLITO — nessun frame estratto"; exit 1; fi
+echo "frame: $COUNT a 1280 px di larghezza, $(du -sh "$F" | cut -f1)  ->  imposta FRAME_COUNT=$COUNT nel motore"
 
-LAST=${FRAMES[$((COUNT-1))]}   # bash 3.2 (macOS) has no negative indexes
+LAST=${FRAMES[$((COUNT-1))]}   # bash 3.2 (macOS) non ha gli indici negativi
 SEAM=$(ffmpeg -v error -i "$LAST" -vf "crop=iw:ih*0.12:0:ih*0.88,scale=1:1" -frames:v 1 -f rawvideo -pix_fmt rgb24 - | xxd -p | cut -c1-6)
-if [[ -z "$SEAM" ]]; then echo "warning: seam colour could not be sampled — sample $LAST manually"; else
-echo "seam colour of $(basename $LAST): #$SEAM   (start the after-film section background here)"; fi
+if [[ -z "$SEAM" ]]; then echo "avviso: impossibile campionare il colore della giuntura, campiona $LAST a mano"; else
+echo "colore della giuntura di $(basename $LAST): #$SEAM   (fai partire da qui lo sfondo della sezione dopo il film)"; fi

@@ -1,46 +1,49 @@
-# scroll-world — Camera grammar
+# scroll-world — Grammatica della camera
 
-Detail for SKILL.md Step 4, architecture A.
+Dettagli per il passo 4 di SKILL.md, architettura A.
 
-"Forward only" is the *seam* rule, not the *leg* rule. The physics of the chain:
+"Solo in avanti" è la regola delle *giunture*, non dei *tratti*. La fisica della catena:
 
-- **Position continuity** at a seam comes from the frame handoff (next leg starts from the
-  previous leg's actual last frame).
-- **Velocity continuity** at a seam means the camera must never *reverse across a seam* —
-  that's the rewind stutter.
-- **Inside a single leg the camera is free.** One leg is one continuous render — there is
-  no seam to break mid-leg, so orbits, crane-ups, lateral tracking, even a push-in that
-  eases back out are all safe *within* the clip. Reversals are only fatal *across* seams.
+- La **continuità di posizione** a una giuntura viene dal passaggio del frame (il tratto
+  successivo parte dall'ultimo frame reale del precedente).
+- La **continuità di velocità** a una giuntura vuol dire che la camera non deve mai
+  *invertire attraverso una giuntura*: è lo scatto da riavvolgimento.
+- **Dentro un tratto la camera è libera.** Un tratto è un'unica resa continua: a metà tratto
+  non c'è nessuna giuntura da rompere, quindi orbite, salite in gru, carrellate laterali, perfino
+  un avvicinamento che poi si allontana sono sicuri *dentro* la clip. Le inversioni sono fatali
+  solo *attraverso* le giunture.
 
-So give each leg an expressive move chosen from the scene's own logic, under a **motion
-handoff contract**: every leg **ends by settling into a slow, steady forward drift** toward
-the next destination (final ~1 s), and every leg **begins by continuing that same drift**.
-Keep both clauses in the prompts verbatim (templates in `references/prompts.md`).
+Quindi dai a ogni tratto un movimento espressivo scelto dalla logica della scena, sotto un
+**contratto di passaggio del movimento**: ogni tratto **finisce assestandosi in una deriva lenta
+e costante in avanti** verso la meta successiva (l'ultimo ~1 s), e ogni tratto **comincia
+continuando quella stessa deriva**. Tieni identiche entrambe le frasi nei prompt (modelli in
+`references/prompts.md`).
 
-Pick the grammar from the concept:
+Scegli la grammatica dal concept:
 
-| Concept / tone | Mid-leg move |
+| Concept / tono | Movimento a metà tratto |
 | --- | --- |
-| Product / luxury retail | slow half-orbit around the hero object, then continue past it |
-| Real estate / hospitality | steadicam glide through doorways; gentle crane-up in atria |
-| Industrial / process / logistics | low lateral track alongside the line, foreground parallax |
-| Travel / outdoors / campus | drone-style rise-and-reveal, then a descending swoop |
-| Food / craft / detail-driven | push in close to the craft moment, ease back, carry on |
-| Playful miniature (arch. B) | dives + aerial hops — the connector IS the grammar |
+| Prodotto / lusso | mezza orbita lenta intorno all'oggetto protagonista, poi oltre |
+| Immobiliare / ospitalità | scivolata in steadicam attraverso le porte; leggera salita in gru negli atri |
+| Industria / processi / logistica | carrellata laterale bassa lungo la linea, parallasse in primo piano |
+| Viaggi / all'aperto / campus | salita e rivelazione da drone, poi una picchiata in discesa |
+| Cibo / artigianato / dettagli | avvicinamento al gesto artigiano, leggero arretramento, poi avanti |
+| Miniatura giocosa (arch. B) | tuffi + salti aerei: il connettore È la grammatica |
 
-Honest costs: expressive mid-leg moves raise re-roll odds — the model can end a fancy move
-in a state that isn't a clean forward drift. Mitigations: keep the final-second settle
-clause verbatim; **eyeball each leg's last frame before chaining the next** (it should look
-like a frame from a gentle forward glide — if not, re-roll before wasting the next leg);
-budget ~1 extra re-roll per expressive leg. A plain forward glide stays the zero-risk
-default — use it for legs where the scene itself is the show.
+Costi onesti: i movimenti espressivi a metà tratto aumentano la probabilità di rifacimenti: il
+modello può chiudere un movimento elaborato in uno stato che non è una deriva in avanti pulita.
+Contromisure: tieni identica la frase dell'assestamento nell'ultimo secondo; **guarda l'ultimo
+frame di ogni tratto prima di concatenare il successivo** (deve sembrare un frame di una leggera
+scivolata in avanti; se no, rifallo prima di sprecare il tratto dopo); prevedi ~1 rifacimento in
+più per ogni tratto espressivo. Una semplice scivolata in avanti resta la scelta predefinita a
+rischio zero: usala nei tratti in cui lo spettacolo è la scena stessa.
 
-Two related pacing knobs live in the engine (Step 7): per-section `scroll` (more scroll
-distance = longer dwell in that scene) and `linger` (the camera settles mid-scene exactly
-while the copy peaks, then picks up speed toward the seam). Prefer expressive motion in the
-*clip* and restraint in the *scrub mapping* — they compound.
+Nel motore ci sono due manopole del ritmo collegate (passo 7): `scroll` per sezione (più scroll =
+sosta più lunga in quella scena) e `linger` (la camera si assesta a metà scena proprio mentre i
+testi sono al massimo, poi accelera verso la giuntura). Meglio un movimento espressivo nella
+*clip* e sobrietà nella *mappatura dello scrub*: gli effetti si sommano.
 
-And remember scroll is a scrubber: visitors can scroll **up**, so every move also plays in
-reverse. That's free and expected — no extra work — but it's another reason seam velocity
-must be consistent in both directions (a seam that reads fine forward reads as a stutter
-backward too if velocity flips).
+E ricorda che lo scroll è una testina: i visitatori possono scorrere **in su**, quindi ogni
+movimento si vede anche al contrario. Non costa niente ed è previsto, ma è un motivo in più perché
+la velocità alle giunture sia coerente nei due sensi (una giuntura che va bene in avanti scatta
+anche all'indietro se la velocità si inverte).

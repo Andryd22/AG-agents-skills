@@ -1,227 +1,241 @@
 ---
 name: scroll-film
-description: 'Build a genuinely beautiful animated scroll-film website — the whole page is one continuous cinematic shot that plays as the visitor scrolls. Runs a short interview, pitches 2-3 named concepts, art-directs the world, then builds it from scratch. Two lanes: free pure-code GSAP/Lenis motion (zero setup, works for anyone) or a cinematic footage film from the user''s own image-to-video engine (Higgsfield Seedance is the reference; Kie.ai, fal, Replicate or any start-image-capable model works). Trigger on "scroll-film", "cinematic scroll site", "scrollytelling website", "build me an animated/scroll website", "film-scroll site", "one continuous shot website", or any request for a premium scroll-scrubbed animated site. NOT for slide decks / HTML explainers or static brochure sites. Use when the user runs /scroll-film.'
+description: 'Costruisce un sito animato "scroll film" davvero bello: tutta la pagina è un''unica inquadratura cinematica continua che scorre mentre il visitatore fa scroll. Fa una breve intervista, propone 2-3 concept con un nome, cura la direzione artistica del mondo e poi lo costruisce da zero. Due percorsi: movimento solo in codice con GSAP/Lenis, gratuito (nessuna configurazione, funziona per chiunque), oppure un film di riprese cinematiche generate con il motore image-to-video dell''utente (Higgsfield Seedance è il riferimento; vanno bene Kie.ai, fal, Replicate o qualsiasi modello che accetta un''immagine iniziale). Si attiva su "scroll-film", "sito cinematico allo scroll", "sito scrollytelling", "fammi un sito animato / allo scroll", "sito film-scroll", "sito in un''unica inquadratura", o qualsiasi richiesta di un sito premium animato con lo scrub dello scroll. NON per presentazioni, spiegazioni in HTML o siti vetrina statici. Usala quando l''utente lancia /scroll-film.'
 ---
 
 # Scroll-Film Studio
 
-You build **scroll-film websites**: the hero *is* the page — one unbroken cinematic
-shot that scrubs as the visitor scrolls, then dissolves seamlessly into the content
-below. This skill is a **process, not a scaffold** — there are no template pages to
-copy. Every site is designed and written from scratch for its brand, guided by the
-process below and the technical law in `references/`.
+Costruisci **siti scroll film**: l'hero *è* la pagina, un'unica inquadratura cinematica
+ininterrotta che avanza mentre il visitatore scorre e poi si scioglie senza giunture nei
+contenuti sotto. Questa skill è un **processo, non uno scheletro**: non ci sono pagine
+modello da copiare. Ogni sito si progetta e si scrive da zero per il suo marchio, seguendo
+il processo qui sotto e le regole tecniche in `references/`.
 
-Two ways to make the film:
+Due modi per fare il film:
 
-- **Lane A — Pure-code (default, zero setup):** the "film" is GSAP + Lenis motion —
-  pinned scenes, parallax, clip-path reveals, horizontal runs. Costs nothing, needs no
-  accounts, works for anyone who downloads this skill.
-- **Lane B — Cinematic footage (opt-in):** the film is real generated video, chained
-  shot-to-shot and scrubbed on a canvas. Works with **any image-to-video engine that
-  accepts a start image** — Higgsfield Seedance 2.0 is the reference implementation
-  (scripts included); Kie.ai Seedance/Veo, fal, Replicate etc. follow the same chain
-  contract. Needs the user's own account + credits. This is the signature look.
+- **Percorso A — Solo codice (predefinito, nessuna configurazione):** il "film" è
+  movimento GSAP + Lenis: scene fissate, parallasse, rivelazioni con clip-path, scorrimenti
+  orizzontali. Non costa niente, non servono account, funziona per chiunque scarichi la skill.
+- **Percorso B — Riprese cinematiche (su richiesta):** il film è video generato davvero,
+  concatenato inquadratura dopo inquadratura e fatto scorrere su un canvas. Funziona con
+  **qualsiasi motore image-to-video che accetta un'immagine iniziale**: Higgsfield Seedance
+  2.0 è l'implementazione di riferimento (script inclusi); Kie.ai Seedance/Veo, fal,
+  Replicate ecc. seguono lo stesso contratto di concatenazione. Servono un account
+  dell'utente e i suoi crediti. È il look distintivo.
 
-Everyone gets a gorgeous result. Lane A is always available; Lane B unlocks when the
-user has a video engine.
-
----
-
-## THE GOLDEN RULE — design is done by you, the main model
-
-Every decision that involves **taste** is done by you, the model running this skill
-(use the strongest one the IDE offers): concepts, art direction, palette, type, layout,
-motion design, copy, the build itself (all HTML/CSS/JS), and the final design review.
-**No other model ever touches the design space.** If you delegate, delegate only:
-
-- **Mechanical work** → pure shell/code with *no model at all* (ffmpeg, SSIM scoring,
-  frame extraction, verification, deploys).
-- **Bounded drafting** → sub-agents running the *same model* as you (e.g. drafting one
-  chapter's video prompt, writing one after-film section). Never route design or code to
-  a different or weaker model.
-
-This is non-negotiable and is how quality stays high while tokens stay low.
+Tutti ottengono un risultato splendido. Il percorso A c'è sempre; il B si sblocca quando
+l'utente ha un motore video.
 
 ---
 
-## STEP 0 — The interview
+## LA REGOLA D'ORO — il design lo fai tu, il modello principale
 
-Ask these up front (batch them; prefer the host's structured-question UI if available).
-**Every creative question has a "you decide" path** — if the user defers, you art-direct
-it yourself and keep moving. Never block on a design answer you can make well.
+Ogni decisione che richiede **gusto** la prendi tu, il modello che esegue questa skill
+(usa il più forte che l'IDE offre): concept, direzione artistica, palette, caratteri,
+layout, motion design, testi, la costruzione stessa (tutto HTML/CSS/JS) e la revisione
+finale del design. **Nessun altro modello tocca mai il design.** Se deleghi, delega solo:
 
-1. **What are we building, and the one-line vibe?**
-   Brand/product name, what it is, and the feeling. (e.g. *"VOLTA — an electric race
-   team. Aggressive, electric, fast."*)
-2. **Brand assets, or should I create the world?**
-   Existing logo / colours / fonts / real images — or full creative freedom.
-3. **The journey — the one continuous shot, top to bottom.**
-   Where the camera starts and where it ends — the *transformation*. (e.g. *"moonlit
-   field → into a single bloom → a drop of gold → the bottle."*) Or: "design the arc
-   from my brand." **This is the heart of the whole build.**
-4. **Real video, or pure motion?** → picks Lane B or Lane A. If unsure or zero-setup,
-   default to **Lane A (pure-code)**.
-5. **(Lane B only) "Are you using Higgsfield, or something else?"** Ask this
-   explicitly. Higgsfield CLI is the reference path (scripts included); Kie.ai, fal,
-   Replicate, or any image-to-video model that accepts a start image also works. Then:
-   is it installed/authed? How many chapters (clips)? A credit ceiling? — You will
-   draft cheap, confirm the cost, and only master in full resolution on their
-   approval. If they have no engine, fall back to Lane A.
-6. **What comes after the film?** The sections below the scroll (lineup / collection /
-   booking / manifesto…), the primary call-to-action, contact + socials.
-7. **Where does it go live?** Local only, or publish to *their own* Vercel.
+- **Lavoro meccanico** → shell/codice puro, *senza nessun modello* (ffmpeg, punteggi
+  SSIM, estrazione dei frame, verifica, deploy).
+- **Bozze circoscritte** → sub-agent con lo *stesso modello* (es. la bozza del prompt video
+  di un capitolo, una sezione dopo il film). Mai affidare design o codice a un modello
+  diverso o più debole.
+
+Non è negoziabile ed è così che la qualità resta alta e i token restano pochi.
 
 ---
 
-## STEP 1 — Pitch concepts back (before building anything)
+## PASSO 0 — L'intervista
 
-From the interview, develop **2–3 named creative concepts** and pitch them. Rules:
+Fai queste domande subito (tutte insieme; se l'host ha un'interfaccia per domande
+strutturate, usala). **Ogni domanda creativa ha l'opzione "decidi tu"**: se l'utente
+lascia a te, fai tu la direzione artistica e vai avanti. Non bloccarti mai su una risposta
+di design che sai dare bene da solo.
 
-- Lead with your **recommended** concept, explicitly marked "(Recommended)".
-- Each concept gets a *concrete what-you-actually-see walkthrough*, not a thesis
-  one-liner — narrate the scroll: what the visitor sees at the top, what happens as
-  they scroll, what each chapter shows, how the film resolves into the content.
-  (e.g. *"You open on a moonlit flower field, huge serif wordmark floating over it.
-  Scroll: the camera dives into a single bloom… petals part… you're falling through
-  gold embers… a drop of liquid gold lands in a pool… pull back — you're inside the
-  bottle on black marble. The page then melts into the collection."*)
-- Name each concept (a title is half the sell), state the lane it uses, the chapter
-  count, and (Lane B) the estimated credits.
-- **Optional second-model sparring (if available):** before presenting, check whether a
-  second frontier-model CLI exists on the user's machine (e.g. `codex`, `gemini`, or
-  similar — any model other than the one running this skill). If one does, hand it the concepts *as text* and ask it to (a) attack each
-  one — is the journey legible? memorable? feasible in N chapters? — and (b) propose one
-  wildcard angle you haven't considered. Fold what survives into your pitch (credit the
-  sparring in one line). **This is strategy critique only — the other model never writes
-  copy, code, or any design decision; you arbitrate and you author.** If no second model
-  is available, skip silently — the skill is fully self-sufficient on the main model alone.
-- Let the user pick or blend; if they say "you choose", take the recommended one and go.
-
-Only after a concept is chosen do you build.
-
----
-
-## STEP 2 — Art-direct the world (you, alone)
-
-Decide and commit: palette (exact hexes), a display+body **type pairing** with real
-character (never default system fonts — reach for expressive display faces), a logo
-lockup (inline SVG), the motion feel, and the chapter names. Distinct fonts and a
-distinct world per brand — never ship two brands that look like the same site. Pull
-real brand logos as inline SVG for any named third-party tool (never a hand-drawn
-approximation of a real logo).
+1. **Cosa costruiamo, e l'atmosfera in una riga?**
+   Nome del marchio/prodotto, cos'è e la sensazione. (es. *"VOLTA — una scuderia da corsa
+   elettrica. Aggressiva, elettrica, veloce."*)
+2. **Materiale del marchio, o creo io il mondo?**
+   Logo, colori, font e immagini reali esistenti, oppure piena libertà creativa.
+3. **Il viaggio: l'unica inquadratura continua, dall'alto in basso.**
+   Dove parte la camera e dove arriva: la *trasformazione*. (es. *"campo al chiaro di luna
+   → dentro un solo fiore → una goccia d'oro → la bottiglia."*) Oppure: "disegna tu l'arco
+   partendo dal mio marchio." **È il cuore di tutta la costruzione.**
+4. **Video vero o solo movimento?** → sceglie il percorso B o A. Nel dubbio, o se non si
+   vuole configurare niente, **percorso A (solo codice)**.
+5. **(Solo percorso B) "Usi Higgsfield o qualcos'altro?"** Chiedilo esplicitamente. La CLI
+   di Higgsfield è il percorso di riferimento (script inclusi); vanno bene anche Kie.ai,
+   fal, Replicate o qualsiasi modello image-to-video che accetta un'immagine iniziale.
+   Poi: è installato e autenticato? Quanti capitoli (clip)? Un tetto di crediti? — Farai
+   le bozze a basso costo, confermerai la spesa e genererai la versione finale in piena
+   risoluzione solo dopo la sua approvazione. Se non ha un motore, torna al percorso A.
+6. **Cosa viene dopo il film?** Le sezioni sotto lo scroll (formazione / collezione /
+   prenotazioni / manifesto…), la call-to-action principale, contatti e social.
+7. **Dove va online?** Solo in locale, oppure pubblicato sul *suo* Vercel.
 
 ---
 
-## LANE A — Pure-code (default)
+## PASSO 1 — Proponi i concept (prima di costruire qualsiasi cosa)
 
-Write a single self-contained HTML page from scratch for this brand. Load GSAP,
-ScrollTrigger, and Lenis from CDN (vendor them locally for production). Compose the
-film from the motion vocabulary in `references/engine.md` §Pure-code — pinned scenes,
-scrubbed timelines, a char-split hero reveal, horizontal pinned runs with
-containerAnimation parallax, velocity-skew, counters, marquees — arranged to tell
-*this* brand's journey (Step 1's walkthrough is your storyboard). Then the after-film
-content sections + footer (real social SVGs), verification, and (optionally) deploy.
+Dall'intervista sviluppa **2-3 concept creativi con un nome** e proponili. Regole:
 
-Critical ordering law: **create ScrollTriggers for ambient/background effects AFTER
-pinned scenes** — creation order is refresh order; violating this silently mis-positions
-everything after a pin spacer.
+- Apri con il concept **che raccomandi**, segnato esplicitamente "(Consigliato)".
+- Ogni concept ha un *racconto concreto di cosa si vede*, non una tesi in una riga:
+  racconta lo scroll: cosa vede il visitatore in cima, cosa succede mentre scorre, cosa
+  mostra ogni capitolo, come il film si risolve nei contenuti.
+  (es. *"Si apre su un campo di fiori al chiaro di luna, con un enorme logotipo serif che
+  galleggia sopra. Scroll: la camera si tuffa in un solo fiore… i petali si aprono… stai
+  cadendo tra braci d'oro… una goccia d'oro liquido cade in una pozza… la camera arretra:
+  sei dentro la bottiglia, su marmo nero. Poi la pagina si scioglie nella collezione."*)
+- Dai un nome a ogni concept (il titolo è metà della vendita), indica il percorso che usa,
+  il numero di capitoli e (percorso B) i crediti stimati.
+- **Confronto facoltativo con un secondo modello (se c'è):** prima di presentare, controlla
+  se sul computer dell'utente c'è la CLI di un secondo modello di frontiera (es. `codex`,
+  `gemini` o simili: qualsiasi modello diverso da quello che esegue questa skill). Se c'è,
+  passagli i concept *come testo* e chiedigli di (a) attaccarli uno per uno — il viaggio si
+  capisce? resta in mente? si fa in N capitoli? — e (b) proporre un'angolazione a sorpresa
+  che non hai considerato. Metti nella proposta quello che regge (cita il confronto in una
+  riga). **È solo critica di strategia: l'altro modello non scrive mai testi, codice o
+  decisioni di design; decidi e scrivi tu.** Se non c'è un secondo modello, salta in
+  silenzio: la skill basta a se stessa con il solo modello principale.
+- Lascia che l'utente scelga o mescoli; se dice "scegli tu", prendi quello consigliato e vai.
 
----
-
-## LANE B — Cinematic footage (any image-to-video engine)
-
-Read `references/playbook.md` first — it is the law for this lane. The playbook and
-`scripts/chain-step.sh` implement the **Higgsfield Seedance** reference path out of the
-box. For any other engine (Kie.ai Seedance/Veo, fal, Replicate…), keep the exact same
-chain contract — generate → wait → download → extract last frame → SSIM junction gate —
-and swap only the generate/wait/download calls for that engine's CLI or API. In brief:
-
-1. **Storyboard** the chosen concept as N chapters (5 is the sweet spot), one continuous
-   camera direction the whole way down.
-2. **Generate the opening keyframe** (Nano Banana Pro), then chain N clips where **each
-   clip's `--start-image` is the literal last frame of the previous clip**
-   (`scripts/chain-step.sh` does generate → wait → download → extract frames → SSIM
-   junction gate). Draft the chain cheap first; master at full res only on approval.
-3. **Junction-gate every seam** — measured, never eyeballed; repair by regenerating with
-   the exact-continuation prompt language in the playbook. Dissolves over bad seams are
-   forbidden.
-4. **Assemble** with `scripts/assemble.sh` (drops duplicate junction frames, encodes
-   `-fps_mode vfr`, extracts ~300 frames, samples the seam colour).
-5. **Build the page from scratch** around the footage: the canvas scrub engine described
-   in `references/engine.md` §Scrub-engine (ImageBitmap sliding window — the anti-jank
-   core — lerped frame index, adaptive-contrast header, chapter/altimeter readout, beat
-   overlays, seam handoff, optional ambient hero layer, the `?jump`/`__ready` dev
-   contract). Write it for this brand; don't copy a previous site.
-
-**~15% of Higgsfield jobs fail server-side with no reason and are not billed — retry.**
+Solo dopo che è stato scelto un concept si costruisce.
 
 ---
 
-## THE DELEGATION MODEL (how tokens stay low)
+## PASSO 2 — Direzione artistica del mondo (solo tu)
 
-You are the orchestrator and the designer. Spend frontier tokens only where taste lives.
+Decidi e impegnati: palette (hex esatti), un **abbinamento di caratteri** titolo+testo con
+vera personalità (mai i font di sistema: cerca caratteri da titolo espressivi), il logo
+(SVG inline), la sensazione del movimento e i nomi dei capitoli. Font e mondo diversi per
+ogni marchio: mai due marchi che sembrano lo stesso sito. Per ogni strumento di terze parti
+citato usa il logo vero come SVG inline (mai un'imitazione disegnata a mano di un logo reale).
 
-| Work | Who does it | Cost |
+---
+
+## PERCORSO A — Solo codice (predefinito)
+
+Scrivi da zero una sola pagina HTML autosufficiente per questo marchio. Carica GSAP,
+ScrollTrigger e Lenis da CDN (copiali in locale per la produzione). Componi il film con il
+vocabolario di movimento di `references/engine.md` §Film solo in codice — scene fissate, timeline
+con scrub, rivelazione dell'hero lettera per lettera, scorrimenti orizzontali fissati con
+parallasse via containerAnimation, inclinazione in base alla velocità, contatori, marquee —
+disposti per raccontare il viaggio di *questo* marchio (il racconto del passo 1 è il tuo
+storyboard). Poi le sezioni dopo il film + footer (SVG veri dei social), verifica e
+(se richiesto) deploy.
+
+Legge critica sull'ordine: **crea gli ScrollTrigger degli effetti di sfondo DOPO le scene
+fissate**: l'ordine di creazione è l'ordine di refresh; se lo violi, tutto quello che sta
+dopo uno spazio di pin finisce nel posto sbagliato, senza nessun errore.
+
+---
+
+## PERCORSO B — Riprese cinematiche (qualsiasi motore image-to-video)
+
+Leggi prima `references/playbook.md`: è la legge di questo percorso. Il playbook e
+`scripts/chain-step.sh` implementano già il percorso di riferimento **Higgsfield
+Seedance**. Per qualsiasi altro motore (Kie.ai Seedance/Veo, fal, Replicate…) tieni
+identico il contratto di concatenazione — genera → aspetta → scarica → estrai l'ultimo
+frame → controllo SSIM della giuntura — e cambia solo le chiamate di generazione, attesa e
+download con la CLI o l'API di quel motore. In breve:
+
+1. **Storyboard** del concept scelto in N capitoli (5 è il numero ideale), con un'unica
+   direzione di camera continua dall'inizio alla fine.
+2. **Genera il fotogramma iniziale** (Nano Banana Pro), poi concatena N clip in cui **lo
+   `--start-image` di ogni clip è letteralmente l'ultimo frame della clip precedente**
+   (`scripts/chain-step.sh` fa genera → aspetta → scarica → estrai i frame → controllo SSIM
+   della giuntura). Prima una bozza economica di tutta la catena; la versione finale in
+   piena risoluzione solo dopo l'approvazione.
+3. **Controlla ogni giuntura** — misurata, mai a occhio; si ripara rigenerando con il
+   linguaggio di continuazione esatta del playbook. Vietate le dissolvenze sopra le giunture
+   venute male.
+4. **Monta** con `scripts/assemble.sh` (toglie i frame duplicati alle giunture, codifica con
+   `-fps_mode vfr`, estrae ~300 frame, campiona il colore della giuntura).
+5. **Costruisci la pagina da zero** intorno alle riprese: il motore di scrub su canvas di
+   `references/engine.md` §Motore di scrub (finestra scorrevole di ImageBitmap — il cuore
+   contro il jank — indice del frame interpolato, header a contrasto adattivo, indicatore di
+   capitolo/altimetro, testi sovrapposti ai momenti, passaggio alla giuntura, livello hero
+   di sfondo facoltativo, il contratto di sviluppo `?jump`/`__ready`). Scrivilo per questo
+   marchio; non copiare un sito precedente.
+
+**Circa il 15% dei job di Higgsfield fallisce lato server senza motivo e non viene
+addebitato: riprova.**
+
+---
+
+## IL MODELLO DI DELEGA (come si risparmiano token)
+
+Sei l'orchestratore e il designer. Spendi token di frontiera solo dove serve il gusto.
+
+| Lavoro | Chi lo fa | Costo |
 | --- | --- | --- |
-| Concepts, art direction, palette, type, layout, motion, final copy, the build, design review | **You (the main model)** — never delegated. Run design on the strongest model available. | frontier, worth it |
-| Concept sparring — attacking the pitch, one wildcard angle (optional, if a second CLI exists) | **Another frontier model** (e.g. GPT/Codex, Claude, Gemini — whichever is not you) — strategy text only, never design | one cheap call |
-| First drafts only: a chapter's video prompt, an after-film section's copy — **you review and rewrite every draft; nothing a sub-agent wrote ships unedited** | **Sub-agents** on the same model, fanned out in parallel | cheap, parallel |
-| Frame extraction, SSIM gating, assembly, seam sampling, jank test, screenshots, deploy | **Pure shell — no model** (`scripts/*`, ffmpeg, puppeteer, vercel) | ~free |
+| Concept, direzione artistica, palette, caratteri, layout, movimento, testi finali, costruzione, revisione del design | **Tu (il modello principale)** — mai delegato. Il design va sul modello più forte disponibile. | di frontiera, ne vale la pena |
+| Confronto sui concept — attaccare la proposta, un'angolazione a sorpresa (facoltativo, se c'è una seconda CLI) | **Un altro modello di frontiera** (es. GPT/Codex, Claude, Gemini — quello che non sei tu) — solo testo di strategia, mai design | una chiamata economica |
+| Solo prime bozze: il prompt video di un capitolo, i testi di una sezione dopo il film — **ogni bozza la rivedi e la riscrivi tu; niente di quello che scrive un sub-agent esce senza modifiche** | **Sub-agent** con lo stesso modello, in parallelo | economico, in parallelo |
+| Estrazione dei frame, controllo SSIM, montaggio, campionamento delle giunture, test di jank, screenshot, deploy | **Solo shell, nessun modello** (`scripts/*`, ffmpeg, puppeteer, vercel) | quasi gratis |
 
-Fan out independent pieces concurrently; keep the taste-bearing spine on yourself.
-
----
-
-## COST DISCIPLINE (Lane B)
-
-1. **Audio OFF** — `--generate-audio false`. Audio ON silently ~3×'s the bill.
-2. **Confirm before spending.** Quote the credit total *before* any generation; show the
-   balance receipt after.
-3. **Draft cheap, master once.** Validate the whole chain at the cheapest tier (480p/fast),
-   then re-run only approved prompts at full resolution (1080p/std on the reference engine).
-4. **Reuse the footage.** One film can power several directions — footage is the cost,
-   re-skins are free.
+Fai andare in parallelo i pezzi indipendenti; la spina dorsale che richiede gusto la tieni tu.
 
 ---
 
-## VERIFY (both lanes)
+## DISCIPLINA DEI COSTI (percorso B)
 
-Implement the dev contract in every build: `?jump=<scrollY>` lands pre-scrolled with all
-scroll state force-settled, and `window.__ready = true` fires only once the page is truly
-ready. Then `scripts/verify.js` (puppeteer-core + system Chrome) screenshots any scroll
-position and runs the **jank test** (per-frame rAF deltas — judge p95/max, *never* average
-fps; target max < 50ms). Screenshot every beat and every junction. Never ask the user to
-eyeball what you can prove. Host preview panes throttle hidden tabs (rAF freezes → stale
-screenshots) — that's why this harness exists.
-
----
-
-## DEPLOY (opt-in, their Vercel)
-
-Build a **lean** copy first — `index.html` + vendored libs (dereference symlinks with
-`cp -RL`) + only the runtime `frames/`/`assets/`. Never upload build intermediates (raw
-clips, keyframes — often 100MB+). Then `vercel deploy --prod --yes` from the lean dir.
-Tell the user new Vercel projects often sit behind **Deployment Protection** (a login
-wall); making them public is their account setting (Project → Settings → Deployment
-Protection) — point them there, don't change their security settings for them.
+1. **Audio SPENTO** — `--generate-audio false`. L'audio acceso triplica il conto senza avvisare.
+2. **Conferma prima di spendere.** Indica il totale dei crediti *prima* di ogni generazione;
+   mostra il saldo dopo.
+3. **Bozza economica, versione finale una volta.** Convalida tutta la catena al livello più
+   economico (480p/fast), poi rigenera solo i prompt approvati in piena risoluzione
+   (1080p/std sul motore di riferimento).
+4. **Riusa le riprese.** Un film può alimentare più direzioni: il costo sono le riprese,
+   cambiare veste è gratis.
 
 ---
 
-## GUARDRAILS
+## VERIFICA (entrambi i percorsi)
 
-- **This skill ships with zero personal data** — no API keys, no accounts, no personal
-  paths. Every user brings their own video engine + Vercel. Never bake credentials in.
-- Design + build stay on the main model. Mechanical work goes to code; design never does.
-- Confirm credits before spending; show the receipt after.
-- One continuous shot; one world per brand; no visible seams; no dissolve masking.
-- Respect `prefers-reduced-motion` in every build.
-- Reference files: `references/playbook.md` (footage law), `references/engine.md`
-  (build recipes), `scripts/chain-step.sh`, `scripts/assemble.sh`, `scripts/verify.js`.
-  The `.sh` scripts are bash: macOS and Linux run them as they are, on Windows use Git Bash or WSL.
+In ogni costruzione implementa il contratto di sviluppo: `?jump=<scrollY>` apre la pagina
+già scrollata con tutto lo stato dello scroll assestato, e `window.__ready = true` scatta
+solo quando la pagina è davvero pronta. Poi `scripts/verify.js` (puppeteer-core + Chrome di
+sistema) fa screenshot di qualsiasi posizione di scroll ed esegue il **test di jank**
+(delta di rAF per frame: giudica p95/massimo, *mai* gli fps medi; obiettivo massimo < 50 ms).
+Fai lo screenshot di ogni momento e di ogni giuntura. Mai chiedere all'utente di guardare a
+occhio quello che puoi dimostrare. Le anteprime dell'host rallentano le schede nascoste (rAF
+congelato → screenshot vecchi): per questo esiste questo strumento.
 
-## Usage
+---
+
+## DEPLOY (su richiesta, sul suo Vercel)
+
+Prima prepara una copia **snella**: `index.html` + librerie copiate in locale (risolvi i
+link simbolici con `cp -RL`) + solo i `frames/`/`assets/` usati a runtime. Mai caricare i
+file intermedi della costruzione (clip grezze, fotogrammi chiave: spesso oltre 100 MB). Poi
+`vercel deploy --prod --yes` dalla cartella snella. Avvisa l'utente che i progetti Vercel
+nuovi spesso stanno dietro la **Deployment Protection** (un muro di login); renderli
+pubblici è un'impostazione del suo account (Project → Settings → Deployment Protection):
+indicagliela, non cambiare tu le sue impostazioni di sicurezza.
+
+---
+
+## REGOLE DI SICUREZZA
+
+- **Questa skill non contiene dati personali**: niente chiavi API, niente account, niente
+  percorsi personali. Ogni utente porta il suo motore video e il suo Vercel. Mai scrivere
+  credenziali nel codice.
+- Design e costruzione restano sul modello principale. Il lavoro meccanico va al codice; il
+  design mai.
+- Conferma i crediti prima di spendere; mostra il saldo dopo.
+- Un'unica inquadratura continua; un mondo per marchio; nessuna giuntura visibile; nessuna
+  dissolvenza per mascherare.
+- Rispetta `prefers-reduced-motion` in ogni costruzione.
+- File di riferimento: `references/playbook.md` (legge delle riprese), `references/engine.md`
+  (ricette di costruzione), `scripts/chain-step.sh`, `scripts/assemble.sh`, `scripts/verify.js`.
+  Gli script `.sh` sono bash: macOS e Linux li eseguono così come sono, su Windows usa Git
+  Bash o WSL.
+
+## Uso
 
 ```text
-/scroll-film VOLTA electric race team continuous camera site
-/scroll-film scrollytelling page for luxury perfume brand
+/scroll-film sito a camera continua per la scuderia elettrica VOLTA
+/scroll-film pagina scrollytelling per un marchio di profumi di lusso
 ```

@@ -1,45 +1,46 @@
-# scroll-world — Video models
+# scroll-world — Modelli video
 
-Detail for SKILL.md Step 4. Schemas were confirmed against the Higgsfield CLI.
+Dettagli per il passo 4 di SKILL.md. Gli schemi sono stati verificati con la CLI di Higgsfield.
 
-**This skill only ships seamless output**, so the only usable models are ones that can
-frame-lock a seam: every chained clip must accept `--start-image`, and connectors also
-need `--end-image`. That capability — not preference — is the selection rule. Check any
-model with `higgsfield model get <job_type>` and **skip anything whose media inputs are
-reference-only** (no start/end image): it can only *condition* a generation, not
-*continue* a shot, so it physically can't hold a seam. Schemas below were confirmed
-against the CLI:
+**Questa skill produce solo risultati senza giunture**, quindi si possono usare solo i modelli
+che agganciano i frame di una giuntura: ogni clip della catena deve accettare `--start-image`,
+e i connettori anche `--end-image`. È questa capacità, non la preferenza, a decidere. Controlla
+qualsiasi modello con `higgsfield model get <job_type>` e **scarta quelli in cui i media in
+ingresso sono solo di riferimento** (niente immagine iniziale/finale): possono solo
+*condizionare* una generazione, non *continuare* un'inquadratura, quindi fisicamente non tengono
+una giuntura. Gli schemi qui sotto sono stati verificati con la CLI:
 
-| Model | start/end image | Notes |
+| Modello | Immagine iniziale/finale | Note |
 | --- | --- | --- |
-| `seedance_2_0` (default) | ✓ / ✓ | Full chain (legs + connectors). `--mode std --resolution 1080p`. Its NSFW filter is the touchy one (see Gotchas). |
-| `kling3_0` | ✓ / ✓ | Full chain — tested: `--mode std --sound off --duration 5` with start+end images accepted, seams frame-lock cleanly. **No `--resolution` param** (don't pass one; `--mode std` returns **720p native** — encode what ffprobe reports, never upscale). Sound defaults **on** → `--sound off`. `--duration` default 5, try 10 for legs. Different content filter than Seedance — the sanctioned NSFW fallback. |
-| `seedance_2_0_mini` | ✓ / ✓ | Cheap draft tier that keeps frame-locking (720p). The previz tier: run the whole chain here first, then re-render final legs on the full model — still seamless, so it translates directly. |
+| `seedance_2_0` (predefinito) | ✓ / ✓ | Catena completa (tratti + connettori). `--mode std --resolution 1080p`. Il suo filtro NSFW è quello permaloso (vedi Trappole). |
+| `kling3_0` | ✓ / ✓ | Catena completa — provato: `--mode std --sound off --duration 5` con immagini iniziale e finale accettate, le giunture si agganciano pulite. **Nessun parametro `--resolution`** (non passarlo; `--mode std` restituisce **720p nativo**: codifica quello che dice ffprobe, mai ingrandire). Il suono è **attivo** di default → `--sound off`. `--duration` predefinita 5, prova 10 per i tratti. Filtro dei contenuti diverso da Seedance: il ripiego ufficiale per l'NSFW. |
+| `seedance_2_0_mini` | ✓ / ✓ | Livello di bozza economico che continua ad agganciare i frame (720p). Il livello previz: fai qui prima tutta la catena, poi rigenera i tratti finali con il modello completo; resta senza giunture, quindi si traduce direttamente. |
 
-Those three are the roster — all do both architectures. (`kling3_0_turbo` also frame-locks
-via `--start-image`, but has no `--end-image`, so it's architecture-A-only and can't make
-connectors; it also takes a different flag set — no `--mode`, has `--resolution` — so it
-doesn't drop into the pipeline as-is. It's not in the default roster; only reach for it, and
-wire it by hand, if architecture A's sequential render time is a proven bottleneck and you've
-benchmarked it as actually faster.)
+Questi tre sono l'elenco: tutti fanno entrambe le architetture. (Anche `kling3_0_turbo` aggancia
+i frame con `--start-image`, ma non ha `--end-image`, quindi va bene solo per l'architettura A e
+non può fare connettori; ha anche un altro insieme di flag — niente `--mode`, c'è `--resolution` —
+quindi non entra nella pipeline così com'è. Non è nell'elenco predefinito; usalo, collegandolo a
+mano, solo se il tempo di resa in sequenza dell'architettura A è un collo di bottiglia dimostrato
+e hai misurato che è davvero più veloce.)
 
-**Previz first (default, not optional-extra).** Unless the run is small (≤4 scenes),
-render the whole chain on `seedance_2_0_mini` first. It frame-locks, so everything that
-matters — journey order, camera grammar, seam continuity, copy pacing against the scrub —
-is validated at draft cost; assemble the page from the previz clips and review it with
-the user before a single full-model credit is spent. Then clear the draft clips, flip
-`$VMODEL`, and re-render final (stills are reused; the pipeline's idempotency makes the
-second pass mechanical — `references/pipeline.md`, setup block).
+**Prima la previz (predefinita, non un extra facoltativo).** A meno che la corsa non sia piccola
+(≤4 scene), rendi prima tutta la catena con `seedance_2_0_mini`. Aggancia i frame, quindi tutto
+quello che conta — ordine del viaggio, grammatica della camera, continuità delle giunture, ritmo dei
+testi rispetto allo scrub — si convalida al costo di una bozza; monta la pagina con le clip di
+previz e rivedila con l'utente prima di spendere un solo credito del modello completo. Poi togli
+le clip di bozza, cambia `$VMODEL` e rigenera la versione finale (le immagini si riusano;
+l'idempotenza della pipeline rende meccanico il secondo passaggio: `references/pipeline.md`,
+blocco di configurazione).
 
-Rules:
+Regole:
 
-- **One model for all chained clips.** Each renderer has its own motion/color/grain
-  character; mixing models mid-chain keeps *position* continuity (frames still hand off)
-  but the render-character shift reads as a subtle pop. The one sanctioned exception is
-  the NSFW fallback for a single stubborn clip (Gotchas) — a slight character shift on
-  one 5s connector beats a missing connector.
-- Default to `seedance_2_0`; honor a user's stated preference **only if the model
-  qualifies** (frame-locking). If it doesn't, say so and use a supported model — never
-  ship a non-seamless build to satisfy a model request.
-- The pipeline scripts take the model as `$VMODEL` with per-model flags already cased
-  out (`references/pipeline.md`).
+- **Un solo modello per tutte le clip della catena.** Ogni modello ha il suo carattere di
+  movimento, colore e grana; mescolare modelli a metà catena mantiene la continuità di *posizione*
+  (i frame si passano comunque) ma il cambio di carattere si legge come un piccolo scatto. L'unica
+  eccezione ammessa è il ripiego per l'NSFW su una singola clip ostinata (Trappole): un leggero
+  cambio di carattere su un connettore di 5 s è meglio di un connettore mancante.
+- Predefinito `seedance_2_0`; rispetta la preferenza dell'utente **solo se il modello ha i
+  requisiti** (aggancio dei frame). Se non li ha, dillo e usa un modello supportato: mai consegnare
+  un lavoro con giunture per accontentare la richiesta di un modello.
+- Gli script della pipeline prendono il modello come `$VMODEL`, con i flag di ogni modello già
+  gestiti (`references/pipeline.md`).

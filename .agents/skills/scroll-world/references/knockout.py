@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
-"""Border-connected background knockout for diorama stills.
+"""Rimozione dello sfondo a partire dai bordi, per le immagini dei diorami.
 
-Removes the flat background of a scene image (leaving the diorama floating on
-transparency) via a flood fill from the borders over pixels near the corner
-colour. Interior regions that happen to match the background (e.g. cream walls
-inside the scene) are preserved because the fill only reaches border-connected
-pixels. The soft contact shadow is kept as a natural base.
+Toglie lo sfondo piatto di un'immagine di scena (il diorama resta sospeso sulla
+trasparenza) con un riempimento che parte dai bordi e si estende ai pixel vicini al
+colore degli angoli. Le zone interne che per caso hanno il colore dello sfondo (es. le
+pareti crema dentro la scena) restano, perché il riempimento raggiunge solo i pixel
+collegati ai bordi. La morbida ombra di contatto resta come base naturale.
 
-Usage:
-    python3 knockout.py scene1.png scene2.png ...
-    # writes scene1.rgba.png, scene2.rgba.png, ...
-    # optional: TOL env var (default 34) widens/narrows the bg match
+Uso:
+    python3 knockout.py scena1.png scena2.png ...
+    # scrive scena1.rgba.png, scena2.rgba.png, ...
+    # facoltativo: la variabile d'ambiente TOL (predefinita 34) allarga/stringe la somiglianza con lo sfondo
 
-Then encode to webp with alpha, e.g.:
-    cwebp -q 84 -alpha_q 95 -resize 1800 0 scene1.rgba.png -o scene1.webp
+Poi codifica in webp con alpha, es.:
+    cwebp -q 84 -alpha_q 95 -resize 1800 0 scena1.rgba.png -o scena1.webp
 
-No numpy/ImageMagick needed — pure PIL. Pairs with SKILL.md Step 3.
+Non servono numpy né ImageMagick: solo PIL. Va con il passo 3 di SKILL.md.
 """
 import os
 import sys
 from collections import deque
 from PIL import Image, ImageFilter
 
-TOL = float(os.environ.get("TOL", "34"))   # RGB Euclidean distance counted as background
+TOL = float(os.environ.get("TOL", "34"))   # distanza euclidea RGB che conta come sfondo
 
 
 def corner_color(im):
@@ -77,11 +77,11 @@ def knock(inp, outp):
         for x in range(w):
             if bg[base + x]:
                 ap[x, y] = 0
-    alpha = alpha.filter(ImageFilter.GaussianBlur(1.4))   # soften the threshold contour
+    alpha = alpha.filter(ImageFilter.GaussianBlur(1.4))   # ammorbidisce il contorno della soglia
     out = im.convert("RGBA")
     out.putalpha(alpha)
     out.save(outp)
-    print("knocked", outp)
+    print("sfondo rimosso:", outp)
 
 
 if __name__ == "__main__":

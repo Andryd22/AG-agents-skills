@@ -1,131 +1,134 @@
 /* ============================================================================
-   scroll-world — portable scroll-scrubbed camera-flight engine
+   scroll-world — motore portabile di voli di camera guidati dallo scroll
    ----------------------------------------------------------------------------
-   Framework-agnostic. Vanilla JS, zero dependencies. It builds its own DOM and
-   injects its own (namespaced) CSS into a container you give it, so it drops into
-   plain HTML, Next.js (call from a ref/useEffect), Vue (onMounted), a server-
-   rendered page, anything.
+   Indipendente dal framework. JavaScript puro, zero dipendenze. Costruisce il suo DOM
+   e inietta il suo CSS (con prefisso) in un contenitore che gli passi, quindi va in
+   HTML semplice, Next.js (chiamalo da un ref/useEffect), Vue (onMounted), una pagina
+   renderizzata dal server, qualsiasi cosa.
 
-   USAGE
+   USO
      mountScrollWorld(document.getElementById('world'), {
        brand: { name: 'Pearl & Co.', href: '#top' },
-       diveScroll: 1.3,   // viewport-heights of scroll per dive clip
-       connScroll: 0.9,   // ...per connector clip
-       hint: 'scroll to fly in',
-       nav: true,         // show the top section nav
-       atmosphere: true,  // subtle gradient + drifting particles behind the clips
-       scrollMobileFactor: 1.2,  // extra scroll distance per segment on mobile (small
-                                 // viewports read the same flight as faster; industry
-                                 // pattern is a LONGER mobile scroll run)
+       diveScroll: 1.3,   // altezze di viewport di scroll per ogni clip di tuffo
+       connScroll: 0.9,   // ...per ogni clip connettore
+       hint: 'scorri per entrare in volo',
+       nav: true,         // mostra la navigazione delle sezioni in alto
+       atmosphere: true,  // leggero gradiente + particelle in deriva dietro le clip
+       scrollMobileFactor: 1.2,  // scroll in più per segmento su mobile (nei viewport
+                                 // piccoli lo stesso volo sembra più veloce; la pratica
+                                 // del settore è uno scroll mobile PIÙ LUNGO)
        sections: [
          { id, label, still, poster, posterMobile, clip, clipMobile, accent,
-                          // `poster` = the EXTRACTED FIRST FRAME of the encoded clip
-                          // (pipeline.md §5b). Shown while the clip loads, so the
-                          // still→video swap is pixel-identical (no crop/render pop).
-                          // `posterMobile` = same, extracted from the mobile/portrait
-                          // encode (wire it whenever clipMobile has different framing).
-                          // Falls back to `still` when absent; `still` remains the
-                          // stills-mode / no-clip artwork.
-           scroll: 1.6,   // optional per-section override of diveScroll — more scroll
-                          // distance = a slower, longer dwell in this scene
-           linger: 0.5,   // optional 0..1 — remaps time so the camera settles mid-scene
-                          // (exactly where the copy peaks) and moves quicker at the
-                          // edges. 0 = linear (default). Keep ≤ 0.6; 1 = full pause.
+                          // `poster` = il PRIMO FRAME ESTRATTO dalla clip codificata
+                          // (pipeline.md §5b). Si vede mentre la clip carica, così il
+                          // passaggio da immagine a video è identico al pixel (niente scatti).
+                          // `posterMobile` = lo stesso, estratto dalla codifica mobile/verticale
+                          // (collegalo ogni volta che clipMobile ha un'inquadratura diversa).
+                          // Se manca si usa `still`; `still` resta la grafica della
+                          // modalità immagini / senza clip.
+           scroll: 1.6,   // facoltativo, sostituisce diveScroll per questa sezione: più
+                          // scroll = sosta più lenta e lunga in questa scena
+           linger: 0.5,   // facoltativo 0..1: rimappa il tempo in modo che la camera si
+                          // assesti a metà scena (proprio dove i testi sono al massimo) e
+                          // vada più veloce ai bordi. 0 = lineare (predefinito). Tienilo ≤ 0.6; 1 = pausa piena.
            eyebrow, title, body, tags:[…],
-           cta:{ primary:{label,href}, secondary:{label,href} } }, // last section only
+           cta:{ primary:{label,href}, secondary:{label,href} } }, // solo l'ultima sezione
          …
        ],
-       connectors: [clipUrl, …],          // length = sections.length - 1 (nulls allowed)
-       connectorsMobile: [clipUrl, …],    // optional lighter connectors for phones (same length)
+       connectors: [clipUrl, …],          // lunghezza = sections.length - 1 (null ammessi)
+       connectorsMobile: [clipUrl, …],    // facoltativi, connettori più leggeri per i telefoni (stessa lunghezza)
 
-   MOBILE (the clipMobile/connectorsMobile variants are the opt-in mobile tiers;
-   the rest of the phone handling below is always on)
-     Two independent axes, deliberately separate:
-     - CLIP TIER (which file): decided by device class — screen short side ≤600 CSS px
-       = phone → `clipMobile`/`posterMobile`; tablets (iPad Pro included) and desktops
-       get the full master. NOT decided by pointer type: iPadOS reports a coarse
-       pointer and a Mac UA, but has a desktop-class screen + decoder.
-     - BEHAVIOUR hardening (how it acts): on any coarse-pointer / ≤860px viewport the
-       engine coalesces seeks (never issues a new currentTime while the decoder is
-       still `seeking` — fast flicks can't pile up and freeze), takes a coarser seek
-       step, keeps the poster up until the clip actually paints, primes each video
-       (muted play→pause) on first touch (iOS blank-video fix), lengthens the scroll
-       run (`scrollMobileFactor`), drops the drifting particles, and ignores
-       URL-bar-only resizes (no scroll jump).
-     STILLS MODE (automatic fallback, never configured): the page falls back to the
-     stills cross-dissolving as you scroll — no video load or decode — when the user
-     asked for it (`prefers-reduced-motion`, data-saver) or the OS blocks video at
-     runtime (iOS Low Power Mode rejects even muted play(); detected on first touch).
-     Chromium-only network signals (`navigator.connection.saveData`/`effectiveType`)
-     are used strictly as downgrade signals — saveData → stills mode, 2g/3g → shrink
-     the clip prefetch window. iOS exposes none of these, so the baseline stays
-     conservative (posters first, lazy blob fetch near the viewport) for everyone.
-     Nothing here is required — a config with only `clip`/`connectors` still works on
-     phones; the mobile variants just make it lighter and smoother.
+   MOBILE (le varianti clipMobile/connectorsMobile sono le fasce mobile facoltative;
+   il resto della gestione dei telefoni qui sotto è sempre attivo)
+     Due assi indipendenti, separati di proposito:
+     - LIVELLO DELLE CLIP (quale file): lo decide la classe del dispositivo — lato corto
+       dello schermo ≤600 px CSS = telefono → `clipMobile`/`posterMobile`; tablet (iPad Pro
+       compreso) e desktop ricevono il master completo. NON lo decide il tipo di puntatore:
+       iPadOS dichiara un puntatore grossolano e uno user agent da Mac, ma ha schermo e
+       decoder da desktop.
+     - PROTEZIONI (come si comporta): con puntatore grossolano / viewport ≤860 px il motore
+       raggruppa i seek (non imposta mai un nuovo currentTime mentre il decoder è ancora in
+       `seeking`: gli scorrimenti veloci non si accumulano e non congelano), usa un passo di
+       seek più largo, tiene il poster finché la clip non disegna davvero, prepara ogni video
+       (play→pause muto) al primo tocco (correzione del video vuoto su iOS), allunga lo scroll
+       (`scrollMobileFactor`), toglie le particelle e ignora i resize dovuti solo alla barra
+       degli indirizzi (niente salti dello scroll).
+     MODALITÀ IMMAGINI (ripiego automatico, mai da configurare): la pagina passa alle
+     immagini che si dissolvono l'una nell'altra mentre scorri — nessun caricamento o
+     decodifica di video — quando l'utente lo ha chiesto (`prefers-reduced-motion`,
+     risparmio dati) o il sistema blocca il video a runtime (il Risparmio energetico di iOS
+     rifiuta perfino un play() muto; rilevato al primo tocco).
+     I segnali di rete solo di Chromium (`navigator.connection.saveData`/`effectiveType`)
+     servono solo a ridurre: saveData → modalità immagini, 2g/3g → finestra di
+     precaricamento delle clip più stretta. iOS non espone niente di tutto questo, quindi la
+     base resta prudente (prima i poster, download pigro dei blob vicino al viewport) per tutti.
+     Niente di questo è obbligatorio: una configurazione con solo `clip`/`connectors`
+     funziona anche sui telefoni; le varianti mobile la rendono solo più leggera e fluida.
 
-   THEME (CSS custom properties; set on the container or :root to override)
-     --sw-bg         page background (match your scene bg for seamless posters)
-     --sw-ink        primary text
-     --sw-ink-soft   secondary text
-     --sw-accent     default accent (each section overrides via its `accent`)
+   TEMA (proprietà CSS personalizzate; impostale sul contenitore o su :root)
+     --sw-bg         sfondo della pagina (uguale allo sfondo delle scene per poster senza giunture)
+     --sw-ink        testo principale
+     --sw-ink-soft   testo secondario
+     --sw-accent     accent predefinito (ogni sezione lo cambia con il suo `accent`)
      --sw-font-display / --sw-font-body
 
-   SEO / STATIC COPY
-     The engine builds its DOM client-side, so on its own the page has no crawlable
-     copy. Put a plain-markup version of the copy (h1 + per-section h2/p, real links)
-     inside the container in a block marked `data-sw-seo` — the engine hides it on
-     mount and it never fights the visual layer, but it exists in the served HTML for
-     crawlers, link previews, and no-JS visitors (see index-template.html).
+   SEO / TESTI STATICI
+     Il motore costruisce il DOM lato client, quindi da sola la pagina non ha testo
+     indicizzabile. Metti una versione in markup semplice dei testi (h1 + h2/p per sezione,
+     link veri) dentro il contenitore, in un blocco marcato `data-sw-seo`: il motore lo
+     nasconde al montaggio e non disturba mai il livello visivo, ma esiste nell'HTML servito
+     per crawler, anteprime dei link e visitatori senza JS (vedi index-template.html).
 
-   REQUIREMENTS ON YOUR ASSETS
-     - clips encoded native-res, crf~20, -g 8, +faststart, no audio (see pipeline.md)
-     - connectors' endpoints are the neighbouring dives' ACTUAL frames (see SKILL Step 5)
-     - posters extracted from the ENCODED clips' first frames (pipeline.md §5b)
-     - (optional) mobile variants at ~720p, -g 4 for smoother phone scrubbing
-   The engine loads each clip as a Blob (always seekable) and scrubs currentTime; it does
-   NOT depend on HTTP byte-range support.
+   REQUISITI DEL MATERIALE
+     - clip codificate alla risoluzione nativa, crf~20, -g 8, +faststart, senza audio (vedi pipeline.md)
+     - gli estremi dei connettori sono i frame REALI dei tuffi vicini (vedi il passo 5 di SKILL)
+     - poster estratti dal primo frame delle clip CODIFICATE (pipeline.md §5b)
+     - (facoltative) varianti mobile a ~720p, -g 4 per uno scrub più fluido sui telefoni
+   Il motore carica ogni clip come Blob (seek sempre possibile) e fa lo scrub di currentTime;
+   NON dipende dal supporto HTTP per gli intervalli di byte.
    ========================================================================== */
 
 function mountScrollWorld(container, config) {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // BEHAVIOUR hardening (seek step, priming, particles, resize gating) keys off input
-  // type + viewport: `coarse` is captured once (input type doesn't change mid-session);
-  // the ≤860px query is read live via isMobile() so a desktop resize/DevTools toggle
-  // switches seek behaviour without a reload.
+  // Le PROTEZIONI (passo di seek, preparazione, particelle, filtro dei resize) dipendono dal
+  // tipo di input e dal viewport: `coarse` si legge una volta (il tipo di input non cambia a
+  // metà sessione); la query ≤860px si legge dal vivo con isMobile(), così un resize su desktop
+  // o il pulsante di DevTools cambiano il comportamento dei seek senza ricaricare.
   const coarse = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const smallMQ = window.matchMedia('(max-width: 860px)');
   const isMobile = () => coarse || smallMQ.matches;
-  // CLIP TIER keys off device class, NOT input type: an iPad Pro is coarse-pointer but
-  // has a desktop-class screen and decoder — it gets the 1080p master, with the touch
-  // hardening above still on. screen.* is stable across rotation and window resizes;
-  // a phone's short side is ≤ ~500 CSS px, tablets start at 744.
+  // Il LIVELLO DELLE CLIP dipende dalla classe del dispositivo, NON dal tipo di input: un iPad Pro
+  // ha il puntatore grossolano ma schermo e decoder da desktop, quindi riceve il master a 1080p,
+  // con le protezioni touch qui sopra sempre attive. screen.* non cambia con la rotazione né con
+  // il resize della finestra; il lato corto di un telefono è ≤ ~500 px CSS, i tablet partono da 744.
   const phoneClass = Math.min(screen.width, screen.height) <= 600;
-  // Network signals are Chromium-only (iOS/Safari/Firefox expose nothing) — treat them
-  // strictly as a *downgrade* signal on top of a conservative default, never as a gate
-  // for the good experience.
+  // I segnali di rete ci sono solo in Chromium (iOS/Safari/Firefox non espongono niente):
+  // usali solo come segnale per *ridurre* sopra un'impostazione prudente, mai come
+  // condizione per dare l'esperienza migliore.
   const conn = navigator.connection;
   const dataSaver = !!(conn && conn.saveData);
   const slowNet = !!(conn && /^(slow-2g|2g|3g)$/.test(conn.effectiveType || ''));
-  // Stills mode: the page becomes the stills cross-dissolving as you scroll — no video
-  // load, no decode. Entered up-front for prefers-reduced-motion and data-saver, and at
-  // runtime when iOS Low Power Mode blocks video (see enterStillsMode/primeVideo).
+  // Modalità immagini: la pagina diventa le immagini che si dissolvono l'una nell'altra mentre
+  // scorri, senza caricare né decodificare video. Si attiva subito con prefers-reduced-motion e
+  // il risparmio dati, e a runtime quando il Risparmio energetico di iOS blocca il video
+  // (vedi enterStillsMode/primeVideo).
   let stillsOnly = reduce || dataSaver;
   const SECTIONS = config.sections || [];
   const CONNECTORS = config.connectors || [];
   const CONNECTORS_M = config.connectorsMobile || [];
   const DIVE_W = config.diveScroll || 1.3;
   const CONN_W = config.connScroll || 0.9;
-  const CROSSFADE = (config.crossfade != null) ? config.crossfade : 0.12;  // seam dissolve width (vh)
+  const CROSSFADE = (config.crossfade != null) ? config.crossfade : 0.12;  // larghezza della dissolvenza alla giuntura (vh)
   const N = SECTIONS.length;
   if (!N) return;
 
   injectCSS();
   container.classList.add('sw-root');
-  // Server-rendered SEO copy (crawlers/no-JS read it from the HTML); once the
-  // engine mounts, the visual layer takes over and the static block hides.
+  // Testi SEO renderizzati dal server (crawler e visitatori senza JS li leggono dall'HTML);
+  // quando il motore si monta, subentra il livello visivo e il blocco statico si nasconde.
   container.querySelectorAll('[data-sw-seo]').forEach(n => { n.hidden = true; });
 
-  // ---- build the interleaved segment chain: dive0, conn0, dive1, … diveN-1 ----
+  // ---- costruisce la catena alternata dei segmenti: dive0, conn0, dive1, … diveN-1 ----
   const SEGMENTS = [];
   SECTIONS.forEach((s, i) => {
     const dive = { kind: 'dive', si: i, clip: s.clip, clipM: s.clipMobile, still: s.still,
@@ -133,9 +136,9 @@ function mountScrollWorld(container, config) {
                    accent: s.accent, w: s.scroll || DIVE_W, linger: s.linger || 0 };
     SEGMENTS.push(dive);
     s._seg = dive;
-    // A connector is optional: if connectors[i] is falsy, the two dives simply
-    // crossfade directly (no fly-over). Lets a page complete even when a
-    // connector can't be generated (e.g. a content-filter false-positive).
+    // Un connettore è facoltativo: se connectors[i] è falsy, i due tuffi si dissolvono
+    // direttamente (senza sorvolo). Così la pagina resta completa anche quando un connettore
+    // non si riesce a generare (es. un falso positivo del filtro dei contenuti).
     if (i < N - 1 && CONNECTORS[i]) {
       SEGMENTS.push({ kind: 'conn', si: i, clip: CONNECTORS[i], clipM: CONNECTORS_M[i],
                       still: SECTIONS[i + 1].still, poster: SECTIONS[i + 1].poster,
@@ -173,20 +176,20 @@ function mountScrollWorld(container, config) {
   const copylayer = el('div', 'sw-copylayer');
   const route = el('div', 'sw-route');
   const hint = el('div', 'sw-hint');
-  const hintText = el('span'); hintText.textContent = config.hint || 'scroll'; hint.appendChild(hintText);
+  const hintText = el('span'); hintText.textContent = config.hint || 'scorri'; hint.appendChild(hintText);
   hint.appendChild(el('i'));
   const track = el('div', 'sw-track');
 
   [sky, scrollbar, topbar, stage, copylayer, route, hint, track].forEach(n => container.appendChild(n));
 
-  // segment scenes
+  // scene dei segmenti
   SEGMENTS.forEach(s => {
     const scene = el('div', 'sw-scene'); scene.style.setProperty('--sw-accent', s.accent || '');
     const img = el('img', 'sw-scene__still'); img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
-    // Prefer the extracted-frame poster (pixel-identical to the clip's first frame,
-    // so the still→video swap can't pop) — matching the encode the device will get.
-    // In stills mode the clip never loads, so the higher-fidelity source still is the
-    // better permanent image.
+    // Meglio il poster dal frame estratto (identico al pixel al primo frame della clip, così
+    // il passaggio da immagine a video non scatta), quello della codifica che il dispositivo
+    // riceverà. In modalità immagini la clip non si carica mai, quindi l'immagine sorgente,
+    // più fedele, è la scelta migliore come immagine fissa.
     const pref = phoneClass ? (s.posterM || s.poster) : s.poster;
     const posterSrc = (!stillsOnly && pref) ? pref : s.still;
     if (posterSrc) img.src = posterSrc;
@@ -195,7 +198,7 @@ function mountScrollWorld(container, config) {
     s.loading = false; s.ready = false; s.cur = 0; s.target = 0; s.visible = false;
   });
 
-  // per-section copy / route / nav
+  // testi, percorso e navigazione per sezione
   const copies = [], dots = [];
   SECTIONS.forEach((s, i) => {
     const c = el('article', 'sw-copy'); c.style.setProperty('--sw-accent', s.accent || '');
@@ -218,28 +221,28 @@ function mountScrollWorld(container, config) {
     }
   });
 
-  // ---- math ----
+  // ---- calcoli ----
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const smooth = x => { x = clamp(x); return x * x * (3 - 2 * x); };
-  // Per-section dwell: monotone remap of scroll→time so the camera settles mid-scene
-  // (where the copy peaks) and moves quicker near the seams. L=0 linear, L=1 full
-  // mid-scene pause. f(0)=0, f(1)=1 always, so seam frames are untouched.
+  // Sosta per sezione: rimappatura monotona scroll→tempo, così la camera si assesta a metà
+  // scena (dove i testi sono al massimo) e va più veloce vicino alle giunture. L=0 lineare,
+  // L=1 pausa piena a metà scena. Sempre f(0)=0, f(1)=1, quindi i frame delle giunture non cambiano.
   const lingerEase = (x, L) => { L = clamp(L); const c = x - 0.5; return (1 - L) * x + L * (4 * c * c * c + 0.5); };
   let vh = window.innerHeight, stageX = 0, totalW = 0, activeIndex = -1, ticking = false;
-  let laidOutW = window.innerWidth;   // width the current layout was computed at (see onResize)
+  let laidOutW = window.innerWidth;   // larghezza con cui è stato calcolato il layout attuale (vedi onResize)
 
   function layout() {
     vh = window.innerHeight;
     laidOutW = window.innerWidth;
     stageX = window.innerWidth > 860 ? 4 : 0;
-    // Small viewports read a camera flight as faster than big ones do, so give each
-    // segment more scroll distance on mobile (industry pattern: mobile scroll runs are
-    // LONGER than desktop's for the same sequence). Override via scrollMobileFactor.
+    // Nei viewport piccoli un volo di camera sembra più veloce che in quelli grandi, quindi su
+    // mobile ogni segmento ha più scroll (pratica del settore: a parità di sequenza, lo scroll
+    // mobile è PIÙ LUNGO di quello desktop). Si cambia con scrollMobileFactor.
     const wf = isMobile() ? (config.scrollMobileFactor != null ? config.scrollMobileFactor : 1.2) : 1;
     let off = 0;
     SEGMENTS.forEach(s => { s.start = off * vh; off += s.w * wf; s.end = off * vh; });
     totalW = off;
-    track.style.height = (totalW * vh + vh) + 'px';   // +1vh so the last flight completes
+    track.style.height = (totalW * vh + vh) + 'px';   // +1vh perché l'ultimo volo arrivi in fondo
     read();
   }
 
@@ -266,8 +269,8 @@ function mountScrollWorld(container, config) {
   function loadClip(s) {
     if (stillsOnly || s.loading || !s.clip) return;
     s.loading = true;
-    // Serve the lighter mobile encode on phone-class devices when one was provided
-    // (tablets and desktops get the full master — see phoneClass above).
+    // Ai dispositivi di classe telefono servi la codifica mobile più leggera, se c'è
+    // (tablet e desktop ricevono il master completo: vedi phoneClass sopra).
     const url = (phoneClass && s.clipM) ? s.clipM : s.clip;
     fetch(url).then(r => r.ok ? r.blob() : Promise.reject(new Error('404')))
       .then(blob => {
@@ -277,9 +280,9 @@ function mountScrollWorld(container, config) {
         v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
         v.src = URL.createObjectURL(blob);
         v.addEventListener('loadedmetadata', () => { s.ready = true; read(); });
-        // Reveal the video (hide the still poster) only once a real frame has
-        // painted — on iOS a seeked-but-never-played muted video stays blank, so
-        // hiding the still on metadata alone would flash an empty scene.
+        // Mostra il video (nascondi il poster) solo quando un frame vero è stato disegnato:
+        // su iOS un video muto con un seek ma mai riprodotto resta vuoto, quindi nascondere
+        // l'immagine già ai metadati farebbe lampeggiare una scena vuota.
         v.addEventListener('seeked', () => { s.el.classList.add('has-clip'); }, { once: true });
         v.addEventListener('loadeddata', () => { try { v.pause(); } catch (e) {} if (userReady) primeVideo(v); });
         s.el.appendChild(v); s.video = v; s.hasClip = true;
@@ -292,8 +295,9 @@ function mountScrollWorld(container, config) {
     let ci = 0;
     for (let i = 0; i < NSEG; i++) if (y >= SEGMENTS[i].start) ci = i;
 
-    // On a slow connection (Chromium signal only) shrink the prefetch window: fetch the
-    // clip you're in, not the neighbourhood. Everyone else prefetches ±1.6 viewports.
+    // Con una connessione lenta (segnale solo di Chromium) restringi la finestra di
+    // precaricamento: scarica la clip in cui sei, non quelle vicine. Tutti gli altri
+    // precaricano ±1.6 viewport.
     const lookahead = slowNet ? 0.4 : 1.6;
     for (let i = 0; i < NSEG; i++) {
       const s = SEGMENTS[i];
@@ -316,8 +320,8 @@ function mountScrollWorld(container, config) {
       const pr = clamp((y - seg.start) / (seg.end - seg.start), 0, 1);
       const before = y < seg.start, after = y > seg.end;
       let cop;
-      if (i === 0) cop = after ? 0 : smooth(1 - pr / 0.62);            // greets on landing
-      else if (i === N - 1) cop = before ? 0 : smooth(pr / 0.4);       // holds CTA at the end
+      if (i === 0) cop = after ? 0 : smooth(1 - pr / 0.62);            // accoglie all'arrivo
+      else if (i === N - 1) cop = before ? 0 : smooth(pr / 0.4);       // tiene la CTA alla fine
       else cop = (before || after) ? 0 : smooth(1 - Math.abs(pr - 0.5) / 0.5);
       const c = copies[i];
       c.style.opacity = cop;
@@ -341,13 +345,13 @@ function mountScrollWorld(container, config) {
   }
 
   function raf() {
-    const eps = isMobile() ? 0.02 : 0.008;   // coarser seek step on phones = fewer decodes
+    const eps = isMobile() ? 0.02 : 0.008;   // passo di seek più largo sui telefoni = meno decodifiche
     for (let i = 0; i < NSEG; i++) {
       const s = SEGMENTS[i];
       if (!s.hasClip || !s.ready || !s.video) continue;
-      // Never queue a seek while the decoder is still resolving the last one.
-      // On phones a fast flick would otherwise pile up seeks and freeze the clip;
-      // cur keeps lerping, so we snap to the latest target the moment it's free.
+      // Mai accodare un seek mentre il decoder sta ancora risolvendo il precedente.
+      // Sui telefoni uno scorrimento veloce accumulerebbe i seek e congelerebbe la clip;
+      // cur continua a interpolare, quindi appena il decoder è libero si salta all'ultimo obiettivo.
       if (s.video.seeking) continue;
       if (!s.visible && Math.abs(s.cur - s.target) < 0.002) continue;
       s.cur += (s.target - s.cur) * (reduce ? 1 : 0.18);
@@ -358,17 +362,17 @@ function mountScrollWorld(container, config) {
     requestAnimationFrame(raf);
   }
 
-  // iOS needs a user gesture before a muted video will decode/paint reliably. On the
-  // first touch we prime every loaded clip (muted play→pause) so the first seek is
-  // instant instead of showing a blank frame. `userReady` also makes freshly-loaded
-  // clips prime themselves (see loadClip).
+  // iOS vuole un gesto dell'utente prima che un video muto decodifichi e disegni in modo
+  // affidabile. Al primo tocco prepariamo ogni clip caricata (play→pause muto), così il primo
+  // seek è immediato invece di mostrare un frame vuoto. `userReady` fa preparare da sole anche
+  // le clip caricate dopo (vedi loadClip).
   let userReady = false;
   function primeVideo(v) {
     if (!isMobile() || !v) return;
-    // A muted, playsinline play() that REJECTS on a user gesture means the OS is
-    // blocking video — in practice iOS Low Power Mode, where currentTime scrubbing
-    // doesn't work either. Fall back to stills for the whole page instead of showing
-    // frozen/blank scenes.
+    // Un play() muto e playsinline che viene RIFIUTATO dopo un gesto dell'utente vuol dire che
+    // il sistema blocca il video: in pratica il Risparmio energetico di iOS, in cui non funziona
+    // nemmeno lo scrub con currentTime. Passa alle immagini per tutta la pagina invece di
+    // mostrare scene congelate o vuote.
     try { const p = v.play(); if (p && p.then) p.then(() => { try { v.pause(); } catch (e) {} }).catch(() => { enterStillsMode(); }); }
     catch (e) {}
   }
@@ -380,14 +384,14 @@ function mountScrollWorld(container, config) {
   window.addEventListener('pointerdown', onFirstGesture, { once: true, passive: true });
   window.addEventListener('touchstart', onFirstGesture, { once: true, passive: true });
 
-  // Particles are a per-frame cost we can't afford alongside video scrubbing on a phone.
+  // Le particelle costano a ogni frame: su un telefono, insieme allo scrub del video, non ce le possiamo permettere.
   seedParticles(particles, reduce || coarse);
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(read); } }, { passive: true });
-  // Mobile browsers fire `resize` every time the URL bar slides in/out. Re-running
-  // layout() there rebuilds the track height and yanks the scroll position, so on
-  // touch we ignore height-only changes and only relayout when the width actually
-  // changes (rotation still comes through orientationchange). layout() records the
-  // width it laid out at.
+  // I browser mobile lanciano `resize` ogni volta che la barra degli indirizzi entra o esce.
+  // Rifare lì layout() ricostruisce l'altezza della traccia e fa saltare la posizione dello
+  // scroll, quindi sui dispositivi touch ignoriamo i cambi solo in altezza e rifacciamo il
+  // layout solo quando cambia davvero la larghezza (la rotazione passa comunque da
+  // orientationchange). layout() si segna la larghezza con cui ha calcolato.
   function onResize() {
     if (coarse && window.innerWidth === laidOutW) return;
     layout();
@@ -398,7 +402,7 @@ function mountScrollWorld(container, config) {
   layout();
   requestAnimationFrame(raf);
 
-  // ---- helpers ----
+  // ---- funzioni di supporto ----
   function el(tag, cls) { const n = document.createElement(tag); if (cls) n.className = cls; return n; }
   function pad(n) { return String(n).padStart(2, '0'); }
   function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
@@ -487,8 +491,8 @@ function injectCSS() {
   @media (max-width:860px){
     .sw-nav{display:none;}
     .sw-copylayer::before{width:100%;height:60%;top:auto;bottom:0;background:linear-gradient(0deg,var(--sw-bg) 8%,color-mix(in srgb,var(--sw-bg) 70%,transparent) 46%,transparent 100%);}
-    /* Anchor copy to the bottom, clear of the home indicator / collapsing URL bar.
-       dvh + env() are progressive: browsers that lack them keep the vh fallback line. */
+    /* Testi ancorati in basso, lontani dall'indicatore home e dalla barra degli indirizzi che si chiude.
+       dvh + env() sono progressivi: i browser che non li hanno tengono la riga di ripiego in vh. */
     .sw-copy{left:clamp(18px,5vw,64px);right:clamp(18px,5vw,64px);top:auto;bottom:clamp(64px,14vh,120px);transform:none;width:auto;max-width:560px;}
     .sw-copy{bottom:calc(clamp(56px,12dvh,110px) + env(safe-area-inset-bottom));}
     .sw-copy__title{font-size:clamp(1.9rem,7.5vw,2.7rem);}
@@ -496,12 +500,12 @@ function injectCSS() {
     .sw-hint{bottom:calc(20px + env(safe-area-inset-bottom));}
     .sw-route{gap:16px;right:6px;} .sw-route__label{display:none;}
   }
-  /* Portrait phones crop a 16:9 clip hard; keep the framing centred so the focal
-     subject (which the camera dives toward) stays in view. */
+  /* I telefoni in verticale tagliano molto una clip 16:9; tieni l'inquadratura centrata così
+     il soggetto principale (verso cui si tuffa la camera) resta visibile. */
   @media (max-width:860px) and (orientation:portrait){
     .sw-scene__video,.sw-scene__still{object-position:center 44%;}
   }
-  /* Touch: give the route dots a finger-sized hit area without growing the visible dot. */
+  /* Touch: ai punti del percorso un'area di tocco grande come un dito, senza ingrandire il punto visibile. */
   @media (hover:none) and (pointer:coarse){
     .sw-route{padding:14px 6px;}
     .sw-route__dot{width:28px;height:28px;}
@@ -509,14 +513,14 @@ function injectCSS() {
   }
   @media (prefers-reduced-motion:reduce){ .sw-hint i::after{animation:none;} .sw-pt{display:none;} }
   `;
-  // Wrap in a cascade layer so the page's own theme tokens (unlayered
-  // :root / .sw-root { --sw-bg / --sw-ink / --sw-accent … }) always win over
-  // these defaults, regardless of injection order. Enables clean dark themes.
+  // Racchiude tutto in un cascade layer, così i valori del tema della pagina (fuori dai layer,
+  // :root / .sw-root { --sw-bg / --sw-ink / --sw-accent … }) vincono sempre su questi
+  // predefiniti, qualunque sia l'ordine di iniezione. Permette temi scuri puliti.
   const style = document.createElement('style'); style.id = 'sw-css';
   style.textContent = '@layer sw {\n' + css + '\n}';
   document.head.appendChild(style);
 }
 
-// Expose for module + global use.
+// Esposto sia come modulo sia come globale.
 if (typeof module !== 'undefined' && module.exports) module.exports = { mountScrollWorld };
 if (typeof window !== 'undefined') window.mountScrollWorld = mountScrollWorld;

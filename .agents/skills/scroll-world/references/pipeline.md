@@ -1,145 +1,145 @@
-# Pipeline: copy-paste scripts (bash 3.2 safe)
+# Pipeline: script da copiare (compatibili con bash 3.2)
 
-Set these once. `NAMES` is the ordered section ids; the last is the hero/finale.
+Impostale una volta. `NAMES` sono gli id delle sezioni in ordine; l'ultimo è l'hero/finale.
 
 ```bash
-WORK=/tmp/scroll-world           # scratch dir for prompts, sources, frames
-ASSETS=./assets                  # where the site reads stills (webp) + clips (mp4)
+WORK=/tmp/scroll-world           # cartella di lavoro per prompt, sorgenti, frame
+ASSETS=./assets                  # dove il sito legge immagini (webp) e clip (mp4)
 mkdir -p "$WORK" "$ASSETS/vid"
-NAMES="farm kitchen shop delivery plaza finale"   # <-- your section ids, in order
+NAMES="farm kitchen shop delivery plaza finale"   # <-- gli id delle tue sezioni, in ordine
 
-# Chain video model — ONE for every chained clip (SKILL Step 4 roster).
-# Must accept --start-image AND --end-image (verify: higgsfield model get <model>):
-# seedance_2_0 | kling3_0 | seedance_2_0_mini (draft tier). Reference-only models can't
-# hold a seam; models without --mode (e.g. kling3_0_turbo) need their own flag branch below.
+# Modello video della catena: UNO per tutte le clip concatenate (elenco del passo 4 di SKILL).
+# Deve accettare --start-image E --end-image (verifica: higgsfield model get <modello>):
+# seedance_2_0 | kling3_0 | seedance_2_0_mini (livello bozza). I modelli solo di riferimento non
+# tengono una giuntura; i modelli senza --mode (es. kling3_0_turbo) vogliono un loro ramo di flag qui sotto.
 VMODEL=seedance_2_0
-case "$VMODEL" in                                  # per-model flags + durations (bash 3.2 safe)
-  kling3_0)          VOPTS="--mode std --sound off";          DIVE_DUR=10; CONN_DUR=5 ;;  # no --resolution param on Kling
-  seedance_2_0_mini) VOPTS="--mode std --resolution 720p";    DIVE_DUR=8;  CONN_DUR=5 ;;  # cheap frame-locked previz
-  *)                 VOPTS="--mode std --resolution 1080p";   DIVE_DUR=8;  CONN_DUR=5 ;;  # seedance_2_0 default
+case "$VMODEL" in                                  # flag e durate per modello (compatibile con bash 3.2)
+  kling3_0)          VOPTS="--mode std --sound off";          DIVE_DUR=10; CONN_DUR=5 ;;  # Kling non ha --resolution
+  seedance_2_0_mini) VOPTS="--mode std --resolution 720p";    DIVE_DUR=8;  CONN_DUR=5 ;;  # previz economica che aggancia i frame
+  *)                 VOPTS="--mode std --resolution 1080p";   DIVE_DUR=8;  CONN_DUR=5 ;;  # seedance_2_0, predefinito
 esac
 ```
 
-Higgsfield generations take minutes — every `higgsfield ... --wait` call below is meant
-to run inside a **backgrounded** script. Launch the whole script with your tool's
-background/detached mode and poll the progress log; never block the foreground.
+Le generazioni di Higgsfield durano minuti: ogni chiamata `higgsfield ... --wait` qui sotto va
+eseguita dentro uno script **in background**. Lancia tutto lo script con la modalità in
+background/staccata del tuo strumento e controlla il log di avanzamento; mai bloccare il primo piano.
 
-**Resume / idempotency.** Every `gen_*` function below skips work whose output file
-already exists and is non-empty — `$WORK` *is* the run state. A crash, credit stall, or
-NSFW re-roll never costs finished assets: just re-run the same loop and only the missing
-pieces regenerate. To force a re-roll of one asset, delete its file first
-(`rm "$WORK/dive_shop.mp4"; gen_dive shop`). Check where a run stands any time:
+**Ripresa / idempotenza.** Ogni funzione `gen_*` qui sotto salta il lavoro il cui file di output
+esiste già e non è vuoto: `$WORK` *è* lo stato della corsa. Un crash, i crediti finiti o un
+rifacimento per l'NSFW non costano mai il materiale già finito: rilancia lo stesso ciclo e si
+rigenerano solo i pezzi mancanti. Per forzare il rifacimento di un pezzo, cancella prima il suo
+file (`rm "$WORK/dive_shop.mp4"; gen_dive shop`). Per vedere a che punto è una corsa:
 
 ```bash
 status() { for n in $NAMES; do
-  printf '%-10s still:%s dive:%s\n' "$n" \
+  printf '%-10s immagine:%s tuffo:%s\n' "$n" \
     "$([ -s "$WORK/still_$n.png" ] && echo ok || echo -- )" \
     "$([ -s "$WORK/dive_$n.mp4" ] && echo ok || echo -- )"
-done; ls "$WORK"/conn_*.mp4 2>/dev/null | while read f; do printf 'conn: %s ok\n' "$f"; done; }
+done; ls "$WORK"/conn_*.mp4 2>/dev/null | while read f; do printf 'connettore: %s ok\n' "$f"; done; }
 ```
 
-**Previz first (recommended default).** Run the whole chain once on the draft tier
-before spending full-model credits:
+**Prima la previz (predefinita consigliata).** Esegui tutta la catena una volta al livello di bozza
+prima di spendere i crediti del modello completo:
 
 ```bash
-VMODEL=seedance_2_0_mini   # frame-locking intact (~720p) — seams behave like the final's
-# … run §2–§5, review the assembled page, fix journey/prompts/seams cheaply …
-VMODEL=seedance_2_0        # then clear the draft clips and re-render final
+VMODEL=seedance_2_0_mini   # aggancio dei frame intatto (~720p): le giunture si comportano come nella versione finale
+# … esegui §2-§5, rivedi la pagina montata, sistema viaggio/prompt/giunture spendendo poco …
+VMODEL=seedance_2_0        # poi togli le clip di bozza e rigenera la versione finale
 rm -f "$WORK"/dive_*.mp4 "$WORK"/conn_*.mp4 "$WORK"/first_*.png "$WORK"/last_*.png
 ```
 
-Because the mini tier still frame-locks, everything you validate (journey, camera
-grammar, seam continuity, copy pacing) translates directly to the final render. Stills
-are reused as-is — only the video passes re-run. Skip previz only for small (≤4-scene)
-runs where a full-model re-roll is cheaper than the extra pass.
+Siccome il livello mini aggancia comunque i frame, tutto quello che convalidi (viaggio, grammatica
+della camera, continuità delle giunture, ritmo dei testi) vale direttamente per la versione finale.
+Le immagini si riusano così come sono: si rifanno solo i passaggi video. Salta la previz solo per le
+corse piccole (≤4 scene), dove rifare con il modello completo costa meno del passaggio in più.
 
-## 1. Scene stills (Step 2) — anchor first, then batch
+## 1. Immagini delle scene (passo 2) — prima l'anchor, poi il lotto
 
-Write one prompt file per section to `$WORK/still_<name>.txt` (see prompts.md).
+Scrivi un file di prompt per sezione in `$WORK/still_<nome>.txt` (vedi prompts.md).
 
-**Do NOT batch all N immediately.** Generate ONE anchor still first (the most
-representative scene), get the user's approval on the art direction, then batch the
-rest with the approved anchor passed as `--image` to lock the style. A style miss
-caught on the anchor costs 1 gen; caught after the batch it costs N.
+**NON lanciare subito tutte le N.** Genera prima UNA immagine anchor (la scena più
+rappresentativa), fatti approvare la direzione artistica dall'utente, poi lancia le altre passando
+l'anchor approvata come `--image` per bloccare lo stile. Uno stile sbagliato trovato sull'anchor
+costa 1 generazione; trovato dopo il lotto ne costa N.
 
 ```bash
-STYLE_LOCK=""   # set to the approved anchor after the gate below
-gen_still() { # name
-  [ -s "$WORK/still_$1.png" ] && { echo "still $1 cached"; return 0; }
+STYLE_LOCK=""   # impostala sull'anchor approvata dopo il controllo qui sotto
+gen_still() { # nome
+  [ -s "$WORK/still_$1.png" ] && { echo "immagine $1 già pronta"; return 0; }
   higgsfield generate create gpt_image_2 --prompt "$(cat "$WORK/still_$1.txt")" \
     ${STYLE_LOCK:+--image "$STYLE_LOCK"} \
     --aspect_ratio 3:2 --resolution 2k --quality high --wait --wait-timeout 15m --json \
     > "$WORK/still_$1.json" 2> "$WORK/still_$1.err"
   url=$(jq -r '.[0].result_url // empty' "$WORK/still_$1.json")
-  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/still_$1.png" && echo "still $1 ok" || echo "still $1 FAIL"
+  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/still_$1.png" && echo "immagine $1 ok" || echo "immagine $1 FALLITA"
 }
 
-# 1. Anchor + approval gate (pick the scene that best expresses the world):
-gen_still farm                      # ← your anchor section
-# → SHOW the user still_farm.png; iterate the style preamble until approved.
-#   A rejected anchor: fix the preamble in ALL prompt files, rm the png, re-roll.
+# 1. Anchor + approvazione (scegli la scena che esprime meglio il mondo):
+gen_still farm                      # ← la tua sezione anchor
+# → MOSTRA all'utente still_farm.png; rifinisci il preambolo di stile finché non la approva.
+#   Anchor rifiutata: correggi il preambolo in TUTTI i file di prompt, cancella il png, rifai.
 
-# 2. Then batch the rest, style-locked to the approved anchor:
+# 2. Poi lancia le altre, con lo stile bloccato sull'anchor approvata:
 STYLE_LOCK="$WORK/still_farm.png"
-for n in $NAMES; do gen_still "$n" & done ; wait   # anchor skips itself (cached)
+for n in $NAMES; do gen_still "$n" & done ; wait   # l'anchor si salta da sola (già pronta)
 ```
 
-Convert to webp for the site (and optionally run knockout.py first for transparency):
+Converti in webp per il sito (e, se vuoi la trasparenza, lancia prima knockout.py):
 
 ```bash
 for n in $NAMES; do cwebp -quiet -q 84 -resize 1800 0 "$WORK/still_$n.png" -o "$ASSETS/$n.webp"; done
 ```
 
-Review the batch for cohesion before continuing. Re-roll any off-style one
-(`rm "$WORK/still_shop.png"; gen_still shop` — the style lock is still in force).
+Controlla la coerenza del lotto prima di continuare. Rifai quelle fuori stile
+(`rm "$WORK/still_shop.png"; gen_still shop`: il blocco di stile è ancora attivo).
 
-## 2. Dive-in clips (Step 4)
+## 2. Clip di tuffo (passo 4)
 
-Prompt files at `$WORK/dive_<name>.txt`. Start image = the solid-bg still PNG.
+File di prompt in `$WORK/dive_<nome>.txt`. Immagine iniziale = il PNG con lo sfondo pieno.
 
 ```bash
-gen_dive() { # name                       ($VOPTS is unquoted on purpose — word-split flags)
-  [ -s "$WORK/dive_$1.mp4" ] && { echo "dive $1 cached"; return 0; }
+gen_dive() { # nome                       ($VOPTS è senza virgolette apposta: i flag vanno divisi)
+  [ -s "$WORK/dive_$1.mp4" ] && { echo "tuffo $1 già pronto"; return 0; }
   higgsfield generate create "$VMODEL" --prompt "$(cat "$WORK/dive_$1.txt")" \
     --start-image "$WORK/still_$1.png" \
     $VOPTS --aspect_ratio 16:9 --duration "$DIVE_DUR" \
     --wait --wait-timeout 20m --json > "$WORK/dive_$1.json" 2> "$WORK/dive_$1.err"
   url=$(jq -r '.[0].result_url // empty' "$WORK/dive_$1.json")
-  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/dive_$1.mp4" && echo "dive $1 ok" || echo "dive $1 FAIL"
+  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/dive_$1.mp4" && echo "tuffo $1 ok" || echo "tuffo $1 FALLITO"
 }
 for n in $NAMES; do gen_dive "$n" & done ; wait
 ```
 
-Re-roll individual failures (503 / credit race are transient):
-`gen_dive shop`  (just that one).
+Rifai una per una quelle fallite (503 e crediti contesi sono passeggeri):
+`gen_dive shop` (solo quella).
 
-## 3. Extract boundary frames — the seam handoff (Step 5)
+## 3. Estrai i frame di confine — il passaggio alla giuntura (passo 5)
 
-For each adjacent pair, the connector's start = dive_i's LAST frame, end = dive_{i+1}'s
-FIRST frame — extracted from the **rendered videos**, never the stills.
+Per ogni coppia vicina, l'inizio del connettore = l'ULTIMO frame di dive_i, la fine = il PRIMO frame
+di dive_{i+1}, estratti dai **video renderizzati**, mai dalle immagini.
 
 ```bash
 set -- $NAMES
 prev=""
 for n in "$@"; do
-  ffmpeg -v error -ss 0 -i "$WORK/dive_$n.mp4" -frames:v 1 -q:v 2 "$WORK/first_$n.png"      # establishing
-  ffmpeg -v error -sseof -0.15 -i "$WORK/dive_$n.mp4" -frames:v 1 -q:v 2 "$WORK/last_$n.png" # interior
+  ffmpeg -v error -ss 0 -i "$WORK/dive_$n.mp4" -frames:v 1 -q:v 2 "$WORK/first_$n.png"      # campo lungo
+  ffmpeg -v error -sseof -0.15 -i "$WORK/dive_$n.mp4" -frames:v 1 -q:v 2 "$WORK/last_$n.png" # interno
 done
 ```
 
-## 4. Connector clips (Step 5)
+## 4. Clip connettore (passo 5)
 
-Prompt files at `$WORK/conn_<i>.txt` (i = 1..N-1). Iterate adjacent pairs:
+File di prompt in `$WORK/conn_<i>.txt` (i = 1..N-1). Scorri le coppie vicine:
 
 ```bash
-gen_conn() { # i startPng endPng          (end-image required → seedance/kling3_0 only)
-  [ -s "$WORK/conn_$1.mp4" ] && { echo "conn $1 cached"; return 0; }
+gen_conn() { # i pngIniziale pngFinale     (serve l'end-image → solo seedance/kling3_0)
+  [ -s "$WORK/conn_$1.mp4" ] && { echo "connettore $1 già pronto"; return 0; }
   higgsfield generate create "$VMODEL" --prompt "$(cat "$WORK/conn_$1.txt")" \
     --start-image "$2" --end-image "$3" \
     $VOPTS --aspect_ratio 16:9 --duration "$CONN_DUR" \
     --wait --wait-timeout 20m --json > "$WORK/conn_$1.json" 2> "$WORK/conn_$1.err"
   url=$(jq -r '.[0].result_url // empty' "$WORK/conn_$1.json")
-  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/conn_$1.mp4" && echo "conn $1 ok" || echo "conn $1 FAIL"
+  [ -n "$url" ] && curl -fsSL "$url" -o "$WORK/conn_$1.mp4" && echo "connettore $1 ok" || echo "connettore $1 FALLITO"
 }
 set -- $NAMES ; i=0 ; prev=""
 for n in "$@"; do
@@ -148,30 +148,30 @@ for n in "$@"; do
 done ; wait
 ```
 
-## 5. Encode everything for scrubbing (Step 6)
+## 5. Codifica tutto per lo scrub (passo 6)
 
-Native resolution (1080p from seedance std; kling3_0 std returned **720p** in testing —
-never upscale, encode what ffprobe reports), crf 20, GOP 8, light sharpen, no audio,
-faststart. Same for dives + connectors.
+Risoluzione nativa (1080p da seedance std; kling3_0 std nelle prove ha restituito **720p**: mai
+ingrandire, codifica quello che riporta ffprobe), crf 20, GOP 8, leggera nitidezza, niente audio,
+faststart. Uguale per tuffi e connettori.
 
 ```bash
 enc() { ffmpeg -v error -y -i "$1" -an -vf "unsharp=5:5:0.8:5:5:0.0" \
   -c:v libx264 -preset slow -crf 20 -pix_fmt yuv420p \
-  -g 8 -keyint_min 8 -sc_threshold 0 -movflags +faststart "$2"; echo "enc $2 $(du -h "$2"|cut -f1)"; }
+  -g 8 -keyint_min 8 -sc_threshold 0 -movflags +faststart "$2"; echo "codificato $2 $(du -h "$2"|cut -f1)"; }
 
 for n in $NAMES; do enc "$WORK/dive_$n.mp4" "$ASSETS/vid/$n.mp4"; done
 i=0; for f in "$WORK"/conn_*.mp4; do i=$((i+1)); enc "$f" "$ASSETS/vid/conn$i.mp4"; done
 ```
 
-Now the engine config's `sections[k].clip = assets/vid/<name>.mp4` and
-`connectors = [assets/vid/conn1.mp4, …]` (length N-1, in order).
+Ora nella configurazione del motore `sections[k].clip = assets/vid/<nome>.mp4` e
+`connectors = [assets/vid/conn1.mp4, …]` (lunghezza N-1, in ordine).
 
-## 5b. Posters — extract from the ENCODED clips (kills the still→video pop)
+## 5b. Poster — estratti dalle clip CODIFICATE (niente scatto da immagine a video)
 
-The generated still is 3:2 and the clip is a 16:9 re-render of it, so if the still is
-the loading poster, the moment the video paints there's a visible crop/render jump —
-on the very first scene a visitor sees. Same doctrine as the connectors: hand off
-actual frames. The poster must be the encoded clip's own first frame:
+L'immagine generata è in 3:2 e la clip ne è una nuova resa in 16:9, quindi se il poster di
+caricamento è l'immagine, nel momento in cui il video disegna c'è un salto visibile di ritaglio e
+resa, proprio sulla prima scena che il visitatore vede. Stessa dottrina dei connettori: passarsi i
+frame reali. Il poster deve essere il primo frame della clip codificata stessa:
 
 ```bash
 for n in $NAMES; do
@@ -180,18 +180,18 @@ for n in $NAMES; do
 done
 ```
 
-Wire as `sections[k].poster = 'assets/<name>-poster.webp'`. Keep `still` too — it stays
-the reduced-motion artwork and the no-clip fallback (the engine prefers `poster` while a
-clip will load, `still` otherwise).
+Collegalo come `sections[k].poster = 'assets/<nome>-poster.webp'`. Tieni anche `still`: resta la
+grafica per il movimento ridotto e il ripiego senza clip (il motore preferisce `poster` quando una
+clip sta per caricarsi, altrimenti `still`).
 
-## 5c. Verify the seams — automated, before any eyeballing
+## 5c. Verifica le giunture — in automatico, prima di guardarle a occhio
 
-Seamlessness is the product; don't ship it on a squint. Every seam in the chain must be
-near-identical across its boundary frames. SSIM-check them all from the encoded files
-(chain order: dive0, conn1, dive1, conn2, … — for architecture A it's just leg0, leg1, …):
+L'assenza di giunture è il prodotto: non consegnarla strizzando gli occhi. Ogni giuntura della
+catena deve essere quasi identica tra i suoi frame di confine. Controllale tutte con l'SSIM dai file
+codificati (ordine della catena: dive0, conn1, dive1, conn2, …; per l'architettura A è solo leg0, leg1, …):
 
 ```bash
-# last frame of A vs first frame of B, SSIM score on stdout
+# ultimo frame di A contro primo frame di B, punteggio SSIM su stdout
 seam_ssim() { # fileA fileB
   ffmpeg -v error -y -sseof -0.05 -i "$1" -frames:v 1 "$WORK/_sa.png"
   ffmpeg -v error -y -ss 0      -i "$2" -frames:v 1 "$WORK/_sb.png"
@@ -199,16 +199,16 @@ seam_ssim() { # fileA fileB
     | grep -o 'All:[0-9.]*' | cut -d: -f2
 }
 
-check() { # fileA fileB label
+check() { # fileA fileB etichetta
   s=$(seam_ssim "$1" "$2")
   case $(awk -v s="${s:-0}" 'BEGIN{ if (s>=0.90) print "pass"; else if (s>=0.75) print "warn"; else print "fail" }') in
-    pass) echo "PASS  $3  ssim=$s" ;;
-    warn) echo "WARN  $3  ssim=$s (crossfade will mostly hide it — eyeball this seam)" ;;
-    *)    echo "FAIL  $3  ssim=$s — endpoints are NOT the neighbours' frames; redo this connector (SKILL Step 5)" ;;
+    pass) echo "OK      $3  ssim=$s" ;;
+    warn) echo "AVVISO  $3  ssim=$s (la dissolvenza la nasconderà quasi del tutto: guarda questa giuntura)" ;;
+    *)    echo "KO      $3  ssim=$s — gli estremi NON sono i frame delle clip vicine; rifai questo connettore (passo 5 di SKILL)" ;;
   esac
 }
 
-# Architecture B (dive/conn interleave):
+# Architettura B (tuffi e connettori alternati):
 set -- $NAMES ; i=0 ; prev=""
 for n in "$@"; do
   if [ -n "$prev" ]; then i=$((i+1))
@@ -216,35 +216,35 @@ for n in "$@"; do
     check "$ASSETS/vid/conn$i.mp4" "$ASSETS/vid/$n.mp4"    "conn$i>$n"
   fi ; prev="$n"
 done
-# Architecture A (sequential legs): check "$ASSETS/vid/legI.mp4" "$ASSETS/vid/legI+1.mp4" pairs.
+# Architettura A (tratti in sequenza): controlla le coppie "$ASSETS/vid/legI.mp4" "$ASSETS/vid/legI+1.mp4".
 ```
 
-Thresholds from the frame-handoff physics: a true actual-frame handoff scores ≥0.95
-even after encoding; ≥0.90 pass, 0.75–0.90 warn (Seedance's end-image landed close but
-not exact — the engine crossfade usually covers it), <0.75 means a still was used as an
-endpoint or the wrong frame was extracted — regenerate, don't rationalize. Run this
-after every re-roll too: replacing one clip can silently break BOTH of its seams.
+Soglie ricavate dalla fisica del passaggio dei frame: un vero passaggio di frame reali fa ≥0.95
+anche dopo la codifica; ≥0.90 superato, 0.75-0.90 avviso (l'end-image di Seedance è arrivata vicina
+ma non esatta: di solito la dissolvenza del motore la copre), <0.75 vuol dire che come estremo è
+stata usata un'immagine o è stato estratto il frame sbagliato: rigenera, non cercare giustificazioni.
+Eseguilo anche dopo ogni rifacimento: sostituire una clip può rompere, senza dirlo, ENTRAMBE le sue giunture.
 
-## 6. Mobile encodes (Step 6) — only if the user picked a mobile tier
+## 6. Codifiche mobile (passo 6) — solo se l'utente ha scelto una fascia mobile
 
-**Skip this section if the user chose the crop-safe tier in the Step 1
-interview.** Scrubbing sets `currentTime` every frame, and a phone decoder's **seek cost scales with
-how many frames it must decode from the nearest keyframe** — so a 1080p `-g 8` master
-that scrubs fine on a laptop stutters on a phone. A **smaller frame + tighter GOP** fixes
-that (and halves the bytes on cellular). Produce a `-m.mp4` sibling for every clip:
+**Salta questa sezione se nell'intervista del passo 1 l'utente ha scelto il ritaglio sicuro.** Lo
+scrub imposta `currentTime` a ogni frame, e **il costo di un seek sul decoder di un telefono cresce
+con il numero di frame da decodificare a partire dal keyframe più vicino**: così un master 1080p
+`-g 8` che scorre bene su un portatile scatta su un telefono. Un **frame più piccolo + un GOP più
+stretto** lo risolve (e dimezza i byte su rete mobile). Produci una variante `-m.mp4` per ogni clip:
 
 ```bash
-# 720p, GOP 4 (twice the keyframes = ~half the seek-decode work), crf 23, same sharpen/faststart.
+# 720p, GOP 4 (il doppio dei keyframe = ~metà del lavoro di decodifica nei seek), crf 23, stessa nitidezza e faststart.
 encm() { ffmpeg -v error -y -i "$1" -an -vf "scale=-2:720,unsharp=5:5:0.6:5:5:0.0" \
   -c:v libx264 -preset slow -crf 23 -pix_fmt yuv420p \
-  -g 4 -keyint_min 4 -sc_threshold 0 -movflags +faststart "$2"; echo "encm $2 $(du -h "$2"|cut -f1)"; }
+  -g 4 -keyint_min 4 -sc_threshold 0 -movflags +faststart "$2"; echo "codificato mobile $2 $(du -h "$2"|cut -f1)"; }
 
 for n in $NAMES; do encm "$WORK/dive_$n.mp4" "$ASSETS/vid/$n-m.mp4"; done
 i=0; for f in "$WORK"/conn_*.mp4; do i=$((i+1)); encm "$f" "$ASSETS/vid/conn$i-m.mp4"; done
 ```
 
-Extract each mobile encode's first frame as its poster (§5b doctrine — the poster must
-match the encode the device actually gets):
+Estrai il primo frame di ogni codifica mobile come suo poster (dottrina del §5b: il poster deve
+corrispondere alla codifica che il dispositivo riceve davvero):
 
 ```bash
 for n in $NAMES; do
@@ -253,63 +253,62 @@ for n in $NAMES; do
 done
 ```
 
-Wire the variants in the engine config — the engine serves them on phone-class devices
-(screen short side ≤600 CSS px; tablets/iPads get the master), falling back to the
-desktop `clip` when a mobile one is absent:
+Collega le varianti nella configurazione del motore: il motore le serve ai dispositivi di classe
+telefono (lato corto dello schermo ≤600 px CSS; tablet e iPad ricevono il master) e usa la `clip`
+desktop quando manca quella mobile:
 
 ```js
-sections[k].clipMobile   = 'assets/vid/<name>-m.mp4';
-sections[k].posterMobile = 'assets/<name>-poster-m.webp';
-connectorsMobile = ['assets/vid/conn1-m.mp4', …];   // length N-1, in order
+sections[k].clipMobile   = 'assets/vid/<nome>-m.mp4';
+sections[k].posterMobile = 'assets/<nome>-poster-m.webp';
+connectorsMobile = ['assets/vid/conn1-m.mp4', …];   // lunghezza N-1, in ordine
 ```
 
-If phone scrubbing still stutters, tighten the GOP further (`-g 2`, or `-g 1` for all-intra
-= instant seeks at the cost of larger files); if cellular weight is the bigger worry, raise
-`crf` (24–26) or drop to `scale=-2:600`. If the master is already 720p (e.g. kling3_0 std),
-the mobile encode still pays off — the tighter GOP is what makes phone seeks cheap.
-Plain mobile-tier encodes stay 16:9 — the engine centre-crops them; for true portrait
-assets see §7.
+Se lo scrub sul telefono scatta ancora, stringi ancora il GOP (`-g 2`, o `-g 1` per il tutto intra =
+seek istantanei al prezzo di file più grandi); se preoccupa di più il peso su rete mobile, alza il
+`crf` (24-26) o scendi a `scale=-2:600`. Se il master è già a 720p (es. kling3_0 std), la codifica
+mobile conviene comunque: è il GOP più stretto a rendere economici i seek sul telefono. Le codifiche
+della fascia mobile semplice restano in 16:9: il motore le ritaglia al centro; per materiale davvero
+verticale vedi §7.
 
-## 7. Portrait tiers (Step 1.6 hero-reframe / full portrait chain) — extra credits
+## 7. Fasce verticali (passo 1.6: hero reinquadrato / catena verticale completa) — crediti in più
 
-The gold standard for mobile is a **differently-framed render, not a crop** (Apple ships
-re-art-directed per-breakpoint assets). Two levels:
+Il massimo per il mobile è una **resa inquadrata in modo diverso, non un ritaglio** (Apple distribuisce
+materiale con una direzione artistica diversa per ogni breakpoint). Due livelli:
 
-**Hero reframe (cheap).** For the 1–2 scenes whose focal subject can't hold a centre
-crop (usually hero + finale): regenerate JUST those stills at 9:16 (same prompt + style
-anchor, recompose vertically), render a 9:16 dive from each, encode with `encm()`
-settings, wire as that scene's `clipMobile`/`posterMobile`. Other scenes keep the
-cropped 16:9 mobile encode. Seams: a portrait dive still hands off within its own clip
-only, so nothing about the 16:9 chain changes — the phone crossfades between a cropped
-connector and the portrait dive; keep the reframed composition centred on the same focal
-point so the transition reads.
+**Hero reinquadrato (economico).** Per le 1-2 scene il cui soggetto non regge un ritaglio al centro
+(di solito hero e finale): rigenera SOLO quelle immagini in 9:16 (stesso prompt + anchor di stile,
+ricomposte in verticale), rendi un tuffo 9:16 da ciascuna, codifica con le impostazioni di `encm()`,
+collegale come `clipMobile`/`posterMobile` di quella scena. Le altre scene tengono la codifica mobile
+16:9 ritagliata. Giunture: un tuffo verticale passa i frame solo dentro la sua clip, quindi nella
+catena 16:9 non cambia niente: il telefono fa una dissolvenza tra un connettore ritagliato e il tuffo
+verticale; tieni la composizione reinquadrata centrata sullo stesso punto focale, così la transizione si legge.
 
-**Full portrait chain (gold, ≈2× video credits).** A complete parallel 9:16 chain:
+**Catena verticale completa (oro, ≈2× i crediti video).** Una catena 9:16 completa e parallela:
 
-- 9:16 stills (or reuse 16:9 stills as `--image` style refs and prompt the vertical
-  recomposition), then the full Step 4/5 flow at `--aspect_ratio 9:16` — own frame
-  extractions, own connectors, own handoffs. **Aspect ratios cannot mix mid-chain**: a
-  9:16 clip can't continue a 16:9 frame, so the portrait chain is generated end-to-end
-  as its own world.
-- Run the §5c SSIM gate on the portrait chain separately (its own seam list).
-- Encode with `encm()` (already 720-class; portrait at `scale=720:-2`), extract portrait
-  posters, wire ALL of it as `clipMobile`/`connectorsMobile`/`posterMobile`.
-- Same-model rule, same NSFW re-roll budget — everything from the 16:9 chain applies.
+- Immagini 9:16 (oppure riusa le immagini 16:9 come riferimenti di stile `--image` e chiedi nel prompt
+  la ricomposizione verticale), poi tutto il flusso dei passi 4/5 con `--aspect_ratio 9:16`: estrazioni
+  dei frame proprie, connettori propri, passaggi propri. **I formati non si mescolano a metà catena**:
+  una clip 9:16 non continua un frame 16:9, quindi la catena verticale si genera dall'inizio alla fine
+  come un mondo a sé.
+- Esegui il controllo SSIM del §5c sulla catena verticale separatamente (con il suo elenco di giunture).
+- Codifica con `encm()` (già in classe 720; in verticale con `scale=720:-2`), estrai i poster verticali,
+  collega TUTTO come `clipMobile`/`connectorsMobile`/`posterMobile`.
+- Stessa regola del modello unico, stesso budget di rifacimenti per l'NSFW: vale tutto quello della catena 16:9.
 
-State the credit cost to the user before starting either tier (SKILL Step 1.6).
+Indica all'utente il costo in crediti prima di iniziare una delle due fasce (passo 1.6 di SKILL).
 
-## Notes
+## Note
 
-- `.[0].result_url` is the field on the `--wait --json` job object. `.min_result_url` is
-  a lower-res preview if you ever want it.
-- **NSFW fallback across models**: if one clip keeps getting flagged on seedance after
-  re-rolls + prompt scrubbing, regenerate just that clip on `kling3_0` with the SAME
-  start/end frames: `VMODEL=kling3_0; VOPTS="--mode std --sound off"; gen_conn 3 …` —
-  then restore your chain model. See SKILL Gotchas for the trade-off.
-- **Previz**: the draft-tier pass is the recommended default — see the setup block at
-  the top. Don't reach for reference-only models for it: without `--start/--end-image`
-  they can't hold a seam, so their output can't be chained (Step 4 rule).
-- If a whole batch stalls, check `higgsfield workspace list` for credits and
-  `$WORK/*.err` for the reason.
-- Concurrency: launching ~5–6 gens at once is fine; much more can trigger transient
-  credit/race errors — stagger or re-roll.
+- `.[0].result_url` è il campo dell'oggetto job di `--wait --json`. `.min_result_url` è un'anteprima
+  a risoluzione più bassa, se mai ti servisse.
+- **Ripiego per l'NSFW con un altro modello**: se una clip continua a essere bloccata su seedance
+  anche dopo rifacimenti e pulizia del prompt, rigenera solo quella con `kling3_0` e gli STESSI frame
+  iniziale e finale: `VMODEL=kling3_0; VOPTS="--mode std --sound off"; gen_conn 3 …`, poi rimetti il
+  modello della catena. Il compromesso è spiegato nelle Trappole di SKILL.
+- **Previz**: il passaggio al livello di bozza è la scelta predefinita consigliata: vedi il blocco di
+  configurazione in cima. Non usare per la previz modelli solo di riferimento: senza
+  `--start/--end-image` non tengono una giuntura, quindi il loro output non si concatena (regola del passo 4).
+- Se un intero lotto si blocca, controlla i crediti con `higgsfield workspace list` e il motivo in
+  `$WORK/*.err`.
+- Concorrenza: lanciare ~5-6 generazioni insieme va bene; molte di più possono causare errori
+  passeggeri di crediti contesi: scaglionale o rifalle.

@@ -1,86 +1,87 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>BRAND — the world of SUBJECT</title>
-  <meta name="description" content="Scroll to fly through the world of BRAND." />
+  <title>MARCHIO — il mondo di ARGOMENTO</title>
+  <meta name="description" content="Scorri per volare nel mondo di MARCHIO." />
   <style>
-    /* Theme the engine here. These match your generated scenes' background + palette. */
+    /* Il tema del motore si imposta qui. Questi valori riprendono lo sfondo e la palette delle scene generate. */
     :root, .sw-root {
-      --sw-bg: #F5EDE0;          /* == the scene background colour */
+      --sw-bg: #F5EDE0;          /* == il colore di sfondo delle scene */
       --sw-ink: #241d2b;
       --sw-ink-soft: #6a6072;
-      --sw-accent: #9B7EBD;      /* per-section accents override this at runtime */
+      --sw-accent: #9B7EBD;      /* gli accent delle singole sezioni lo sostituiscono a runtime */
     }
   </style>
 </head>
 <body>
   <div id="top"></div>
   <div id="world">
-    <!-- Static SEO copy: the ONLY crawlable text on the page (the engine renders its
-         copy client-side). Mirror the real section copy here — h1 = hero line, one
-         h2 + p per scene, real CTA links. The engine hides this block on mount. -->
+    <!-- Testi statici per la SEO: l'UNICO testo indicizzabile della pagina (il motore
+         disegna i suoi testi lato client). Riporta qui i testi veri delle sezioni: h1 =
+         frase dell'hero, un h2 + p per scena, link veri per la CTA. Il motore nasconde
+         questo blocco al montaggio. -->
     <section data-sw-seo>
-      <h1>The hero line.</h1>
-      <p>One-sentence pitch for BRAND — what the world is and why it matters.</p>
-      <h2>Value prop label — Scene A headline</h2>
-      <p>Scene A body sentence.</p>
-      <!-- …one h2 + p per scene… -->
-      <h2>And it all pours into — One perfect thing.</h2>
-      <p>The payoff sentence.</p>
-      <p><a href="#">Get started</a> · <a href="#">See more</a></p>
+      <h1>La frase dell'hero.</h1>
+      <p>Una frase che presenta MARCHIO: cos'è il mondo e perché conta.</p>
+      <h2>Etichetta di valore — titolo della scena A</h2>
+      <p>La frase della scena A.</p>
+      <!-- …un h2 + p per scena… -->
+      <h2>E tutto confluisce in — una sola cosa perfetta.</h2>
+      <p>La frase di chiusura.</p>
+      <p><a href="#">Inizia</a> · <a href="#">Scopri di più</a></p>
     </section>
   </div>
 
   <script src="scrub-engine.js"></script>
   <script>
     mountScrollWorld(document.getElementById('world'), {
-      brand: { name: 'BRAND', href: '#top' },
-      cta: { label: 'Order now', href: '#finale' },
-      hint: 'scroll to fly in',
+      brand: { name: 'MARCHIO', href: '#top' },
+      cta: { label: 'Ordina ora', href: '#finale' },
+      hint: 'scorri per entrare in volo',
       diveScroll: 1.3,
       connScroll: 0.9,
       sections: [
-        // One object per scene, in order. `accent` colours the copy/route for that scene.
-        // First section is the hero (its copy greets on landing); last carries the CTA.
+        // Un oggetto per scena, in ordine. `accent` colora testi e percorso di quella scena.
+        // La prima sezione è l'hero (i suoi testi accolgono all'arrivo); l'ultima porta la CTA.
         {
-          id: 'sceneA', label: 'Scene A',
+          id: 'sceneA', label: 'Scena A',
           still: 'assets/sceneA.webp',
-          poster: 'assets/sceneA-poster.webp',     // encoded clip's extracted first frame (pipeline §5b)
+          poster: 'assets/sceneA-poster.webp',     // primo frame estratto dalla clip codificata (pipeline §5b)
           clip: 'assets/vid/sceneA.mp4',
-          clipMobile: 'assets/vid/sceneA-m.mp4',       // mobile tiers only: 720p -g 4 encode, served on phone-class screens
-          posterMobile: 'assets/sceneA-poster-m.webp', // mobile encode's extracted first frame (pipeline §6)
+          clipMobile: 'assets/vid/sceneA-m.mp4',       // solo fasce mobile: codifica 720p -g 4, servita agli schermi da telefono
+          posterMobile: 'assets/sceneA-poster-m.webp', // primo frame estratto dalla codifica mobile (pipeline §6)
           accent: '#8FB98A',
-          // scroll: 1.6, linger: 0.45,  // optional pacing: longer dwell; camera settles mid-scene
-          eyebrow: 'Value prop label',
-          title: 'The hero line.',
-          body: 'One plain-spoken sentence about this stage.',
-          tags: ['Proof', 'Proof', 'Proof'],
+          // scroll: 1.6, linger: 0.45,  // ritmo facoltativo: sosta più lunga; la camera si assesta a metà scena
+          eyebrow: 'Etichetta di valore',
+          title: 'La frase dell\'hero.',
+          body: 'Una frase semplice su questa fase.',
+          tags: ['Prova', 'Prova', 'Prova'],
         },
-        // …middle scenes…
+        // …scene intermedie…
         {
-          id: 'finale', label: 'The Product',
+          id: 'finale', label: 'Il prodotto',
           still: 'assets/product.webp',
           poster: 'assets/finale-poster.webp',
           clip: 'assets/vid/finale.mp4',
           clipMobile: 'assets/vid/finale-m.mp4',
           posterMobile: 'assets/finale-poster-m.webp',
           accent: '#9B7EBD',
-          eyebrow: 'And it all pours into',
-          title: 'One perfect thing.',
-          body: 'The payoff sentence.',
+          eyebrow: 'E tutto confluisce in',
+          title: 'Una sola cosa perfetta.',
+          body: 'La frase di chiusura.',
           tags: [],
-          cta: { primary: { label: 'Get started', href: '#' },
-                 secondary: { label: 'See more', href: '#' } },
+          cta: { primary: { label: 'Inizia', href: '#' },
+                 secondary: { label: 'Scopri di più', href: '#' } },
         },
       ],
-      // length === sections.length - 1, in order. Generated per SKILL.md Step 5.
+      // lunghezza === sections.length - 1, in ordine. Generati come al passo 5 di SKILL.md.
       connectors: [
         'assets/vid/conn1.mp4',
         // 'assets/vid/conn2.mp4', …
       ],
-      // Mobile beta only: lighter connectors for phones — same length/order as `connectors`.
+      // Solo con le codifiche mobile: connettori più leggeri per i telefoni, stessa lunghezza e ordine di `connectors`.
       connectorsMobile: [
         'assets/vid/conn1-m.mp4',
         // 'assets/vid/conn2-m.mp4', …

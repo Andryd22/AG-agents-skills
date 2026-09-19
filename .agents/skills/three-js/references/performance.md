@@ -1,30 +1,30 @@
-# Performance
+# Prestazioni
 
-## Budgets
+## Budget
 
-| Tier | Draw calls | Triangles | Pixel ratio | Shadows |
+| Fascia | Draw call | Triangoli | Pixel ratio | Ombre |
 | --- | --- | --- | --- | --- |
 | Desktop | < 100 | < 300k | min(dpr, 2) | 1 × 1024 |
-| Mobile | < 50 | < 100k | min(dpr, 1.5) | none |
+| Mobile | < 50 | < 100k | min(dpr, 1.5) | nessuna |
 
-## Measurement
+## Misurare
 
-Open DevTools → Performance → record 10s of scrolling. Flags:
+Apri DevTools → Performance → registra 10 s di scroll. Segnali:
 
-- Frames > 16.7ms budget → find the hotspot below
-- Long tasks > 50ms → JS work off the scroll handler
+- Frame oltre il budget di 16,7 ms → cerca il punto caldo qui sotto
+- Long task > 50 ms → lavoro JS da togliere dall'handler dello scroll
 
-Console: `renderer.info.render` after each scene change — watch `calls`, `triangles`, `geometries`, `textures`.
+Console: `renderer.info.render` dopo ogni cambio di scena — guarda `calls`, `triangles`, `geometries`, `textures`.
 
-## Hotspot ladder (fix in order)
+## Punti caldi (correggili in quest'ordine)
 
-1. **Draw calls too high** → merge static geometry (`BufferGeometryUtils.mergeGeometries`), InstancedMesh for repeats, remove invisible objects (`mesh.visible = false` skips draw).
-2. **Fill rate** → drop pixel ratio cap, reduce canvas size on small screens, avoid full-screen `EffectComposer` post FX on mobile.
-3. **Textures** → KTX2/Basis compressed, mipmaps on, drop anisotropy on mobile.
-4. **Shadow cost** → shrink `shadow.camera` frustum, lower map 512 on weak GPUs, or disable.
-5. **JS in scroll path** → cache progress values; no layout reads in onUpdate; move work off `scrub` callbacks into a throttled rAF when cheap.
+1. **Troppe draw call** → unisci la geometria statica (`BufferGeometryUtils.mergeGeometries`), InstancedMesh per le ripetizioni, togli gli oggetti invisibili (`mesh.visible = false` salta il disegno).
+2. **Fill rate** → abbassa il limite del pixel ratio, riduci il canvas sugli schermi piccoli, evita il post-processing a tutto schermo di `EffectComposer` su mobile.
+3. **Texture** → KTX2/Basis compresse, mipmap attive, niente anisotropia su mobile.
+4. **Costo delle ombre** → stringi il frustum di `shadow.camera`, mappa a 512 sulle GPU deboli, oppure disattivale.
+5. **JS nel percorso dello scroll** → metti in cache i valori di avanzamento; nessuna lettura del layout in onUpdate; sposta il lavoro dalle callback di `scrub` a un rAF limitato, quando costa poco.
 
-## Instancing snippet
+## Esempio di instancing
 
 ```js
 const mesh = new THREE.InstancedMesh(geo, mat, N);
@@ -35,7 +35,7 @@ for (let i = 0; i < N; i++) {
 }
 ```
 
-## Anti-flash rules
+## Regole contro i lampi
 
-- `renderer.render` once after setup before first scroll frame
-- Preload textures (Promise.all) before starting the reveal animation
+- Un `renderer.render` dopo la configurazione, prima del primo frame di scroll
+- Precarica le texture (Promise.all) prima di far partire l'animazione di comparsa

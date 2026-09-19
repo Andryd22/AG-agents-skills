@@ -1,17 +1,17 @@
-# Scroll Integration
+# Integrazione con lo scroll
 
-## One driver: GSAP ScrollTrigger + scrub
+## Un solo driver: GSAP ScrollTrigger + scrub
 
 ```js
 gsap.registerPlugin(ScrollTrigger);
 
-// pin a 100vh stage while progress 0→1 maps to scene timeline
+// fissa (pin) uno stage alto 100vh mentre l'avanzamento 0→1 guida la timeline della scena
 gsap.to('.stage', {
   scrollTrigger: {
     trigger: '.stage',
     start: 'top top',
     end: '+=200%',
-    scrub: 1,               // 1s catch-up smoothing; true = hard lock
+    scrub: 1,               // 1 s di recupero morbido; true = aggancio rigido
     pin: true,
     onUpdate: (self) => timeline.progress(self.progress),
   },
@@ -22,9 +22,9 @@ timeline.to(sections.hero.position, { y: -6, ease: 'none' }, 0)
          .to(camera.position, { z: 4, y: 2, ease: 'none' }, 0.4);
 ```
 
-Rule: scrub callbacks are the ONLY animation driver. No second rAF loop on the same objects.
+Regola: le callback dello scrub sono l'UNICO driver dell'animazione. Nessun secondo ciclo rAF sugli stessi oggetti.
 
-## Parallax layers (no pin needed)
+## Livelli di parallasse (senza pin)
 
 ```js
 document.querySelectorAll('[data-speed]').forEach((el) => {
@@ -36,7 +36,7 @@ document.querySelectorAll('[data-speed]').forEach((el) => {
 });
 ```
 
-## Scroll-progress camera (native scroll, no pin)
+## Camera guidata dall'avanzamento (scroll nativo, senza pin)
 
 ```js
 const tl = gsap.timeline({
@@ -46,9 +46,9 @@ tl.fromTo(camera.position, { z: 12 }, { z: 2 })
   .fromTo(camera.rotation, { x: -0.15 }, { x: 0 }, 0);
 ```
 
-## Lenis smooth scroll (optional)
+## Scroll morbido con Lenis (facoltativo)
 
-Integration documented by Lenis, same as `scroll-film/references/engine.md`: GSAP's ticker drives Lenis, so there is one loop and no `scrollerProxy`.
+L'integrazione documentata da Lenis, la stessa di `scroll-film/references/engine.md`: il ticker di GSAP guida Lenis, quindi c'è un solo ciclo e niente `scrollerProxy`.
 
 ```js
 const lenis = new Lenis({ smoothWheel: true });
@@ -57,7 +57,7 @@ gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 ```
 
-## Pause when hidden
+## Pausa quando la scheda è nascosta
 
 ```js
 document.addEventListener('visibilitychange', () => {
@@ -67,8 +67,8 @@ document.addEventListener('visibilitychange', () => {
 });
 ```
 
-## Pitfalls
+## Trappole
 
-- `scrub: true` + heavy per-frame work → use `scrub: 1` and cache progress
-- Pin spacing: pin pushes layout — reserve with `scrollTrigger.pinSpacing = false` + manual padding when needed
-- Camera transforms fight CSS transforms on the same element — never both
+- `scrub: true` + lavoro pesante a ogni frame → usa `scrub: 1` e metti in cache l'avanzamento
+- Spazio del pin: il pin sposta il layout — riservalo con `scrollTrigger.pinSpacing = false` + padding manuale quando serve
+- Le trasformazioni della camera litigano con le trasformazioni CSS sullo stesso elemento: mai entrambe

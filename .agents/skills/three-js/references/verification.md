@@ -1,24 +1,24 @@
-# Verification
+# Verifica
 
-## Jank test (manual, 10 seconds)
+## Test di jank (a mano, 10 secondi)
 
-1. DevTools → Performance → Start recording
-2. Scroll top→bottom→top at constant speed, once
-3. Stop, read Frames chart: any frame > 16.7ms with red long-task marks = FAIL
-4. Repeat at 2× scroll speed (wheel tick) on desktop
+1. DevTools → Performance → avvia la registrazione
+2. Scorri dall'alto in basso e di nuovo in alto a velocità costante, una volta
+3. Ferma e leggi il grafico dei frame: qualsiasi frame > 16,7 ms con i segni rossi dei long task = FALLITO
+4. Ripeti a velocità doppia (scatti della rotella) su desktop
 
-PASS = max frame under 24ms, no long tasks > 50ms, no dropped frames cluster > 3 consecutive.
+SUPERATO = frame massimo sotto i 24 ms, nessun long task > 50 ms, mai più di 3 frame persi di fila.
 
-## Console checks
+## Controlli in console
 
-- `THREE.WebGLRenderer: Context Lost` — restore handler missing → FAIL
-- `[.WebGL-0000] GL_INVALID_OPERATION` — geometry/material misuse → FAIL
-- `Uniform buffers overflow` — too many lights/materials → FAIL
-- Warning: `THREE.ColorManagement` colorSpace mismatch — fix SRGB on textures
+- `THREE.WebGLRenderer: Context Lost` — manca l'handler di ripristino → FALLITO
+- `[.WebGL-0000] GL_INVALID_OPERATION` — uso sbagliato di geometria/materiali → FALLITO
+- `Uniform buffers overflow` — troppe luci o materiali → FALLITO
+- Avviso `THREE.ColorManagement` sul colorSpace — correggi l'SRGB delle texture
 
-## GPU stats gate
+## Soglia delle statistiche della GPU
 
-Run once after build, log to console for the record:
+Eseguilo una volta dopo la build e scrivi il risultato in console, per memoria:
 
 ```js
 console.table({
@@ -29,18 +29,18 @@ console.table({
 });
 ```
 
-Compare against performance.md budgets. Over budget → fix before deploy, never ship a red budget.
+Confronta con i budget di performance.md. Fuori budget → correggi prima del deploy: mai rilasciare con un budget in rosso.
 
-## Functional checklist
+## Checklist funzionale
 
-- [ ] Scene renders on first paint (no flash of empty canvas)
-- [ ] All data-scene sections reachable by scroll; none stuck off-path
-- [ ] Camera never clips through geometry (nudge path waypoints)
-- [ ] Resize works (aspect + size update, no distortion)
-- [ ] Mobile: no shadows, pixel ratio ≤ 1.5, budget < 50 calls
-- [ ] Tab hidden → animation paused; visible → resumes without jump
-- [ ] Re-navigation: no memory growth (Performance monitor memory graph flat)
+- [ ] La scena si vede al primo disegno (nessun lampo di canvas vuoto)
+- [ ] Tutte le sezioni data-scene si raggiungono con lo scroll; nessuna bloccata fuori percorso
+- [ ] La camera non attraversa mai la geometria (sposta i punti di passaggio)
+- [ ] Il resize funziona (aspect e dimensioni aggiornati, niente distorsioni)
+- [ ] Mobile: niente ombre, pixel ratio ≤ 1.5, budget < 50 draw call
+- [ ] Scheda nascosta → animazione in pausa; di nuovo visibile → riparte senza salti
+- [ ] Navigando avanti e indietro la memoria non cresce (grafico della memoria di Performance monitor piatto)
 
-## Automated smoke
+## Smoke test automatico
 
-If repo has a test runner: assert `renderer.info.render.calls < budget` after scene mount + first scroll tick, and `performance.memory.usedJSHeapSize` delta < 50MB after 10 navigation cycles.
+Se il progetto ha un test runner: verifica che `renderer.info.render.calls < budget` dopo il montaggio della scena e il primo scatto di scroll, e che la differenza di `performance.memory.usedJSHeapSize` sia < 50 MB dopo 10 cicli di navigazione.
