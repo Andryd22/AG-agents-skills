@@ -1,178 +1,179 @@
 ---
 name: python-patterns
-description: Python development principles and decision-making. Framework selection, async patterns, type hints, project structure. Teaches thinking, not copying.
+description: Principi di sviluppo in Python e come decidere. Scelta del framework web, schemi asincroni, type hint, struttura del progetto. Insegna a ragionare, non a copiare.
 ---
 
-# Python Patterns
+# Schemi per Python
 
-> Python development principles and decision-making for 2025.
-> **Learn to THINK, not memorize patterns.**
+> Principi e decisioni per lo sviluppo in Python.
+> **Impara a RAGIONARE, non a memorizzare schemi.**
 
----
-
-## ⚠️ How to Use This Skill
-
-This skill teaches **decision-making principles**, not fixed code to copy.
-
-- ASK user for framework preference when unclear
-- Choose async vs sync based on CONTEXT
-- Don't default to same framework every time
+Questa skill riguarda applicazioni e API. Per analisi dei dati e machine learning con pandas e scikit-learn usa `classic-ml`.
 
 ---
 
-## 1. Framework Selection (2025)
+## ⚠️ Come usare questa skill
 
-### Decision Tree
+Questa skill insegna **principi per decidere**, non codice fisso da copiare.
+
+- CHIEDI all'utente che framework preferisce quando non è chiaro
+- Scegli tra async e sync in base al CONTESTO
+- Non usare ogni volta lo stesso framework
+
+---
+
+## 1. Scelta del framework
+
+### Albero di decisione
 
 ```text
-What are you building?
+Cosa stai costruendo?
 │
-├── API-first / Microservices
-│   └── FastAPI (async, modern, fast)
+├── Prima le API / microservizi
+│   └── FastAPI (async, moderno, veloce)
 │
-├── Full-stack web / CMS / Admin
-│   └── Django (batteries-included)
+├── Web full-stack / CMS / pannello di amministrazione
+│   └── Django (tutto incluso)
 │
-├── Simple / Script / Learning
-│   └── Flask (minimal, flexible)
+├── Semplice / script / per imparare
+│   └── Flask (minimale, flessibile)
 │
-├── AI/ML API serving
+├── Servire modelli AI/ML via API
 │   └── FastAPI (Pydantic, async, uvicorn)
 │
-└── Background workers
-    └── Celery + any framework
+└── Lavori in background
+    └── Celery + qualsiasi framework
 ```
 
-### Comparison Principles
+### Confronto
 
-| Factor | FastAPI | Django | Flask |
-| -------- | --------- | -------- | ------- |
-| **Best for** | APIs, microservices | Full-stack, CMS | Simple, learning |
-| **Async** | Native | Django 5.0+ | Via extensions |
-| **Admin** | Manual | Built-in | Via extensions |
-| **ORM** | Choose your own | Django ORM | Choose your own |
-| **Learning curve** | Low | Medium | Low |
+| Fattore | FastAPI | Django | Flask |
+| --- | --- | --- | --- |
+| **Ideale per** | API, microservizi | Full-stack, CMS | Cose semplici, imparare |
+| **Async** | Nativo | Django 5.0+ | Con estensioni |
+| **Pannello admin** | A mano | Integrato | Con estensioni |
+| **ORM** | A scelta | Django ORM | A scelta |
+| **Curva di apprendimento** | Bassa | Media | Bassa |
 
-### Selection Questions to Ask
+### Domande per scegliere
 
-1. Is this API-only or full-stack?
-2. Need admin interface?
-3. Team familiar with async?
-4. Existing infrastructure?
+1. Solo API o full-stack?
+2. Serve un pannello di amministrazione?
+3. Il team conosce l'async?
+4. C'è un'infrastruttura esistente?
 
 ---
 
-## 2. Async vs Sync Decision
+## 2. Async o sync
 
-### When to Use Async
+### Quando usare l'async
 
 ```text
-async def is better when:
-├── I/O-bound operations (database, HTTP, file)
-├── Many concurrent connections
-├── Real-time features
-├── Microservices communication
+async def è meglio quando:
+├── Operazioni legate all'I/O (database, HTTP, file)
+├── Tante connessioni contemporanee
+├── Funzionalità in tempo reale
+├── Comunicazione tra microservizi
 └── FastAPI/Starlette/Django ASGI
 
-def (sync) is better when:
-├── CPU-bound operations
-├── Simple scripts
-├── Legacy codebase
-├── Team unfamiliar with async
-└── Blocking libraries (no async version)
+def (sync) è meglio quando:
+├── Operazioni legate alla CPU
+├── Script semplici
+├── Codebase esistenti
+├── Il team non conosce l'async
+└── Librerie bloccanti (senza versione async)
 ```
 
-### The Golden Rule
+### La regola d'oro
 
 ```text
-I/O-bound → async (waiting for external)
-CPU-bound → sync + multiprocessing (computing)
+Legato all'I/O → async (si aspetta qualcosa da fuori)
+Legato alla CPU → sync + multiprocessing (si calcola)
 
-Don't:
-├── Mix sync and async carelessly
-├── Use sync libraries in async code
-└── Force async for CPU work
+Da non fare:
+├── Mescolare sync e async senza attenzione
+├── Usare librerie sync nel codice async
+└── Forzare l'async per il lavoro di CPU
 ```
 
-### Async Library Selection
+### Librerie async
 
-| Need | Async Library |
-| ------ | --------------- |
-| HTTP client | httpx |
+| Serve | Libreria async |
+| --- | --- |
+| Client HTTP | httpx |
 | PostgreSQL | asyncpg |
-| Redis | aioredis / redis-py async |
-| File I/O | aiofiles |
-| Database ORM | SQLAlchemy 2.0 async, Tortoise |
+| Redis | redis-py (`redis.asyncio`; aioredis è confluito lì) |
+| I/O su file | aiofiles |
+| ORM | SQLAlchemy 2.0 async, Tortoise |
 
 ---
 
-## 3. Type Hints Strategy
+## 3. Type hint
 
-### When to Type
+### Cosa annotare
 
 ```text
-Always type:
-├── Function parameters
-├── Return types
-├── Class attributes
-├── Public APIs
+Annota sempre:
+├── Parametri delle funzioni
+├── Tipi di ritorno
+├── Attributi delle classi
+├── API pubbliche
 
-Can skip:
-├── Local variables (let inference work)
-├── One-off scripts
-├── Tests (usually)
+Si può evitare:
+├── Variabili locali (lascia fare all'inferenza)
+├── Script usa e getta
+├── Test (di solito)
 ```
 
-### Common Type Patterns
+### Schemi di tipi comuni
 
 ```python
-# These are patterns, understand them:
+# Sono schemi da capire, non da copiare:
 
-# Optional → might be None
-from typing import Optional
-def find_user(id: int) -> Optional[User]: ...
+# Può essere None
+def find_user(id: int) -> User | None: ...
 
-# Union → one of multiple types
+# Uno tra più tipi
 def process(data: str | dict) -> None: ...
 
-# Generic collections
+# Collezioni generiche
 def get_items() -> list[Item]: ...
 def get_mapping() -> dict[str, int]: ...
 
-# Callable
-from typing import Callable
+# Funzioni come parametro
+from collections.abc import Callable
 def apply(fn: Callable[[int], str]) -> str: ...
 ```
 
-### Pydantic for Validation
+### Pydantic per la validazione
 
 ```text
-When to use Pydantic:
-├── API request/response models
-├── Configuration/settings
-├── Data validation
-├── Serialization
+Quando usare Pydantic:
+├── Modelli di richiesta e risposta delle API
+├── Configurazione e impostazioni
+├── Validazione dei dati
+├── Serializzazione
 
-Benefits:
-├── Runtime validation
-├── Auto-generated JSON schema
-├── Works with FastAPI natively
-└── Clear error messages
+Vantaggi:
+├── Validazione a runtime
+├── JSON schema generato da solo
+├── Funziona nativamente con FastAPI
+└── Messaggi di errore chiari
 ```
 
 ---
 
-## 4. Project Structure Principles
+## 4. Struttura del progetto
 
-### Structure Selection
+### Quale struttura
 
 ```text
-Small project / Script:
+Progetto piccolo / script:
 ├── main.py
 ├── utils.py
 └── requirements.txt
 
-Medium API:
+API media:
 ├── app/
 │   ├── __init__.py
 │   ├── main.py
@@ -183,7 +184,7 @@ Medium API:
 ├── tests/
 └── pyproject.toml
 
-Large application:
+Applicazione grande:
 ├── src/
 │   └── myapp/
 │       ├── core/
@@ -195,19 +196,19 @@ Large application:
 └── pyproject.toml
 ```
 
-### FastAPI Structure Principles
+### Struttura di un progetto FastAPI
 
 ```text
-Organize by feature or layer:
+Organizza per funzionalità o per livello:
 
-By layer:
-├── routes/ (API endpoints)
-├── services/ (business logic)
-├── models/ (database models)
-├── schemas/ (Pydantic models)
-└── dependencies/ (shared deps)
+Per livello:
+├── routes/ (endpoint delle API)
+├── services/ (logica di business)
+├── models/ (modelli del database)
+├── schemas/ (modelli Pydantic)
+└── dependencies/ (dipendenze condivise)
 
-By feature:
+Per funzionalità:
 ├── users/
 │   ├── routes.py
 │   ├── service.py
@@ -218,226 +219,227 @@ By feature:
 
 ---
 
-## 5. Django Principles (2025)
+## 5. Django
 
-### Django Async (Django 5.0+)
+### Django async (Django 5.0+)
 
 ```text
-Django supports async:
-├── Async views
-├── Async middleware
-├── Async ORM (limited)
-└── ASGI deployment
+Django supporta l'async:
+├── View async
+├── Middleware async
+├── ORM async (con limiti)
+└── Deploy ASGI
 
-When to use async in Django:
-├── External API calls
+Quando usare l'async in Django:
+├── Chiamate ad API esterne
 ├── WebSocket (Channels)
-├── High-concurrency views
-└── Background task triggering
+├── View con molta concorrenza
+└── Avvio di task in background
 ```
 
-### Django Best Practices
+### Buone pratiche
 
 ```text
-Model design:
-├── Fat models, thin views
-├── Use managers for common queries
-├── Abstract base classes for shared fields
+Modelli:
+├── Modelli ricchi, view sottili
+├── Manager per le query comuni
+├── Classi base astratte per i campi condivisi
 
-Views:
-├── Class-based for complex CRUD
-├── Function-based for simple endpoints
-├── Use viewsets with DRF
+View:
+├── Basate su classi per il CRUD complesso
+├── Basate su funzioni per gli endpoint semplici
+├── Viewset con DRF
 
-Queries:
-├── select_related() for FKs
-├── prefetch_related() for M2M
-├── Avoid N+1 queries
-└── Use .only() for specific fields
+Query:
+├── select_related() per le FK
+├── prefetch_related() per le M2M
+├── Evita le query N+1
+└── .only() per scegliere i campi
 ```
 
 ---
 
-## 6. FastAPI Principles
+## 6. FastAPI
 
-### async def vs def in FastAPI
-
-```text
-Use async def when:
-├── Using async database drivers
-├── Making async HTTP calls
-├── I/O-bound operations
-└── Want to handle concurrency
-
-Use def when:
-├── Blocking operations
-├── Sync database drivers
-├── CPU-bound work
-└── FastAPI runs in threadpool automatically
-```
-
-### Dependency Injection
+### async def o def in FastAPI
 
 ```text
-Use dependencies for:
-├── Database sessions
-├── Current user / Auth
-├── Configuration
-├── Shared resources
+Usa async def quando:
+├── Usi driver di database async
+├── Fai chiamate HTTP async
+├── Operazioni legate all'I/O
+└── Vuoi gestire la concorrenza
 
-Benefits:
-├── Testability (mock dependencies)
-├── Clean separation
-├── Automatic cleanup (yield)
+Usa def quando:
+├── Operazioni bloccanti
+├── Driver di database sync
+├── Lavoro di CPU
+└── FastAPI lo esegue da solo in un threadpool
 ```
 
-### Pydantic v2 Integration
+### Dependency injection
+
+```text
+Usa le dipendenze per:
+├── Sessioni del database
+├── Utente corrente / autenticazione
+├── Configurazione
+├── Risorse condivise
+
+Vantaggi:
+├── Testabilità (dipendenze simulate)
+├── Separazione pulita
+├── Pulizia automatica (yield)
+```
+
+### Integrazione con Pydantic v2
 
 ```python
-# FastAPI + Pydantic are tightly integrated:
+# FastAPI e Pydantic sono strettamente integrati:
 
-# Request validation
+# Validazione della richiesta
 @app.post("/users")
 async def create(user: UserCreate) -> UserResponse:
-    # user is already validated
+    # user è già validato
     ...
 
-# Response serialization
-# Return type becomes response schema
+# Serializzazione della risposta:
+# il tipo di ritorno diventa lo schema della risposta
 ```
 
 ---
 
-## 7. Background Tasks
+## 7. Task in background
 
-### Selection Guide
+### Guida alla scelta
 
-| Solution | Best For |
-| ---------- | ---------- |
-| **BackgroundTasks** | Simple, in-process tasks |
-| **Celery** | Distributed, complex workflows |
-| **ARQ** | Async, Redis-based |
-| **RQ** | Simple Redis queue |
-| **Dramatiq** | Actor-based, simpler than Celery |
+| Soluzione | Ideale per |
+| --- | --- |
+| **BackgroundTasks** | Task semplici nello stesso processo |
+| **Celery** | Flussi distribuiti e complessi |
+| **ARQ** | Async, basato su Redis |
+| **RQ** | Coda Redis semplice |
+| **Dramatiq** | Basato su attori, più semplice di Celery |
 
-### When to Use Each
+### Quando usare cosa
 
 ```text
-FastAPI BackgroundTasks:
-├── Quick operations
-├── No persistence needed
-├── Fire-and-forget
-└── Same process
+BackgroundTasks di FastAPI:
+├── Operazioni veloci
+├── Non serve persistenza
+├── Lanci e dimentichi
+└── Stesso processo
 
 Celery/ARQ:
-├── Long-running tasks
-├── Need retry logic
-├── Distributed workers
-├── Persistent queue
-└── Complex workflows
+├── Task lunghi
+├── Serve la logica dei tentativi
+├── Worker distribuiti
+├── Coda persistente
+└── Flussi complessi
 ```
 
 ---
 
-## 8. Error Handling Principles
+## 8. Gestione degli errori
 
-### Exception Strategy
+### Strategia delle eccezioni
 
 ```text
 In FastAPI:
-├── Create custom exception classes
-├── Register exception handlers
-├── Return consistent error format
-└── Log without exposing internals
+├── Crea classi di eccezione personalizzate
+├── Registra gli exception handler
+├── Restituisci sempre lo stesso formato di errore
+└── Scrivi nei log senza esporre i dettagli interni
 
-Pattern:
-├── Raise domain exceptions in services
-├── Catch and transform in handlers
-└── Client gets clean error response
+Schema:
+├── Lancia eccezioni di dominio nei servizi
+├── Catturale e trasformale negli handler
+└── Il client riceve una risposta di errore pulita
 ```
 
-### Error Response Philosophy
+### Cosa mettere nella risposta di errore
 
 ```text
-Include:
-├── Error code (programmatic)
-├── Message (human readable)
-├── Details (field-level when applicable)
-└── NOT stack traces (security)
+Includi:
+├── Codice di errore (per il codice)
+├── Messaggio (leggibile da una persona)
+├── Dettagli (per campo, quando serve)
+└── MAI gli stack trace (sicurezza)
 ```
 
 ---
 
-## 9. Testing Principles
+## 9. Test
 
-### Testing Strategy
+### Strategia
 
-| Type | Purpose | Tools |
-| ------ | --------- | ------- |
-| **Unit** | Business logic | pytest |
-| **Integration** | API endpoints | pytest + httpx/TestClient |
-| **E2E** | Full workflows | pytest + DB |
+| Tipo | Scopo | Strumenti |
+| --- | --- | --- |
+| **Unitari** | Logica di business | pytest |
+| **Integrazione** | Endpoint delle API | pytest + httpx/TestClient |
+| **E2E** | Flussi completi | pytest + DB |
 
-### Async Testing
+### Test async
 
 ```python
-# Use pytest-asyncio for async tests
+# Per i test async usa pytest-asyncio
 
 import pytest
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 
 @pytest.mark.asyncio
 async def test_endpoint():
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.get("/users")
         assert response.status_code == 200
 ```
 
-### Fixtures Strategy
+### Fixture
 
 ```text
-Common fixtures:
-├── db_session → Database connection
-├── client → Test client
-├── authenticated_user → User with token
-└── sample_data → Test data setup
+Fixture comuni:
+├── db_session → connessione al database
+├── client → client di test
+├── authenticated_user → utente con token
+└── sample_data → dati di prova
 ```
 
 ---
 
-## 10. Decision Checklist
+## 10. Checklist di decisione
 
-Before implementing:
+Prima di implementare:
 
-- [ ] **Asked user about framework preference?**
-- [ ] **Chosen framework for THIS context?** (not just default)
-- [ ] **Decided async vs sync?**
-- [ ] **Planned type hint strategy?**
-- [ ] **Defined project structure?**
-- [ ] **Planned error handling?**
-- [ ] **Considered background tasks?**
-
----
-
-## 11. Anti-Patterns to Avoid
-
-### ❌ DON'T
-
-- Default to Django for simple APIs (FastAPI may be better)
-- Use sync libraries in async code
-- Skip type hints for public APIs
-- Put business logic in routes/views
-- Ignore N+1 queries
-- Mix async and sync carelessly
-
-### ✅ DO
-
-- Choose framework based on context
-- Ask about async requirements
-- Use Pydantic for validation
-- Separate concerns (routes → services → repos)
-- Test critical paths
+- [ ] **Hai chiesto all'utente che framework preferisce?**
+- [ ] **Hai scelto il framework per QUESTO contesto?** (non per abitudine)
+- [ ] **Hai deciso tra async e sync?**
+- [ ] **Hai deciso come usare i type hint?**
+- [ ] **Hai definito la struttura del progetto?**
+- [ ] **Hai pianificato la gestione degli errori?**
+- [ ] **Hai considerato i task in background?**
 
 ---
 
-> **Remember**: Python patterns are about decision-making for YOUR specific context. Don't copy code—think about what serves your application best.
+## 11. Anti-pattern da evitare
+
+### ❌ NON
+
+- Usare Django per API semplici senza pensarci (FastAPI può andare meglio)
+- Usare librerie sync nel codice async
+- Saltare i type hint nelle API pubbliche
+- Mettere la logica di business nelle route o nelle view
+- Ignorare le query N+1
+- Mescolare async e sync senza attenzione
+
+### ✅ SÌ
+
+- Scegliere il framework in base al contesto
+- Chiedere dei requisiti di async
+- Usare Pydantic per la validazione
+- Separare le responsabilità (route → servizi → repository)
+- Testare i percorsi critici
+
+---
+
+> **Ricorda**: gli schemi di Python servono a decidere per il TUO contesto. Non copiare codice: pensa a cosa serve davvero alla tua applicazione.

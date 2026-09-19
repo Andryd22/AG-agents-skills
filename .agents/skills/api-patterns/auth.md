@@ -1,24 +1,24 @@
-# Authentication Patterns
+# Schemi di autenticazione
 
-> Choose auth pattern based on use case.
+> Scegli lo schema di autenticazione in base al caso d'uso.
 
-## Selection Guide
+## Guida alla scelta
 
-| Pattern | Best For |
-| --------- | ---------- |
-| **JWT** | Stateless, microservices |
-| **Session** | Traditional web, simple |
-| **OAuth 2.0** | Third-party integration |
-| **API Keys** | Server-to-server, public APIs |
-| **Passkey** | Modern passwordless (2025+) |
+| Schema | Ideale per |
+| --- | --- |
+| **JWT** | Senza stato, microservizi |
+| **Sessione** | Web tradizionale, semplice |
+| **OAuth 2.0** | Integrazione con terze parti |
+| **API key** | Da server a server, API pubbliche |
+| **Passkey** | Accesso moderno senza password |
 
-## JWT Principles
+## Principi dei JWT
 
 ```text
-Important:
-├── Always verify signature
-├── Check expiration
-├── Include minimal claims
-├── Use short expiry + refresh tokens
-└── Never store sensitive data in JWT
+Importante:
+├── Verifica sempre la firma
+├── Controlla la scadenza
+├── Metti il minimo di claim
+├── Scadenza breve + refresh token
+└── Mai dati sensibili dentro un JWT
 ```

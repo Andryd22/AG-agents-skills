@@ -1,51 +1,57 @@
 ---
 name: database-design
-description: Database design principles and decision-making. Schema design, indexing strategy, ORM selection, serverless databases.
+description: Principi di progettazione dei database e come decidere. Progettazione dello schema, strategia degli indici, scelta dell'ORM, database serverless, migrazioni e ottimizzazione delle query.
 ---
 
-# Database Design
+# Progettazione dei database
 
-> **Learn to THINK, not copy SQL patterns.**
+> **Impara a RAGIONARE, non a copiare schemi SQL.**
 
-## 🎯 Selective Reading Rule
+## 🎯 Regola della lettura selettiva
 
-**Read ONLY files relevant to the request!** Check the content map, find what you need.
+**Leggi SOLO i file che servono alla richiesta!** Guarda la mappa dei contenuti e trova quello che ti serve.
 
-| File | Description | When to Read |
-| ------ | ------------- | -------------- |
-| `database-selection.md` | PostgreSQL vs Neon vs Turso vs SQLite | Choosing database |
-| `orm-selection.md` | Drizzle vs Prisma vs Kysely | Choosing ORM |
-| `schema-design.md` | Normalization, PKs, relationships | Designing schema |
-| `indexing.md` | Index types, composite indexes | Performance tuning |
-| `optimization.md` | N+1, EXPLAIN ANALYZE | Query optimization |
-| `migrations.md` | Safe migrations, serverless DBs | Schema changes |
-
----
-
-## ⚠️ Core Principle
-
-- ASK user for database preferences when unclear
-- Choose database/ORM based on CONTEXT
-- Don't default to PostgreSQL for everything
+| File | Descrizione | Quando leggerlo |
+| --- | --- | --- |
+| `database-selection.md` | PostgreSQL, Neon, Turso o SQLite | Scegliere il database |
+| `orm-selection.md` | Drizzle, Prisma o Kysely | Scegliere l'ORM |
+| `schema-design.md` | Normalizzazione, chiavi primarie, relazioni | Progettare lo schema |
+| `indexing.md` | Tipi di indice, indici composti | Ottimizzare le prestazioni |
+| `optimization.md` | N+1, EXPLAIN ANALYZE | Ottimizzare le query |
+| `migrations.md` | Migrazioni sicure, database serverless | Modificare lo schema |
 
 ---
 
-## Decision Checklist
+## ⚠️ Principio
 
-Before designing schema:
-
-- [ ] Asked user about database preference?
-- [ ] Chosen database for THIS context?
-- [ ] Considered deployment environment?
-- [ ] Planned index strategy?
-- [ ] Defined relationship types?
+- CHIEDI all'utente le sue preferenze sul database quando non sono chiare
+- Scegli database e ORM in base al CONTESTO
+- Non usare PostgreSQL per tutto senza pensarci
 
 ---
 
-## Anti-Patterns
+## Checklist di decisione
 
-❌ Default to PostgreSQL for simple apps (SQLite may suffice)
-❌ Skip indexing
-❌ Use SELECT * in production
-❌ Store JSON when structured data is better
-❌ Ignore N+1 queries
+Prima di progettare lo schema:
+
+- [ ] Hai chiesto all'utente che database preferisce?
+- [ ] Hai scelto il database per QUESTO contesto?
+- [ ] Hai considerato l'ambiente di deploy?
+- [ ] Hai pianificato gli indici?
+- [ ] Hai definito i tipi di relazione?
+
+---
+
+## Anti-pattern
+
+❌ PostgreSQL per app semplici senza pensarci (può bastare SQLite)
+❌ Saltare gli indici
+❌ SELECT * in produzione
+❌ Salvare JSON quando i dati strutturati sono meglio
+❌ Ignorare le query N+1
+
+---
+
+## Script
+
+`python .agents/skills/database-design/scripts/schema_validator.py <cartella_progetto>` controlla gli schema Prisma (nomi, `@id`, `createdAt`, indici sulle foreign key); trova anche gli schema Drizzle, ma per ora non li analizza. I problemi che segnala sono avvisi: esce sempre con 0.

@@ -1,48 +1,48 @@
-# Migration Principles
+# Principi delle migrazioni
 
-> Safe migration strategy for zero-downtime changes.
+> Strategia di migrazione sicura per modifiche senza fermare il servizio.
 
-## Safe Migration Strategy
+## Migrazioni sicure
 
 ```text
-For zero-downtime changes:
+Per modifiche senza interruzioni:
 │
-├── Adding column
-│   └── Add as nullable → backfill → add NOT NULL
+├── Aggiungere una colonna
+│   └── Aggiungila nullable → riempi i dati → aggiungi NOT NULL
 │
-├── Removing column
-│   └── Stop using → deploy → remove column
+├── Togliere una colonna
+│   └── Smetti di usarla → deploy → togli la colonna
 │
-├── Adding index
-│   └── CREATE INDEX CONCURRENTLY (non-blocking)
+├── Aggiungere un indice
+│   └── CREATE INDEX CONCURRENTLY (non blocca le scritture)
 │
-└── Renaming column
-    └── Add new → migrate data → deploy → drop old
+└── Rinominare una colonna
+    └── Aggiungi la nuova → migra i dati → deploy → elimina la vecchia
 ```
 
-## Migration Philosophy
+## Filosofia delle migrazioni
 
-- Never make breaking changes in one step
-- Test migrations on data copy first
-- Have rollback plan
-- Run in transaction when possible
+- Mai modifiche che rompono qualcosa in un passo solo
+- Prova prima le migrazioni su una copia dei dati
+- Tieni pronto un piano di rollback
+- Quando puoi, eseguile in una transazione (non `CREATE INDEX CONCURRENTLY`, che in una transazione non può girare)
 
-## Serverless Databases
+## Database serverless
 
-### Neon (Serverless PostgreSQL)
+### Neon (PostgreSQL serverless)
 
-| Feature | Benefit |
-| --------- | --------- |
-| Scale to zero | Cost savings |
-| Instant branching | Dev/preview |
-| Full PostgreSQL | Compatibility |
-| Autoscaling | Traffic handling |
+| Caratteristica | Vantaggio |
+| --- | --- |
+| Scala fino a zero | Risparmio |
+| Branching istantaneo | Ambienti di sviluppo e anteprima |
+| PostgreSQL completo | Compatibilità |
+| Autoscaling | Regge i picchi di traffico |
 
-### Turso (Edge SQLite)
+### Turso (SQLite sull'edge)
 
-| Feature | Benefit |
-| --------- | --------- |
-| Edge locations | Ultra-low latency |
-| SQLite compatible | Simple |
-| Generous free tier | Cost |
-| Global distribution | Performance |
+| Caratteristica | Vantaggio |
+| --- | --- |
+| Nodi sull'edge | Latenza bassissima |
+| Compatibile con SQLite | Semplicità |
+| Piano gratuito generoso | Costi |
+| Distribuzione globale | Prestazioni |

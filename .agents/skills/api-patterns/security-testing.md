@@ -1,126 +1,126 @@
-# API Security Testing
+# Test di sicurezza delle API
 
-> Principles for testing API security. OWASP API Top 10, authentication, authorization testing.
+> Principi per testare la sicurezza di un'API: OWASP API Top 10, test di autenticazione e autorizzazione.
 
 ---
 
 ## OWASP API Security Top 10
 
-| Vulnerability | Test Focus |
-| --------------- | ------------ |
-| **API1: BOLA** | Access other users' resources |
-| **API2: Broken Auth** | JWT, session, credentials |
-| **API3: Property Auth** | Mass assignment, data exposure |
+| Vulnerabilità | Cosa testare |
+| --- | --- |
+| **API1: BOLA** | Accesso alle risorse di altri utenti |
+| **API2: Broken Auth** | JWT, sessioni, credenziali |
+| **API3: Property Auth** | Mass assignment, esposizione di dati |
 | **API4: Resource Consumption** | Rate limiting, DoS |
-| **API5: Function Auth** | Admin endpoints, role bypass |
-| **API6: Business Flow** | Logic abuse, automation |
-| **API7: SSRF** | Internal network access |
-| **API8: Misconfiguration** | Debug endpoints, CORS |
-| **API9: Inventory** | Shadow APIs, old versions |
-| **API10: Unsafe Consumption** | Third-party API trust |
+| **API5: Function Auth** | Endpoint di amministrazione, aggirare i ruoli |
+| **API6: Business Flow** | Abuso della logica, automazione |
+| **API7: SSRF** | Accesso alla rete interna |
+| **API8: Misconfiguration** | Endpoint di debug, CORS |
+| **API9: Inventory** | API nascoste, versioni vecchie |
+| **API10: Unsafe Consumption** | Fiducia nelle API di terze parti |
 
 ---
 
-## Authentication Testing
+## Test dell'autenticazione
 
-### JWT Testing
+### JWT
 
-| Check | What to Test |
-| ------- | -------------- |
-| Algorithm | None, algorithm confusion |
-| Secret | Weak secrets, brute force |
-| Claims | Expiration, issuer, audience |
-| Signature | Manipulation, key injection |
+| Controllo | Cosa testare |
+| --- | --- |
+| Algoritmo | None, confusione di algoritmo |
+| Segreto | Segreti deboli, forza bruta |
+| Claim | Scadenza, issuer, audience |
+| Firma | Manipolazione, iniezione di chiavi |
 
-### Session Testing
+### Sessioni
 
-| Check | What to Test |
-| ------- | -------------- |
-| Generation | Predictability |
-| Storage | Client-side security |
-| Expiration | Timeout enforcement |
-| Invalidation | Logout effectiveness |
-
----
-
-## Authorization Testing
-
-| Test Type | Approach |
-| ----------- | ---------- |
-| **Horizontal** | Access peer users' data |
-| **Vertical** | Access higher privilege functions |
-| **Context** | Access outside allowed scope |
-
-### BOLA/IDOR Testing
-
-1. Identify resource IDs in requests
-2. Capture request with user A's session
-3. Replay with user B's session
-4. Check for unauthorized access
+| Controllo | Cosa testare |
+| --- | --- |
+| Generazione | Prevedibilità |
+| Conservazione | Sicurezza lato client |
+| Scadenza | Il timeout viene applicato |
+| Invalidazione | Il logout funziona davvero |
 
 ---
 
-## Input Validation Testing
+## Test dell'autorizzazione
 
-| Injection Type | Test Focus |
-| ---------------- | ------------ |
-| SQL | Query manipulation |
-| NoSQL | Document queries |
-| Command | System commands |
-| LDAP | Directory queries |
+| Tipo di test | Approccio |
+| --- | --- |
+| **Orizzontale** | Accedere ai dati di altri utenti dello stesso livello |
+| **Verticale** | Accedere a funzioni con privilegi più alti |
+| **Contesto** | Accedere fuori dal perimetro permesso |
 
-**Approach:** Test all parameters, try type coercion, test boundaries, check error messages.
+### Test BOLA/IDOR
 
----
-
-## Rate Limiting Testing
-
-| Aspect | Check |
-| -------- | ------- |
-| Existence | Is there any limit? |
-| Bypass | Headers, IP rotation |
-| Scope | Per-user, per-IP, global |
-
-**Bypass techniques:** X-Forwarded-For, different HTTP methods, case variations, API versioning.
+1. Individua gli ID delle risorse nelle richieste
+2. Cattura una richiesta con la sessione dell'utente A
+3. Ripetila con la sessione dell'utente B
+4. Controlla se c'è un accesso non autorizzato
 
 ---
 
-## GraphQL Security
+## Test della validazione degli input
 
-| Test | Focus |
-| ------ | ------- |
-| Introspection | Schema disclosure |
-| Batching | Query DoS |
-| Nesting | Depth-based DoS |
-| Authorization | Field-level access |
+| Tipo di iniezione | Cosa testare |
+| --- | --- |
+| SQL | Manipolazione delle query |
+| NoSQL | Query sui documenti |
+| Comandi | Comandi di sistema |
+| LDAP | Query sulle directory |
+
+**Approccio:** testa tutti i parametri, prova la conversione dei tipi, testa i valori limite, controlla i messaggi di errore.
 
 ---
 
-## Security Testing Checklist
+## Test del rate limiting
 
-**Authentication:**
+| Aspetto | Controllo |
+| --- | --- |
+| Esistenza | C'è un limite? |
+| Aggiramento | Header, rotazione degli IP |
+| Ambito | Per utente, per IP, globale |
 
-- [ ] Test for bypass
-- [ ] Check credential strength
-- [ ] Verify token security
+**Tecniche di aggiramento:** X-Forwarded-For, metodi HTTP diversi, variazioni di maiuscole e minuscole, versioni dell'API.
 
-**Authorization:**
+---
 
-- [ ] Test BOLA/IDOR
-- [ ] Check privilege escalation
-- [ ] Verify function access
+## Sicurezza di GraphQL
+
+| Test | Cosa guardare |
+| --- | --- |
+| Introspection | Esposizione dello schema |
+| Batching | DoS con le query |
+| Annidamento | DoS sulla profondità |
+| Autorizzazione | Accesso per singolo campo |
+
+---
+
+## Checklist dei test di sicurezza
+
+**Autenticazione:**
+
+- [ ] Prova ad aggirarla
+- [ ] Controlla la robustezza delle credenziali
+- [ ] Verifica la sicurezza dei token
+
+**Autorizzazione:**
+
+- [ ] Testa BOLA/IDOR
+- [ ] Controlla l'escalation dei privilegi
+- [ ] Verifica l'accesso alle funzioni
 
 **Input:**
 
-- [ ] Test all parameters
-- [ ] Check for injection
+- [ ] Testa tutti i parametri
+- [ ] Cerca le iniezioni
 
-**Config:**
+**Configurazione:**
 
-- [ ] Check CORS
-- [ ] Verify headers
-- [ ] Test error handling
+- [ ] Controlla il CORS
+- [ ] Verifica gli header
+- [ ] Testa la gestione degli errori
 
 ---
 
-> **Remember:** APIs are the backbone of modern apps. Test them like attackers will.
+> **Ricorda:** le API sono la spina dorsale delle app moderne. Testale come le attaccherebbe un aggressore.

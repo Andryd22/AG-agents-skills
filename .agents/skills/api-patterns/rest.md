@@ -1,40 +1,40 @@
-# REST Principles
+# Principi REST
 
-> Resource-based API design - nouns not verbs.
+> API basate sulle risorse: nomi, non verbi.
 
-## Resource Naming Rules
+## Nomi delle risorse
 
 ```text
-Principles:
-├── Use NOUNS, not verbs (resources, not actions)
-├── Use PLURAL forms (/users not /user)
-├── Use lowercase with hyphens (/user-profiles)
-├── Nest for relationships (/users/123/posts)
-└── Keep shallow (max 3 levels deep)
+Principi:
+├── NOMI, non verbi (risorse, non azioni)
+├── Al PLURALE (/users, non /user)
+├── Minuscole con trattini (/user-profiles)
+├── Annidamento per le relazioni (/users/123/posts)
+└── Poco profondi (massimo 3 livelli)
 ```
 
-## HTTP Method Selection
+## Scelta del metodo HTTP
 
-| Method | Purpose | Idempotent? | Body? |
-| -------- | --------- | ------------- | ------- |
-| **GET** | Read resource(s) | Yes | No |
-| **POST** | Create new resource | No | Yes |
-| **PUT** | Replace entire resource | Yes | Yes |
-| **PATCH** | Partial update | No | Yes |
-| **DELETE** | Remove resource | Yes | No |
+| Metodo | Scopo | Idempotente? | Corpo? |
+| --- | --- | --- | --- |
+| **GET** | Leggere una o più risorse | Sì | No |
+| **POST** | Creare una risorsa | No | Sì |
+| **PUT** | Sostituire tutta la risorsa | Sì | Sì |
+| **PATCH** | Aggiornamento parziale | No | Sì |
+| **DELETE** | Eliminare la risorsa | Sì | No |
 
-## Status Code Selection
+## Scelta del codice di stato
 
-| Situation | Code | Why |
-| ----------- | ------ | ----- |
-| Success (read) | 200 | Standard success |
-| Created | 201 | New resource created |
-| No content | 204 | Success, nothing to return |
-| Bad request | 400 | Malformed request |
-| Unauthorized | 401 | Missing/invalid auth |
-| Forbidden | 403 | Valid auth, no permission |
-| Not found | 404 | Resource doesn't exist |
-| Conflict | 409 | State conflict (duplicate) |
-| Validation error | 422 | Valid syntax, invalid data |
-| Rate limited | 429 | Too many requests |
-| Server error | 500 | Our fault |
+| Situazione | Codice | Perché |
+| --- | --- | --- |
+| Successo (lettura) | 200 | Successo standard |
+| Creata | 201 | Nuova risorsa creata |
+| Nessun contenuto | 204 | Successo, niente da restituire |
+| Richiesta errata | 400 | Richiesta malformata |
+| Non autenticato | 401 | Autenticazione mancante o non valida |
+| Vietato | 403 | Autenticato, ma senza permesso |
+| Non trovata | 404 | La risorsa non esiste |
+| Conflitto | 409 | Conflitto di stato (duplicato) |
+| Errore di validazione | 422 | Sintassi valida, dati non validi |
+| Troppe richieste | 429 | Limite superato |
+| Errore del server | 500 | Colpa nostra |

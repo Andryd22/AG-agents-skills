@@ -1,26 +1,26 @@
-# API Documentation Principles
+# Principi per documentare le API
 
-> Good docs = happy developers = API adoption.
+> Buona documentazione = sviluppatori contenti = API adottata.
 
-## OpenAPI/Swagger Essentials
+## L'essenziale di OpenAPI/Swagger
 
 ```text
-Include:
-├── All endpoints with examples
-├── Request/response schemas
-├── Authentication requirements
-├── Error response formats
-└── Rate limiting info
+Includi:
+├── Tutti gli endpoint, con esempi
+├── Schemi di richiesta e risposta
+├── Requisiti di autenticazione
+├── Formato delle risposte di errore
+└── Informazioni sul rate limiting
 ```
 
-## Good Documentation Has
+## Una buona documentazione ha
 
 ```text
-Essentials:
-├── Quick start / Getting started
-├── Authentication guide
-├── Complete API reference
-├── Error handling guide
-├── Code examples (multiple languages)
+L'essenziale:
+├── Avvio rapido / primi passi
+├── Guida all'autenticazione
+├── Riferimento completo dell'API
+├── Guida alla gestione degli errori
+├── Esempi di codice (in più linguaggi)
 └── Changelog
 ```

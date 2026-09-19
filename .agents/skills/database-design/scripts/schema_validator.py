@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-Schema Validator - Database schema validation
-Validates Prisma schemas and checks for common issues.
+Schema Validator - controllo degli schema del database
+Controlla gli schema Prisma e cerca i problemi più comuni (gli schema Drizzle
+li trova ma per ora non li analizza).
 
-Usage:
-    python schema_validator.py <project_path>
+Uso:
+    python schema_validator.py <cartella_progetto>
 
-Checks:
-    - Prisma schema syntax
-    - Missing relations
-    - Index recommendations
-    - Naming conventions
+Controlla:
+    - nomi dei model e degli enum (PascalCase)
+    - campo @id
+    - campo createdAt
+    - indici sulle foreign key
 """
 
 import sys
@@ -19,7 +20,7 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# Fix Windows console encoding
+# Codifica della console di Windows
 try:
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 except:
@@ -27,14 +28,14 @@ except:
 
 
 def find_schema_files(project_path: Path) -> list:
-    """Find database schema files."""
+    """Trova i file di schema del database."""
     schemas = []
     
-    # Prisma schema
+    # Schema Prisma
     prisma_files = list(project_path.glob('**/prisma/schema.prisma'))
     schemas.extend([('prisma', f) for f in prisma_files])
     
-    # Drizzle schema files
+    # File di schema Drizzle
     drizzle_files = list(project_path.glob('**/drizzle/*.ts'))
     drizzle_files.extend(project_path.glob('**/schema/*.ts'))
     for f in drizzle_files:
@@ -43,52 +44,52 @@ def find_schema_files(project_path: Path) -> list:
     
     skip = {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents'}
     schemas = [(kind, f) for kind, f in schemas if not skip.intersection(f.parts)]
-    return schemas[:10]  # Limit
+    return schemas[:10]  # al massimo 10 file
 
 
 def validate_prisma_schema(file_path: Path) -> list:
-    """Validate Prisma schema file."""
+    """Controlla un file di schema Prisma."""
     issues = []
     
     try:
         content = file_path.read_text(encoding='utf-8', errors='ignore')
         
-        # Find all models
+        # Trova tutti i model
         models = re.findall(r'model\s+(\w+)\s*{([^}]+)}', content, re.DOTALL)
         
         for model_name, model_body in models:
-            # Check naming convention (PascalCase)
+            # Convenzione dei nomi (PascalCase)
             if not model_name[0].isupper():
-                issues.append(f"Model '{model_name}' should be PascalCase")
+                issues.append(f"Il model '{model_name}' dovrebbe essere in PascalCase")
             
-            # Check for id field
+            # Campo id
             if '@id' not in model_body and 'id' not in model_body.lower():
-                issues.append(f"Model '{model_name}' might be missing @id field")
+                issues.append(f"Al model '{model_name}' forse manca il campo @id")
             
-            # Check for createdAt/updatedAt
+            # createdAt/updatedAt
             if 'createdAt' not in model_body and 'created_at' not in model_body:
-                issues.append(f"Model '{model_name}' missing createdAt field (recommended)")
+                issues.append(f"Al model '{model_name}' manca il campo createdAt (consigliato)")
             
-            # Check for @relation without fields
+            # @relation senza fields
             relations = re.findall(r'@relation\([^)]*\)', model_body)
             for rel in relations:
                 if 'fields:' not in rel and 'references:' not in rel:
-                    pass  # Implicit relation, ok
+                    pass  # relazione implicita, va bene
             
-            # Check for @@index suggestions
+            # Suggerimenti di @@index
             foreign_keys = re.findall(r'(\w+Id)\s+\w+', model_body)
             for fk in foreign_keys:
                 if f'@@index([{fk}])' not in content and f'@@index(["{fk}"])' not in content:
-                    issues.append(f"Consider adding @@index([{fk}]) for better query performance in {model_name}")
+                    issues.append(f"Valuta di aggiungere @@index([{fk}]) in {model_name} per query più veloci")
         
-        # Check for enum definitions
+        # Definizioni degli enum
         enums = re.findall(r'enum\s+(\w+)\s*{', content)
         for enum_name in enums:
             if not enum_name[0].isupper():
-                issues.append(f"Enum '{enum_name}' should be PascalCase")
+                issues.append(f"L'enum '{enum_name}' dovrebbe essere in PascalCase")
         
     except Exception as e:
-        issues.append(f"Error reading schema: {str(e)[:50]}")
+        issues.append(f"Errore nella lettura dello schema: {str(e)[:50]}")
     
     return issues
 
@@ -97,15 +98,15 @@ def main():
     project_path = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
     
     print(f"\n{'='*60}")
-    print(f"[SCHEMA VALIDATOR] Database Schema Validation")
+    print("[SCHEMA VALIDATOR] Controllo degli schema del database")
     print(f"{'='*60}")
-    print(f"Project: {project_path}")
-    print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Progetto: {project_path}")
+    print(f"Ora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("-"*60)
     
-    # Find schema files
+    # Trova i file di schema
     schemas = find_schema_files(project_path)
-    print(f"Found {len(schemas)} schema files")
+    print(f"Trovati {len(schemas)} file di schema")
     
     if not schemas:
         output = {
@@ -114,21 +115,21 @@ def main():
             "schemas_checked": 0,
             "issues_found": 0,
             "passed": True,
-            "message": "No schema files found"
+            "message": "Nessun file di schema trovato"
         }
         print(json.dumps(output, indent=2))
         sys.exit(0)
     
-    # Validate each schema
+    # Controlla ogni schema
     all_issues = []
     
     for schema_type, file_path in schemas:
-        print(f"\nValidating: {file_path.name} ({schema_type})")
+        print(f"\nControllo: {file_path.name} ({schema_type})")
         
         if schema_type == 'prisma':
             issues = validate_prisma_schema(file_path)
         else:
-            issues = []  # Drizzle validation could be added
+            issues = []  # il controllo degli schema Drizzle non c'è ancora
         
         if issues:
             all_issues.append({
@@ -137,23 +138,23 @@ def main():
                 "issues": issues
             })
     
-    # Summary
+    # Riepilogo
     print("\n" + "="*60)
-    print("SCHEMA ISSUES")
+    print("PROBLEMI DEGLI SCHEMA")
     print("="*60)
     
     if all_issues:
         for item in all_issues:
             print(f"\n{item['file']} ({item['type']}):")
-            for issue in item["issues"][:5]:  # Limit per file
+            for issue in item["issues"][:5]:  # al massimo 5 per file
                 print(f"  - {issue}")
             if len(item["issues"]) > 5:
-                print(f"  ... and {len(item['issues']) - 5} more issues")
+                print(f"  ... e altri {len(item['issues']) - 5} problemi")
     else:
-        print("No schema issues found!")
+        print("Nessun problema negli schema.")
     
     total_issues = sum(len(item["issues"]) for item in all_issues)
-    # Schema issues are warnings, not failures
+    # I problemi degli schema sono avvisi, non errori
     passed = True
     
     output = {

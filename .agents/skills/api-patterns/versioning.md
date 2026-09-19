@@ -1,22 +1,22 @@
-# Versioning Strategies
+# Strategie di versioning
 
-> Plan for API evolution from day one.
+> Prevedi l'evoluzione dell'API fin dal primo giorno.
 
-## Decision Factors
+## Fattori di decisione
 
-| Strategy | Implementation | Trade-offs |
-| ---------- | --------------- | ------------ |
-| **URI** | /v1/users | Clear, easy caching |
-| **Header** | Accept-Version: 1 | Cleaner URLs, harder discovery |
-| **Query** | ?version=1 | Easy to add, messy |
-| **None** | Evolve carefully | Best for internal, risky for public |
+| Strategia | Implementazione | Compromessi |
+| --- | --- | --- |
+| **URI** | /v1/users | Chiara, cache facile |
+| **Header** | Accept-Version: 1 | URL più puliti, meno facile da scoprire |
+| **Query** | ?version=1 | Facile da aggiungere, disordinata |
+| **Nessuna** | Evolvere con cautela | Ottima per API interne, rischiosa per quelle pubbliche |
 
-## Versioning Philosophy
+## Filosofia del versioning
 
 ```text
-Consider:
-├── Public API? → Version in URI
-├── Internal only? → May not need versioning
-├── GraphQL? → Typically no versions (evolve schema)
-├── tRPC? → Types enforce compatibility
+Valuta:
+├── API pubblica? → versione nell'URI
+├── Solo interna? → forse il versioning non serve
+├── GraphQL? → di solito niente versioni (lo schema evolve)
+├── tRPC? → sono i tipi a garantire la compatibilità
 ```

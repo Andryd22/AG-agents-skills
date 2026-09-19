@@ -1,72 +1,72 @@
-# Trade-off Analysis & ADR
+# Analisi dei compromessi e ADR
 
-> Document every architectural decision with trade-offs.
+> Documenta ogni decisione di architettura con i suoi compromessi.
 
-## Decision Framework
+## Metodo di decisione
 
-For EACH architectural component, document:
+Per OGNI componente dell'architettura, documenta:
 
 ```markdown
 ## Architecture Decision Record
 
-### Context
-- **Problem**: [What problem are we solving?]
-- **Constraints**: [Team size, scale, timeline, budget]
+### Contesto
+- **Problema**: [quale problema stiamo risolvendo?]
+- **Vincoli**: [dimensione del team, scala, tempi, budget]
 
-### Options Considered
+### Opzioni considerate
 
-| Option | Pros | Cons | Complexity | When Valid |
-|--------|------|------|------------|-----------|
-| Option A | Benefit 1 | Cost 1 | Low | [Conditions] |
-| Option B | Benefit 2 | Cost 2 | High | [Conditions] |
+| Opzione | Pro | Contro | Complessità | Quando va bene |
+|---------|-----|--------|-------------|----------------|
+| Opzione A | Vantaggio 1 | Costo 1 | Bassa | [condizioni] |
+| Opzione B | Vantaggio 2 | Costo 2 | Alta | [condizioni] |
 
-### Decision
-**Chosen**: [Option B]
+### Decisione
+**Scelta**: [Opzione B]
 
-### Rationale
-1. [Reason 1 - tied to constraints]
-2. [Reason 2 - tied to requirements]
+### Motivazione
+1. [Motivo 1 - legato ai vincoli]
+2. [Motivo 2 - legato ai requisiti]
 
-### Trade-offs Accepted
-- [What we're giving up]
-- [Why this is acceptable]
+### Compromessi accettati
+- [A cosa rinunciamo]
+- [Perché va bene così]
 
-### Consequences
-- **Positive**: [Benefits we gain]
-- **Negative**: [Costs/risks we accept]
-- **Mitigation**: [How we'll address negatives]
+### Conseguenze
+- **Positive**: [vantaggi che otteniamo]
+- **Negative**: [costi e rischi che accettiamo]
+- **Mitigazione**: [come gestiamo i negativi]
 
-### Revisit Trigger
-- [When to reconsider this decision]
+### Quando riconsiderarla
+- [Quando rivedere questa decisione]
 ```
 
-## ADR Template
+## Modello di ADR
 
 ```markdown
-# ADR-[XXX]: [Decision Title]
+# ADR-[XXX]: [titolo della decisione]
 
-## Status
-Proposed | Accepted | Deprecated | Superseded by [ADR-YYY]
+## Stato
+Proposta | Accettata | Deprecata | Sostituita da [ADR-YYY]
 
-## Context
-[What problem? What constraints?]
+## Contesto
+[Quale problema? Quali vincoli?]
 
-## Decision
-[What we chose - be specific]
+## Decisione
+[Cosa abbiamo scelto, con precisione]
 
-## Rationale
-[Why - tie to requirements and constraints]
+## Motivazione
+[Perché, legato a requisiti e vincoli]
 
-## Trade-offs
-[What we're giving up - be honest]
+## Compromessi
+[A cosa rinunciamo, con onestà]
 
-## Consequences
-- **Positive**: [Benefits]
-- **Negative**: [Costs]
-- **Mitigation**: [How to address]
+## Conseguenze
+- **Positive**: [vantaggi]
+- **Negative**: [costi]
+- **Mitigazione**: [come gestirle]
 ```
 
-## ADR Storage
+## Dove salvare gli ADR
 
 ```text
 docs/

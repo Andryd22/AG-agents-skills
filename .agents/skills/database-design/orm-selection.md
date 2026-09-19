@@ -1,30 +1,30 @@
-# ORM Selection (2025)
+# Scegliere l'ORM
 
-> Choose ORM based on deployment and DX needs.
+> Scegli l'ORM in base al deploy e all'esperienza di sviluppo che serve.
 
-## Decision Tree
+## Albero di decisione
 
 ```text
-What's the context?
+Qual è il contesto?
 │
-├── Edge deployment / Bundle size matters
-│   └── Drizzle (smallest, SQL-like)
+├── Deploy sull'edge / conta la dimensione del bundle
+│   └── Drizzle (il più leggero, simile a SQL)
 │
-├── Best DX / Schema-first
-│   └── Prisma (migrations, studio)
+├── Migliore esperienza di sviluppo / prima lo schema
+│   └── Prisma (migrazioni, Prisma Studio)
 │
-├── Maximum control
-│   └── Raw SQL with query builder
+├── Massimo controllo
+│   └── SQL diretto con un query builder
 │
-└── Python ecosystem
-    └── SQLAlchemy 2.0 (async support)
+└── Ecosistema Python
+    └── SQLAlchemy 2.0 (supporta async)
 ```
 
-## Comparison
+## Confronto
 
-| ORM | Best For | Trade-offs |
-| ----- | ---------- | ------------ |
-| **Drizzle** | Edge, TypeScript | Newer, less examples |
-| **Prisma** | DX, schema management | Heavier, not edge-ready |
-| **Kysely** | Type-safe SQL builder | Manual migrations |
-| **Raw SQL** | Complex queries, control | Manual type safety |
+| ORM | Ideale per | Compromessi |
+| --- | --- | --- |
+| **Drizzle** | Edge, TypeScript | Più giovane, meno esempi |
+| **Prisma** | Esperienza di sviluppo, gestione dello schema | Più pesante; verifica il supporto all'edge della versione che usi |
+| **Kysely** | Query builder SQL con tipi garantiti | Migrazioni a mano |
+| **SQL diretto** | Query complesse, controllo | Tipi da garantire a mano |

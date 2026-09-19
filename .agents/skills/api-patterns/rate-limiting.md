@@ -1,31 +1,31 @@
-# Rate Limiting Principles
+# Principi del rate limiting
 
-> Protect your API from abuse and overload.
+> Proteggi l'API da abusi e sovraccarichi.
 
-## Why Rate Limit
+## Perché limitare
 
 ```text
-Protect against:
-├── Brute force attacks
-├── Resource exhaustion
-├── Cost overruns (if pay-per-use)
-└── Unfair usage
+Proteggi da:
+├── Attacchi a forza bruta
+├── Esaurimento delle risorse
+├── Costi fuori controllo (se paghi a consumo)
+└── Uso sleale
 ```
 
-## Strategy Selection
+## Scelta della strategia
 
-| Type | How | When |
-| ------ | ----- | ------ |
-| **Token bucket** | Burst allowed, refills over time | Most APIs |
-| **Sliding window** | Smooth distribution | Strict limits |
-| **Fixed window** | Simple counters per window | Basic needs |
+| Tipo | Come funziona | Quando |
+| --- | --- | --- |
+| **Token bucket** | Permette picchi, si ricarica nel tempo | La maggior parte delle API |
+| **Finestra scorrevole** | Distribuzione uniforme | Limiti rigidi |
+| **Finestra fissa** | Semplici contatori per finestra | Esigenze di base |
 
-## Response Headers
+## Header della risposta
 
 ```text
-Include in headers:
-├── X-RateLimit-Limit (max requests)
-├── X-RateLimit-Remaining (requests left)
-├── X-RateLimit-Reset (when limit resets)
-└── Return 429 when exceeded
+Metti negli header:
+├── X-RateLimit-Limit (richieste massime)
+├── X-RateLimit-Remaining (richieste rimaste)
+├── X-RateLimit-Reset (quando si azzera il limite)
+└── Rispondi 429 quando il limite è superato
 ```

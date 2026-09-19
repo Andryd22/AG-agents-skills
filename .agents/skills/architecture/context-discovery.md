@@ -1,43 +1,43 @@
-# Context Discovery
+# Raccogliere il contesto
 
-> Before suggesting any architecture, gather context.
+> Prima di proporre un'architettura, raccogli il contesto.
 
-## Question Hierarchy (Ask User FIRST)
+## Domande in ordine (chiedile PRIMA all'utente)
 
-1. **Scale**
-   - How many users? (10, 1K, 100K, 1M+)
-   - Data volume? (MB, GB, TB)
-   - Transaction rate? (per second/minute)
+1. **Scala**
+   - Quanti utenti? (10, 1K, 100K, 1M+)
+   - Quanti dati? (MB, GB, TB)
+   - Quante transazioni? (al secondo/al minuto)
 
 2. **Team**
-   - Solo developer or team?
-   - Team size and expertise?
-   - Distributed or co-located?
+   - Sviluppatore singolo o team?
+   - Dimensione e competenze del team?
+   - Distribuito o nella stessa sede?
 
-3. **Timeline**
-   - MVP/Prototype or long-term product?
-   - Time to market pressure?
+3. **Tempi**
+   - MVP/prototipo o prodotto a lungo termine?
+   - Fretta di arrivare sul mercato?
 
-4. **Domain**
-   - CRUD-heavy or business logic complex?
-   - Real-time requirements?
-   - Compliance/regulations?
+4. **Dominio**
+   - Tanto CRUD o logica di business complessa?
+   - Requisiti di tempo reale?
+   - Normative da rispettare?
 
-5. **Constraints**
-   - Budget limitations?
-   - Legacy systems to integrate?
-   - Technology stack preferences?
+5. **Vincoli**
+   - Limiti di budget?
+   - Sistemi esistenti da integrare?
+   - Preferenze sullo stack?
 
-## Project Classification Matrix
+## Classificazione del progetto
 
 ```text
-                    MVP              SaaS           Enterprise
-┌─────────────────────────────────────────────────────────────┐
-│ Scale        │ <1K           │ 1K-100K      │ 100K+        │
-│ Team         │ Solo          │ 2-10         │ 10+          │
-│ Timeline     │ Fast (weeks)  │ Medium (months)│ Long (years)│
-│ Architecture │ Simple        │ Modular      │ Distributed  │
-│ Patterns     │ Minimal       │ Selective    │ Comprehensive│
-│ Example      │ Next.js API   │ NestJS       │ Microservices│
-└─────────────────────────────────────────────────────────────┘
+                    MVP              SaaS             Enterprise
+┌───────────────────────────────────────────────────────────────┐
+│ Scala        │ <1K           │ 1K-100K        │ 100K+        │
+│ Team         │ Una persona   │ 2-10           │ 10+          │
+│ Tempi        │ Rapidi (sett.)│ Medi (mesi)    │ Lunghi (anni)│
+│ Architettura │ Semplice      │ Modulare       │ Distribuita  │
+│ Schemi       │ Il minimo     │ Selezionati    │ Completi     │
+│ Esempio      │ API Next.js   │ NestJS         │ Microservizi │
+└───────────────────────────────────────────────────────────────┘
 ```

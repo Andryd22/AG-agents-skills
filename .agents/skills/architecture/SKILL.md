@@ -1,53 +1,53 @@
 ---
 name: architecture
-description: Architectural decision-making framework. Requirements analysis, trade-off evaluation, ADR documentation. Use when making architecture decisions or analyzing system design.
+description: Metodo per prendere decisioni di architettura. Analisi dei requisiti, valutazione dei compromessi, documentazione con ADR. Usala quando prendi decisioni di architettura o analizzi la progettazione di un sistema.
 ---
 
-# Architecture Decision Framework
+# Metodo per le decisioni di architettura
 
-> "Requirements drive architecture. Trade-offs inform decisions. ADRs capture rationale."
+> "I requisiti guidano l'architettura. I compromessi guidano le decisioni. Gli ADR ne conservano le ragioni."
 
-## 🎯 Selective Reading Rule
+## 🎯 Regola della lettura selettiva
 
-**Read ONLY files relevant to the request!** Check the content map, find what you need.
+**Leggi SOLO i file che servono alla richiesta!** Guarda la mappa dei contenuti e trova quello che ti serve.
 
-| File | Description | When to Read |
-| ------ | ------------- | -------------- |
-| `context-discovery.md` | Questions to ask, project classification | Starting architecture design |
-| `trade-off-analysis.md` | ADR templates, trade-off framework | Documenting decisions |
-| `pattern-selection.md` | Decision trees, anti-patterns | Choosing patterns |
-| `examples.md` | MVP, SaaS, Enterprise examples | Reference implementations |
-| `patterns-reference.md` | Quick lookup for patterns | Pattern comparison |
-
----
-
-## 🔗 Related Skills
-
-| Skill | Use For |
-| ------- | --------- |
-| `@[skills/database-design]` | Database schema design |
-| `@[skills/api-patterns]` | API design patterns |
+| File | Descrizione | Quando leggerlo |
+| --- | --- | --- |
+| `context-discovery.md` | Domande da fare, classificazione del progetto | All'inizio della progettazione |
+| `trade-off-analysis.md` | Modelli di ADR, metodo per i compromessi | Documentare le decisioni |
+| `pattern-selection.md` | Alberi di decisione, anti-pattern | Scegliere gli schemi |
+| `examples.md` | Esempi MVP, SaaS, enterprise | Implementazioni di riferimento |
+| `patterns-reference.md` | Consultazione rapida degli schemi | Confrontare gli schemi |
 
 ---
 
-## Core Principle
+## 🔗 Skill collegate
 
-> "Simplicity is the ultimate sophistication."
-
-- Start simple
-- Add complexity ONLY when proven necessary
-- You can always add patterns later
-- Removing complexity is MUCH harder than adding it
+| Skill | Per cosa |
+| --- | --- |
+| `@[skills/database-design]` | Progettazione dello schema del database |
+| `@[skills/api-patterns]` | Schemi di progettazione delle API |
 
 ---
 
-## Validation Checklist
+## Principio
 
-Before finalizing architecture:
+> "La semplicità è la massima raffinatezza."
 
-- [ ] Requirements clearly understood
-- [ ] Constraints identified
-- [ ] Each decision has trade-off analysis
-- [ ] Simpler alternatives considered
-- [ ] ADRs written for significant decisions
-- [ ] Team expertise matches chosen patterns
+- Parti semplice
+- Aggiungi complessità SOLO quando è dimostrato che serve
+- Gli schemi si possono sempre aggiungere dopo
+- Togliere complessità è MOLTO più difficile che aggiungerla
+
+---
+
+## Checklist di validazione
+
+Prima di chiudere l'architettura:
+
+- [ ] Requisiti capiti con chiarezza
+- [ ] Vincoli individuati
+- [ ] Ogni decisione ha l'analisi dei compromessi
+- [ ] Alternative più semplici considerate
+- [ ] ADR scritti per le decisioni importanti
+- [ ] Le competenze del team sono adatte agli schemi scelti

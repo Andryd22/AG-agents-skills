@@ -1,36 +1,36 @@
-# Query Optimization
+# Ottimizzare le query
 
-> N+1 problem, EXPLAIN ANALYZE, optimization priorities.
+> Problema N+1, EXPLAIN ANALYZE, priorità di ottimizzazione.
 
-## N+1 Problem
-
-```text
-What is N+1?
-├── 1 query to get parent records
-├── N queries to get related records
-└── Very slow!
-
-Solutions:
-├── JOIN → Single query with all data
-├── Eager loading → ORM handles JOIN
-├── DataLoader → Batch and cache (GraphQL)
-└── Subquery → Fetch related in one query
-```
-
-## Query Analysis Mindset
+## Il problema N+1
 
 ```text
-Before optimizing:
-├── EXPLAIN ANALYZE the query
-├── Look for Seq Scan (full table scan)
-├── Check actual vs estimated rows
-└── Identify missing indexes
+Cos'è N+1?
+├── 1 query per leggere i record padre
+├── N query per leggere i record collegati
+└── Lentissimo!
+
+Soluzioni:
+├── JOIN → una sola query con tutti i dati
+├── Eager loading → la JOIN la fa l'ORM
+├── DataLoader → batch e cache (GraphQL)
+└── Subquery → i dati collegati in una query
 ```
 
-## Optimization Priorities
+## Come analizzare una query
 
-1. **Add missing indexes** (most common issue)
-2. **Select only needed columns** (not SELECT *)
-3. **Use proper JOINs** (avoid subqueries when possible)
-4. **Limit early** (pagination at database level)
-5. **Cache** (when appropriate)
+```text
+Prima di ottimizzare:
+├── EXPLAIN ANALYZE sulla query
+├── Cerca i Seq Scan (lettura di tutta la tabella)
+├── Confronta le righe reali con quelle stimate
+└── Individua gli indici mancanti
+```
+
+## Priorità di ottimizzazione
+
+1. **Aggiungi gli indici mancanti** (il problema più comune)
+2. **Seleziona solo le colonne che servono** (niente SELECT *)
+3. **Usa le JOIN giuste** (evita le subquery quando puoi)
+4. **Limita presto** (paginazione nel database)
+5. **Cache** (quando ha senso)

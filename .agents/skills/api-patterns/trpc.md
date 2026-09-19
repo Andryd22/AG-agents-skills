@@ -1,41 +1,41 @@
-# tRPC Principles
+# Principi di tRPC
 
-> End-to-end type safety for TypeScript monorepos.
+> Tipi garantiti da un capo all'altro per i monorepo TypeScript.
 
-## When to Use
+## Quando usarlo
 
 ```text
-✅ Perfect fit:
-├── TypeScript on both ends
-├── Monorepo structure
-├── Internal tools
-├── Rapid development
-└── Type safety critical
+✅ Perfetto:
+├── TypeScript da entrambe le parti
+├── Struttura a monorepo
+├── Strumenti interni
+├── Sviluppo rapido
+└── Tipi garantiti critici
 
-❌ Poor fit:
-├── Non-TypeScript clients
-├── Public API
-├── Need REST conventions
-└── Multiple language backends
+❌ Poco adatto:
+├── Client non TypeScript
+├── API pubblica
+├── Servono le convenzioni REST
+└── Backend in più linguaggi
 ```
 
-## Key Benefits
+## Vantaggi principali
 
 ```text
-Why tRPC:
-├── Zero schema maintenance
-├── End-to-end type inference
-├── IDE autocomplete across stack
-├── Instant API changes reflected
-└── No code generation step
+Perché tRPC:
+├── Nessuno schema da mantenere
+├── Inferenza dei tipi da un capo all'altro
+├── Autocompletamento nell'IDE su tutto lo stack
+├── Le modifiche all'API si vedono subito
+└── Nessun passo di generazione del codice
 ```
 
-## Integration Patterns
+## Configurazioni tipiche
 
 ```text
-Common setups:
-├── Next.js + tRPC (most common)
-├── Monorepo with shared types
+Le più comuni:
+├── Next.js + tRPC (la più comune)
+├── Monorepo con tipi condivisi
 ├── Remix + tRPC
-└── Any TS frontend + backend
+└── Qualsiasi frontend + backend TS
 ```

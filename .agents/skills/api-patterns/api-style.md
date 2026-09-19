@@ -1,42 +1,42 @@
-# API Style Selection (2025)
+# Scegliere lo stile dell'API
 
-> REST vs GraphQL vs tRPC - Hangi durumda hangisi?
+> REST, GraphQL o tRPC: quale usare e quando?
 
-## Decision Tree
+## Albero di decisione
 
 ```text
-Who are the API consumers?
+Chi usa l'API?
 │
-├── Public API / Multiple platforms
-│   └── REST + OpenAPI (widest compatibility)
+├── API pubblica / più piattaforme
+│   └── REST + OpenAPI (la compatibilità più ampia)
 │
-├── Complex data needs / Multiple frontends
-│   └── GraphQL (flexible queries)
+├── Dati complessi / più frontend
+│   └── GraphQL (query flessibili)
 │
-├── TypeScript frontend + backend (monorepo)
-│   └── tRPC (end-to-end type safety)
+├── Frontend + backend in TypeScript (monorepo)
+│   └── tRPC (tipi garantiti da un capo all'altro)
 │
-├── Real-time / Event-driven
+├── Tempo reale / guidata dagli eventi
 │   └── WebSocket + AsyncAPI
 │
-└── Internal microservices
-    └── gRPC (performance) or REST (simplicity)
+└── Microservizi interni
+    └── gRPC (prestazioni) o REST (semplicità)
 ```
 
-## Comparison
+## Confronto
 
-| Factor | REST | GraphQL | tRPC |
-| -------- | ------ | --------- | ------ |
-| **Best for** | Public APIs | Complex apps | TS monorepos |
-| **Learning curve** | Low | Medium | Low (if TS) |
-| **Over/under fetching** | Common | Solved | Solved |
-| **Type safety** | Manual (OpenAPI) | Schema-based | Automatic |
-| **Caching** | HTTP native | Complex | Client-based |
+| Fattore | REST | GraphQL | tRPC |
+| --- | --- | --- | --- |
+| **Ideale per** | API pubbliche | App complesse | Monorepo TS |
+| **Curva di apprendimento** | Bassa | Media | Bassa (se usi TS) |
+| **Dati in eccesso o in difetto** | Frequenti | Risolto | Risolto |
+| **Tipi garantiti** | A mano (OpenAPI) | Dallo schema | Automatici |
+| **Cache** | Nativa di HTTP | Complessa | Lato client |
 
-## Selection Questions
+## Domande per scegliere
 
-1. Who are the API consumers?
-2. Is the frontend TypeScript?
-3. How complex are the data relationships?
-4. Is caching critical?
-5. Public or internal API?
+1. Chi usa l'API?
+2. Il frontend è in TypeScript?
+3. Quanto sono complesse le relazioni tra i dati?
+4. La cache è critica?
+5. API pubblica o interna?

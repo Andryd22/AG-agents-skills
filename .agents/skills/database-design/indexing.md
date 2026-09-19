@@ -1,39 +1,39 @@
-# Indexing Principles
+# Principi degli indici
 
-> When and how to create indexes effectively.
+> Quando e come creare indici che servono davvero.
 
-## When to Create Indexes
+## Quando creare un indice
 
 ```text
-Index these:
-├── Columns in WHERE clauses
-├── Columns in JOIN conditions
-├── Columns in ORDER BY
-├── Foreign key columns
-└── Unique constraints
+Indicizza:
+├── Le colonne nelle clausole WHERE
+├── Le colonne nelle condizioni di JOIN
+├── Le colonne in ORDER BY
+├── Le colonne di foreign key
+└── I vincoli di unicità
 
-Don't over-index:
-├── Write-heavy tables (slower inserts)
-├── Low-cardinality columns
-├── Columns rarely queried
+Non esagerare:
+├── Tabelle con molte scritture (insert più lenti)
+├── Colonne a bassa cardinalità
+├── Colonne interrogate di rado
 ```
 
-## Index Type Selection
+## Scelta del tipo di indice
 
-| Type | Use For |
-| ------ | --------- |
-| **B-tree** | General purpose, equality & range |
-| **Hash** | Equality only, faster |
-| **GIN** | JSONB, arrays, full-text |
-| **GiST** | Geometric, range types |
-| **HNSW/IVFFlat** | Vector similarity (pgvector) |
+| Tipo | Per cosa |
+| --- | --- |
+| **B-tree** | Uso generale, uguaglianza e intervalli |
+| **Hash** | Solo uguaglianza, più veloce |
+| **GIN** | JSONB, array, testo completo |
+| **GiST** | Tipi geometrici e di intervallo |
+| **HNSW/IVFFlat** | Similarità vettoriale (pgvector) |
 
-## Composite Index Principles
+## Indici composti
 
 ```text
-Order matters for composite indexes:
-├── Equality columns first
-├── Range columns last
-├── Most selective first
-└── Match query pattern
+Negli indici composti l'ordine conta:
+├── Prima le colonne con uguaglianza
+├── Per ultime quelle con intervalli
+├── Prima le più selettive
+└── Segui la forma della query
 ```
