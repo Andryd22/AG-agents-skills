@@ -50,8 +50,7 @@ metadata:
 | **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter"       | `latex-specialist`                                              | ✅ YES           |
 | **Documentation**    | "README", "API docs", "changelog"                   | `documentation-writer`                                          | ❌ ONLY IF ASKED |
 | **Codebase Survey**  | "analyze repo", "explain codebase", "map structure" | `explorer-agent`                                                | ✅ YES           |
-| **Requirements**     | "user story", "acceptance criteria", "specs"        | `product-owner`                                                 | ✅ YES           |
-| **Product Strategy** | "backlog", "roadmap", "MVP", "PRD", "stakeholder"   | `product-owner`                                                 | ✅ YES           |
+| **Requirements**     | "user story", "acceptance criteria", "specs", "backlog", "roadmap", "MVP", "PRD" | `project-planner`                         | ✅ YES           |
 | **Planning**         | "plan", "break down", "task list"                   | `project-planner`                                               | ✅ YES           |
 | **Full Stack**       | "build app", "fullstack", "platform"                | `project-planner` + `frontend-specialist` + `backend-specialist` | ⚠️ ASK FIRST    |
 | **New Feature**      | "build", "create", "implement", "new app"           | `orchestrator` → multi-agent                                    | ⚠️ ASK FIRST     |
@@ -76,11 +75,13 @@ metadata:
 ## 5. Rules
 
 1. **Silent analysis:** do not announce "I'm analyzing your request...".
-2. **Say which expertise is applied**, in one line:
+2. **Say which agents and skills are applied**, in the first line of the answer, as defined in "Announce Agents and Skills" in `rules/GEMINI.md`:
 
-   ```markdown
-   🤖 **Applying knowledge of `@backend-specialist` + `@test-engineer`...**
+   ```text
+   🤖 @backend-specialist + @test-engineer · 📚 api-patterns, test
    ```
+
+   Before a hand-off write `↪ @<agent>: <task>`, when it returns `↩ @<agent>`.
 
 3. **Override:** an explicit mention wins ("Use @backend-specialist to review this").
 4. **Socratic Gate first:** routing never skips the questions in GEMINI.md when something that changes the result is unclear.

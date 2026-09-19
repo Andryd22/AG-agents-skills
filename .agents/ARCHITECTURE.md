@@ -8,7 +8,7 @@
 
 Antigravity Kit is a modular system consisting of:
 
-- **15 Specialist Agents** - Antigravity custom agents, run as subagents
+- **14 Specialist Agents** - Antigravity custom agents, run as subagents
 - **39 Skills** - Domain knowledge and slash commands (`/plan`, `/debug`, `/test`, ...)
 - **2 Rules** - `GEMINI.md` (always on) and `caveman-rules.md`
 
@@ -21,7 +21,7 @@ Antigravity deprecated workflows and retires them on 1 November 2026: every form
 ```plaintext
 .agents/
 ├── ARCHITECTURE.md          # This file
-├── agents/                  # 15 Specialist Agents (custom agents)
+├── agents/                  # 14 Specialist Agents (custom agents)
 ├── skills/                  # 39 Skills (also slash commands)
 ├── rules/                   # GEMINI.md (always on), caveman-rules.md
 ├── scripts/                 # 4 Master Scripts
@@ -32,14 +32,14 @@ The installer only replaces its own agents, skills, rules and scripts: a project
 
 ---
 
-## 🤖 Agents (15)
+## 🤖 Agents (14)
 
 Antigravity custom agents (`.agents/agents/<name>.md`): the frontmatter sets the tools (Antigravity names), the model (`inherit`) and the skills (`skills/<name>`); the body is the system prompt. `GEMINI.md` routes every request through `intelligent-routing` and delegates with `invoke_subagent`; where custom agents are not available (the Antigravity IDE, for now) the agent file is read and applied directly.
 
 | Agent | Focus | Skills |
 | ----- | ----- | ------ |
 | `orchestrator` | Multi-agent coordination | clean-code, parallel-agents, brainstorm, architecture, powershell-windows |
-| `project-planner` | Discovery, task planning | clean-code, app-builder, brainstorm |
+| `project-planner` | Discovery, requirements, task planning | clean-code, app-builder, brainstorm |
 | `explorer-agent` | Codebase analysis | clean-code, architecture, brainstorm, debug |
 | `frontend-specialist` | Web UI/UX, performance, SEO | clean-code, nextjs-react-expert, web-design-guidelines, tailwind-patterns, frontend-design, scroll-film |
 | `backend-specialist` | API, database, security review, deployment | clean-code, nodejs-best-practices, python-patterns, api-patterns, database-design, powershell-windows, rust-pro |
@@ -52,7 +52,6 @@ Antigravity custom agents (`.agents/agents/<name>.md`): the frontmatter sets the
 | `scroll-experience-architect` | Scroll experiences 3D/cinematic/video | three-js, scroll-film, scroll-world |
 | `latex-specialist` | Academic LaTeX, papers | clean-code, latex-tutor, latex-review, html-it |
 | `documentation-writer` | Docs (only on request) | clean-code, html-it |
-| `product-owner` | Requirements, user stories, backlog, MVP | clean-code, brainstorm |
 
 There is no dedicated security, performance, SEO, database or DevOps agent: security reviews, schema and deployment belong to `backend-specialist`, web performance and SEO to `frontend-specialist`.
 
@@ -224,7 +223,7 @@ The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 
 | Metric              | Value                           |
 | ------------------- | ------------------------------- |
-| **Total Agents**    | 15                              |
+| **Total Agents**    | 14                              |
 | **Total Skills**    | 39 (16 commands)                |
 | **Total Rules**     | 2                               |
 | **Total Scripts**   | 4 (master) + 15 (skill-level)   |

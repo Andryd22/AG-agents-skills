@@ -27,6 +27,20 @@ The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills 
 - **Rule Priority:** P0 (GEMINI.md) > P1 (Agent .md) > P2 (SKILL.md). All rules are binding.
 - **Forbidden:** Never skip the agent's rules or the skill instructions. "Read → Understand → Apply" is mandatory.
 
+### 3. Announce Agents and Skills
+
+The user must always see which agent and which skills are at work. Every answer that uses a kit agent or skill starts with one line:
+
+```text
+🤖 @debugger · 📚 debug, clean-code
+```
+
+- **🤖** the agent whose rules you are applying: the one you are running as, or the one you routed to (`@frontend-specialist + @backend-specialist` when you combine two).
+- **📚** every skill whose `SKILL.md` you read or that the agent loads for this answer; a slash command is a skill (`/plan` → `📚 plan`).
+- **Delegating:** write `↪ @explorer-agent: <task in a few words>` before calling `invoke_subagent`, and `↩ @explorer-agent` when its result comes back.
+- **A skill loaded halfway through:** write `📚 + <skill>` where you start using it.
+- **Nothing used** (a plain question, no agent, no skill): no line.
+
 ---
 
 ## 🤖 INTELLIGENT AGENT ROUTING

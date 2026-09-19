@@ -29,7 +29,7 @@ L'installer sostituisce solo agenti, skill, regole e script del kit (li annota i
 
 | Componente    | Quantità | Descrizione                                                        |
 | ------------- | -------- | ------------------------------------------------------------------ |
-| **Agenti**    | 15       | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
+| **Agenti**    | 14       | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
 | **Skill**     | 39       | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
 | **Regole**    | 2        | `GEMINI.md` (sempre attiva) e `caveman-rules.md`                   |
 
@@ -41,23 +41,27 @@ La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.a
 
 Gli agenti sono custom agent di Antigravity in `.agents/agents/`. **Non c'è bisogno di menzionarli:** la regola `GEMINI.md` sceglie lo specialista giusto e gli passa il lavoro come subagent (`invoke_subagent`):
 
-```
+```text
 Utente: "Aggiungi l'autenticazione JWT"
-AI: 🤖 Applico @backend-specialist + @test-engineer...
+AI:     🤖 @backend-specialist + @test-engineer · 📚 api-patterns, test
 
 Utente: "Correggi il pulsante della dark mode"
-AI: 🤖 Uso @frontend-specialist...
+AI:     🤖 @frontend-specialist · 📚 frontend-design, tailwind-patterns
 
 Utente: "Il login restituisce un errore 500"
-AI: 🤖 Uso @debugger per un'analisi sistematica...
+AI:     🤖 @debugger · 📚 debug
+        ↪ @explorer-agent: trova il codice del login
+        ↩ @explorer-agent
 ```
+
+Ogni risposta che usa un agente o una skill del kit comincia con una riga così: 🤖 indica l'agente, 📚 le skill lette per quella risposta (un comando `/nome` conta come skill). `↪` e `↩` segnano il passaggio del lavoro a un subagent e il suo ritorno; `📚 +` una skill caricata a metà risposta.
 
 **Come funziona:**
 
 - Analizza silenziosamente la tua richiesta
 - Rileva automaticamente i domini di competenza (frontend, backend, sicurezza, ecc.)
 - Seleziona i migliori specialisti
-- Ti informa su quale competenza sta venendo applicata
+- Ti dice quale agente e quali skill sta usando
 - Ottieni risposte a livello di specialista senza dover conoscere l'architettura del sistema
 
 **Vantaggi:**
