@@ -4,7 +4,7 @@
 
 ## Feature Analysis
 
-```
+```text
 Request: "add payment system"
 
 Analysis:
@@ -23,7 +23,7 @@ Analysis:
 
 ## Iterative Enhancement Process
 
-```
+```text
 1. Analyze existing project
 2. Create change plan
 3. Present plan to user
@@ -36,7 +36,7 @@ Analysis:
 ## Error Handling
 
 | Error Type | Solution Strategy |
-|------------|-------------------|
+| ------------ | ------------------- |
 | TypeScript Error | Fix type, add missing import |
 | Missing Dependency | Run npm install |
 | Port Conflict | Suggest alternative port |
@@ -44,7 +44,7 @@ Analysis:
 
 ## Recovery Strategy
 
-```
+```text
 1. Detect error
 2. Try automatic fix
 3. If failed, report to user

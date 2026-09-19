@@ -91,7 +91,7 @@ When user's prompt is NOT in English:
 
 ### 🧠 Read → Understand → Apply
 
-```
+```text
 ❌ WRONG: Read agent file → Start coding
 ✅ CORRECT: Read → Understand WHY → Apply PRINCIPLES → Code
 ```
@@ -104,13 +104,13 @@ When user's prompt is NOT in English:
 
 **MANDATORY: Every user request must pass through the Socratic Gate before implementation (writing code, creating files, delegating work). Reading files to understand the request is always allowed.**
 
-| Request Type            | Strategy       | Required Action                                                   |
-| ----------------------- | -------------- | ----------------------------------------------------------------- |
-| **New Feature / Build** | Discovery      | ASK up to 3 strategic questions on what you cannot infer (purpose, users, scope) |
-| **Code Edit / Bug Fix** | Context Check  | Confirm understanding; ask about impact only if it is unclear     |
-| **Vague / Simple**      | Clarification  | Ask only what is missing among purpose, users and scope           |
-| **Full Orchestration**  | Gatekeeper     | **STOP** subagents until user confirms plan details               |
-| **Direct "Proceed"**    | Validation     | Proceed. Raise an edge case (max 1-2) only if it would change the implementation |
+| Request Type | Strategy | Required Action |
+| --- | --- | --- |
+| **New Feature / Build** | Discovery | ASK up to 3 strategic questions on what you cannot infer (purpose, users, scope) |
+| **Code Edit / Bug Fix** | Context Check | Confirm understanding; ask about impact only if it is unclear |
+| **Vague / Simple** | Clarification | Ask only what is missing among purpose, users and scope |
+| **Full Orchestration** | Gatekeeper | **STOP** subagents until user confirms plan details |
+| **Direct "Proceed"** | Validation | Proceed. Raise an edge case (max 1-2) only if it would change the implementation |
 
 **Protocol:**
 
@@ -124,10 +124,10 @@ When user's prompt is NOT in English:
 
 **Trigger:** When the user says "final checks", "run all checks", "controlli finali", or similar phrases in any language.
 
-| Task Stage       | Command                                            | Purpose                        |
-| ---------------- | -------------------------------------------------- | ------------------------------ |
-| **Manual Audit** | `python .agents/scripts/checklist.py .`             | Core checks: schema, tests, UX |
-| **Pre-Deploy**   | `python .agents/scripts/verify_all.py . --url <URL>` | Full suite + E2E              |
+| Task Stage | Command | Purpose |
+| --- | --- | --- |
+| **Manual Audit** | `python .agents/scripts/checklist.py .` | Core checks: schema, tests, UX |
+| **Pre-Deploy** | `python .agents/scripts/verify_all.py . --url <URL>` | Full suite + E2E |
 
 **Priority Execution Order:**
 
@@ -142,11 +142,11 @@ When user's prompt is NOT in English:
 
 ### 🎭 Gemini Mode Mapping
 
-| Mode     | Agent             | Behavior                                     |
-| -------- | ----------------- | -------------------------------------------- |
+| Mode | Agent | Behavior |
+| --- | --- | --- |
 | **plan** | `project-planner` | 4-phase methodology. NO CODE before Phase 4. |
-| **ask**  | -                 | Focus on understanding. Ask questions.       |
-| **edit** | routed agent      | Execute. Multi-domain work goes to `orchestrator`, which checks `docs/PLAN-{slug}.md` first. |
+| **ask** | - | Focus on understanding. Ask questions. |
+| **edit** | routed agent | Execute. Multi-domain work goes to `orchestrator`, which checks `docs/PLAN-{slug}.md` first. |
 
 ---
 

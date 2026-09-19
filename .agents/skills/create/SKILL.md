@@ -13,7 +13,7 @@ The request is the text that follows `/create`.
 
 This command starts a new application creation process.
 
-### Steps:
+### Steps
 
 1. **Request Analysis**
    - Understand what the user wants
@@ -39,7 +39,7 @@ This command starts a new application creation process.
 
 ## Usage Examples
 
-```
+```text
 /create blog site
 /create e-commerce app with product listing and cart
 /create todo app
@@ -52,6 +52,7 @@ This command starts a new application creation process.
 ## Before Starting
 
 If request is unclear, ask these questions:
+
 - What type of application?
 - What are the basic features?
 - Who will use it?

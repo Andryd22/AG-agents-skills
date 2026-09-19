@@ -17,7 +17,7 @@ description: API design principles and decision-making. REST vs GraphQL vs tRPC 
 ## 📑 Content Map
 
 | File | Description | When to Read |
-|------|-------------|--------------|
+| ------ | ------------- | -------------- |
 | `api-style.md` | REST vs GraphQL vs tRPC decision tree | Choosing API type |
 | `rest.md` | Resource naming, HTTP methods, status codes | Designing REST API |
 | `response.md` | Envelope pattern, error format, pagination | Response structure |
@@ -34,7 +34,7 @@ description: API design principles and decision-making. REST vs GraphQL vs tRPC 
 ## 🔗 Related Skills
 
 | Need | Skill |
-|------|-------|
+| ------ | ------- |
 | API implementation | `@[skills/nodejs-best-practices]`, `@[skills/python-patterns]` |
 | Data structure | `@[skills/database-design]` |
 | Security details | `security-testing.md` in this skill |
@@ -58,6 +58,7 @@ Before designing an API:
 ## ❌ Anti-Patterns
 
 **DON'T:**
+
 - Default to REST for everything
 - Use verbs in REST endpoints (/getUsers)
 - Return inconsistent response formats
@@ -65,6 +66,7 @@ Before designing an API:
 - Skip rate limiting
 
 **DO:**
+
 - Choose API style based on context
 - Ask about client requirements
 - Document thoroughly
@@ -75,6 +77,5 @@ Before designing an API:
 ## Script
 
 | Script | Purpose | Command |
-|--------|---------|---------|
+| --- | --- | --- |
 | `scripts/api_validator.py` | API endpoint validation | `python scripts/api_validator.py <project_path>` |
-

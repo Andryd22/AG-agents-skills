@@ -14,7 +14,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ### When to Trigger
 
 | Pattern | Action |
-|---------|--------|
+| --------- | -------- |
 | "Build/Create/Make [thing]" without details | 🛑 ASK up to 3 questions |
 | Complex feature or architecture | 🛑 Clarify before implementing |
 | Update/change request | 🛑 Confirm scope |
@@ -38,7 +38,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ### Core Principles
 
 | Principle | Meaning |
-|-----------|---------|
+| ----------- | --------- |
 | **Questions Reveal Consequences** | Each question connects to an architectural decision |
 | **Context Before Content** | Understand greenfield/feature/refactor/debug context first |
 | **Minimum Viable Questions** | Each question must eliminate implementation paths |
@@ -46,7 +46,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 
 ### Question Generation Process
 
-```
+```text
 1. Parse request → Extract domain, features, scale indicators
 2. Identify decision points → Blocking vs. deferable
 3. Generate questions → Priority: P0 (blocking) > P1 (high-leverage) > P2 (nice-to-have)
@@ -83,13 +83,13 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ### Status Board Format
 
 | Agent | Status | Current Task | Progress |
-|-------|--------|--------------|----------|
+| --- | --- | --- | --- |
 | [Agent Name] | ✅🔄⏳❌⚠️ | [Task description] | [% or count] |
 
 ### Status Icons
 
 | Icon | Meaning | Usage |
-|------|---------|-------|
+| ------ | --------- | ------- |
 | ✅ | Completed | Task finished successfully |
 | 🔄 | Running | Currently executing |
 | ⏳ | Waiting | Blocked, waiting for dependency |
@@ -104,7 +104,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 
 ### Error Response Pattern
 
-```
+```text
 1. Acknowledge the error
 2. Explain what happened (user-friendly)
 3. Offer specific solutions with trade-offs
@@ -114,7 +114,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ### Error Categories
 
 | Category | Response Strategy |
-|----------|-------------------|
+| ---------- | ------------------- |
 | **Port Conflict** | Offer alternative port or close existing |
 | **Dependency Missing** | Auto-install or ask permission |
 | **Build Failure** | Show specific error + suggested fix |
@@ -128,7 +128,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 
 ### Completion Structure
 
-```
+```text
 1. Success confirmation (celebrate briefly)
 2. Summary of what was done (concrete)
 3. How to verify/test (actionable)
@@ -140,7 +140,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ## Communication Principles
 
 | Principle | Implementation |
-|-----------|----------------|
+| ----------- | ---------------- |
 | **Concise** | No unnecessary details, get to point |
 | **Visual** | Use emojis (✅🔄⏳❌) for quick scanning |
 | **Specific** | "~2 minutes" not "wait a bit" |
@@ -152,7 +152,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 ## Anti-Patterns (AVOID)
 
 | Anti-Pattern | Why |
-|--------------|-----|
+| -------------- | ----- |
 | Jumping to solutions before understanding | Wastes time on wrong problem |
 | Assuming requirements without asking | Creates wrong output |
 | Over-engineering first version | Delays value delivery |
@@ -255,7 +255,7 @@ What direction would you like to explore?
 
 ### Examples
 
-```
+```text
 /brainstorm authentication system
 /brainstorm state management for complex form
 /brainstorm database schema for social app

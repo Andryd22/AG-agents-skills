@@ -162,7 +162,7 @@ and swap only the generate/wait/download calls for that engine's CLI or API. In 
 You are the orchestrator and the designer. Spend frontier tokens only where taste lives.
 
 | Work | Who does it | Cost |
-|---|---|---|
+| --- | --- | --- |
 | Concepts, art direction, palette, type, layout, motion, final copy, the build, design review | **You (the main model)** — never delegated. Run design on the strongest model available. | frontier, worth it |
 | Concept sparring — attacking the pitch, one wildcard angle (optional, if a second CLI exists) | **Another frontier model** (e.g. GPT/Codex, Claude, Gemini — whichever is not you) — strategy text only, never design | one cheap call |
 | First drafts only: a chapter's video prompt, an after-film section's copy — **you review and rewrite every draft; nothing a sub-agent wrote ships unedited** | **Sub-agents** on the same model, fanned out in parallel | cheap, parallel |
@@ -221,7 +221,7 @@ Protection) — point them there, don't change their security settings for them.
 
 ## Usage
 
-```
+```text
 /scroll-film VOLTA electric race team continuous camera site
 /scroll-film scrollytelling page for luxury perfume brand
 ```

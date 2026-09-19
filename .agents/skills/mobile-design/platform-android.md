@@ -9,7 +9,7 @@
 
 ### Core Material Principles
 
-```
+```text
 MATERIAL AS METAPHOR:
 ├── Surfaces exist in 3D space
 ├── Light and shadow define hierarchy
@@ -32,7 +32,7 @@ ACCESSIBLE BY DEFAULT:
 ### Material Design Values
 
 | Value | Implementation |
-|-------|----------------|
+| ------- | ---------------- |
 | **Dynamic Color** | Colors adapt to wallpaper/user preference |
 | **Personalization** | User-specific themes |
 | **Accessibility** | Built into every component |
@@ -45,7 +45,7 @@ ACCESSIBLE BY DEFAULT:
 
 ### Roboto Font Family
 
-```
+```text
 Android System Fonts:
 ├── Roboto: Default sans-serif
 ├── Roboto Flex: Variable font (API 33+)
@@ -57,7 +57,7 @@ Android System Fonts:
 ### Material Type Scale
 
 | Role | Size | Weight | Line Height | Usage |
-|------|------|--------|-------------|-------|
+| ------ | ------ | -------- | ------------- | ------- |
 | **Display Large** | 57sp | Regular | 64sp | Hero text, splash |
 | **Display Medium** | 45sp | Regular | 52sp | Large headers |
 | **Display Small** | 36sp | Regular | 44sp | Medium headers |
@@ -76,7 +76,7 @@ Android System Fonts:
 
 ### Scalable Pixels (sp)
 
-```
+```text
 sp = Scale-independent pixels
 
 sp automatically scales with:
@@ -90,7 +90,7 @@ RULE: ALWAYS use sp for text, dp for everything else.
 ### Font Weight Usage
 
 | Weight | Use Case |
-|--------|----------|
+| -------- | ---------- |
 | Regular (400) | Body text, display |
 | Medium (500) | Buttons, labels, emphasis |
 | Bold (700) | Rarely, strong emphasis only |
@@ -101,7 +101,7 @@ RULE: ALWAYS use sp for text, dp for everything else.
 
 ### Dynamic Color (Material You)
 
-```
+```text
 Android 12+ Dynamic Color:
 
 User's wallpaper → Color extraction → App theme
@@ -118,7 +118,7 @@ RULE: Implement dynamic color for personalized feel.
 
 ### Semantic Color Roles
 
-```
+```text
 Surface Colors:
 ├── Surface → Main background
 ├── SurfaceVariant → Cards, containers
@@ -143,14 +143,14 @@ Secondary/Tertiary: Similar pattern
 ### Error, Warning, Success Colors
 
 | Role | Light | Dark | Usage |
-|------|-------|------|-------|
+| ------ | ------- | ------ | ------- |
 | Error | #B3261E | #F2B8B5 | Errors, destructive |
 | OnError | #FFFFFF | #601410 | Text on error |
 | ErrorContainer | #F9DEDC | #8C1D18 | Error backgrounds |
 
 ### Dark Theme
 
-```
+```text
 Material Dark Theme:
 
 ├── Background: #121212 (not pure black by default)
@@ -174,7 +174,7 @@ Elevation overlays (dark mode):
 
 ### Layout Grid
 
-```
+```text
 Android uses 8dp baseline grid:
 
 All spacing in multiples of 8dp:
@@ -192,7 +192,7 @@ Margins:
 
 ### Responsive Layout
 
-```
+```text
 Window Size Classes:
 
 COMPACT (< 600dp width):
@@ -214,7 +214,7 @@ EXPANDED (> 840dp width):
 ### Canonical Layouts
 
 | Layout | Use Case | Window Class |
-|--------|----------|--------------|
+| -------- | ---------- | -------------- |
 | **List-Detail** | Email, messages | Medium, Expanded |
 | **Feed** | Social, news | All |
 | **Supporting Pane** | Reference content | Medium, Expanded |
@@ -226,7 +226,7 @@ EXPANDED (> 840dp width):
 ### Navigation Components
 
 | Component | Use Case | Position |
-|-----------|----------|----------|
+| ----------- | ---------- | ---------- |
 | **Bottom Navigation** | 3-5 top-level destinations | Bottom |
 | **Navigation Rail** | Tablets, foldables | Left side, vertical |
 | **Navigation Drawer** | Many destinations, large screens | Left side, hidden/visible |
@@ -234,7 +234,7 @@ EXPANDED (> 840dp width):
 
 ### Bottom Navigation
 
-```
+```text
 ┌─────────────────────────────────────┐
 │                                     │
 │         Content Area                │
@@ -255,7 +255,7 @@ Rules:
 
 ### Top App Bar
 
-```
+```text
 Types:
 ├── Center-aligned: Logo apps, simple
 ├── Small: Compact, scrolls away
@@ -274,7 +274,7 @@ Actions: Max 3 icons, overflow menu ( ⋮ ) for more
 
 ### Navigation Rail (Tablets)
 
-```
+```text
 ┌───────┬─────────────────────────────┐
 │  ≡    │                             │
 │       │                             │
@@ -296,7 +296,7 @@ FAB: Can be at top
 
 ### Back Navigation
 
-```
+```text
 Android provides system back:
 ├── Back button (3-button nav)
 ├── Back gesture (swipe from edge)
@@ -315,7 +315,7 @@ Your app must:
 
 ### Buttons
 
-```
+```text
 Button Types:
 
 ┌──────────────────────┐
@@ -342,7 +342,7 @@ Min touch target: 48dp (even if visual is smaller)
 
 ### Floating Action Button (FAB)
 
-```
+```text
 FAB Types:
 ├── Standard: 56dp diameter
 ├── Small: 40dp diameter
@@ -366,7 +366,7 @@ Elevation: Floats above content
 
 ### Cards
 
-```
+```text
 Card Types:
 ├── Elevated: Shadow, resting state
 ├── Filled: Background color, no shadow
@@ -388,7 +388,7 @@ Padding: 16dp
 
 ### Text Fields
 
-```
+```text
 Types:
 ├── Filled: Background fill, underline
 ├── Outlined: Border all around
@@ -408,7 +408,7 @@ Error: Red color + icon + message
 
 ### Chips
 
-```
+```text
 Types:
 ├── Assist: Smart actions (directions, call)
 ├── Filter: Toggle filters
@@ -428,7 +428,7 @@ States: Unselected, Selected, Disabled
 
 ### Snackbars
 
-```
+```text
 Position: Bottom, above navigation
 Duration: 4-10 seconds
 Action: One optional text action
@@ -447,7 +447,7 @@ Rules:
 
 ### Bottom Sheets
 
-```
+```text
 Types:
 ├── Standard: Interactive content
 ├── Modal: Blocks background (with scrim)
@@ -471,7 +471,7 @@ Corner radius: 28dp (top corners)
 
 ### Dialogs
 
-```
+```text
 Types:
 ├── Basic: Title + content + actions
 ├── Full-screen: Complex editing (mobile)
@@ -496,7 +496,7 @@ Rules:
 
 ### Pull to Refresh
 
-```
+```text
 Android uses SwipeRefreshLayout pattern:
 
 ┌─────────────────────────────────────┐
@@ -513,7 +513,7 @@ Position: Top center, pulls down with content
 
 ### Ripple Effect
 
-```
+```text
 Every touchable element needs ripple:
 
 Touch down → Ripple expands from touch point
@@ -533,7 +533,7 @@ This is MANDATORY for Android feel.
 
 ### Usage Guidelines
 
-```
+```text
 Material Symbols: Google's icon library
 
 Styles:
@@ -551,7 +551,7 @@ Variable font axes:
 ### Icon Sizes
 
 | Size | Usage |
-|------|-------|
+| --- | --- |
 | 20dp | Dense UI, inline |
 | 24dp | Standard (most common) |
 | 40dp | Larger touch targets |
@@ -559,7 +559,7 @@ Variable font axes:
 
 ### States
 
-```
+```text
 Icon States:
 ├── Default: Full opacity
 ├── Disabled: 38% opacity
@@ -577,7 +577,7 @@ Active vs Inactive:
 
 ### TalkBack Requirements
 
-```
+```text
 Every interactive element needs:
 ├── contentDescription (what it is)
 ├── Correct semantics (button, checkbox, etc.)
@@ -598,7 +598,7 @@ accessibilityState={{ disabled: false }}
 
 ### Touch Target Size
 
-```
+```text
 MANDATORY: 48dp × 48dp minimum
 
 Even if visual element is smaller:
@@ -611,7 +611,7 @@ Spacing between targets: 8dp minimum
 
 ### Font Scaling
 
-```
+```text
 Android supports font scaling:
 ├── 85% (smaller)
 ├── 100% (default)

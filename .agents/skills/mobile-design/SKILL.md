@@ -15,19 +15,19 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 **Execute these for validation (don't read, just run):**
 
 | Script | Purpose | Usage |
-|--------|---------|-------|
+| --- | --- | --- |
 | `scripts/mobile_audit.py` | Mobile UX & Touch Audit | `python scripts/mobile_audit.py <project_path>` |
 
 ---
 
-## 🔴 MANDATORY: Read Reference Files Before Working!
+## 🔴 MANDATORY: Read Reference Files Before Working
 
 **⛔ DO NOT start development until you read the relevant files:**
 
 ### Universal (Always Read)
 
 | File | Content | Status |
-|------|---------|--------|
+| ------ | --------- | -------- |
 | **[mobile-design-thinking.md](mobile-design-thinking.md)** | **⚠️ ANTI-MEMORIZATION: Forces thinking, prevents AI defaults** | **⬜ CRITICAL FIRST** |
 | **[touch-psychology.md](touch-psychology.md)** | **Fitts' Law, gestures, haptics, thumb zone** | **⬜ CRITICAL** |
 | **[mobile-performance.md](mobile-performance.md)** | **RN/Flutter performance, 60fps, memory** | **⬜ CRITICAL** |
@@ -44,7 +44,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 ### Platform-Specific (Read Based on Target)
 
 | Platform | File | Content | When to Read |
-|----------|------|---------|--------------|
+| ---------- | ------ | --------- | -------------- |
 | **iOS** | [platform-ios.md](platform-ios.md) | Human Interface Guidelines, SF Pro, SwiftUI patterns | Building for iPhone/iPad |
 | **Android** | [platform-android.md](platform-android.md) | Material Design 3, Roboto, Compose patterns | Building for Android |
 | **Cross-Platform** | Both above | Platform divergence points | React Native / Flutter |
@@ -59,10 +59,10 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 
 > **STOP! If the user's request is open-ended, DO NOT default to your favorites.**
 
-### You MUST Ask If Not Specified:
+### You MUST Ask If Not Specified
 
 | Aspect | Ask | Why |
-|--------|-----|-----|
+| -------- | ----- | ----- |
 | **Platform** | "iOS, Android, or both?" | Affects EVERY design decision |
 | **Framework** | "React Native, Flutter, or native?" | Determines patterns and tools |
 | **Navigation** | "Tab bar, drawer, or stack-based?" | Core UX decision |
@@ -77,7 +77,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 #### Performance Sins
 
 | ❌ NEVER DO | Why It's Wrong | ✅ ALWAYS DO |
-|-------------|----------------|--------------|
+| ------------- | ---------------- | -------------- |
 | **ScrollView for long lists** | Renders ALL items, memory explodes | Use `FlatList` / `FlashList` / `ListView.builder` |
 | **Inline renderItem function** | New function every render, all items re-render | `useCallback` + `React.memo` |
 | **Missing keyExtractor** | Index-based keys cause bugs on reorder | Unique, stable ID from data |
@@ -90,7 +90,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 #### Touch/UX Sins
 
 | ❌ NEVER DO | Why It's Wrong | ✅ ALWAYS DO |
-|-------------|----------------|--------------|
+| ------------- | ---------------- | -------------- |
 | **Touch target < 44px** | Impossible to tap accurately, frustrating | Minimum 44pt (iOS) / 48dp (Android) |
 | **Spacing < 8px between targets** | Accidental taps on neighbors | Minimum 8-12px gap |
 | **Gesture-only interactions** | Motor impaired users excluded | Always provide button alternative |
@@ -102,7 +102,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 #### Security Sins
 
 | ❌ NEVER DO | Why It's Wrong | ✅ ALWAYS DO |
-|-------------|----------------|--------------|
+| ------------- | ---------------- | -------------- |
 | **Token in AsyncStorage** | Easily accessible, stolen on rooted device | `SecureStore` / `Keychain` / `EncryptedSharedPreferences` |
 | **Hardcode API keys** | Reverse engineered from APK/IPA | Environment variables, secure storage |
 | **Skip SSL pinning** | MITM attacks possible | Pin certificates in production |
@@ -111,7 +111,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 #### Architecture Sins
 
 | ❌ NEVER DO | Why It's Wrong | ✅ ALWAYS DO |
-|-------------|----------------|--------------|
+| ------------- | ---------------- | -------------- |
 | **Business logic in UI** | Untestable, unmaintainable | Service layer separation |
 | **Global state for everything** | Unnecessary re-renders, complexity | Local state default, lift when needed |
 | **Deep linking as afterthought** | Notifications, shares broken | Plan deep links from day one |
@@ -123,7 +123,7 @@ description: Mobile-first design thinking and decision-making for iOS and Androi
 
 ### When to Unify vs Diverge
 
-```
+```text
                     UNIFY (same on both)          DIVERGE (platform-specific)
                     ───────────────────           ──────────────────────────
 Business Logic      ✅ Always                     -
@@ -142,7 +142,7 @@ Error Dialogs       -                             ✅ Platform conventions for a
 ### Quick Reference: Platform Defaults
 
 | Element | iOS | Android |
-|---------|-----|---------|
+| --------- | ----- | --------- |
 | **Primary Font** | SF Pro / SF Compact | Roboto |
 | **Min Touch Target** | 44pt × 44pt | 48dp × 48dp |
 | **Back Navigation** | Edge swipe left | System back button/gesture |
@@ -157,7 +157,7 @@ Error Dialogs       -                             ✅ Platform conventions for a
 
 ### Fitts' Law for Touch
 
-```
+```text
 Desktop: Cursor is precise (1px)
 Mobile:  Finger is imprecise (~7mm contact area)
 
@@ -168,7 +168,7 @@ Mobile:  Finger is imprecise (~7mm contact area)
 
 ### Thumb Zone (One-Handed Usage)
 
-```
+```text
 ┌─────────────────────────────┐
 │      HARD TO REACH          │ ← Navigation, menu, back
 │        (stretch)            │
@@ -185,7 +185,7 @@ Mobile:  Finger is imprecise (~7mm contact area)
 ### Mobile-Specific Cognitive Load
 
 | Desktop | Mobile Difference |
-|---------|-------------------|
+| --------- | ------------------- |
 | Multiple windows | ONE task at a time |
 | Keyboard shortcuts | Touch gestures |
 | Hover states | NO hover (tap or nothing) |
@@ -257,7 +257,7 @@ ValueListenableBuilder<int>(
 
 ### Animation Performance
 
-```
+```text
 GPU-accelerated (FAST):     CPU-bound (SLOW):
 ├── transform               ├── width, height
 ├── opacity                 ├── top, left, right, bottom
@@ -273,7 +273,7 @@ For complete guide: [mobile-performance.md](mobile-performance.md)
 
 > **Before writing ANY mobile code, you MUST complete this checkpoint:**
 
-```
+```text
 🧠 CHECKPOINT:
 
 Platform:   [ iOS / Android / Both ]
@@ -291,7 +291,8 @@ Anti-Patterns I Will Avoid:
 ```
 
 **Example:**
-```
+
+```text
 🧠 CHECKPOINT:
 
 Platform:   iOS + Android (Cross-platform)
@@ -315,7 +316,7 @@ Anti-Patterns I Will Avoid:
 
 ## 🔧 Framework Decision Tree
 
-```
+```text
 WHAT ARE YOU BUILDING?
         │
         ├── Need OTA updates + rapid iteration + web team
@@ -377,7 +378,7 @@ For complete decision trees: [decision-trees.md](decision-trees.md)
 For deeper guidance on specific areas:
 
 | File | When to Use |
-|------|-------------|
+| ------ | ------------- |
 | [mobile-design-thinking.md](mobile-design-thinking.md) | **FIRST! Anti-memorization, forces context-based thinking** |
 | [touch-psychology.md](touch-psychology.md) | Understanding touch interaction, Fitts' Law, gesture design |
 | [mobile-performance.md](mobile-performance.md) | Optimizing RN/Flutter, 60fps, memory/battery |

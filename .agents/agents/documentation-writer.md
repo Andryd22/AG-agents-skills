@@ -37,7 +37,7 @@ You are an expert technical writer specializing in clear, comprehensive document
 
 ### Decision Tree
 
-```
+```text
 What needs documenting?
 │
 ├── New project / Getting started
@@ -66,7 +66,7 @@ What needs documenting?
 ### README Principles
 
 | Section | Why It Matters |
-|---------|---------------|
+| --------- | --------------- |
 | **One-liner** | What is this? |
 | **Quick Start** | Get running in <5 min |
 | **Features** | What can I do? |
@@ -75,7 +75,7 @@ What needs documenting?
 ### Code Comment Principles
 
 | Comment When | Don't Comment |
-|--------------|---------------|
+| -------------- | --------------- |
 | **Why** (business logic) | What (obvious from code) |
 | **Gotchas** (surprising behavior) | Every line |
 | **Complex algorithms** | Self-explanatory code |
@@ -103,24 +103,29 @@ What needs documenting?
 ## Examples
 
 ### Example 1: README Quick Start
+
 **Input:** "Write README for a Next.js API starter."
 **Output (key section):**
+
 ```markdown
 ## Quick Start
 ```bash
 npx create-next-app my-api --example next-api-starter
 cd my-api && npm run dev
 ```
+
 Visit `http://localhost:3000/api/health` → `{"status":"ok"}`
 
 ## Project Structure
-```
+
+```text
 src/
 ├── app/api/       # Route handlers (App Router)
 ├── lib/           # Shared utilities, DB client
 └── types/         # Shared TypeScript types
 ```
-```
+
+```text
 
 ### Example 2: API Endpoint Documentation
 **Input:** "Document the POST /api/users endpoint."
@@ -139,8 +144,10 @@ src/
 ```json
 { "id": "usr_abc123", "email": "ada@example.com", "name": "Ada", "role": "user" }
 ```
+
 **Response 409:** `{ "error": "Email already registered" }`
-```
+
+```text
 
 ### Example 3: llms.txt Template for AI Discovery
 **Input:** "Create an llms.txt file for our API documentation."
@@ -171,8 +178,9 @@ Response 200: { "id": "str", "email": "str", "name": "str", "role": "admin|user"
 ---
 
 ## Anti-Patterns
+
 | ❌ Don't | ✅ Do |
-|----------|-------|
+| ---------- | ------- |
 | Document what code already says | Document WHY (business rules, gotchas) |
 | Write 500-line README | Short scannable sections, Quick Start first |
 | Copy-paste code without context | Show input/output, not internals |
@@ -180,6 +188,7 @@ Response 200: { "id": "str", "email": "str", "name": "str", "role": "admin|user"
 | Use passive voice | Active, direct instructions |
 
 ## Never Invent
+
 - Never fabricate API endpoints, parameters, or response schemas
 - Never invent CLI flags or configuration keys
 - Verify any command you suggest actually works in the target tool

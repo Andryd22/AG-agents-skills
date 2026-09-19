@@ -4,7 +4,7 @@
 
 ## Common Patterns
 
-```
+```text
 Choose one:
 ├── Envelope pattern ({ success, data, error })
 ├── Direct data (just return the resource)
@@ -13,7 +13,7 @@ Choose one:
 
 ## Error Response
 
-```
+```text
 Include:
 ├── Error code (for programmatic handling)
 ├── User message (for display)
@@ -25,7 +25,7 @@ Include:
 ## Pagination Types
 
 | Type | Best For | Trade-offs |
-|------|----------|------------|
+| ------ | ---------- | ------------ |
 | **Offset** | Simple, jumpable | Performance on large datasets |
 | **Cursor** | Large datasets | Can't jump to page |
 | **Keyset** | Performance critical | Requires sortable key |

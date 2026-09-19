@@ -6,7 +6,7 @@
 
 ## Next.js Full-Stack Structure (2026+ Next.js 16 Optimized)
 
-```
+```text
 project-name/
 ├── src/
 │   ├── app/                        # Routes only (thin layer)
@@ -65,7 +65,7 @@ project-name/
 ## Structure Principles
 
 | Principle | Implementation |
-|-----------|----------------|
+| ----------- | ---------------- |
 | **Feature isolation** | Each feature in `features/` with its own components, hooks, actions |
 | **Server/Client separation** | Server-only code in `server/`, prevents accidental client imports |
 | **Thin routes** | `app/` only for routing, logic lives in `features/` |
@@ -75,7 +75,7 @@ project-name/
 ---
 
 | File | Purpose |
-|------|---------|
+| ------ | --------- |
 | `proxy.ts` | Next.js 16 Network boundary logic (auth, redirects) |
 | `package.json` | Dependencies |
 | `tsconfig.json` | TypeScript + path aliases (`@/features/*`) |
@@ -108,7 +108,7 @@ project-name/
 ## When to Use What
 
 | Need | Location |
-|------|----------|
+| ------ | ---------- |
 | New page/route | `app/(group)/page.tsx` |
 | Feature component | `features/[name]/components/` |
 | Server action | `features/[name]/actions.ts` |

@@ -8,7 +8,7 @@ description: Electron desktop app template principles. Cross-platform, React, Ty
 ## Tech Stack
 
 | Component | Technology |
-|-----------|------------|
+| ----------- | ------------ |
 | Framework | Electron 28+ |
 | UI | React 18 |
 | Language | TypeScript |
@@ -20,7 +20,7 @@ description: Electron desktop app template principles. Cross-platform, React, Ty
 
 ## Directory Structure
 
-```
+```text
 project-name/
 ├── electron/
 │   ├── main.ts          # Main process
@@ -41,7 +41,7 @@ project-name/
 ## Process Model
 
 | Process | Role |
-|---------|------|
+| --------- | ------ |
 | Main | Node.js, system access |
 | Renderer | Chromium, React UI |
 | Preload | Bridge, context isolation |
@@ -51,7 +51,7 @@ project-name/
 ## Key Concepts
 
 | Concept | Purpose |
-|---------|---------|
+| --------- | --------- |
 | contextBridge | Safe API exposure |
 | ipcMain/ipcRenderer | Process communication |
 | nodeIntegration: false | Security |
@@ -72,7 +72,7 @@ project-name/
 ## Build Targets
 
 | Platform | Output |
-|----------|--------|
+| ---------- | -------- |
 | Windows | NSIS, Portable |
 | macOS | DMG, ZIP |
 | Linux | AppImage, DEB |

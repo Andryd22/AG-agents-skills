@@ -16,10 +16,11 @@ The request is the text that follows `/orchestrate`.
 ## 🔴 CRITICAL: Minimum Agent Requirement
 
 > ⚠️ **ORCHESTRATION = MINIMUM 3 DIFFERENT AGENTS**
-> 
+>
 > If you use fewer than 3 agents, you are NOT orchestrating - you're just delegating.
-> 
+>
 > **Validation before completion:**
+>
 > - Count invoked agents
 > - If `agent_count < 3` → STOP and invoke more agents
 > - Single agent = FAILURE of orchestration
@@ -33,7 +34,7 @@ The request is the text that follows `/orchestrate`.
 ## Pre-Flight: Mode Check
 
 | Current Mode | Task Type | Action |
-|--------------|-----------|--------|
+| -------------- | ----------- | -------- |
 | **plan** | Any | ✅ Proceed with planning-first approach |
 | **edit** | Simple execution | ✅ Proceed directly |
 | **edit** | Complex/multi-file | ⚠️ Ask: "This task requires planning. Switch to plan mode?" |
@@ -46,7 +47,7 @@ The request is the text that follows `/orchestrate`.
 ### PHASE 1: PLANNING (Sequential - NO parallel agents)
 
 | Step | Agent | Action |
-|------|-------|--------|
+| --- | --- | --- |
 | 1 | `project-planner` | Create `docs/PLAN-{slug}.md` |
 | 2 | (optional) `explorer-agent` | Codebase discovery if needed |
 
@@ -54,7 +55,7 @@ The request is the text that follows `/orchestrate`.
 
 ### ⏸️ CHECKPOINT: User Approval
 
-```
+```text
 After the plan is complete, ASK:
 
 "✅ Plan created: docs/PLAN-{slug}.md
@@ -69,7 +70,7 @@ Do you approve? (Y/N)
 ### PHASE 2: IMPLEMENTATION (Parallel agents after approval)
 
 | Parallel Group | Agents |
-|----------------|--------|
+| ---------------- | -------- |
 | Foundation | `api-designer`, `backend-specialist` (schema) |
 | Core | `backend-specialist`, `frontend-specialist` |
 | Polish | `test-engineer`, `qa-automation-engineer` |
@@ -81,8 +82,10 @@ Do you approve? (Y/N)
 ## Orchestration Protocol
 
 ### Step 1: Analyze Task Domains
+
 Identify ALL domains this task touches:
-```
+
+```text
 □ Backend/API  → backend-specialist (also database, security reviews, deployment)
 □ API design   → api-designer
 □ Frontend/UI  → frontend-specialist (also performance and SEO)
@@ -96,28 +99,30 @@ Identify ALL domains this task touches:
 ### Step 2: Phase Detection
 
 | If Plan Exists | Action |
-|----------------|--------|
+| --- | --- |
 | NO `docs/PLAN-{slug}.md` | → Go to PHASE 1 (planning only) |
 | YES `docs/PLAN-{slug}.md` + user approved | → Go to PHASE 2 (implementation) |
 
 ### Step 3: Execute Based on Phase
 
 **PHASE 1 (Planning):**
-```
+
+```text
 Use the project-planner agent to create docs/PLAN-{slug}.md
 → STOP after plan is created
 → ASK user for approval
 ```
 
 **PHASE 2 (Implementation - after approval):**
-```
+
+```text
 Invoke agents in PARALLEL:
 Use the frontend-specialist agent to [task]
 Use the backend-specialist agent to [task]
 Use the test-engineer agent to [task]
 ```
 
-**🔴 CRITICAL: Context Passing (MANDATORY)**
+#### 🔴 CRITICAL: Context Passing (MANDATORY)
 
 When invoking ANY subagent, you MUST include:
 
@@ -127,7 +132,8 @@ When invoking ANY subagent, you MUST include:
 4. **Current Plan State:** If plan files exist in workspace, include them
 
 **Example with FULL context:**
-```
+
+```text
 Use the project-planner agent to create docs/PLAN-student-social.md:
 
 **CONTEXT:**
@@ -141,9 +147,10 @@ Use the project-planner agent to create docs/PLAN-student-social.md:
 
 > ⚠️ **VIOLATION:** Invoking subagent without full context = subagent will make wrong assumptions!
 
-
 ### Step 4: Verification (MANDATORY)
+
 The LAST agent must run appropriate verification scripts:
+
 ```bash
 python .agents/scripts/checklist.py .
 # with a running app, the full suite:
@@ -151,6 +158,7 @@ python .agents/scripts/verify_all.py . --url http://localhost:3000
 ```
 
 ### Step 5: Synthesize Results
+
 Combine all agent outputs into unified report.
 
 ---

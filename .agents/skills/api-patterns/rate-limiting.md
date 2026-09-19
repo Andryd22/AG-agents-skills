@@ -4,7 +4,7 @@
 
 ## Why Rate Limit
 
-```
+```text
 Protect against:
 ├── Brute force attacks
 ├── Resource exhaustion
@@ -15,14 +15,14 @@ Protect against:
 ## Strategy Selection
 
 | Type | How | When |
-|------|-----|------|
+| ------ | ----- | ------ |
 | **Token bucket** | Burst allowed, refills over time | Most APIs |
 | **Sliding window** | Smooth distribution | Strict limits |
 | **Fixed window** | Simple counters per window | Basic needs |
 
 ## Response Headers
 
-```
+```text
 Include in headers:
 ├── X-RateLimit-Limit (max requests)
 ├── X-RateLimit-Remaining (requests left)

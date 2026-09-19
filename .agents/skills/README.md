@@ -16,13 +16,13 @@ While Antigravity's base models (like Gemini) are powerful generalists, they don
 
 Skills are folder-based packages. You can define these scopes based on your needs:
 
-| Scope         | Path                              | Description                          |
-| ------------- | --------------------------------- | ------------------------------------ |
+| Scope | Path | Description |
+| --- | --- | --- |
 | **Workspace** | `<workspace-root>/.agents/skills/` | Available only in a specific project |
 
 ### Skill Directory Structure
 
-```
+```text
 my-skill/
 ├── SKILL.md      # (Required) Metadata & instructions
 ├── scripts/      # (Optional) Python or Bash scripts
@@ -126,7 +126,7 @@ mkdir -p .agents/skills/license-header-adder/resources
 
 **`.agents/skills/license-header-adder/resources/HEADER.txt`**:
 
-```
+```text
 /*
  * Copyright (c) 2026 YOUR_COMPANY_NAME LLC.
  * All rights reserved.

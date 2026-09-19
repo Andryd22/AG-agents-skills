@@ -12,13 +12,15 @@ description: Terse, token-efficient answers in three intensities (lite, full, ul
 ## 🎮 Modes & Intensity
 
 ### 1. `lite` (Moderate Compression)
+
 - **Target**: ~40% token reduction.
-- **Rules**: 
+- **Rules**:
   - Remove conversational filler ("I think that...", "As you can see...").
   - Keep essential articles if they aid legibility.
   - Use short, direct sentences.
 
 ### 2. `full` (High Compression - Default)
+
 - **Target**: ~65% token reduction.
 - **Rules**:
   - **Drop Articles**: Remove 'a', 'an', 'the' where possible (see *Other languages* below).
@@ -27,6 +29,7 @@ description: Terse, token-efficient answers in three intensities (lite, full, ul
   - **Bullet Points**: Use single-line bullet points for instructions.
 
 ### 3. `ultra` (Max Compression)
+
 - **Target**: ~80% token reduction.
 - **Rules**:
   - **Telegraphic Style**: Keywords only.
@@ -57,6 +60,7 @@ Caveman mode never switches language: answer in the user's language (GEMINI.md r
 ---
 
 ## ⚠️ Integrity Rule
+
 **NEVER** sacrifice technical accuracy for brevity. If a command or path requires exact syntax, preserve it exactly.
 
 ---
@@ -64,6 +68,7 @@ Caveman mode never switches language: answer in the user's language (GEMINI.md r
 ## /caveman Command
 
 ### 📌 Usage
+
 - `/caveman on`: Enable caveman mode.
 - `/caveman off`: Disable caveman mode.
 - `/caveman lite`: Enable lite caveman mode (moderate terseness).
@@ -71,12 +76,14 @@ Caveman mode never switches language: answer in the user's language (GEMINI.md r
 - `/caveman ultra`: Enable ultra caveman mode (maximum compression).
 
 ### 🔄 Behavior
+
 - Turns caveman mode on or off for all agents (see `rules/caveman-rules.md`).
 - Affects all subsequent agent responses until disabled.
 - Persists for the duration of the session.
 
 ### 📝 Example
-```
+
+```text
 User: /caveman on
 AI: Caveman mode enabled. Responses now terse.
 

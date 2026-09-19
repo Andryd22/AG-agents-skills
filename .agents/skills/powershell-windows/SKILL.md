@@ -14,7 +14,7 @@ description: PowerShell Windows patterns. Critical pitfalls, operator syntax, er
 ### CRITICAL: Parentheses Required
 
 | ❌ Wrong | ✅ Correct |
-|----------|-----------|
+| ---------- | ----------- |
 | `if (Test-Path "a" -or Test-Path "b")` | `if ((Test-Path "a") -or (Test-Path "b"))` |
 | `if (Get-Item $x -and $y -eq 5)` | `if ((Get-Item $x) -and ($y -eq 5))` |
 
@@ -27,7 +27,7 @@ description: PowerShell Windows patterns. Critical pitfalls, operator syntax, er
 ### CRITICAL: No Unicode in Scripts
 
 | Purpose | ❌ Don't Use | ✅ Use |
-|---------|-------------|--------|
+| --------- | ------------- | -------- |
 | Success | ✅ ✓ | [OK] [+] |
 | Error | ❌ ✗ 🔴 | [!] [X] |
 | Warning | ⚠️ 🟡 | [*] [WARN] |
@@ -43,7 +43,7 @@ description: PowerShell Windows patterns. Critical pitfalls, operator syntax, er
 ### Always Check Before Access
 
 | ❌ Wrong | ✅ Correct |
-|----------|-----------|
+| ---------- | ----------- |
 | `$array.Count -gt 0` | `$array -and $array.Count -gt 0` |
 | `$text.Length` | `if ($text) { $text.Length }` |
 
@@ -54,11 +54,12 @@ description: PowerShell Windows patterns. Critical pitfalls, operator syntax, er
 ### Complex Expressions
 
 | ❌ Wrong | ✅ Correct |
-|----------|-----------|
+| --- | --- |
 | `"Value: $($obj.prop.sub)"` | Store in variable first |
 
 **Pattern:**
-```
+
+```powershell
 $value = $obj.prop.sub
 Write-Output "Value: $value"
 ```
@@ -70,7 +71,7 @@ Write-Output "Value: $value"
 ### ErrorActionPreference
 
 | Value | Use |
-|-------|-----|
+| ------- | ----- |
 | Stop | Development (fail fast) |
 | Continue | Production scripts |
 | SilentlyContinue | When errors expected |
@@ -88,7 +89,7 @@ Write-Output "Value: $value"
 ### Windows Path Rules
 
 | Pattern | Use |
-|---------|-----|
+| --------- | ----- |
 | Literal path | `C:\Users\User\file.txt` |
 | Variable path | `Join-Path $env:USERPROFILE "file.txt"` |
 | Relative | `Join-Path $ScriptDir "data"` |
@@ -102,10 +103,10 @@ Write-Output "Value: $value"
 ### Correct Patterns
 
 | Operation | Syntax |
-|-----------|--------|
+| ----------- | -------- |
 | Empty array | `$array = @()` |
 | Add item | `$array += $item` |
-| ArrayList add | `$list.Add($item) | Out-Null` |
+| ArrayList add | `$list.Add($item) \| Out-Null` |
 
 ---
 
@@ -114,7 +115,7 @@ Write-Output "Value: $value"
 ### CRITICAL: Depth Parameter
 
 | ❌ Wrong | ✅ Correct |
-|----------|-----------|
+| --- | --- |
 | `ConvertTo-Json` | `ConvertTo-Json -Depth 10` |
 
 **Rule:** Always specify `-Depth` for nested objects.
@@ -122,16 +123,16 @@ Write-Output "Value: $value"
 ### File Operations
 
 | Operation | Pattern |
-|-----------|---------|
-| Read | `Get-Content "file.json" -Raw | ConvertFrom-Json` |
-| Write | `$data | ConvertTo-Json -Depth 10 | Out-File "file.json" -Encoding UTF8` |
+| ----------- | --------- |
+| Read | `Get-Content "file.json" -Raw \| ConvertFrom-Json` |
+| Write | `$data \| ConvertTo-Json -Depth 10 \| Out-File "file.json" -Encoding UTF8` |
 
 ---
 
 ## 9. Common Errors
 
 | Error Message | Cause | Fix |
-|---------------|-------|-----|
+| --------------- | ------- | ----- |
 | "parameter 'or'" | Missing parentheses | Wrap cmdlets in () |
 | "Unexpected token" | Unicode character | Use ASCII only |
 | "Cannot find property" | Null object | Check null first |

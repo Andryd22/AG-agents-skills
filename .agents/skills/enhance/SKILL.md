@@ -13,7 +13,7 @@ The request is the text that follows `/enhance`.
 
 This command adds features or makes updates to existing application.
 
-### Steps:
+### Steps
 
 1. **Understand Current State**
    - Load project state with `python .agents/scripts/session_manager.py info`
@@ -25,7 +25,8 @@ This command adds features or makes updates to existing application.
    - Check dependencies
 
 3. **Present Plan to User** (for major changes)
-   ```
+
+   ```text
    "To add admin panel:
    - I'll create 15 new files
    - Update 8 files
@@ -46,7 +47,7 @@ This command adds features or makes updates to existing application.
 
 ## Usage Examples
 
-```
+```text
 /enhance add dark mode
 /enhance build admin panel
 /enhance integrate payment system

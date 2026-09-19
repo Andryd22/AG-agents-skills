@@ -27,7 +27,7 @@ Runnable code for every section is in `references/code-templates.md` (tested wit
 
 ## 2. Workflow
 
-```
+```text
 1. Frame      → task type, target, metric, constraints (interpretability, latency, cost of errors)
 2. Load & EDA → shapes, dtypes, missing values, duplicates, target distribution, leakage suspects
 3. Split      → train/test (stratify, groups, time); test set put aside
@@ -45,7 +45,7 @@ Runnable code for every section is in `references/code-templates.md` (tested wit
 ## 3. EDA Checklist
 
 | Check | Why | How |
-|-------|-----|-----|
+| ------- | ----- | ----- |
 | Missing values per column | Imputation strategy, drop columns | `df.isna().mean().sort_values()` |
 | Duplicated rows | Same row in train and test inflates scores | `df.duplicated().sum()` |
 | Target distribution | Imbalance → metrics and stratification | `y.value_counts(normalize=True)` |
@@ -59,7 +59,7 @@ Runnable code for every section is in `references/code-templates.md` (tested wit
 ## 4. Preprocessing
 
 | Step | Default | Notes |
-|------|---------|-------|
+| ------ | --------- | ------- |
 | Numeric missing | `SimpleImputer(strategy="median")` | `KNNImputer` / `IterativeImputer` if missingness is informative or large; add `add_indicator=True` |
 | Categorical missing | `SimpleImputer(strategy="most_frequent")` or a constant "missing" | |
 | Scaling | `StandardScaler` | Needed for distance/gradient-based models (kNN, SVM, logistic/linear with regularization, k-means, PCA); not for trees; `RobustScaler` with outliers |
@@ -75,7 +75,7 @@ Build it with `ColumnTransformer` so each column group gets its own steps (templ
 ## 5. Model Choice
 
 | Task | Baseline | Try first | Then |
-|------|----------|-----------|------|
+| ------ | ---------- | ----------- | ------ |
 | Binary / multiclass classification | `DummyClassifier(strategy="most_frequent")` | `LogisticRegression`, `RandomForestClassifier` | `HistGradientBoostingClassifier`, `SVC`, kNN |
 | Regression | `DummyRegressor(strategy="mean")` | `Ridge`/`RidgeCV`, `RandomForestRegressor` | `HistGradientBoostingRegressor`, `SVR` |
 | Clustering | — | `KMeans` (scaled data) | `AgglomerativeClustering`, `DBSCAN`/`HDBSCAN`, `GaussianMixture` |
@@ -122,7 +122,7 @@ Gradient boosting on tabular data is usually the strongest single model; linear 
 ## 9. Metrics
 
 | Task | Metric | When |
-|------|--------|------|
+| ------ | -------- | ------ |
 | Classification | Accuracy | Balanced classes, equal error costs |
 | | Precision / Recall / F1 | Costs of false positives vs false negatives differ; `average="macro"` treats classes equally |
 | | ROC-AUC | Ranking quality, balanced classes |
@@ -142,7 +142,7 @@ Always show the confusion matrix for classification, and per-class metrics (`cla
 ## 10. Comparing Models Statistically
 
 | Design | Test |
-|--------|------|
+| -------- | ------ |
 | Two models, repeated k-fold CV on the same splits | Corrected resampled t-test (Nadeau & Bengio); a plain paired t-test on CV folds is too optimistic because training sets overlap |
 | Two models, one shared test set | McNemar test on the disagreements |
 | Several models, several datasets | Friedman test, then Nemenyi post-hoc |
@@ -155,7 +155,7 @@ Report the effect size (mean difference ± spread) with the p-value; with many c
 ## 11. Anti-Patterns
 
 | Anti-pattern | Why it is wrong | Fix |
-|--------------|-----------------|-----|
+| -------------- | ----------------- | ----- |
 | `scaler.fit(X)` then split | Test statistics leak into training | Scaler inside the pipeline |
 | Feature selection on all data, then CV | Selected features already saw the test folds | Selector as a pipeline step |
 | SMOTE before the split / before CV | Synthetic neighbours of test points in training | `imblearn` pipeline |

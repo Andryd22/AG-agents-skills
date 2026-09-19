@@ -9,7 +9,7 @@
 
 ### The Fundamental Difference
 
-```
+```text
 DESKTOP (Mouse/Trackpad):
 ├── Cursor size: 1 pixel (precision)
 ├── Visual feedback: Hover states
@@ -26,7 +26,7 @@ MOBILE (Finger):
 
 ### Fitts' Law Formula Adapted
 
-```
+```text
 Touch acquisition time = a + b × log₂(1 + D/W)
 
 Where:
@@ -38,7 +38,7 @@ Where:
 ### Minimum Touch Target Sizes
 
 | Platform | Minimum | Recommended | Use For |
-|----------|---------|-------------|---------|
+| ---------- | --------- | ------------- | --------- |
 | **iOS (HIG)** | 44pt × 44pt | 48pt+ | All tappable elements |
 | **Android (Material)** | 48dp × 48dp | 56dp+ | All tappable elements |
 | **WCAG 2.2** | 44px × 44px | - | Accessibility compliance |
@@ -46,7 +46,7 @@ Where:
 
 ### Visual Size vs Hit Area
 
-```
+```text
 ┌─────────────────────────────────────┐
 │                                     │
 │    ┌─────────────────────────┐      │
@@ -64,7 +64,7 @@ Where:
 ### Application Rules
 
 | Element | Visual Size | Hit Area |
-|---------|-------------|----------|
+| --------- | ------------- | ---------- |
 | Icon buttons | 24-32px | 44-48px (padding) |
 | Text links | Any | 44px height minimum |
 | List items | Full width | 48-56px height |
@@ -78,7 +78,7 @@ Where:
 
 ### One-Handed Phone Usage
 
-```
+```text
 Research shows: 49% of users hold phone one-handed.
 
 ┌─────────────────────────────────────┐
@@ -105,7 +105,7 @@ Research shows: 49% of users hold phone one-handed.
 
 ### Thumb Arc (Right-Handed User)
 
-```
+```text
 Right hand holding phone:
 
 ┌───────────────────────────────┐
@@ -125,7 +125,7 @@ Left hand is mirrored.
 ### Placement Guidelines
 
 | Element Type | Ideal Position | Reason |
-|--------------|----------------|--------|
+| -------------- | ---------------- | -------- |
 | **Primary CTA** | Bottom center/right | Easy thumb reach |
 | **Tab bar** | Bottom | Natural thumb position |
 | **FAB** | Bottom right | Easy for right hand |
@@ -136,7 +136,7 @@ Left hand is mirrored.
 
 ### Large Phone Considerations (>6")
 
-```
+```text
 On large phones, top 40% becomes "dead zone" for one-handed use.
 
 Solutions:
@@ -154,7 +154,7 @@ Solutions:
 ### Expectation Differences
 
 | Aspect | Click (Desktop) | Touch (Mobile) |
-|--------|-----------------|----------------|
+| -------- | ----------------- | ---------------- |
 | **Feedback timing** | Can wait 100ms | Expect instant (<50ms) |
 | **Visual feedback** | Hover → Click | Immediate tap response |
 | **Error tolerance** | Easy retry | Frustrating, feels broken |
@@ -164,7 +164,7 @@ Solutions:
 
 ### Touch Feedback Requirements
 
-```
+```text
 Tap → Immediate visual change (< 50ms)
 ├── Highlight state (background color change)
 ├── Scale down slightly (0.95-0.98)
@@ -181,7 +181,7 @@ Loading → Show within 100ms
 
 ### The "Fat Finger" Problem
 
-```
+```text
 Problem: Finger occludes target during tap
 ├── User can't see exactly where they're tapping
 ├── Visual feedback appears UNDER finger
@@ -200,7 +200,7 @@ Solutions:
 
 ### Gesture Discoverability Problem
 
-```
+```text
 Problem: Gestures are INVISIBLE.
 ├── User must discover/remember them
 ├── No hover/visual hint
@@ -217,7 +217,7 @@ Solution: Always provide visible alternative
 ### Common Gesture Conventions
 
 | Gesture | Universal Meaning | Usage |
-|---------|-------------------|-------|
+| --------- | ------------------- | ------- |
 | **Tap** | Select, activate | Primary action |
 | **Double tap** | Zoom in, like/favorite | Quick action |
 | **Long press** | Context menu, selection mode | Secondary options |
@@ -228,7 +228,7 @@ Solution: Always provide visible alternative
 
 ### Gesture Affordance Design
 
-```
+```text
 Swipe actions need visual hints:
 
 ┌─────────────────────────────────────────┐
@@ -246,7 +246,7 @@ Swipe actions need visual hints:
 ### Platform Gesture Differences
 
 | Gesture | iOS | Android |
-|---------|-----|---------|
+| --------- | ----- | --------- |
 | **Back** | Edge swipe from left | System back button/gesture |
 | **Share** | Action sheet | Share sheet |
 | **Context menu** | Long press / Force touch | Long press |
@@ -259,7 +259,7 @@ Swipe actions need visual hints:
 
 ### Why Haptics Matter
 
-```
+```text
 Haptics provide:
 ├── Confirmation without looking
 ├── Richer, more premium feel
@@ -276,7 +276,7 @@ Without haptics:
 ### iOS Haptic Types
 
 | Type | Intensity | Use Case |
-|------|-----------|----------|
+| ------ | ----------- | ---------- |
 | `selection` | Light | Picker scroll, toggle, selection |
 | `light` | Light | Minor actions, hover equivalent |
 | `medium` | Medium | Standard tap confirmation |
@@ -288,7 +288,7 @@ Without haptics:
 ### Android Haptic Types
 
 | Type | Use Case |
-|------|----------|
+| ------ | ---------- |
 | `CLICK` | Standard tap feedback |
 | `HEAVY_CLICK` | Important actions |
 | `DOUBLE_CLICK` | Confirm actions |
@@ -298,7 +298,7 @@ Without haptics:
 
 ### Haptic Usage Guidelines
 
-```
+```text
 ✅ DO use haptics for:
 ├── Button taps
 ├── Toggle switches
@@ -320,7 +320,7 @@ Without haptics:
 ### Haptic Intensity Mapping
 
 | Action Importance | Haptic Level | Example |
-|-------------------|--------------|---------|
+| ------------------- | -------------- | --------- |
 | Minor/Browsing | Light / None | Scrolling, hovering |
 | Standard Action | Medium / Selection | Tap, toggle |
 | Significant Action | Heavy / Success | Complete, confirm |
@@ -334,7 +334,7 @@ Without haptics:
 ### How Mobile Differs from Desktop
 
 | Factor | Desktop | Mobile | Implication |
-|--------|---------|--------|-------------|
+| -------- | --------- | -------- | ------------- |
 | **Attention** | Focused sessions | Interrupted constantly | Design for micro-sessions |
 | **Context** | Controlled environment | Anywhere, any condition | Handle bad lighting, noise |
 | **Multitasking** | Multiple windows | One app visible | Complete task in-app |
@@ -343,7 +343,7 @@ Without haptics:
 
 ### Reducing Mobile Cognitive Load
 
-```
+```text
 1. ONE PRIMARY ACTION per screen
    └── Clear what to do next
    
@@ -365,7 +365,7 @@ Without haptics:
 
 ### Miller's Law for Mobile
 
-```
+```text
 Desktop: 7±2 items in working memory
 Mobile: Reduce to 5±1 (more distractions)
 
@@ -376,7 +376,7 @@ Steps: Max 5 visible steps in progress
 
 ### Hick's Law for Mobile
 
-```
+```text
 More choices = slower decisions
 
 Mobile impact: Even worse than desktop
@@ -398,7 +398,7 @@ Solution: Progressive disclosure
 
 ### Motor Impairment Considerations
 
-```
+```text
 Users with motor impairments may:
 ├── Have tremors (need larger targets)
 ├── Use assistive devices (different input method)
@@ -416,7 +416,7 @@ Design responses:
 
 ### Touch Target Spacing (A11y)
 
-```
+```text
 WCAG 2.2 Success Criterion 2.5.8:
 
 Touch targets MUST have:
@@ -433,7 +433,7 @@ OR the target is:
 ### Accessible Touch Patterns
 
 | Pattern | Accessible Implementation |
-|---------|---------------------------|
+| --------- | --------------------------- |
 | Swipe actions | Provide menu alternative |
 | Drag and drop | Provide select + move option |
 | Pinch zoom | Provide zoom buttons |
@@ -446,7 +446,7 @@ OR the target is:
 
 ### The Premium Feel
 
-```
+```text
 What makes touch feel "premium":
 ├── Instant response (< 50ms)
 ├── Appropriate haptic feedback
@@ -459,7 +459,7 @@ What makes touch feel "premium":
 ### Emotional Touch Feedback
 
 | Emotion | Touch Response |
-|---------|----------------|
+| --------- | ---------------- |
 | Success | Haptic success + confetti/check |
 | Error | Haptic error + shake animation |
 | Warning | Haptic warning + attention color |
@@ -468,7 +468,7 @@ What makes touch feel "premium":
 
 ### Trust Building Through Touch
 
-```
+```text
 Trust signals in touch interactions:
 ├── Consistent behavior (same action = same response)
 ├── Reliable feedback (never fails silently)
@@ -506,7 +506,7 @@ Trust signals in touch interactions:
 
 ### Touch Target Sizes
 
-```
+```text
                      iOS        Android     WCAG
 Minimum:           44pt       48dp       44px
 Recommended:       48pt+      56dp+      -
@@ -515,7 +515,7 @@ Spacing:           8pt+       8dp+       8px+
 
 ### Thumb Zone Actions
 
-```
+```text
 TOP:      Navigation, settings, back (infrequent)
 MIDDLE:   Content, secondary actions
 BOTTOM:   Primary CTA, tab bar, FAB (frequent)
@@ -523,7 +523,7 @@ BOTTOM:   Primary CTA, tab bar, FAB (frequent)
 
 ### Haptic Selection
 
-```
+```text
 Light:    Selection, toggle, minor
 Medium:   Tap, standard action
 Heavy:    Confirm, complete, drop

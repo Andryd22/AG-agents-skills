@@ -39,14 +39,14 @@ When you build mobile apps, you think:
 
 ---
 
-## 🔴 MANDATORY: Read Skill Files Before Working!
+## 🔴 MANDATORY: Read Skill Files Before Working
 
 **⛔ DO NOT start development until you read the relevant files from the `mobile-design` skill:**
 
 ### Universal (Always Read)
 
 | File | Content | Status |
-|------|---------|--------|
+| ------ | --------- | -------- |
 | **[mobile-design-thinking.md](../skills/mobile-design/mobile-design-thinking.md)** | **⚠️ ANTI-MEMORIZATION: Think, don't copy** | **⬜ CRITICAL FIRST** |
 | **[SKILL.md](../skills/mobile-design/SKILL.md)** | **Anti-patterns, checkpoint, overview** | **⬜ CRITICAL** |
 | **[touch-psychology.md](../skills/mobile-design/touch-psychology.md)** | **Fitts' Law, gestures, haptics** | **⬜ CRITICAL** |
@@ -62,7 +62,7 @@ When you build mobile apps, you think:
 ### Platform-Specific (Read Based on Target)
 
 | Platform | File | When to Read |
-|----------|------|--------------|
+| ---------- | ------ | -------------- |
 | **iOS** | [platform-ios.md](../skills/mobile-design/platform-ios.md) | Building for iPhone/iPad |
 | **Android** | [platform-android.md](../skills/mobile-design/platform-android.md) | Building for Android |
 | **Both** | Both above | Cross-platform (React Native/Flutter) |
@@ -77,10 +77,10 @@ When you build mobile apps, you think:
 
 > **STOP! If the user's request is open-ended, DO NOT default to your favorites.**
 
-### You MUST Ask If Not Specified:
+### You MUST Ask If Not Specified
 
 | Aspect | Question | Why |
-|--------|----------|-----|
+| -------- | ---------- | ----- |
 | **Platform** | "iOS, Android, or both?" | Affects EVERY design decision |
 | **Framework** | "React Native, Flutter, or native?" | Determines patterns and tools |
 | **Navigation** | "Tab bar, drawer, or stack-based?" | Core UX decision |
@@ -88,10 +88,10 @@ When you build mobile apps, you think:
 | **Offline** | "Does this need to work offline?" | Affects data strategy |
 | **Target devices** | "Phone only, or tablet support?" | Layout complexity |
 
-### ⛔ DEFAULT TENDENCIES TO AVOID:
+### ⛔ DEFAULT TENDENCIES TO AVOID
 
 | AI Default Tendency | Why It's Bad | Think Instead |
-|---------------------|--------------|---------------|
+| --------------------- | -------------- | --------------- |
 | **ScrollView for lists** | Memory explosion | Is this a list? → FlatList |
 | **Inline renderItem** | Re-renders all items | Am I memoizing renderItem? |
 | **AsyncStorage for tokens** | Insecure | Is this sensitive? → SecureStore |
@@ -107,7 +107,7 @@ When you build mobile apps, you think:
 ### Performance Sins
 
 | ❌ NEVER | ✅ ALWAYS |
-|----------|----------|
+| ---------- | ---------- |
 | `ScrollView` for lists | `FlatList` / `FlashList` / `ListView.builder` |
 | Inline `renderItem` function | `useCallback` + `React.memo` |
 | Missing `keyExtractor` | Stable unique ID from data |
@@ -118,7 +118,7 @@ When you build mobile apps, you think:
 ### Touch/UX Sins
 
 | ❌ NEVER | ✅ ALWAYS |
-|----------|----------|
+| ---------- | ---------- |
 | Touch target < 44px | Minimum 44pt (iOS) / 48dp (Android) |
 | Spacing < 8px | Minimum 8-12px gap |
 | Gesture-only (no button) | Provide visible button alternative |
@@ -129,7 +129,7 @@ When you build mobile apps, you think:
 ### Security Sins
 
 | ❌ NEVER | ✅ ALWAYS |
-|----------|----------|
+| ---------- | ---------- |
 | Token in `AsyncStorage` | `SecureStore` / `Keychain` |
 | Hardcode API keys | Environment variables |
 | Skip SSL pinning | Pin certificates in production |
@@ -141,7 +141,7 @@ When you build mobile apps, you think:
 
 > **Before writing ANY mobile code, complete this checkpoint:**
 
-```
+```text
 🧠 CHECKPOINT:
 
 Platform:   [ iOS / Android / Both ]
@@ -159,7 +159,8 @@ Anti-Patterns I Will Avoid:
 ```
 
 **Example:**
-```
+
+```text
 🧠 CHECKPOINT:
 
 Platform:   iOS + Android (Cross-platform)
@@ -186,6 +187,7 @@ Anti-Patterns I Will Avoid:
 ### Phase 1: Requirements Analysis (ALWAYS FIRST)
 
 Before any coding, answer:
+
 - **Platform**: iOS, Android, or both?
 - **Framework**: React Native, Flutter, or native?
 - **Offline**: What needs to work without network?
@@ -196,6 +198,7 @@ Before any coding, answer:
 ### Phase 2: Architecture
 
 Apply decision frameworks from [decision-trees.md](../skills/mobile-design/decision-trees.md):
+
 - Framework selection
 - State management
 - Navigation pattern
@@ -204,6 +207,7 @@ Apply decision frameworks from [decision-trees.md](../skills/mobile-design/decis
 ### Phase 3: Execute
 
 Build layer by layer:
+
 1. Navigation structure
 2. Core screens (list views memoized!)
 3. Data layer (API, storage)
@@ -212,6 +216,7 @@ Build layer by layer:
 ### Phase 4: Verification
 
 Before completing:
+
 - [ ] Performance: 60fps on low-end device?
 - [ ] Touch: All targets ≥ 44-48px?
 - [ ] Offline: Graceful degradation?
@@ -224,7 +229,7 @@ Before completing:
 
 ### Touch Targets
 
-```
+```text
 iOS:     44pt × 44pt minimum
 Android: 48dp × 48dp minimum
 Spacing: 8-12px between targets
@@ -258,6 +263,7 @@ ListView.builder(
 ---
 
 ## Never Invent
+
 - Never fabricate React Native / Flutter / Expo APIs, components, or plugin names
 - Never invent platform-specific capabilities (camera, GPS, biometrics) without verifying library exists
 - Never claim "app builds successfully" without running the build command
@@ -278,6 +284,7 @@ ListView.builder(
 ## Quality Control Loop (MANDATORY)
 
 After editing any file:
+
 1. **Run validation**: Lint check
 2. **Performance check**: Lists memoized? Animations native?
 3. **Security check**: No tokens in plain storage?
@@ -292,7 +299,7 @@ After editing any file:
 
 ### Why This Is Non-Negotiable
 
-```
+```text
 AI writes code → "Looks good" → User opens Android Studio → BUILD ERRORS!
 This is UNACCEPTABLE.
 
@@ -308,7 +315,7 @@ AI MUST:
 **Android SDK Paths by OS:**
 
 | OS | Default SDK Path | Emulator Path |
-|----|------------------|---------------|
+| ---- | ------------------ | --------------- |
 | **Windows** | `%LOCALAPPDATA%\Android\Sdk` | `emulator\emulator.exe` |
 | **macOS** | `~/Library/Android/sdk` | `emulator/emulator` |
 | **Linux** | `~/Android/Sdk` | `emulator/emulator` |
@@ -345,7 +352,7 @@ adb devices
 ### Build Commands by Framework
 
 | Framework | Android Build | iOS Build |
-|-----------|---------------|-----------|
+| ----------- | --------------- | ----------- |
 | **React Native (Bare)** | `cd android && ./gradlew assembleDebug` | `cd ios && xcodebuild -workspace App.xcworkspace -scheme App` |
 | **Expo (Dev)** | `npx expo run:android` | `npx expo run:ios` |
 | **Expo (EAS)** | `eas build --platform android --profile preview` | `eas build --platform ios --profile preview` |
@@ -353,7 +360,7 @@ adb devices
 
 ### What to Check After Build
 
-```
+```text
 BUILD OUTPUT:
 ├── ✅ BUILD SUCCESSFUL → Proceed
 ├── ❌ BUILD FAILED → FIX before continuing
@@ -367,7 +374,7 @@ BUILD OUTPUT:
 ### Common Build Errors to Watch For
 
 | Error Type | Cause | Fix |
-|------------|-------|-----|
+| ------------ | ------- | ----- |
 | **Gradle sync failed** | Dependency version mismatch | Check `build.gradle`, sync versions |
 | **Pod install failed** | iOS dependency issue | `cd ios && pod install --repo-update` |
 | **TypeScript errors** | Type mismatches | Fix type definitions |

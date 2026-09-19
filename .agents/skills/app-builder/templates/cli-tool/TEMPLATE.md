@@ -8,7 +8,7 @@ description: Node.js CLI tool template principles. Commander.js, interactive pro
 ## Tech Stack
 
 | Component | Technology |
-|-----------|------------|
+| ----------- | ------------ |
 | Runtime | Node.js 20+ |
 | Language | TypeScript |
 | CLI Framework | Commander.js |
@@ -20,7 +20,7 @@ description: Node.js CLI tool template principles. Commander.js, interactive pro
 
 ## Directory Structure
 
-```
+```text
 project-name/
 ├── src/
 │   ├── index.ts         # Entry point
@@ -40,7 +40,7 @@ project-name/
 ## CLI Design Principles
 
 | Principle | Description |
-|-----------|-------------|
+| ----------- | ------------- |
 | Subcommands | Group related actions |
 | Options | Flags with defaults |
 | Interactive | Prompts when needed |
@@ -51,7 +51,7 @@ project-name/
 ## Key Components
 
 | Component | Purpose |
-|-----------|---------|
+| ----------- | --------- |
 | Commander | Command parsing |
 | Inquirer | Interactive prompts |
 | Chalk | Colored output |

@@ -8,7 +8,7 @@ description: Next.js SaaS template principles (2026 Standards). React 19, Server
 ## Tech Stack
 
 | Component | Technology | Version / Notes |
-|-----------|------------|-----------------|
+| ----------- | ------------ | ----------------- |
 | Framework | Next.js | v16+ (App Router, React Compiler) |
 | Runtime | Node.js | v24 (Krypton LTS) |
 | Auth | Auth.js | v6 (formerly NextAuth) |
@@ -21,7 +21,7 @@ description: Next.js SaaS template principles (2026 Standards). React 19, Server
 
 ## Directory Structure
 
-```
+```text
 project-name/
 ├── prisma/
 │   └── schema.prisma    # Database Schema
@@ -54,7 +54,7 @@ project-name/
 ## SaaS Features
 
 | Feature | Implementation |
-|---------|---------------|
+| --------- | --------------- |
 | Auth | Auth.js v6 + Passkeys + OAuth |
 | Data Mutation | Server Actions (No API routes) |
 | Subscriptions | Stripe Checkout & Customer Portal |
@@ -67,7 +67,7 @@ project-name/
 ## Database Schema
 
 | Model | Fields (Key fields) |
-|-------|---------------------|
+| ------- | --------------------- |
 | User | id, email, stripeCustomerId, subscriptionId, plan |
 | Account | OAuth provider data (Google, GitHub...) |
 | Session | User sessions (Database strategy) |
@@ -77,7 +77,7 @@ project-name/
 ## Environment Variables
 
 | Variable | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | DATABASE_URL | Prisma connection string (Postgres) |
 | AUTH_SECRET | Replaces NEXTAUTH_SECRET (Auth.js v6) |
 | STRIPE_SECRET_KEY | Payments (Server-side) |
@@ -90,16 +90,19 @@ project-name/
 ## Setup Steps
 
 1. Initialize project (Node 24):
+
    ```bash
    npx create-next-app@latest {{name}} --typescript --eslint
    ```
 
 2. Install core libraries:
+
    ```bash
    npm install next-auth@beta stripe resend @prisma/client
    ```
 
 3. Install Tailwind v4 (Add to globals.css):
+
    ```css
    @import "tailwindcss";
    ```
@@ -107,16 +110,19 @@ project-name/
 4. Configure environment (.env.local)
 
 5. Sync Database:
+
    ```bash
    npx prisma db push
    ```
 
 6. Run local Webhook:
+
    ```bash
    npm run stripe:listen
    ```
 
 7. Run project:
+
    ```bash
    npm run dev
    ```

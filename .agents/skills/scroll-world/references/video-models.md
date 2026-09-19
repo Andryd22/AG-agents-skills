@@ -11,7 +11,7 @@ reference-only** (no start/end image): it can only *condition* a generation, not
 against the CLI:
 
 | Model | start/end image | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `seedance_2_0` (default) | ✓ / ✓ | Full chain (legs + connectors). `--mode std --resolution 1080p`. Its NSFW filter is the touchy one (see Gotchas). |
 | `kling3_0` | ✓ / ✓ | Full chain — tested: `--mode std --sound off --duration 5` with start+end images accepted, seams frame-lock cleanly. **No `--resolution` param** (don't pass one; `--mode std` returns **720p native** — encode what ffprobe reports, never upscale). Sound defaults **on** → `--sound off`. `--duration` default 5, try 10 for legs. Different content filter than Seedance — the sanctioned NSFW fallback. |
 | `seedance_2_0_mini` | ✓ / ✓ | Cheap draft tier that keeps frame-locking (720p). The previz tier: run the whole chain here first, then re-render final legs on the full model — still seamless, so it translates directly. |
@@ -32,6 +32,7 @@ the user before a single full-model credit is spent. Then clear the draft clips,
 second pass mechanical — `references/pipeline.md`, setup block).
 
 Rules:
+
 - **One model for all chained clips.** Each renderer has its own motion/color/grain
   character; mixing models mid-chain keeps *position* continuity (frames still hand off)
   but the render-character shift reads as a subtle pop. The one sanctioned exception is

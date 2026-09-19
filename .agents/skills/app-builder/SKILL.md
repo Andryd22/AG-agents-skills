@@ -12,7 +12,7 @@ description: Main application building orchestrator. Creates full-stack applicat
 **Read ONLY files relevant to the request!** Check the content map, find what you need.
 
 | File | Description | When to Read |
-|------|-------------|--------------|
+| ------ | ------------- | -------------- |
 | `project-detection.md` | Keyword matrix, project type detection | Starting new project |
 | `tech-stack.md` | 2026 default stack, alternatives | Choosing technologies |
 | `agent-coordination.md` | Agent pipeline, execution order | Coordinating multi-agent work |
@@ -27,7 +27,7 @@ description: Main application building orchestrator. Creates full-stack applicat
 Quick-start scaffolding for new projects. **Read the matching template only!**
 
 | Template | Tech Stack | When to Use |
-|----------|------------|-------------|
+| ---------- | ------------ | ------------- |
 | [nextjs-fullstack](templates/nextjs-fullstack/TEMPLATE.md) | Next.js + Prisma | Full-stack web app |
 | [nextjs-saas](templates/nextjs-saas/TEMPLATE.md) | Next.js + Stripe | SaaS product |
 | [nextjs-static](templates/nextjs-static/TEMPLATE.md) | Next.js + Framer | Landing page |
@@ -46,7 +46,7 @@ Quick-start scaffolding for new projects. **Read the matching template only!**
 ## 🔗 Related Agents
 
 | Agent | Role |
-|-------|------|
+| ------- | ------ |
 | `project-planner` | Task breakdown, dependency graph |
 | `frontend-specialist` | UI components, pages |
 | `backend-specialist` | API, business logic, schema and migrations, deployment |
@@ -55,7 +55,7 @@ Quick-start scaffolding for new projects. **Read the matching template only!**
 
 ## Usage Example
 
-```
+```text
 User: "Make an Instagram clone with photo sharing and likes"
 
 App Builder Process:

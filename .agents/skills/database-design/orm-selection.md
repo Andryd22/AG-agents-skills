@@ -4,7 +4,7 @@
 
 ## Decision Tree
 
-```
+```text
 What's the context?
 │
 ├── Edge deployment / Bundle size matters
@@ -23,7 +23,7 @@ What's the context?
 ## Comparison
 
 | ORM | Best For | Trade-offs |
-|-----|----------|------------|
+| ----- | ---------- | ------------ |
 | **Drizzle** | Edge, TypeScript | Newer, less examples |
 | **Prisma** | DX, schema management | Heavier, not edge-ready |
 | **Kysely** | Type-safe SQL builder | Manual migrations |

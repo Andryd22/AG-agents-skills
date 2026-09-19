@@ -10,7 +10,7 @@
 
 ### This Process is Mandatory Before Every Mobile Project
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    DEEP MOBILE THINKING                         │
 ├─────────────────────────────────────────────────────────────────┤
@@ -42,12 +42,12 @@
 
 ## 🚫 AI MOBILE DEFAULTS (FORBIDDEN LIST)
 
-### Using These Patterns Automatically is FORBIDDEN!
+### Using These Patterns Automatically is FORBIDDEN
 
 The following patterns are "defaults" that AIs learned from training data.
 Before using any of these, **QUESTION them and CONSIDER ALTERNATIVES!**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                 🚫 AI MOBILE SAFE HARBOR                        │
 │           (Default Patterns - Never Use Without Questioning)    │
@@ -88,7 +88,7 @@ Before using any of these, **QUESTION them and CONSIDER ALTERNATIVES!**
 
 Before designing any screen, perform this analysis:
 
-```
+```text
 SCREEN: [Screen Name]
 ├── PRIMARY ACTION: [What is the main action?]
 │   └── Is it in thumb zone? [Yes/No → Why?]
@@ -131,7 +131,7 @@ Ask these questions for every default pattern:
 ### Navigation Pattern Questioning
 
 | Assumption | Question | Alternative |
-|------------|----------|-------------|
+| ------------ | ---------- | ------------- |
 | "I'll use tab bar" | How many destinations? | 3 → minimal tabs, 6+ → drawer |
 | "5 tabs" | Are all equally important? | "More" tab? Drawer hybrid? |
 | "Bottom nav" | iPad/tablet support? | Navigation rail alternative |
@@ -140,7 +140,7 @@ Ask these questions for every default pattern:
 ### State Pattern Questioning
 
 | Assumption | Question | Alternative |
-|------------|----------|-------------|
+| ------------ | ---------- | ------------- |
 | "I'll use Redux" | How complex is the app? | Simple: Zustand, Server: TanStack |
 | "Global state" | Is this state really global? | Local lift, Context selector |
 | "Context Provider" | Will re-render be an issue? | Zustand, Jotai (atom-based) |
@@ -149,7 +149,7 @@ Ask these questions for every default pattern:
 ### List Pattern Questioning
 
 | Assumption | Question | Alternative |
-|------------|----------|-------------|
+| ------------ | ---------- | ------------- |
 | "FlatList" | Is performance critical? | FlashList (faster) |
 | "Standard renderItem" | Is it memoized? | useCallback + React.memo |
 | "Index key" | Does data order change? | Use item.id |
@@ -158,7 +158,7 @@ Ask these questions for every default pattern:
 ### UI Pattern Questioning
 
 | Assumption | Question | Alternative |
-|------------|----------|-------------|
+| ------------ | ---------- | ------------- |
 | "FAB bottom-right" | User handedness? | Accessibility settings |
 | "Pull-to-refresh" | Does this list need refresh? | Only when necessary |
 | "Modal bottom sheet" | How much content? | Full screen modal might be better |
@@ -170,7 +170,7 @@ Ask these questions for every default pattern:
 
 ### Ask Yourself Before Every Solution
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    ANTI-MEMORIZATION CHECKLIST                  │
 ├─────────────────────────────────────────────────────────────────┤
@@ -205,7 +205,7 @@ Ask these questions for every default pattern:
 
 ### Think Differently Based on Project Type
 
-```
+```text
 DETERMINE PROJECT TYPE:
         │
         ├── E-Commerce App
@@ -252,7 +252,7 @@ DETERMINE PROJECT TYPE:
 
 Before adding any gesture:
 
-```
+```text
 GESTURE: [Gesture Type]
 ├── DISCOVERABILITY:
 │   └── How will users discover this gesture?
@@ -287,10 +287,10 @@ GESTURE: [Gesture Type]
 
 ## 🎭 SPIRIT OVER CHECKLIST (Mobile Edition)
 
-### Passing the Checklist is Not Enough!
+### Passing the Checklist is Not Enough
 
 | ❌ Self-Deception | ✅ Honest Assessment |
-|-------------------|----------------------|
+| ------------------- | ---------------------- |
 | "Touch target is 44px" (but on edge, unreachable) | "Can user reach it one-handed?" |
 | "I used FlatList" (but didn't memoize) | "Is scroll smooth?" |
 | "Platform-specific nav" (but only icons differ) | "Does iOS feel like iOS, Android like Android?" |
@@ -305,7 +305,7 @@ GESTURE: [Gesture Type]
 
 ### Fill This at the Start of Every Mobile Project
 
-```
+```text
 📱 MOBILE DESIGN COMMITMENT
 
 Project: _______________
@@ -335,7 +335,7 @@ Platform: iOS / Android / Both
 
 ## 🚨 MANDATORY: Before Every Mobile Work
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    PRE-WORK VALIDATION                          │
 ├─────────────────────────────────────────────────────────────────┤

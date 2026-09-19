@@ -8,7 +8,7 @@
 
 ## 🧠 MOBILE BACKEND MINDSET
 
-```
+```text
 Mobile clients are DIFFERENT from web clients:
 ├── Unreliable network (2G, subway, elevator)
 ├── Battery constraints (minimize wake-ups)
@@ -24,10 +24,10 @@ Mobile clients are DIFFERENT from web clients:
 
 ## 🚫 AI MOBILE BACKEND ANTI-PATTERNS
 
-### These are common AI mistakes when building mobile backends:
+### These are common AI mistakes when building mobile backends
 
 | ❌ AI Default | Why It's Wrong | ✅ Mobile-Correct |
-|---------------|----------------|-------------------|
+| --------------- | ---------------- | ------------------- |
 | Same API for web and mobile | Mobile needs compact responses | Separate mobile endpoints OR field selection |
 | Full object responses | Wastes bandwidth, battery | Partial responses, pagination |
 | No offline consideration | App crashes without network | Offline-first design, sync queues |
@@ -43,7 +43,7 @@ Mobile clients are DIFFERENT from web clients:
 
 ### Platform Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    YOUR BACKEND                                  │
 ├─────────────────────────────────────────────────────────────────┤
@@ -65,7 +65,7 @@ Mobile clients are DIFFERENT from web clients:
 ### Push Types
 
 | Type | Use Case | User Sees |
-|------|----------|-----------|
+| ------ | ---------- | ----------- |
 | **Display** | New message, order update | Notification banner |
 | **Silent** | Background sync, content update | Nothing (background) |
 | **Data** | Custom handling by app | Depends on app logic |
@@ -73,7 +73,7 @@ Mobile clients are DIFFERENT from web clients:
 ### Anti-Patterns
 
 | ❌ NEVER | ✅ ALWAYS |
-|----------|----------|
+| ---------- | ---------- |
 | Send sensitive data in push | Push says "New message", app fetches content |
 | Overload with pushes | Batch, dedupe, respect quiet hours |
 | Same message to all | Segment by user preference, timezone |
@@ -82,7 +82,7 @@ Mobile clients are DIFFERENT from web clients:
 
 ### Token Management
 
-```
+```text
 TOKEN LIFECYCLE:
 ├── App registers → Get token → Send to backend
 ├── Token can change → App must re-register on start
@@ -97,7 +97,7 @@ TOKEN LIFECYCLE:
 
 ### Sync Strategy Selection
 
-```
+```text
 WHAT TYPE OF DATA?
         │
         ├── Read-only (news, catalog)
@@ -120,7 +120,7 @@ WHAT TYPE OF DATA?
 ### Conflict Resolution Strategies
 
 | Strategy | How It Works | Best For |
-|----------|--------------|----------|
+| ---------- | -------------- | ---------- |
 | **Last-write-wins** | Latest timestamp overwrites | Simple data, single user |
 | **Server-wins** | Server always authoritative | Critical transactions |
 | **Client-wins** | Offline changes prioritized | Offline-heavy apps |
@@ -129,7 +129,7 @@ WHAT TYPE OF DATA?
 
 ### Sync Queue Pattern
 
-```
+```text
 CLIENT SIDE:
 ├── User makes change → Write to local DB
 ├── Add to sync queue → { action, data, timestamp, retries }
@@ -153,7 +153,7 @@ SERVER SIDE:
 ### Response Size Reduction
 
 | Technique | Savings | Implementation |
-|-----------|---------|----------------|
+| ----------- | --------- | ---------------- |
 | **Field selection** | 30-70% | `?fields=id,name,thumbnail` |
 | **Compression** | 60-80% | gzip/brotli (automatic) |
 | **Pagination** | Varies | Cursor-based for mobile |
@@ -162,7 +162,7 @@ SERVER SIDE:
 
 ### Pagination: Cursor vs Offset
 
-```
+```text
 OFFSET (Bad for mobile):
 ├── Page 1: OFFSET 0 LIMIT 20
 ├── Page 2: OFFSET 20 LIMIT 20
@@ -179,7 +179,7 @@ CURSOR (Good for mobile):
 
 ### Batch Requests
 
-```
+```text
 Instead of:
 GET /users/1
 GET /users/2  
@@ -202,7 +202,7 @@ POST /batch
 
 ### Version Check Endpoint
 
-```
+```text
 GET /api/app-config
 Headers:
   X-App-Version: 2.1.0
@@ -226,7 +226,7 @@ Response:
 
 ### Version Comparison Logic
 
-```
+```text
 CLIENT VERSION vs MINIMUM VERSION:
 ├── client >= minimum → Continue normally
 ├── client < minimum → Show force update screen
@@ -245,7 +245,7 @@ FEATURE FLAGS:
 
 ### Token Strategy
 
-```
+```text
 ACCESS TOKEN:
 ├── Short-lived (15 min - 1 hour)
 ├── Stored in memory (not persistent)
@@ -267,7 +267,7 @@ DEVICE TOKEN:
 
 ### Silent Re-authentication
 
-```
+```text
 REQUEST FLOW:
 ├── Make request with access token
 ├── 401 Unauthorized?
@@ -308,7 +308,7 @@ REQUEST FLOW:
 ### Error Categories
 
 | Code Range | Category | Mobile Handling |
-|------------|----------|-----------------|
+| ------------ | ---------- | ----------------- |
 | 400-499 | Client error | Show message, user action needed |
 | 401 | Auth expired | Silent refresh or re-login |
 | 403 | Forbidden | Show upgrade/permission screen |
@@ -324,7 +324,7 @@ REQUEST FLOW:
 
 ### Image Optimization
 
-```
+```text
 CLIENT REQUEST:
 GET /images/{id}?w=400&h=300&q=80&format=webp
 
@@ -338,7 +338,7 @@ SERVER RESPONSE:
 
 ### Chunked Upload (Large Files)
 
-```
+```text
 UPLOAD FLOW:
 1. POST /uploads/init
    { filename, size, mime_type }
@@ -355,7 +355,7 @@ UPLOAD FLOW:
 
 ### Streaming Audio/Video
 
-```
+```text
 REQUIREMENTS:
 ├── HLS (HTTP Live Streaming) for iOS
 ├── DASH or HLS for Android
@@ -375,7 +375,7 @@ GET /media/{id}/download       → Full file for offline
 
 ### Device Attestation
 
-```
+```text
 VERIFY REAL DEVICE (not emulator/bot):
 ├── iOS: DeviceCheck API
 │   └── Server verifies with Apple
@@ -386,7 +386,7 @@ VERIFY REAL DEVICE (not emulator/bot):
 
 ### Request Signing
 
-```
+```text
 CLIENT:
 ├── Create signature = HMAC(timestamp + path + body, secret)
 ├── Send: X-Signature: {signature}
@@ -402,7 +402,7 @@ SERVER:
 
 ### Rate Limiting
 
-```
+```text
 MOBILE-SPECIFIC LIMITS:
 ├── Per device (X-Device-ID)
 ├── Per user (after auth)
@@ -422,7 +422,7 @@ Retry-After: 60 (when 429)
 
 ### Required Headers from Mobile
 
-```
+```text
 Every mobile request should include:
 ├── X-App-Version: 2.1.0
 ├── X-Platform: ios | android
@@ -436,7 +436,7 @@ Every mobile request should include:
 
 ### What to Log
 
-```
+```text
 FOR EACH REQUEST:
 ├── All headers above
 ├── Endpoint, method, status
@@ -457,30 +457,35 @@ ALERTS:
 ## 📝 MOBILE BACKEND CHECKLIST
 
 ### Before API Design
+
 - [ ] Identified mobile-specific requirements?
 - [ ] Planned offline behavior?
 - [ ] Designed sync strategy?
 - [ ] Considered bandwidth constraints?
 
 ### For Every Endpoint
+
 - [ ] Response as small as possible?
 - [ ] Pagination cursor-based?
 - [ ] Proper caching headers?
 - [ ] Mobile error format with actions?
 
 ### Authentication
+
 - [ ] Token refresh implemented?
 - [ ] Silent re-auth flow?
 - [ ] Multi-device logout?
 - [ ] Secure token storage guidance?
 
 ### Push Notifications
+
 - [ ] FCM + APNs configured?
 - [ ] Token lifecycle managed?
 - [ ] Silent vs display push defined?
 - [ ] Sensitive data NOT in push payload?
 
 ### Release
+
 - [ ] Version check endpoint ready?
 - [ ] Feature flags configured?
 - [ ] Force update mechanism?

@@ -14,7 +14,7 @@ The request is the text that follows `/latex`.
 Activate the **latex-specialist** agent to write or recheck LaTeX. The agent runs in one of two modes, each backed by a dedicated skill:
 
 | Mode | Skill | When |
-|------|-------|------|
+| --- | --- | --- |
 | **Generation** | `@[skills/latex-tutor]` | Turn PDF slides, notes, or transcripts into textbook-quality chapters |
 | **Audit** | `@[skills/latex-review]` | Review an existing LaTeX project for compiler-breaking and style issues |
 
@@ -25,7 +25,7 @@ Activate the **latex-specialist** agent to write or recheck LaTeX. The agent run
 Read the request and pick the mode:
 
 | Signal in request | Mode |
-|-------------------|------|
+| ------------------- | ------ |
 | "write", "generate", "create chapter", "from these slides", uploaded PDF/transcript | **Generation** |
 | "review", "audit", "check", "fix", "does this compile", points at `main.tex` / a project | **Audit** |
 | Ambiguous | Ask one question: "Generate new LaTeX or audit existing files?" |
@@ -37,7 +37,7 @@ Read the request and pick the mode:
 1. **Detect mode** from the request (see table above).
 2. **Delegate to the agent** with full context:
 
-   ```
+   ```text
    Use the latex-specialist agent to [generate chapter from / audit] the LaTeX in [files or inputs from the request].
 
    CONTEXT:
@@ -64,7 +64,7 @@ Read the request and pick the mode:
 
 ## Usage
 
-```
+```text
 /latex generate a chapter from these lecture slides on neural networks
 /latex turn this transcript into a textbook section
 /latex audit my thesis project in ./thesis (start from main.tex)

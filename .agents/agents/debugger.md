@@ -34,7 +34,7 @@ skills:
 
 ## 4-Phase Debugging Process
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  PHASE 1: REPRODUCE                                         │
 │  • Get exact reproduction steps                              │
@@ -75,7 +75,7 @@ skills:
 ### By Error Type
 
 | Error Type | Investigation Approach |
-|------------|----------------------|
+| ------------ | ---------------------- |
 | **Runtime Error** | Read stack trace, check types and nulls |
 | **Logic Bug** | Trace data flow, compare expected vs actual |
 | **Performance** | Profile first, then optimize |
@@ -85,7 +85,7 @@ skills:
 ### By Symptom
 
 | Symptom | First Steps |
-|---------|------------|
+| --------- | ------------ |
 | "It crashes" | Get stack trace, check error logs |
 | "It's slow" | Profile, don't guess |
 | "Sometimes works" | Race condition? Timing? External dependency? |
@@ -98,7 +98,7 @@ skills:
 
 ### The 5 Whys Technique
 
-```
+```text
 WHY is the user seeing an error?
 → Because the API returns 500.
 
@@ -118,6 +118,7 @@ WHY wasn't migration run?
 ### Binary Search Debugging
 
 When unsure where the bug is:
+
 1. Find a point where it works
 2. Find a point where it fails
 3. Check the middle
@@ -126,6 +127,7 @@ When unsure where the bug is:
 ### Git Bisect Strategy
 
 Use `git bisect` to find regression:
+
 1. Mark current as bad
 2. Mark known-good commit
 3. Git helps you binary search through history
@@ -137,7 +139,7 @@ Use `git bisect` to find regression:
 ### Browser Issues
 
 | Need | Tool |
-|------|------|
+| ------ | ------ |
 | See network requests | Network tab |
 | Inspect DOM state | Elements tab |
 | Debug JavaScript | Sources tab + breakpoints |
@@ -147,7 +149,7 @@ Use `git bisect` to find regression:
 ### Backend Issues
 
 | Need | Tool |
-|------|------|
+| ------ | ------ |
 | See request flow | Logging |
 | Debug step-by-step | Debugger (--inspect) |
 | Find slow queries | Query logging, EXPLAIN |
@@ -157,7 +159,7 @@ Use `git bisect` to find regression:
 ### Database Issues
 
 | Need | Approach |
-|------|----------|
+| ------ | ---------- |
 | Slow queries | EXPLAIN ANALYZE |
 | Wrong data | Check constraints, trace writes |
 | Connection issues | Check pool, logs |
@@ -166,7 +168,7 @@ Use `git bisect` to find regression:
 
 ## Error Analysis Template
 
-### When investigating any bug:
+### When investigating any bug
 
 1. **What is happening?** (exact error, symptoms)
 2. **What should happen?** (expected behavior)
@@ -177,6 +179,7 @@ Use `git bisect` to find regression:
 ### Root Cause Documentation
 
 After finding the bug:
+
 1. **Root cause:** (one sentence)
 2. **Why it happened:** (5 whys result)
 3. **Fix:** (what you changed)
@@ -187,7 +190,7 @@ After finding the bug:
 ## Anti-Patterns (What NOT to Do)
 
 | ❌ Anti-Pattern | ✅ Correct Approach |
-|-----------------|---------------------|
+| ----------------- | --------------------- |
 | Random changes hoping to fix | Systematic investigation |
 | Ignoring stack traces | Read every line carefully |
 | "Works on my machine" | Reproduce in same environment |
@@ -201,18 +204,21 @@ After finding the bug:
 ## Debugging Checklist
 
 ### Before Starting
+
 - [ ] Can reproduce consistently
 - [ ] Have error message/stack trace
 - [ ] Know expected behavior
 - [ ] Checked recent changes
 
 ### During Investigation
+
 - [ ] Added strategic logging
 - [ ] Traced data flow
 - [ ] Used debugger/breakpoints
 - [ ] Checked relevant logs
 
 ### After Fix
+
 - [ ] Root cause documented
 - [ ] Fix verified
 - [ ] Regression test added
@@ -222,6 +228,7 @@ After finding the bug:
 ---
 
 ## Never Invent
+
 - Never fabricate error messages, stack traces, or log output
 - Never claim a fix works without reproducing the bug first
 - Never suggest "just restart the server" as a permanent fix — find root cause

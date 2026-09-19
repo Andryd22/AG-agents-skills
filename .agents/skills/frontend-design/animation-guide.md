@@ -9,7 +9,7 @@
 
 ### What Affects Timing
 
-```
+```text
 Factors that determine animation speed:
 ├── DISTANCE: Further travel = longer duration
 ├── SIZE: Larger elements = slower animations
@@ -21,7 +21,7 @@ Factors that determine animation speed:
 ### Duration Ranges by Purpose
 
 | Purpose | Range | Why |
-|---------|-------|-----|
+| --------- | ------- | ----- |
 | Instant feedback | 50-100ms | Below perception threshold |
 | Micro-interactions | 100-200ms | Quick but noticeable |
 | Standard transitions | 200-300ms | Comfortable pace |
@@ -32,6 +32,7 @@ Factors that determine animation speed:
 ### Choosing Duration
 
 Ask yourself:
+
 1. How far is the element moving?
 2. How important is it to notice this change?
 3. Is the user waiting, or is this background?
@@ -42,7 +43,7 @@ Ask yourself:
 
 ### What Easing Does
 
-```
+```text
 Easing = how speed changes over time
 ├── Linear: constant speed (mechanical, robotic)
 ├── Ease-out: fast start, slow end (natural entry)
@@ -53,7 +54,7 @@ Easing = how speed changes over time
 ### When to Use Each
 
 | Easing | Best For | Feels Like |
-|--------|----------|------------|
+| -------- | ---------- | ------------ |
 | **Ease-out** | Elements entering | Arriving, settling |
 | **Ease-in** | Elements leaving | Departing, exiting |
 | **Ease-in-out** | Emphasis, loops | Deliberate, smooth |
@@ -85,7 +86,7 @@ Easing = how speed changes over time
 
 ### What Makes Good Micro-Interactions
 
-```
+```text
 Purpose of micro-interactions:
 ├── FEEDBACK: Confirm the action happened
 ├── GUIDANCE: Show what's possible
@@ -95,7 +96,7 @@ Purpose of micro-interactions:
 
 ### Button States
 
-```
+```text
 Hover → slight visual change (lift, color, scale)
 Active → pressed feeling (scale down, shadow change)
 Focus → clear indicator (outline, ring)
@@ -117,7 +118,7 @@ Success → confirmation (check, color)
 ### Types by Context
 
 | Situation | Approach |
-|-----------|----------|
+| ----------- | ---------- |
 | Quick load (<1s) | No indicator needed |
 | Medium (1-3s) | Spinner or simple animation |
 | Long (3s+) | Progress bar or skeleton |
@@ -125,7 +126,7 @@ Success → confirmation (check, color)
 
 ### Skeleton Screens
 
-```
+```text
 Purpose: Reduce perceived wait time
 ├── Show layout shape immediately
 ├── Animate subtly (shimmer, pulse)
@@ -135,7 +136,7 @@ Purpose: Reduce perceived wait time
 
 ### Progress Indicators
 
-```
+```text
 When to show progress:
 ├── User-initiated action
 ├── File uploads/downloads
@@ -154,7 +155,7 @@ When NOT needed:
 
 ### Transition Strategy
 
-```
+```text
 Simple rule: exit fast, enter slower
 ├── Outgoing content fades quickly
 ├── Incoming content animates in
@@ -164,7 +165,7 @@ Simple rule: exit fast, enter slower
 ### Common Patterns
 
 | Pattern | When to Use |
-|---------|-------------|
+| --------- | ------------- |
 | **Fade** | Safe default, works everywhere |
 | **Slide** | Sequential navigation (prev/next) |
 | **Scale** | Opening/closing modals |
@@ -172,7 +173,7 @@ Simple rule: exit fast, enter slower
 
 ### Direction Matching
 
-```
+```text
 Navigation direction = animation direction
 ├── Forward → slide from right
 ├── Backward → slide from left
@@ -186,7 +187,7 @@ Navigation direction = animation direction
 
 ### Progressive Reveal
 
-```
+```text
 Content appears as user scrolls:
 ├── Reduces initial cognitive load
 ├── Rewards exploration
@@ -197,7 +198,7 @@ Content appears as user scrolls:
 ### Trigger Points
 
 | When to Trigger | Effect |
-|-----------------|--------|
+| ----------------- | -------- |
 | Just entering viewport | Standard reveal |
 | Centered in viewport | For emphasis |
 | Partially visible | Earlier reveal |
@@ -223,7 +224,7 @@ Content appears as user scrolls:
 ### Matching Effect to Action
 
 | Element | Effect | Intent |
-|---------|--------|--------|
+| --------- | -------- | -------- |
 | **Clickable card** | Lift + shadow | "This is interactive" |
 | **Button** | Color/brightness change | "Press me" |
 | **Image** | Zoom/scale | "View closer" |
@@ -242,7 +243,7 @@ Content appears as user scrolls:
 
 ### Success States
 
-```
+```text
 Celebrate appropriately:
 ├── Minor action → subtle check/color
 ├── Major action → more pronounced animation
@@ -252,7 +253,7 @@ Celebrate appropriately:
 
 ### Error States
 
-```
+```text
 Draw attention without panic:
 ├── Color change (semantic red)
 ├── Shake animation (brief!)
@@ -272,7 +273,7 @@ Draw attention without panic:
 
 ### What's Cheap to Animate
 
-```
+```text
 GPU-accelerated (FAST):
 ├── transform: translate, scale, rotate
 └── opacity: 0 to 1

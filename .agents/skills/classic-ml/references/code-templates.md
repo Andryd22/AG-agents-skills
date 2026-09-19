@@ -2,7 +2,7 @@
 
 Runnable templates for scikit-learn ≥ 1.5, pandas ≥ 2, imbalanced-learn, mlxtend, scipy and statsmodels. Every block runs on its own with the bundled or synthetic datasets; replace the data loading with the project's data.
 
-```
+```bash
 pip install scikit-learn pandas imbalanced-learn mlxtend scipy statsmodels
 ```
 

@@ -32,3 +32,6 @@ jobs:
 
       - name: Validate kit (frontmatter, references, counts, scripts, installer)
         run: python .github/scripts/validate_kit.py
+
+      - name: Lint Markdown (rules in .markdownlint.jsonc)
+        run: npx --yes markdownlint-cli2@0.23.2 "**/*.md"

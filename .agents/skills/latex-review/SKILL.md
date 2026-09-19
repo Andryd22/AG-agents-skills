@@ -42,7 +42,7 @@ Scan the entire project directory for:
 ### 1. Compiler Safety (🔴 CRITICAL — Must Fix)
 
 | Check | What to Look For |
-|-------|-----------------|
+| ------- | ----------------- |
 | **Citation tags** | Search for `[cite]`, `<source>`, `[source]`, `<ref>`, `[ref]`, `[citation]`, `<citation>` — these CRASH the compiler |
 | **Unescaped characters** | `&` outside tabular, `_` outside math, `%` not escaped, `#` not escaped, `$` mismatch |
 | **Unmatched braces** | Every `{` has `}`, every `\begin{env}` has `\end{env}` |
@@ -54,7 +54,7 @@ Scan the entire project directory for:
 ### 2. Structural Integrity (🟡 Important)
 
 | Check | What to Look For |
-|-------|-----------------|
+| ------- | ----------------- |
 | **Chapter count** | Is each PDF/chapter present? Any missing chapters? |
 | **Section depth** | 3–6 sections per chapter, 1–4 subsections each — flag over- or under-segmentation |
 | **Cross-references** | `\ref{ch:...}` and `\ref{sec:...}` actually resolve — test by tracing labels |
@@ -65,7 +65,7 @@ Scan the entire project directory for:
 ### 3. Style Compliance (🟡 Important — latex-tutor Rules)
 
 | Rule | Check |
-|------|-------|
+| ------ | ------- |
 | **Thematic grouping** | Count subsections per chapter. >12? Flag: merge candidates. 1:1 with slides? Flag: insufficient synthesis. |
 | **Rhythm & variety** | Scan each chapter for stretches of >15 lines of pure prose without itemize/table/definition — flag each occurrence |
 | **Comparative tables** | Every A vs B comparison uses `tabular` with `booktabs`; no numbered lists inside cells (plain text or bullets) |
@@ -79,7 +79,7 @@ Scan the entire project directory for:
 ### 4. Math & Physics (🟡 Important)
 
 | Check | What to Look For |
-|-------|-----------------|
+| ------- | ----------------- |
 | **dcases for systems** | `\begin{cases}` instead of `\begin{dcases}` → flag |
 | **Vector notation** | `\vec{v}` or `\mathbf{v}` instead of `\bm{v}` → flag |
 | **Derivative notation** | `\frac{df}{dx}` instead of `\dv{f}{x}` → flag |
@@ -88,7 +88,7 @@ Scan the entire project directory for:
 ### 5. Formatting Consistency (🔵 Minor)
 
 | Check | What to Look For |
-|-------|-----------------|
+| ------- | ----------------- |
 | **Table style** | All tables use `booktabs` (`\toprule`, `\midrule`, `\bottomrule`) — no vertical rules |
 | **Caption placement** | `\caption` ABOVE tables, BELOW figures — flag any violation |
 | **`\noindent` before tables** | Every `\begin{table}` must be preceded by `\noindent` on the line above — flag missing ones |

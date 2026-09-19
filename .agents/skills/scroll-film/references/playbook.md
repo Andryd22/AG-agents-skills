@@ -4,12 +4,14 @@ Hard-won rules for making the whole page one continuous Higgsfield film. These a
 floor, not a ceiling — break them knowingly, never by accident.
 
 ## 1. Footage-first law
+
 The film is the source of truth; the website is a player. Design the camera arc first
 (one continuous journey, ~5 chapters), then build the page around whatever footage
 actually comes back. Never storyboard the site and force footage to match — footage
 drifts, copy is cheap to move.
 
 ## 2. Chaining law (flawless joins)
+
 Each clip's `--start-image` is the **ffmpeg-extracted literal last frame** of the previous
 clip — not a lookalike keyframe, the actual pixels:
 
@@ -25,9 +27,11 @@ real last frame. Keep one continuous camera direction (always descending / alway
 in) — reversals read as cuts. Uniform clip length = constant scrub speed.
 
 ## 3. The junction gate (measured, never eyeballed)
+
 ```bash
 ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 ```
+
 - **≥ 0.88 pass** · 0.80–0.88 watch it in motion · a true fail is **structural**.
 - SSIM under-reads on stochastic texture (clouds ~0.66, embers ~0.72, liquid caustics
   ~0.60 can all be seamless). The number says *where* to look; the side-by-side decides.
@@ -38,6 +42,7 @@ ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
   park on the seam, which exposes the mask instantly. Fix the join, don't hide it.
 
 ## 4. Billing truths (verify by balance delta, not docs)
+
 - `--generate-audio false` is *the* cost lever — audio ON silently ~3×'s the bill.
 - Measured price ladder per 5s clip (confirm with `higgsfield generate cost`):
   1080p/std ≈ 45 · 720p/std ≈ 22.5 · 720p/fast ≈ 17.5 · 480p/fast ≈ 7.5. 10s = 2×5s.
@@ -46,6 +51,7 @@ ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 - ~15% of jobs fail server-side with no reason and don't bill — just retry the same call.
 
 ## 5. Assembly
+
 - Concat dropping the duplicate junction frame (`select='gte(n,1)'` on clips 2+), and
   **always `-fps_mode vfr`** on the master encode — default CFR sync pads ~5 dup frames per
   junction = frozen scrub zones.
@@ -56,6 +62,7 @@ ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 `scripts/chain-step.sh` and `scripts/assemble.sh` do all of this.
 
 ## 6. The scrub engine (why it's jank-free)
+
 - **Canvas + pre-extracted JPEGs**, never `<video currentTime>` scrubbing (seek stutter).
 - **ImageBitmap sliding window**: `drawImage(HTMLImageElement)` forces a *synchronous* JPEG
   decode on first paint (and after cache eviction) — that decode spike *is* the frame-by-
@@ -67,6 +74,7 @@ ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 - **Measure jank with rAF deltas (p95/max), not average fps.** Target max < 50ms.
 
 ## 7. Chrome, seam, and the ambient layer
+
 - **Adaptive header**: sample the drawn frame's top strip luminance (~every 180ms) → toggle
   a `.on-light` class. Fixed chrome over changing film can't be one hard-coded colour.
 - **Seamless handoff**: start the next section's background gradient at the *sampled* final-
@@ -78,8 +86,10 @@ ffmpeg -i A-last.png -i B-first.png -lavfi ssim -f null - 2>&1 | grep All
 - Film grain + vignette sell the "one shot" feel; fade both out with the handoff.
 
 ## 8. Verification harness
+
 Host preview panes throttle hidden tabs (rAF freezes → stale screenshots). The reliable path:
 puppeteer-core + system Chrome + a page dev-contract:
+
 - `?jump=<scrollY>` → land pre-scrolled and force-settle all scroll state.
 - `window.__ready = true` only after frames are decoded and settled.
 - Capture: `goto → waitForFunction(__ready) → wait ~1200ms → screenshot`. Shoot every beat
@@ -89,6 +99,7 @@ puppeteer-core + system Chrome + a page dev-contract:
 `scripts/verify.js` does capture + jank-test.
 
 ## 9. Governance
+
 Design taste and design code are done by the main model only (the one running the skill). Mechanical steps (ffmpeg,
 SSIM, puppeteer, vercel) are pure code — no model. Quote credits before spending; show the
 receipt after. One continuous shot, one world per brand.

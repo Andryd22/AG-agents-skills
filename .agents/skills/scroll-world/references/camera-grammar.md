@@ -20,7 +20,7 @@ Keep both clauses in the prompts verbatim (templates in `references/prompts.md`)
 Pick the grammar from the concept:
 
 | Concept / tone | Mid-leg move |
-|---|---|
+| --- | --- |
 | Product / luxury retail | slow half-orbit around the hero object, then continue past it |
 | Real estate / hospitality | steadicam glide through doorways; gentle crane-up in atria |
 | Industrial / process / logistics | low lateral track alongside the line, foreground parallax |

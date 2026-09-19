@@ -15,7 +15,7 @@ metadata:
 ## Core Principles
 
 | Principle | Rule |
-|-----------|------|
+| ----------- | ------ |
 | **SRP** | Single Responsibility - each function/class does ONE thing |
 | **DRY** | Don't Repeat Yourself - extract duplicates, reuse |
 | **KISS** | Keep It Simple - simplest solution that works |
@@ -27,7 +27,7 @@ metadata:
 ## Naming Rules
 
 | Element | Convention |
-|---------|------------|
+| --------- | ------------ |
 | **Variables** | Reveal intent: `userCount` not `n` |
 | **Functions** | Verb + noun: `getUserById()` not `user()` |
 | **Booleans** | Question form: `isActive`, `hasPermission`, `canEdit` |
@@ -40,7 +40,7 @@ metadata:
 ## Function Rules
 
 | Rule | Description |
-|------|-------------|
+| ------ | ------------- |
 | **Small** | Max 20 lines, ideally 5-10 |
 | **One Thing** | Does one thing, does it well |
 | **One Level** | One level of abstraction per function |
@@ -52,7 +52,7 @@ metadata:
 ## Code Structure
 
 | Pattern | Apply |
-|---------|-------|
+| --------- | ------- |
 | **Guard Clauses** | Early returns for edge cases |
 | **Flat > Nested** | Avoid deep nesting (max 2 levels) |
 | **Composition** | Small functions composed together |
@@ -63,7 +63,7 @@ metadata:
 ## AI Coding Style
 
 | Situation | Action |
-|-----------|--------|
+| ----------- | -------- |
 | User asks for feature | Write it directly |
 | User reports bug | Fix it, don't explain |
 | No clear requirement | Ask, don't assume |
@@ -73,7 +73,7 @@ metadata:
 ## Anti-Patterns (DON'T)
 
 | ❌ Pattern | ✅ Fix |
-|-----------|-------|
+| ----------- | ------- |
 | Comment every line | Delete obvious comments |
 | Helper for one-liner | Inline the code |
 | Factory for 2 objects | Direct instantiation |
@@ -90,14 +90,15 @@ metadata:
 **Before changing a file, ask yourself:**
 
 | Question | Why |
-|----------|-----|
+| ---------- | ----- |
 | **What imports this file?** | They might break |
 | **What does this file import?** | Interface changes |
 | **What tests cover this?** | Tests might fail |
 | **Is this a shared component?** | Multiple places affected |
 
 **Quick Check:**
-```
+
+```text
 File to edit: UserService.ts
 └── Who imports this? → UserController.ts, AuthController.ts
 └── Do they need changes too? → Check function signatures
@@ -111,7 +112,7 @@ File to edit: UserService.ts
 ## Summary
 
 | Do | Don't |
-|----|-------|
+| ---- | ------- |
 | Write code directly | Write tutorials |
 | Let code self-document | Add obvious comments |
 | Fix bugs immediately | Explain the fix first |
@@ -128,7 +129,7 @@ File to edit: UserService.ts
 **Before saying "task complete", verify:**
 
 | Check | Question |
-|-------|----------|
+| ------- | ---------- |
 | ✅ **Goal met?** | Did I do exactly what user asked? |
 | ✅ **Files edited?** | Did I modify all necessary files? |
 | ✅ **Code works?** | Did I test/verify the change? |
@@ -146,7 +147,7 @@ File to edit: UserService.ts
 ### Agent → Script Mapping
 
 | Agent | Script | Command |
-|-------|--------|---------|
+| ------- | -------- | --------- |
 | **frontend-specialist** | UX Audit | `python .agents/skills/frontend-design/scripts/ux_audit.py .` |
 | **frontend-specialist** | A11y Check | `python .agents/skills/frontend-design/scripts/accessibility_checker.py .` |
 | **backend-specialist** | API Validator | `python .agents/skills/api-patterns/scripts/api_validator.py .` |
@@ -187,10 +188,9 @@ File to edit: UserService.ts
 **Should I fix the X errors?**
 ```
 
-4. **Wait for user confirmation** before fixing
-5. **After fixing** → Re-run script to confirm
+1. **Wait for user confirmation** before fixing
+2. **After fixing** → Re-run script to confirm
 
 > 🔴 **VIOLATION:** Running script and ignoring output = FAILED task.
 > 🔴 **VIOLATION:** Auto-fixing without asking = Not allowed.
 > 🔴 **Rule:** Always READ output → SUMMARIZE → ASK → then fix.
-

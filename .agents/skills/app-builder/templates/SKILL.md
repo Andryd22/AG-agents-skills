@@ -14,7 +14,7 @@ description: Project scaffolding templates for new applications. Use when creati
 **Read ONLY the template matching user's project type!**
 
 | Template | Tech Stack | When to Use |
-|----------|------------|-------------|
+| ---------- | ------------ | ------------- |
 | [nextjs-fullstack](nextjs-fullstack/TEMPLATE.md) | Next.js + Prisma | Full-stack web app |
 | [nextjs-saas](nextjs-saas/TEMPLATE.md) | Next.js + Stripe | SaaS product |
 | [nextjs-static](nextjs-static/TEMPLATE.md) | Next.js + Framer | Landing page |

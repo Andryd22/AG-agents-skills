@@ -14,12 +14,14 @@ This skill coordinates the kit's specialized agents, which are Antigravity custo
 ## When to Use Orchestration
 
 ✅ **Good for:**
+
 - Complex tasks requiring multiple expertise domains
 - Code analysis from security, performance, and quality perspectives
 - Comprehensive reviews (architecture + security + testing)
 - Feature implementation needing backend + frontend + database work
 
 ❌ **Not for:**
+
 - Simple, single-domain tasks
 - Quick fixes or small changes
 - Tasks where one agent suffices
@@ -29,25 +31,29 @@ This skill coordinates the kit's specialized agents, which are Antigravity custo
 ## Native Agent Invocation
 
 ### Single Agent
-```
+
+```text
 Use the backend-specialist agent to review authentication for vulnerabilities
 ```
 
 ### Sequential Chain
-```
+
+```text
 First, use the explorer-agent to discover project structure.
 Then, use the backend-specialist to review API endpoints.
 Finally, use the test-engineer to identify test gaps.
 ```
 
 ### With Context Passing
-```
+
+```text
 Use the frontend-specialist to analyze React components.
 Based on those findings, have the test-engineer generate component tests.
 ```
 
 ### Continue Previous Work
-```
+
+```text
 Send a follow-up message to the same subagent: it keeps its own context and wakes up when it receives the message.
 ```
 
@@ -56,7 +62,8 @@ Send a follow-up message to the same subagent: it keeps its own context and wake
 ## Orchestration Patterns
 
 ### Pattern 1: Comprehensive Analysis
-```
+
+```text
 Agents: explorer-agent → [domain-agents] → synthesis
 
 1. explorer-agent: Map codebase structure
@@ -67,7 +74,8 @@ Agents: explorer-agent → [domain-agents] → synthesis
 ```
 
 ### Pattern 2: Feature Review
-```
+
+```text
 Agents: affected-domain-agents → test-engineer
 
 1. Identify affected domains (backend? frontend? both?)
@@ -77,7 +85,8 @@ Agents: affected-domain-agents → test-engineer
 ```
 
 ### Pattern 3: Security Review
-```
+
+```text
 Agents: explorer-agent → backend-specialist → synthesis
 
 1. explorer-agent: Map auth, secrets, configuration and deployment files

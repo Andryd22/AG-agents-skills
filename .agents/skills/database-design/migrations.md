@@ -4,7 +4,7 @@
 
 ## Safe Migration Strategy
 
-```
+```text
 For zero-downtime changes:
 │
 ├── Adding column
@@ -32,7 +32,7 @@ For zero-downtime changes:
 ### Neon (Serverless PostgreSQL)
 
 | Feature | Benefit |
-|---------|---------|
+| --------- | --------- |
 | Scale to zero | Cost savings |
 | Instant branching | Dev/preview |
 | Full PostgreSQL | Compatibility |
@@ -41,7 +41,7 @@ For zero-downtime changes:
 ### Turso (Edge SQLite)
 
 | Feature | Benefit |
-|---------|---------|
+| --------- | --------- |
 | Edge locations | Ultra-low latency |
 | SQLite compatible | Simple |
 | Generous free tier | Cost |

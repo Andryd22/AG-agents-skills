@@ -17,7 +17,7 @@ Use this command when you want a full scroll-driven experience that may mix mult
 
 ## Usage
 
-```
+```text
 /scroll-experience 3D fly-through world for a coffee brand
 /scroll-experience hybrid scrollytelling: 3D hero + video sections
 /scroll-experience diorama landing with WebGL parallax layers

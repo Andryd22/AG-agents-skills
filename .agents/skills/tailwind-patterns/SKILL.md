@@ -14,7 +14,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### What Changed from v3
 
 | v3 (Legacy) | v4 (Current) |
-|-------------|--------------|
+| ------------- | -------------- |
 | `tailwind.config.js` | CSS-based `@theme` directive |
 | PostCSS plugin | Oxide engine (10x faster) |
 | JIT mode | Native, always-on |
@@ -24,7 +24,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### v4 Core Concepts
 
 | Concept | Description |
-|---------|-------------|
+| --------- | ------------- |
 | **CSS-first** | Configuration in CSS, not JavaScript |
 | **Oxide Engine** | Rust-based compiler, much faster |
 | **Native Nesting** | CSS nesting without PostCSS |
@@ -36,7 +36,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 
 ### Theme Definition
 
-```
+```css
 @theme {
   /* Colors - use semantic names */
   --color-primary: oklch(0.7 0.15 250);
@@ -58,7 +58,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### When to Extend vs Override
 
 | Action | Use When |
-|--------|----------|
+| -------- | ---------- |
 | **Extend** | Adding new values alongside defaults |
 | **Override** | Replacing default scale entirely |
 | **Semantic tokens** | Project-specific naming (primary, surface) |
@@ -70,14 +70,14 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Breakpoint vs Container
 
 | Type | Responds To |
-|------|-------------|
+| --- | --- |
 | **Breakpoint** (`md:`) | Viewport width |
 | **Container** (`@container`) | Parent element width |
 
 ### Container Query Usage
 
 | Pattern | Classes |
-|---------|---------|
+| --------- | --------- |
 | Define container | `@container` on parent |
 | Container breakpoint | `@sm:`, `@md:`, `@lg:` on children |
 | Named containers | `@container/card` for specificity |
@@ -85,7 +85,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### When to Use
 
 | Scenario | Use |
-|----------|-----|
+| ---------- | ----- |
 | Page-level layouts | Viewport breakpoints |
 | Component-level responsive | Container queries |
 | Reusable components | Container queries (context-independent) |
@@ -97,7 +97,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Breakpoint System
 
 | Prefix | Min Width | Target |
-|--------|-----------|--------|
+| -------- | ----------- | -------- |
 | (none) | 0px | Mobile-first base |
 | `sm:` | 640px | Large phone / small tablet |
 | `md:` | 768px | Tablet |
@@ -118,7 +118,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Configuration Strategies
 
 | Method | Behavior | Use When |
-|--------|----------|----------|
+| -------- | ---------- | ---------- |
 | `class` | `.dark` class toggles | Manual theme switcher |
 | `media` | Follows system preference | No user control |
 | `selector` | Custom selector (v4) | Complex theming |
@@ -126,7 +126,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Dark Mode Pattern
 
 | Element | Light | Dark |
-|---------|-------|------|
+| --------- | ------- | ------ |
 | Background | `bg-white` | `dark:bg-zinc-900` |
 | Text | `text-zinc-900` | `dark:text-zinc-100` |
 | Borders | `border-zinc-200` | `dark:border-zinc-700` |
@@ -138,7 +138,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Flexbox Patterns
 
 | Pattern | Classes |
-|---------|---------|
+| --------- | --------- |
 | Center (both axes) | `flex items-center justify-center` |
 | Vertical stack | `flex flex-col gap-4` |
 | Horizontal row | `flex gap-4` |
@@ -148,7 +148,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Grid Patterns
 
 | Pattern | Classes |
-|---------|---------|
+| --------- | --------- |
 | Auto-fit responsive | `grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]` |
 | Asymmetric (Bento) | `grid grid-cols-3 grid-rows-2` with spans |
 | Sidebar layout | `grid grid-cols-[auto_1fr]` |
@@ -162,7 +162,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### OKLCH vs RGB/HSL
 
 | Format | Advantage |
-|--------|-----------|
+| -------- | ----------- |
 | **OKLCH** | Perceptually uniform, better for design |
 | **HSL** | Intuitive hue/saturation |
 | **RGB** | Legacy compatibility |
@@ -170,7 +170,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Color Token Architecture
 
 | Layer | Example | Purpose |
-|-------|---------|---------|
+| ------- | --------- | --------- |
 | **Primitive** | `--blue-500` | Raw color values |
 | **Semantic** | `--color-primary` | Purpose-based naming |
 | **Component** | `--button-bg` | Component-specific |
@@ -182,7 +182,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Font Stack Pattern
 
 | Type | Recommended |
-|------|-------------|
+| --- | --- |
 | Sans | `'Inter', 'SF Pro', system-ui, sans-serif` |
 | Mono | `'JetBrains Mono', 'Fira Code', monospace` |
 | Display | `'Outfit', 'Poppins', sans-serif` |
@@ -190,7 +190,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Type Scale
 
 | Class | Size | Use |
-|-------|------|-----|
+| ------- | ------ | ----- |
 | `text-xs` | 0.75rem | Labels, captions |
 | `text-sm` | 0.875rem | Secondary text |
 | `text-base` | 1rem | Body text |
@@ -204,7 +204,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Built-in Animations
 
 | Class | Effect |
-|-------|--------|
+| ------- | -------- |
 | `animate-spin` | Continuous rotation |
 | `animate-ping` | Attention pulse |
 | `animate-pulse` | Subtle opacity pulse |
@@ -213,7 +213,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Transition Patterns
 
 | Pattern | Classes |
-|---------|---------|
+| --------- | --------- |
 | All properties | `transition-all duration-200` |
 | Specific | `transition-colors duration-150` |
 | With easing | `ease-out` or `ease-in-out` |
@@ -226,7 +226,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### When to Extract
 
 | Signal | Action |
-|--------|--------|
+| -------- | -------- |
 | Same class combo 3+ times | Extract component |
 | Complex state variants | Extract component |
 | Design system element | Extract + document |
@@ -234,7 +234,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ### Extraction Methods
 
 | Method | Use When |
-|--------|----------|
+| --- | --- |
 | **React/Vue component** | Dynamic, JS needed |
 | **@apply in CSS** | Static, no JS needed |
 | **Design tokens** | Reusable values |
@@ -244,7 +244,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ## 11. Anti-Patterns
 
 | Don't | Do |
-|-------|-----|
+| ------- | ----- |
 | Arbitrary values everywhere | Use design system scale |
 | `!important` | Fix specificity properly |
 | Inline `style=` | Use utilities |
@@ -257,7 +257,7 @@ description: Tailwind CSS v4 principles. CSS-first configuration, container quer
 ## 12. Performance Principles
 
 | Principle | Implementation |
-|-----------|----------------|
+| ----------- | ---------------- |
 | **Purge unused** | Automatic in v4 |
 | **Avoid dynamism** | No template string classes |
 | **Use Oxide** | Default in v4, 10x faster |

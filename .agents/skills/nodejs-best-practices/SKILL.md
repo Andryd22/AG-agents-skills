@@ -24,7 +24,7 @@ This skill teaches **decision-making principles**, not fixed code to copy.
 
 ### Decision Tree
 
-```
+```text
 What are you building?
 │
 ├── Edge/Serverless (Cloudflare, Vercel)
@@ -46,14 +46,15 @@ What are you building?
 ### Comparison Principles
 
 | Factor | Hono | Fastify | Express |
-|--------|------|---------|---------|
+| -------- | ------ | --------- | --------- |
 | **Best for** | Edge, serverless | Performance | Legacy, learning |
 | **Cold start** | Fastest | Fast | Moderate |
 | **Ecosystem** | Growing | Good | Largest |
 | **TypeScript** | Native | Excellent | Good |
 | **Learning curve** | Low | Medium | Low |
 
-### Selection Questions to Ask:
+### Selection Questions to Ask
+
 1. What's the deployment target?
 2. Is cold start time critical?
 3. Does team have existing experience?
@@ -65,7 +66,7 @@ What are you building?
 
 ### Native TypeScript
 
-```
+```text
 Node.js 22+: --experimental-strip-types
 ├── Run .ts files directly
 ├── No build step needed for simple projects
@@ -74,7 +75,7 @@ Node.js 22+: --experimental-strip-types
 
 ### Module System Decision
 
-```
+```text
 ESM (import/export)
 ├── Modern standard
 ├── Better tree-shaking
@@ -90,7 +91,7 @@ CommonJS (require)
 ### Runtime Selection
 
 | Runtime | Best For |
-|---------|----------|
+| --------- | ---------- |
 | **Node.js** | General purpose, largest ecosystem |
 | **Bun** | Performance, built-in bundler |
 | **Deno** | Security-first, built-in TypeScript |
@@ -101,7 +102,7 @@ CommonJS (require)
 
 ### Layered Structure Concept
 
-```
+```text
 Request Flow:
 │
 ├── Controller/Route Layer
@@ -120,12 +121,14 @@ Request Flow:
     └── ORM interactions
 ```
 
-### Why This Matters:
+### Why This Matters
+
 - **Testability**: Mock layers independently
 - **Flexibility**: Swap database without touching business logic
 - **Clarity**: Each layer has single responsibility
 
-### When to Simplify:
+### When to Simplify
+
 - Small scripts → Single file OK
 - Prototypes → Less structure acceptable
 - Always ask: "Will this grow?"
@@ -136,7 +139,7 @@ Request Flow:
 
 ### Centralized Error Handling
 
-```
+```text
 Pattern:
 ├── Create custom error classes
 ├── Throw from any layer
@@ -146,7 +149,7 @@ Pattern:
 
 ### Error Response Philosophy
 
-```
+```text
 Client gets:
 ├── Appropriate HTTP status
 ├── Error code for programmatic handling
@@ -163,7 +166,7 @@ Logs get:
 ### Status Code Selection
 
 | Situation | Status | When |
-|-----------|--------|------|
+| ----------- | -------- | ------ |
 | Bad input | 400 | Client sent invalid data |
 | No auth | 401 | Missing or invalid credentials |
 | No permission | 403 | Valid auth, but not allowed |
@@ -179,7 +182,7 @@ Logs get:
 ### When to Use Each
 
 | Pattern | Use When |
-|---------|----------|
+| --------- | ---------- |
 | `async/await` | Sequential async operations |
 | `Promise.all` | Parallel independent operations |
 | `Promise.allSettled` | Parallel where some can fail |
@@ -187,7 +190,7 @@ Logs get:
 
 ### Event Loop Awareness
 
-```
+```text
 I/O-bound (async helps):
 ├── Database queries
 ├── HTTP requests
@@ -213,7 +216,7 @@ CPU-bound (async doesn't help):
 
 ### Validate at Boundaries
 
-```
+```text
 Where to validate:
 ├── API entry point (request body/params)
 ├── Before database operations
@@ -224,7 +227,7 @@ Where to validate:
 ### Validation Library Selection
 
 | Library | Best For |
-|---------|----------|
+| --------- | ---------- |
 | **Zod** | TypeScript first, inference |
 | **Valibot** | Smaller bundle (tree-shakeable) |
 | **ArkType** | Performance critical |
@@ -255,7 +258,7 @@ Where to validate:
 
 ### Security Mindset
 
-```
+```text
 Trust nothing:
 ├── Query params → validate
 ├── Request body → validate
@@ -272,7 +275,7 @@ Trust nothing:
 ### Test Strategy Selection
 
 | Type | Purpose | Tools |
-|------|---------|-------|
+| ------ | --------- | ------- |
 | **Unit** | Business logic | node:test, Vitest |
 | **Integration** | API endpoints | Supertest |
 | **E2E** | Full flows | Playwright |
@@ -286,7 +289,7 @@ Trust nothing:
 
 ### Built-in Test Runner (Node.js 22+)
 
-```
+```bash
 node --test src/**/*.test.ts
 ├── No external dependency
 ├── Good coverage reporting
@@ -297,7 +300,8 @@ node --test src/**/*.test.ts
 
 ## 10. Anti-Patterns to Avoid
 
-### ❌ DON'T:
+### ❌ DON'T
+
 - Use Express for new edge projects (use Hono)
 - Use sync methods in production code
 - Put business logic in controllers
@@ -306,7 +310,8 @@ node --test src/**/*.test.ts
 - Trust external data without validation
 - Block event loop with CPU work
 
-### ✅ DO:
+### ✅ DO
+
 - Choose framework based on context
 - Ask user for preferences when unclear
 - Use layered architecture for growing projects

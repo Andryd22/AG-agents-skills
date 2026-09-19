@@ -18,7 +18,7 @@ This section contains **7 rules** focused on server-side performance.
 
 ## Authenticate Server Actions Like API Routes
 
-**Impact: CRITICAL (prevents unauthorized access to server mutations)**
+**Impact:** CRITICAL (prevents unauthorized access to server mutations)
 
 Server Actions (functions with `"use server"`) are exposed as public endpoints, just like API routes. Always verify authentication and authorization **inside** each Server Action—do not rely solely on middleware, layout guards, or page-level checks, as Server Actions can be invoked directly.
 
@@ -115,7 +115,7 @@ Reference: [https://nextjs.org/docs/app/guides/authentication](https://nextjs.or
 
 ## Avoid Duplicate Serialization in RSC Props
 
-**Impact: LOW (reduces network payload by avoiding duplicate serialization)**
+**Impact:** LOW (reduces network payload by avoiding duplicate serialization)
 
 RSC→client serialization deduplicates by object reference, not value. Same reference = serialized once; new reference = serialized again. Do transformations (`.toSorted()`, `.filter()`, `.map()`) in client, not server.
 
@@ -487,4 +487,3 @@ The response is sent immediately while logging happens in the background.
 - Works in Server Actions, Route Handlers, and Server Components
 
 Reference: [https://nextjs.org/docs/app/api-reference/functions/after](https://nextjs.org/docs/app/api-reference/functions/after)
-

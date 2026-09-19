@@ -1,0 +1,5 @@
+// Repository-wide markdownlint rules: the kit's rules plus the HTML table in README.md
+{
+  "extends": "./.agents/.markdownlint.jsonc",
+  "MD033": { "allowed_elements": ["table", "thead", "tbody", "tr", "th", "td", "code"] }
+}

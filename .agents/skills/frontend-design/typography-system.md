@@ -9,7 +9,7 @@
 
 ### What is a Modular Scale?
 
-```
+```text
 A mathematical relationship between font sizes:
 ├── Pick a BASE size (usually body text)
 ├── Pick a RATIO (multiplier)
@@ -19,7 +19,7 @@ A mathematical relationship between font sizes:
 ### Common Ratios and When to Use
 
 | Ratio | Value | Feeling | Best For |
-|-------|-------|---------|----------|
+| ------- | ------- | --------- | ---------- |
 | Minor Second | 1.067 | Very subtle | Dense UI, small screens |
 | Major Second | 1.125 | Subtle | Compact interfaces |
 | Minor Third | 1.2 | Comfortable | Mobile apps, cards |
@@ -30,7 +30,7 @@ A mathematical relationship between font sizes:
 
 ### Generate Your Scale
 
-```
+```text
 Given: base = YOUR_BASE_SIZE, ratio = YOUR_RATIO
 
 Scale:
@@ -47,7 +47,7 @@ Scale:
 ### Choosing Base Size
 
 | Context | Base Size Range | Why |
-|---------|-----------------|-----|
+| --------- | ----------------- | ----- |
 | Mobile-first | 16-18px | Readability on small screens |
 | Desktop app | 14-16px | Information density |
 | Editorial | 18-21px | Long-form reading comfort |
@@ -59,7 +59,7 @@ Scale:
 
 ### What Makes Fonts Work Together
 
-```
+```text
 Contrast + Harmony:
 ├── Different ENOUGH to create hierarchy
 ├── Similar ENOUGH to feel cohesive
@@ -69,7 +69,7 @@ Contrast + Harmony:
 ### Pairing Strategies
 
 | Strategy | How | Result |
-|----------|-----|--------|
+| ---------- | ----- | -------- |
 | **Contrast** | Serif heading + Sans body | Classic, editorial feel |
 | **Same Family** | One variable font, different weights | Cohesive, modern |
 | **Same Designer** | Fonts by same foundry | Often harmonious proportions |
@@ -77,7 +77,7 @@ Contrast + Harmony:
 
 ### What to Look For
 
-```
+```text
 When pairing, compare:
 ├── x-height (height of lowercase letters)
 ├── Letter width (narrow vs wide)
@@ -88,7 +88,7 @@ When pairing, compare:
 ### Safe Pairing Patterns
 
 | Heading Style | Body Style | Mood |
-|---------------|------------|------|
+| --------------- | ------------ | ------ |
 | Geometric sans | Humanist sans | Modern, friendly |
 | Display serif | Clean sans | Editorial, sophisticated |
 | Neutral sans | Same sans | Minimal, tech |
@@ -107,7 +107,7 @@ When pairing, compare:
 
 ### The Relationship
 
-```
+```text
 Line height depends on:
 ├── Font size (larger text = less line height needed)
 ├── Line length (longer lines = more line height)
@@ -118,7 +118,7 @@ Line height depends on:
 ### Guidelines by Context
 
 | Content Type | Line Height Range | Why |
-|--------------|-------------------|-----|
+| -------------- | ------------------- | ----- |
 | **Headings** | 1.1 - 1.3 | Short lines, want compact |
 | **Body text** | 1.4 - 1.6 | Comfortable reading |
 | **Long-form** | 1.6 - 1.8 | Maximum readability |
@@ -137,7 +137,7 @@ Line height depends on:
 
 ### Optimal Reading Width
 
-```
+```text
 The sweet spot: 45-75 characters per line
 ├── < 45: Too choppy, breaks flow
 ├── 45-75: Comfortable reading
@@ -156,7 +156,7 @@ max-width: 65ch; /* ch = width of "0" character */
 ### Context Adjustments
 
 | Context | Character Range |
-|---------|-----------------|
+| --------- | ----------------- |
 | Desktop article | 60-75 characters |
 | Mobile | 35-50 characters |
 | Sidebar text | 30-45 characters |
@@ -168,7 +168,7 @@ max-width: 65ch; /* ch = width of "0" character */
 
 ### The Problem
 
-```
+```text
 Fixed sizes don't scale well:
 ├── Desktop size too big on mobile
 ├── Mobile size too small on desktop
@@ -192,7 +192,7 @@ font-size: clamp(
 ### Scaling Strategy
 
 | Element | Scaling Behavior |
-|---------|-----------------|
+| --------- | ----------------- |
 | Body text | Slight scaling (1rem → 1.125rem) |
 | Subheadings | Moderate scaling |
 | Headings | More dramatic scaling |
@@ -205,7 +205,7 @@ font-size: clamp(
 ### Semantic Weight Usage
 
 | Weight Range | Name | Use For |
-|--------------|------|---------|
+| -------------- | ------ | --------- |
 | 300-400 | Light/Normal | Body text, paragraphs |
 | 500 | Medium | Subtle emphasis |
 | 600 | Semibold | Subheadings, labels |
@@ -214,7 +214,7 @@ font-size: clamp(
 
 ### Creating Contrast
 
-```
+```text
 Good contrast = skip at least 2 weight levels
 ├── 400 body + 700 heading = good
 ├── 400 body + 500 emphasis = subtle
@@ -233,7 +233,7 @@ Good contrast = skip at least 2 weight levels
 
 ### Principles
 
-```
+```text
 Large text (headings): tighter tracking
 ├── Letters are big, gaps feel larger
 └── Slight negative tracking looks better
@@ -250,7 +250,7 @@ ALL CAPS: always wider tracking
 ### Adjustment Guidelines
 
 | Context | Tracking Adjustment |
-|---------|---------------------|
+| --------- | --------------------- |
 | Display/Hero | -2% to -4% |
 | Headings | -1% to -2% |
 | Body text | 0% (normal) |
@@ -263,7 +263,7 @@ ALL CAPS: always wider tracking
 
 ### Visual Hierarchy Through Type
 
-```
+```text
 Ways to create hierarchy:
 ├── SIZE (most obvious)
 ├── WEIGHT (bold stands out)
@@ -275,7 +275,7 @@ Ways to create hierarchy:
 ### Typical Hierarchy
 
 | Level | Characteristics |
-|-------|-----------------|
+| ------- | ----------------- |
 | Primary (H1) | Largest, boldest, most distinct |
 | Secondary (H2) | Noticeably smaller but still bold |
 | Tertiary (H3) | Medium size, may use weight only |
@@ -294,7 +294,7 @@ If squinting at the page, the hierarchy should still be clear.
 
 ### F-Pattern Reading
 
-```
+```text
 Users scan in F-pattern:
 ├── Across the top (first line)
 ├── Down the left side

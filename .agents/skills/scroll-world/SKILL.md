@@ -160,7 +160,7 @@ to `nano_banana_pro`; it won't appear under that name in `higgsfield model list`
 
 Prompt shape (full templates in `references/prompts.md`):
 
-```
+```text
 <STYLE PREAMBLE, identical every time>. On a plain solid <bg> background with a soft
 contact shadow. <PALETTE hexes>. No text, no letters, no logos, centered, 3:2.
 Subject: <what is in THIS diorama>.
@@ -214,6 +214,7 @@ Previz the whole chain on `seedance_2_0_mini` first unless the run is ≤4 scene
 `references/video-models.md` — read it before the first generation.
 
 ### A) Continuous forward take — RECOMMENDED for grounded / realistic / walkthrough
+
 One camera that only ever glides **forward**, first scene through last, as a single take.
 Generate the legs **sequentially**: leg 0 from scene-0's still (glide forward into it);
 then each leg's `--start-image` = the **previous leg's ACTUAL last frame** (extract with
@@ -229,6 +230,7 @@ the legs still arrive at distinct rooms (the prompt steers the content). Cost: s
 re-rolls (3 attempts/leg).
 
 ### B) Dive-in + aerial connector — only for diorama / miniature / god's-eye worlds
+
 A "dive into each scene" clip + a connector that pulls **up and out** and flies over to the
 next scene (Step 5). The pull-out **reverses camera direction at every seam** (forward dive
 → backward pull-out). In a miniature/diorama world that reads as an intentional "zoom out
@@ -250,8 +252,8 @@ structure opens. Model: the chain model you picked above (default **`seedance_2_
 - Use the **solid-background still** (not the knocked-out transparent one) as the
   start image, so the video has a full frame.
 - Prompt: "Single continuous cinematic camera move, no cuts. Begin high and far looking
-  at the whole <scene> from outside … descend and fly inside toward <focal point> … the
-  roof/walls gently open to reveal the interior. <style>, smooth graceful slow motion.
+  at the whole [scene] from outside … descend and fly inside toward [focal point] … the
+  roof/walls gently open to reveal the interior. [style], smooth graceful slow motion.
   No text." (Template in `references/prompts.md`.)
 - Params (seedance): `--mode std --resolution 1080p --aspect_ratio 16:9 --duration 8`.
   For Kling: drop `--resolution` (no such param), add `--sound off`, `--duration 10`.
@@ -278,7 +280,7 @@ a fresh render of "the kitchen diorama," but the next dive clip *starts* on its 
 different render of that same diorama, the two won't match and you get a pop at the seam.
 The fix is to hand off the exact pixels:
 
-```
+```text
 For each connector between dive_i and dive_{i+1}:
   start-image = the LAST frame extracted from dive_i's rendered video
   end-image   = the FIRST frame extracted from dive_{i+1}'s rendered video
@@ -306,10 +308,7 @@ higgsfield generate create "$VMODEL" \
 # seedance: VOPTS="--mode std --resolution 1080p"; kling3_0: VOPTS="--mode std --sound off"
 ```
 
-Connector prompt: "Single continuous camera move, no cuts. Pull up and back out of
-<scene i>, rise into the sky, glide across the connected miniature world, and arrive
-above <scene i+1>, beginning to descend toward it. Seamless flowing aerial transition.
-<style>. No text." (Template in `references/prompts.md`.)
+Connector prompt: "Single continuous camera move, no cuts. Pull up and back out of [scene i], rise into the sky, glide across the connected miniature world, and arrive above [scene i+1], beginning to descend toward it. Seamless flowing aerial transition. [style]. No text." (Template in `references/prompts.md`.)
 
 Insurance: Seedance lands *close* to the end-image but not always pixel-perfect, so the
 engine still applies a **short crossfade** (a few frames) at each seam. Frame-matched

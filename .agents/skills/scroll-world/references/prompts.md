@@ -20,7 +20,7 @@ Collect and write down:
 
 Reuse verbatim in every scene prompt. Swap the bracketed bits for the brand's palette/bg.
 
-```
+```text
 Isometric low-poly 3D diorama floating as a small rounded island on a plain solid
 [BG_HEX] background with a soft contact shadow beneath it. Soft matte clay 3D render,
 rounded toy-model shapes, gentle warm studio lighting, soft long shadows, tilt-shift
@@ -29,6 +29,7 @@ composition, absolutely no text, no letters, no numbers, no logos.
 ```
 
 Alternate directions (swap the first two sentences, keep the palette/no-text tail):
+
 - **Flat papercraft:** "Isometric layered paper-craft diorama, matte cardstock, clean die-cut edges, subtle drop shadows between layers."
 - **Glossy toy:** "Isometric glossy vinyl-toy diorama, smooth plastic shading, soft rim light, collectible figurine look."
 - **Claymation:** "Isometric stop-motion clay set, visible thumbprints, handmade plasticine texture, soft studio softbox light."
@@ -37,13 +38,14 @@ Alternate directions (swap the first two sentences, keep the palette/no-text tai
 
 ## Scene still prompt (Step 2)
 
-```
+```text
 [STYLE PREAMBLE]
 Subject: [SECTION.subject — describe the miniature scene: the building/space, a few
 characters doing the work, the props that signal this stage of the business].
 ```
 
 Tips:
+
 - Name concrete props (they anchor the scene): tanks, cauldrons, conveyor, crates, awning, string lights, benches, scooters, map pins.
 - For the final "hero product" section, drop the diorama-island framing and prompt a
   single oversized product centerpiece floating on the same background with a few small
@@ -62,7 +64,7 @@ Tips:
 **No `--end-image`.** The bolded clauses are the motion-handoff contract — keep them
 verbatim; the mid-leg move is where the expression goes.
 
-```
+```text
 Single continuous cinematic camera move, no cuts. **Continue the same slow, steady
 forward glide.** [MID-LEG MOVE — optional, from the library below.] The camera moves
 into [SCENE i] toward [FOCAL POINT]. **In the final second, settle back into a slow,
@@ -94,7 +96,7 @@ orbit). If it doesn't, re-roll this leg — a bad handoff frame poisons every le
 
 `--start-image = the scene still` (solid-bg version).
 
-```
+```text
 Single continuous cinematic camera move, no cuts. Begin high and far, looking down at the
 whole [SECTION.subject] from outside like a tiny model. The camera slowly glides forward
 and descends toward it, sweeping in toward [FOCAL POINT — the counter/the cauldrons/the
@@ -117,7 +119,7 @@ param). Same for architecture-A legs.
 `--start-image = dive_i LAST frame` (extracted), `--end-image = dive_{i+1} FIRST frame`
 (extracted). Both from the RENDERED videos, not the stills.
 
-```
+```text
 Single continuous cinematic camera move, no cuts. The camera smoothly pulls up and back
 out of [SCENE i], rising into the sky, then glides forward across the connected miniature
 world and arrives above [SCENE i+1], beginning to descend toward it. One connected

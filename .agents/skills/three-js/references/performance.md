@@ -10,6 +10,7 @@
 ## Measurement
 
 Open DevTools → Performance → record 10s of scrolling. Flags:
+
 - Frames > 16.7ms budget → find the hotspot below
 - Long tasks > 50ms → JS work off the scroll handler
 

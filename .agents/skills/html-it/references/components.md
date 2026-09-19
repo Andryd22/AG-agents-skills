@@ -2,7 +2,8 @@
 
 Copy-paste components for html-it pages. All inline, no build step: paste the HTML and add the CSS hints to the page's `<style>`. Colours come from the design system in `../SKILL.md`.
 
-### TL;DR card
+## TL;DR card
+
 ```html
 <div class="tldr">
   <div class="tldr-label">TL;DR</div>
@@ -10,7 +11,8 @@ Copy-paste components for html-it pages. All inline, no build step: paste the HT
 </div>
 ```
 
-### Definition box
+## Definition box
+
 ```html
 <div class="def">
   <div class="def-term">Concept Name</div>
@@ -18,24 +20,29 @@ Copy-paste components for html-it pages. All inline, no build step: paste the HT
 </div>
 ```
 
-### Callout / warning
+## Callout / warning
+
 ```html
 <div class="callout">
   <div class="callout-label">⚠ Watch out</div>
   <p>Common mistakes, warnings, things not to forget.</p>
 </div>
 ```
+
 CSS: `background: #FFF7ED; border: 1.5px solid #FED7AA;` — label color `#C2410C`, text `#7C2D12`.
 
-### Math display block
+## Math display block
+
 ```html
 <div class="math-block">
   \[ \theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta \mathcal{L}(\theta_t) \]
 </div>
 ```
+
 CSS: `background: var(--g100); border-radius: 6px; padding: 16px 24px; text-align: center;`
 
-### Code block with syntax highlighting
+## Code block with syntax highlighting
+
 Theme: Catppuccin Mocha (`background: #1E1E2E; color: #CDD6F4`).
 
 ```html
@@ -47,6 +54,7 @@ Theme: Catppuccin Mocha (`background: #1E1E2E; color: #CDD6F4`).
 ```
 
 Token classes:
+
 - `.kw` → keyword (`def`, `return`, `import`) — `#CBA6F7` violet
 - `.fn` → function name — `#89DCEB` cyan
 - `.cm` → comment — `#6C7086` grey italic
@@ -54,7 +62,8 @@ Token classes:
 - `.nm` → number/literal — `#FAB387` orange
 - `.op` → operator — `#89DCEB` cyan
 
-### SVG diagram
+## SVG diagram
+
 ```html
 <figure class="diagram">
   <svg viewBox="0 0 640 270" xmlns="http://www.w3.org/2000/svg">
@@ -72,13 +81,15 @@ Token classes:
 ```
 
 **SVG best practices:**
+
 - Always `viewBox` + `width="100%"` — never fixed sizes
 - Background rect with `fill="#FAFAF7"` and `rx="8"`
 - Grid lines: `stroke="#E8E5DC" stroke-width="0.8"`
 - Use the CSS custom properties in fill/stroke when possible
 - Axis labels: `font-family="monospace" font-size="11" fill="#87867F"`
 
-### 2 / 3 column grid
+## 2 / 3 column grid
+
 ```html
 <div class="two-col">   <!-- grid-template-columns: 1fr 1fr -->
   <div class="def">...</div>
@@ -92,7 +103,8 @@ Token classes:
 </div>
 ```
 
-### Comparison table
+## Comparison table
+
 ```html
 <table>
   <thead><tr><th>Method</th><th>Advantage</th><th>Use</th></tr></thead>
@@ -101,9 +113,11 @@ Token classes:
   </tbody>
 </table>
 ```
+
 First `td` renders in mono clay — ideal for method/variant names.
 
-### Flashcards (Level 3 interactive)
+## Flashcards (Level 3 interactive)
+
 ```html
 <div class="flashcards"> <!-- 2-column grid -->
   <div class="card" onclick="toggle(this)">
@@ -122,7 +136,8 @@ function toggle(card) {
 </script>
 ```
 
-### TOC active-section tracker (JS)
+## TOC active-section tracker (JS)
+
 ```js
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {

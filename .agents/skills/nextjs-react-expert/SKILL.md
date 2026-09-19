@@ -20,19 +20,19 @@ description: React and Next.js performance optimization from Vercel Engineering.
 
 ## 📑 Content Map
 
-| File                                    | Impact             | Rules    | When to Read                                                    |
-| --------------------------------------- | ------------------ | -------- | --------------------------------------------------------------- |
-| `1-async-eliminating-waterfalls.md`     | 🔴 **CRITICAL**    | 5 rules  | Slow page loads, sequential API calls, data fetching waterfalls |
-| `2-bundle-bundle-size-optimization.md`  | 🔴 **CRITICAL**    | 5 rules  | Large bundle size, slow Time to Interactive, First Load issues  |
-| `3-server-server-side-performance.md`   | 🟠 **HIGH**        | 7 rules  | Slow SSR, API route optimization, server-side waterfalls        |
-| `4-client-client-side-data-fetching.md` | 🟡 **MEDIUM-HIGH** | 4 rules  | Client data management, SWR patterns, deduplication             |
-| `5-rerender-re-render-optimization.md`  | 🟡 **MEDIUM**      | 12 rules | Excessive re-renders, React performance, memoization            |
-| `6-rendering-rendering-performance.md`  | 🟡 **MEDIUM**      | 9 rules  | Rendering bottlenecks, virtualization, image optimization       |
-| `7-js-javascript-performance.md`        | ⚪ **LOW-MEDIUM**  | 12 rules | Micro-optimizations, caching, loop performance                  |
-| `8-advanced-advanced-patterns.md`       | 🔵 **VARIABLE**    | 3 rules  | Advanced React patterns, useLatest, init-once                   |
-| `9-cache-components.md`                | 🔴 **CRITICAL**    | 4 sections | **Next.js 16+ Only**: `use cache`, `cacheLife`, PPR, `cacheTag` |
+| File | Impact | Rules | When to Read |
+| --- | --- | --- | --- |
+| `1-async-eliminating-waterfalls.md` | 🔴 **CRITICAL** | 5 rules | Slow page loads, sequential API calls, data fetching waterfalls |
+| `2-bundle-bundle-size-optimization.md` | 🔴 **CRITICAL** | 5 rules | Large bundle size, slow Time to Interactive, First Load issues |
+| `3-server-server-side-performance.md` | 🟠 **HIGH** | 7 rules | Slow SSR, API route optimization, server-side waterfalls |
+| `4-client-client-side-data-fetching.md` | 🟡 **MEDIUM-HIGH** | 4 rules | Client data management, SWR patterns, deduplication |
+| `5-rerender-re-render-optimization.md` | 🟡 **MEDIUM** | 12 rules | Excessive re-renders, React performance, memoization |
+| `6-rendering-rendering-performance.md` | 🟡 **MEDIUM** | 9 rules | Rendering bottlenecks, virtualization, image optimization |
+| `7-js-javascript-performance.md` | ⚪ **LOW-MEDIUM** | 12 rules | Micro-optimizations, caching, loop performance |
+| `8-advanced-advanced-patterns.md` | 🔵 **VARIABLE** | 3 rules | Advanced React patterns, useLatest, init-once |
+| `9-cache-components.md` | 🔴 **CRITICAL** | 4 sections | **Next.js 16+ Only**: `use cache`, `cacheLife`, PPR, `cacheTag` |
 
-**Total: 57 rules across 8 categories**
+**Total:** 57 rules across 8 categories
 
 ---
 
@@ -40,7 +40,7 @@ description: React and Next.js performance optimization from Vercel Engineering.
 
 **What's your performance issue?**
 
-```
+```text
 🐌 Slow page loads / Long Time to Interactive
   → Read Section 1: Eliminating Waterfalls
   → Read Section 2: Bundle Size Optimization
@@ -78,7 +78,7 @@ description: React and Next.js performance optimization from Vercel Engineering.
 
 **Use this order when doing comprehensive optimization:**
 
-```
+```text
 1️⃣ CRITICAL (Biggest Gains - Do First):
    ├─ Section 1: Eliminating Waterfalls
    │  └─ Each waterfall adds full network latency (100-500ms+)
@@ -176,20 +176,20 @@ Before shipping to production:
 
 ## 🎯 How to Use This Skill
 
-### For New Features:
+### For New Features
 
 1. Check **Section 1 & 2** while building (prevent waterfalls, keep bundle small)
 2. Use server components by default (Section 3)
 3. Apply memoization for expensive operations (Section 5)
 
-### For Performance Reviews:
+### For Performance Reviews
 
 1. Start with **Section 1** (waterfalls = biggest impact)
 2. Then **Section 2** (bundle size)
 3. Then **Section 3** (server-side)
 4. Finally other sections as needed
 
-### For Debugging Slow Performance:
+### For Debugging Slow Performance
 
 1. Identify the symptom (slow load, lag, etc.)
 2. Use Quick Decision Tree above

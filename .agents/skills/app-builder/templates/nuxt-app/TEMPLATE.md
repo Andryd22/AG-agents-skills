@@ -10,7 +10,7 @@ Mẫu template Full-Stack hiện đại cho Nuxt 4, tối ưu hóa hiệu suất
 ## Tech Stack
 
 | Component | Technology | Version / Notes |
-|-----------|------------|-----------------|
+| ----------- | ------------ | ----------------- |
 | Framework | Nuxt | v4.0+ (App Directory structure) |
 | UI Engine | Vue | v3.6+ (Vapor Mode enabled) |
 | Language | TypeScript | v5+ (Strict Mode) |
@@ -26,7 +26,7 @@ Mẫu template Full-Stack hiện đại cho Nuxt 4, tối ưu hóa hiệu suất
 
 Sử dụng cấu trúc `app/` để giữ thư mục gốc gọn gàng.
 
-```
+```text
 project-name/
 ├── app/                  # Application Source
 │   ├── assets/
@@ -54,7 +54,7 @@ project-name/
 ## Key Concepts (2026)
 
 | Concept | Description | Future Update |
-|---------|-------------|---------------|
+| --------- | ------------- | --------------- |
 | **App Directory** | `app/` | Tách biệt mã nguồn ứng dụng và file cấu hình root. |
 | **Vapor Mode** | Opt-in performance | Render không cần Virtual DOM (như SolidJS). Bật trong `nuxt.config`. |
 | **Server Functions** | RPC-style calls | Gọi hàm server trực tiếp từ client (thay thế dần API routes thủ công). |
@@ -66,7 +66,7 @@ project-name/
 ## Environment Variables
 
 | Variable | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | DATABASE_URL | Prisma connection string (PostgreSQL) |
 | NUXT_PUBLIC_APP_URL | Canonical URL |
 | NUXT_SESSION_PASSWORD | Session encryption key |
@@ -76,12 +76,14 @@ project-name/
 ## Setup Steps
 
 1. Initialize Project:
+
    ```bash
    npx nuxi@latest init my-app
    # Select "Nuxt 4 structure" if prompted
    ```
 
 2. Install Core Deps:
+
    ```bash
    npm install @pinia/nuxt @prisma/client zod
    npm install -D prisma
@@ -89,11 +91,13 @@ project-name/
 
 3. Setup Tailwind v4:
    Install the Vite plugin (new standard):
+
    ```bash
    npm install tailwindcss @tailwindcss/vite
    ```
 
    Add to `nuxt.config.ts`:
+
    ```ts
    import tailwindcss from '@tailwindcss/vite'
    export default defineNuxtConfig({
@@ -106,6 +110,7 @@ project-name/
 
 4. Configure CSS:
    In `app/assets/css/main.css`:
+
    ```css
    @import "tailwindcss";
    @theme {
@@ -114,6 +119,7 @@ project-name/
    ```
 
 5. Run Development:
+
    ```bash
    npm run dev
    # Runs with Turbo/Vite
@@ -124,11 +130,13 @@ project-name/
 ## Best Practices
 
 - **Vapor Mode**: Kích hoạt cho các component nặng về render:
+
   ```ts
   <script setup lang="ts" vapor>
   // Component này sẽ compile sang chế độ Vapor (No VDOM)
   </script>
   ```
+
 - **Data Fetching**: Sử dụng `useFetch` với `server: false` cho các tác vụ client-only, hoặc dùng Server Functions để type-safety tốt hơn.
 - **State**: Dùng `defineStore` (Pinia) cho global state, `useState` của Nuxt cho state đơn giản chia sẻ giữa Server/Client.
 - **Type Safety**: Tự động tạo type cho API routes (`$fetch` typed automatically).

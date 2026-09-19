@@ -4,7 +4,7 @@
 
 ## When to Create Indexes
 
-```
+```text
 Index these:
 ├── Columns in WHERE clauses
 ├── Columns in JOIN conditions
@@ -21,7 +21,7 @@ Don't over-index:
 ## Index Type Selection
 
 | Type | Use For |
-|------|---------|
+| ------ | --------- |
 | **B-tree** | General purpose, equality & range |
 | **Hash** | Equality only, faster |
 | **GIN** | JSONB, arrays, full-text |
@@ -30,7 +30,7 @@ Don't over-index:
 
 ## Composite Index Principles
 
-```
+```text
 Order matters for composite indexes:
 ├── Equality columns first
 ├── Range columns last

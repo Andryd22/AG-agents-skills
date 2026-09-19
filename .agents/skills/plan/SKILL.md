@@ -22,7 +22,7 @@ The request is the text that follows `/plan`.
 
 Use the `project-planner` agent with this context:
 
-```
+```text
 CONTEXT:
 - User Request: [the text after /plan]
 - Mode: PLANNING ONLY (no code)
@@ -47,7 +47,7 @@ RULES:
 ## Expected Output
 
 | Deliverable | Location |
-|-------------|----------|
+| ------------- | ---------- |
 | Project Plan | `docs/PLAN-{slug}.md` |
 | Task Breakdown | Inside plan file |
 | Agent Assignments | Inside plan file |
@@ -58,7 +58,8 @@ RULES:
 ## After Planning
 
 Tell user:
-```
+
+```text
 [OK] Plan created: docs/PLAN-{slug}.md
 
 Next steps:
@@ -72,7 +73,7 @@ Next steps:
 ## Naming Examples
 
 | Request | Plan File |
-|---------|-----------|
+| --------- | ----------- |
 | `/plan e-commerce site with cart` | `docs/PLAN-ecommerce-cart.md` |
 | `/plan mobile app for fitness` | `docs/PLAN-fitness-app.md` |
 | `/plan add dark mode feature` | `docs/PLAN-dark-mode.md` |
@@ -83,7 +84,7 @@ Next steps:
 
 ## Usage
 
-```
+```text
 /plan e-commerce site with cart
 /plan mobile app for fitness tracking
 /plan SaaS dashboard with analytics

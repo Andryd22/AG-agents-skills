@@ -24,7 +24,7 @@ This skill teaches **decision-making principles**, not fixed code to copy.
 
 ### Decision Tree
 
-```
+```text
 What are you building?
 │
 ├── API-first / Microservices
@@ -46,14 +46,15 @@ What are you building?
 ### Comparison Principles
 
 | Factor | FastAPI | Django | Flask |
-|--------|---------|--------|-------|
+| -------- | --------- | -------- | ------- |
 | **Best for** | APIs, microservices | Full-stack, CMS | Simple, learning |
 | **Async** | Native | Django 5.0+ | Via extensions |
 | **Admin** | Manual | Built-in | Via extensions |
 | **ORM** | Choose your own | Django ORM | Choose your own |
 | **Learning curve** | Low | Medium | Low |
 
-### Selection Questions to Ask:
+### Selection Questions to Ask
+
 1. Is this API-only or full-stack?
 2. Need admin interface?
 3. Team familiar with async?
@@ -65,7 +66,7 @@ What are you building?
 
 ### When to Use Async
 
-```
+```text
 async def is better when:
 ├── I/O-bound operations (database, HTTP, file)
 ├── Many concurrent connections
@@ -83,7 +84,7 @@ def (sync) is better when:
 
 ### The Golden Rule
 
-```
+```text
 I/O-bound → async (waiting for external)
 CPU-bound → sync + multiprocessing (computing)
 
@@ -96,7 +97,7 @@ Don't:
 ### Async Library Selection
 
 | Need | Async Library |
-|------|---------------|
+| ------ | --------------- |
 | HTTP client | httpx |
 | PostgreSQL | asyncpg |
 | Redis | aioredis / redis-py async |
@@ -109,7 +110,7 @@ Don't:
 
 ### When to Type
 
-```
+```text
 Always type:
 ├── Function parameters
 ├── Return types
@@ -145,7 +146,7 @@ def apply(fn: Callable[[int], str]) -> str: ...
 
 ### Pydantic for Validation
 
-```
+```text
 When to use Pydantic:
 ├── API request/response models
 ├── Configuration/settings
@@ -165,7 +166,7 @@ Benefits:
 
 ### Structure Selection
 
-```
+```text
 Small project / Script:
 ├── main.py
 ├── utils.py
@@ -196,7 +197,7 @@ Large application:
 
 ### FastAPI Structure Principles
 
-```
+```text
 Organize by feature or layer:
 
 By layer:
@@ -221,7 +222,7 @@ By feature:
 
 ### Django Async (Django 5.0+)
 
-```
+```text
 Django supports async:
 ├── Async views
 ├── Async middleware
@@ -237,7 +238,7 @@ When to use async in Django:
 
 ### Django Best Practices
 
-```
+```text
 Model design:
 ├── Fat models, thin views
 ├── Use managers for common queries
@@ -261,7 +262,7 @@ Queries:
 
 ### async def vs def in FastAPI
 
-```
+```text
 Use async def when:
 ├── Using async database drivers
 ├── Making async HTTP calls
@@ -277,7 +278,7 @@ Use def when:
 
 ### Dependency Injection
 
-```
+```text
 Use dependencies for:
 ├── Database sessions
 ├── Current user / Auth
@@ -312,7 +313,7 @@ async def create(user: UserCreate) -> UserResponse:
 ### Selection Guide
 
 | Solution | Best For |
-|----------|----------|
+| ---------- | ---------- |
 | **BackgroundTasks** | Simple, in-process tasks |
 | **Celery** | Distributed, complex workflows |
 | **ARQ** | Async, Redis-based |
@@ -321,7 +322,7 @@ async def create(user: UserCreate) -> UserResponse:
 
 ### When to Use Each
 
-```
+```text
 FastAPI BackgroundTasks:
 ├── Quick operations
 ├── No persistence needed
@@ -342,7 +343,7 @@ Celery/ARQ:
 
 ### Exception Strategy
 
-```
+```text
 In FastAPI:
 ├── Create custom exception classes
 ├── Register exception handlers
@@ -357,7 +358,7 @@ Pattern:
 
 ### Error Response Philosophy
 
-```
+```text
 Include:
 ├── Error code (programmatic)
 ├── Message (human readable)
@@ -372,7 +373,7 @@ Include:
 ### Testing Strategy
 
 | Type | Purpose | Tools |
-|------|---------|-------|
+| ------ | --------- | ------- |
 | **Unit** | Business logic | pytest |
 | **Integration** | API endpoints | pytest + httpx/TestClient |
 | **E2E** | Full workflows | pytest + DB |
@@ -394,7 +395,7 @@ async def test_endpoint():
 
 ### Fixtures Strategy
 
-```
+```text
 Common fixtures:
 ├── db_session → Database connection
 ├── client → Test client
@@ -420,7 +421,8 @@ Before implementing:
 
 ## 11. Anti-Patterns to Avoid
 
-### ❌ DON'T:
+### ❌ DON'T
+
 - Default to Django for simple APIs (FastAPI may be better)
 - Use sync libraries in async code
 - Skip type hints for public APIs
@@ -428,7 +430,8 @@ Before implementing:
 - Ignore N+1 queries
 - Mix async and sync carelessly
 
-### ✅ DO:
+### ✅ DO
+
 - Choose framework based on context
 - Ask about async requirements
 - Use Pydantic for validation

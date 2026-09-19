@@ -9,7 +9,7 @@
 
 ### What is Lottie?
 
-```
+```text
 JSON-based vector animations:
 ├── Exported from After Effects via Bodymovin
 ├── Lightweight (smaller than GIF/video)
@@ -21,7 +21,7 @@ JSON-based vector animations:
 ### When to Use Lottie
 
 | Use Case | Why Lottie? |
-|----------|-------------|
+| ---------- | ------------- |
 | **Loading animations** | Branded, smooth, lightweight |
 | **Empty states** | Engaging illustrations |
 | **Onboarding flows** | Complex multi-step animations |
@@ -47,7 +47,7 @@ JSON-based vector animations:
 
 ### What Makes GSAP Different
 
-```
+```text
 Professional timeline-based animation:
 ├── Precise control over sequences
 ├── ScrollTrigger for scroll-driven animations
@@ -59,7 +59,7 @@ Professional timeline-based animation:
 ### Core Concepts
 
 | Concept | Purpose |
-|---------|---------|
+| --------- | --------- |
 | **Tween** | Single A→B animation |
 | **Timeline** | Sequenced/overlapping animations |
 | **ScrollTrigger** | Scroll position controls playback |
@@ -88,7 +88,7 @@ Professional timeline-based animation:
 ### Types of SVG Animation
 
 | Type | Technique | Use Case |
-|------|-----------|----------|
+| ------ | ----------- | ---------- |
 | **Line Drawing** | stroke-dashoffset | Logo reveals, signatures |
 | **Morph** | Path interpolation | Icon transitions |
 | **Transform** | rotate, scale, translate | Interactive icons |
@@ -96,7 +96,7 @@ Professional timeline-based animation:
 
 ### Line Drawing Principles
 
-```
+```text
 How stroke-dashoffset drawing works:
 ├── Set dasharray to path length
 ├── Set dashoffset equal to dasharray (hidden)
@@ -126,7 +126,7 @@ How stroke-dashoffset drawing works:
 
 ### Core Properties
 
-```
+```text
 CSS 3D Space:
 ├── perspective: depth of 3D field (500-1500px typical)
 ├── transform-style: preserve-3d (enable children 3D)
@@ -138,7 +138,7 @@ CSS 3D Space:
 ### Common 3D Patterns
 
 | Pattern | Use Case |
-|---------|----------|
+| --------- | ---------- |
 | **Card flip** | Reveals, flashcards, product views |
 | **Tilt on hover** | Interactive cards, 3D depth |
 | **Parallax layers** | Hero sections, immersive scrolling |
@@ -158,7 +158,7 @@ CSS 3D Space:
 ### Types of Particle Systems
 
 | Type | Feel | Use Case |
-|------|------|----------|
+| ------ | ------ | ---------- |
 | **Geometric** | Tech, network | SaaS, tech sites |
 | **Confetti** | Celebration | Success moments |
 | **Snow/Rain** | Atmospheric | Seasonal, mood |
@@ -168,7 +168,7 @@ CSS 3D Space:
 ### Libraries
 
 | Library | Best For |
-|---------|----------|
+| --------- | ---------- |
 | **tsParticles** | Configurable, lightweight |
 | **particles.js** | Simple backgrounds |
 | **Canvas API** | Custom, maximum control |
@@ -196,7 +196,7 @@ CSS 3D Space:
 
 ### Native CSS (Modern)
 
-```
+```text
 CSS Scroll Timelines:
 ├── animation-timeline: scroll() - document scroll
 ├── animation-timeline: view() - element in viewport
@@ -207,7 +207,7 @@ CSS Scroll Timelines:
 ### Principles
 
 | Trigger Point | Use Case |
-|---------------|----------|
+| --------------- | ---------- |
 | **Entry 0%** | When element starts entering |
 | **Entry 50%** | When half visible |
 | **Cover 50%** | When centered in viewport |
@@ -226,7 +226,7 @@ CSS Scroll Timelines:
 
 ### GPU vs CPU Animation
 
-```
+```text
 CHEAP (GPU-accelerated):
 ├── transform (translate, scale, rotate)
 ├── opacity
@@ -252,7 +252,7 @@ EXPENSIVE (triggers reflow):
 
 ## 8. Motion Graphics Decision Tree
 
-```
+```text
 What animation do you need?
 │
 ├── Complex branded animation?
@@ -279,7 +279,7 @@ What animation do you need?
 ## 9. Anti-Patterns
 
 | ❌ Don't | ✅ Do |
-|----------|-------|
+| ---------- | ------- |
 | Animate everything at once | Stagger and sequence |
 | Use heavy libraries for simple effects | Start with CSS |
 | Ignore reduced-motion | Always provide fallback |
@@ -292,7 +292,7 @@ What animation do you need?
 ## 10. Quick Reference
 
 | Effect | Tool | Performance |
-|--------|------|-------------|
+| -------- | ------ | ------------- |
 | Loading spinner | CSS/Lottie | Light |
 | Staggered reveal | GSAP/Framer | Medium |
 | SVG path draw | CSS stroke | Light |

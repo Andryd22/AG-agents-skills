@@ -4,7 +4,7 @@
 
 ## Agent Pipeline
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                   APP BUILDER (Orchestrator)                 │
 └─────────────────────────────────────────────────────────────┘
@@ -58,7 +58,7 @@
 ## Execution Order
 
 | Phase | Agent(s) | Parallel? | Prerequisite | CHECKPOINT |
-|-------|----------|-----------|--------------|------------|
+| ------- | ---------- | ----------- | -------------- | ------------ |
 | 0 | Socratic Gate | ❌ | - | ✅ Unclear points answered |
 | 1 | Project Planner | ❌ | Questions answered | ✅ **docs/PLAN-{slug}.md created** |
 | 1.5 | **PLAN VERIFICATION** | ❌ | Plan file exists | ✅ **File exists in docs/** |

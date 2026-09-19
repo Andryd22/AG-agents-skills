@@ -70,6 +70,7 @@ Absolute-positioned overlays with progress envelopes, driven from the same tick:
 ```html
 <div class="beat" data-in="0.16" data-peak="0.235" data-out="0.31"><h2>…</h2></div>
 ```
+
 ```js
 function beatAlpha(b, p){
   if (p < b.in || p > b.out) return 0;
@@ -139,6 +140,7 @@ gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
 ```
 
 Vocabulary to compose from (pick what tells *this* brand's journey):
+
 - **Char-split hero reveal** — split the wordmark into spans, stagger `yPercent:120 → 0`
   with `power4.out`.
 - **Pinned scrubbed scenes** — `pin: true, scrub: true, end: '+=140%'` timelines

@@ -12,7 +12,7 @@ description: Database design principles and decision-making. Schema design, inde
 **Read ONLY files relevant to the request!** Check the content map, find what you need.
 
 | File | Description | When to Read |
-|------|-------------|--------------|
+| ------ | ------------- | -------------- |
 | `database-selection.md` | PostgreSQL vs Neon vs Turso vs SQLite | Choosing database |
 | `orm-selection.md` | Drizzle vs Prisma vs Kysely | Choosing ORM |
 | `schema-design.md` | Normalization, PKs, relationships | Designing schema |

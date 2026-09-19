@@ -10,7 +10,8 @@ description: LLM prompt design, RAG architecture, and AI integration patterns. P
 ## Prompt Patterns
 
 ### Few-Shot Prompting
-```
+
+```text
 Classify the sentiment: Positive, Negative, or Neutral.
 
 Text: "This product exceeded my expectations." → Sentiment: Positive
@@ -20,7 +21,8 @@ Text: "{USER_INPUT}" → Sentiment:
 ```
 
 ### Chain-of-Thought (CoT)
-```
+
+```text
 Question: A bakery sold 120 croissants on Monday and 30% more on Tuesday.
 How many were sold on Tuesday?
 
@@ -32,6 +34,7 @@ Answer: 156
 ```
 
 ### Structured Output (JSON Mode)
+
 ```typescript
 const prompt = `
 Extract from the text below:
@@ -56,26 +59,30 @@ Text: "Acme Corp is hiring a Senior Engineer, $120K-$160K, fully remote."
 ## RAG Architecture
 
 ### Pipeline
-```
+
+```text
 User Query → Query Rewriting → Embedding → Vector Search → Reranking → LLM Generation → Response
 ```
 
 ### Chunking Strategies
+
 | Strategy | Use Case | Example |
-|----------|----------|---------|
+| ---------- | ---------- | --------- |
 | **Fixed-size** | Simple docs | 512 tokens, 64 overlap |
 | **Sentence** | QA on articles | Split by sentence boundary |
 | **Semantic** | Long technical docs | Split by heading/section |
 | **Recursive** | General purpose | Start big, split smaller if needed |
 
 ### Embedding Model Selection
+
 | Model | Dimensions | Best For |
-|-------|------------|----------|
+| ------- | ------------ | ---------- |
 | `text-embedding-3-small` | 512/1536 | Cost-sensitive, high volume |
 | `text-embedding-3-large` | 256/1024/3072 | Accuracy-critical |
 | `bge-large-en-v1.5` | 1024 | Self-hosted, open source |
 
 ### Retrieval Optimization
+
 ```python
 # Hybrid search: combine vector + keyword
 # LangChain v1: pip install langchain-classic langchain-community rank_bm25
@@ -113,7 +120,7 @@ tools = [{
 ## Guardrails
 
 | Risk | Mitigation |
-|------|------------|
+| ------ | ------------ |
 | Hallucination | Ground in retrieved docs, cite sources |
 | Prompt injection | Strip input, validate structured output |
 | Data leakage | Never embed PII, filter before indexing |
@@ -123,7 +130,7 @@ tools = [{
 ## Anti-Patterns
 
 | ❌ Don't | ✅ Do |
-|----------|-------|
+| ---------- | ------- |
 | Single-shot for complex tasks | Chain-of-thought or tree-of-thought |
 | `max_tokens` too low | Set high enough for complete output |
 | Index everything as one chunk | Chunk by semantic units with overlap |

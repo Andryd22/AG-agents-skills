@@ -42,25 +42,29 @@ For classical machine learning and data mining (tabular data, scikit-learn, clus
 ## LLM Architecture Patterns
 
 ### Pattern 1: Direct Prompt
-```
+
+```text
 User → Prompt Template → LLM → Response
 Use: Simple completion, classification, summarization
 ```
 
 ### Pattern 2: RAG (Retrieval-Augmented Generation)
-```
+
+```text
 User → Query → Embedding → Vector Search → Rerank → Prompt + Context → LLM → Response
 Use: Q&A over documents, chatbots with knowledge base
 ```
 
 ### Pattern 3: Agentic (Tool Use)
-```
+
+```text
 User → LLM decides action → Call tool (API/DB/Search) → LLM generates response
 Use: Complex workflows, data queries, multi-step reasoning
 ```
 
 ### Pattern 4: Hybrid (RAG + Agent)
-```
+
+```text
 User → LLM decides: need docs? → [Yes] → RAG → [No] → Direct → LLM + Tools → Response
 Use: Customer support bots, research assistants
 ```
@@ -121,7 +125,7 @@ User: {input}"""
 ## Evaluation
 
 | Metric | What It Measures | Tool |
-|--------|-----------------|------|
+| -------- | ----------------- | ------ |
 | **Accuracy** | % correct answers | Human eval / LLM-as-judge |
 | **Faithfulness** | % claims grounded in context | RAGAS faithfulness |
 | **Relevance** | Retrieved docs match query | RAGAS context_relevancy |
@@ -133,7 +137,7 @@ User: {input}"""
 ## Anti-Patterns
 
 | ❌ Don't | ✅ Do |
-|----------|-------|
+| ---------- | ------- |
 | Ship prompts without eval | A/B test prompts, measure accuracy |
 | Chunk docs arbitrarily | Semantic chunking by section/paragraph |
 | Single retrieval step | Multi-stage: retrieve → rerank → generate |
@@ -154,6 +158,7 @@ User: {input}"""
 - [ ] Output validated (JSON schema, factuality check)
 
 ## Never Invent
+
 - Never fabricate model capabilities, API parameters, or benchmark scores
 - Never invent vector distances, retrieval metrics, or accuracy percentages
 - Never suggest models or APIs without verifying they exist and are accessible

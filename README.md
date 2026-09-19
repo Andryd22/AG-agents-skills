@@ -27,11 +27,11 @@ L'installer sostituisce solo agenti, skill, regole e script del kit (li annota i
 
 ## Cosa è Incluso
 
-| Componente    | Quantità | Descrizione                                                        |
-| ------------- | -------- | ------------------------------------------------------------------ |
-| **Agenti**    | 14       | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
-| **Skill**     | 39       | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
-| **Regole**    | 2        | `GEMINI.md` (sempre attiva) e `caveman-rules.md`                   |
+| Componente | Quantità | Descrizione |
+| --- | --- | --- |
+| **Agenti** | 14 | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
+| **Skill** | 39 | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
+| **Regole** | 2 | `GEMINI.md` (sempre attiva) e `caveman-rules.md` |
 
 La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.agents/ARCHITECTURE.md).
 
@@ -77,25 +77,25 @@ L'IDE di Antigravity non supporta ancora i custom agent: lì il modello legge il
 
 Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: i comandi del kit sono già skill e si richiamano con lo stesso `/nome`.
 
-| Comando          | Descrizione                           |
-| ---------------- | ------------------------------------- |
-| `/brainstorm`    | Esplora le opzioni prima dell'implementazione |
-| `/create`        | Crea nuove funzionalità o applicazioni |
-| `/debug`         | Debugging sistematico                  |
-| `/deploy`        | Esegue il deploy dell'applicazione     |
-| `/enhance`       | Migliora il codice esistente           |
-| `/orchestrate`   | Coordinazione multi-agente             |
-| `/plan`          | Crea un piano dettagliato per le task  |
-| `/preview`       | Visualizza un'anteprima delle modifiche in locale |
-| `/status`        | Controlla lo stato del progetto        |
-| `/test`          | Genera ed esegue i test                |
+| Comando | Descrizione |
+| --- | --- |
+| `/brainstorm` | Esplora le opzioni prima dell'implementazione |
+| `/create` | Crea nuove funzionalità o applicazioni |
+| `/debug` | Debugging sistematico |
+| `/deploy` | Esegue il deploy dell'applicazione |
+| `/enhance` | Migliora il codice esistente |
+| `/orchestrate` | Coordinazione multi-agente |
+| `/plan` | Crea un piano dettagliato per le task |
+| `/preview` | Visualizza un'anteprima delle modifiche in locale |
+| `/status` | Controlla lo stato del progetto |
+| `/test` | Genera ed esegue i test |
 | `/ui-ux-pro-max` | Progetta interfacce con 58 stili e 96 palette |
-| `/caveman`       | Attiva la modalità di risposta per risparmiare token |
-| `/html-it`       | Framework per output HTML di alta qualità |
-| `/scroll-film`   | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
-| `/latex`         | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
+| `/caveman` | Attiva la modalità di risposta per risparmiare token |
+| `/html-it` | Framework per output HTML di alta qualità |
+| `/scroll-film` | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
+| `/latex` | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
 | `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
-| `/classic-ml`    | Data mining e machine learning classico con pandas e scikit-learn |
+| `/classic-ml` | Data mining e machine learning classico con pandas e scikit-learn |
 
 Esempio:
 
@@ -114,9 +114,11 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 `python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
 
 ## 🪨 Caveman Mode
+
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.
 
-### Utilizzo:
+### Utilizzo
+
 - Abilita: `/caveman on`
 - Disabilita: `/caveman off`
 - Livelli di intensità:

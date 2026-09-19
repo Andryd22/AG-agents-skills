@@ -9,7 +9,7 @@
 
 ### What Makes Glassmorphism Work
 
-```
+```text
 Key Properties:
 ├── Semi-transparent background (not solid)
 ├── Backdrop blur (frosted glass effect)
@@ -39,6 +39,7 @@ Key Properties:
 ```
 
 ### When to Use Glassmorphism
+
 - ✅ Over colorful/image backgrounds
 - ✅ Modals, overlays, cards
 - ✅ Navigation bars with scrolling content behind
@@ -46,6 +47,7 @@ Key Properties:
 - ❌ Simple solid backgrounds (pointless)
 
 ### When NOT to Use
+
 - Low contrast situations
 - Accessibility-critical content
 - Performance-constrained devices
@@ -56,7 +58,7 @@ Key Properties:
 
 ### What Makes Neomorphism Work
 
-```
+```text
 Key Concept: Soft, extruded elements using DUAL shadows
 ├── Light shadow (from light source direction)
 ├── Dark shadow (opposite direction)
@@ -88,9 +90,11 @@ Key Concept: Soft, extruded elements using DUAL shadows
 ```
 
 ### Accessibility Warning
+
 ⚠️ **Low contrast** - use sparingly, ensure clear boundaries
 
 ### When to Use
+
 - Decorative elements
 - Subtle interactive states
 - Minimalist UI with flat colors
@@ -101,7 +105,7 @@ Key Concept: Soft, extruded elements using DUAL shadows
 
 ### Concept: Shadows Indicate Elevation
 
-```
+```text
 Higher elevation = larger shadow
 ├── Level 0: No shadow (flat on surface)
 ├── Level 1: Subtle shadow (slightly raised)
@@ -129,6 +133,7 @@ box-shadow: OFFSET-X OFFSET-Y BLUR SPREAD COLOR;
 4. **Blur scales with offset** (larger offset = larger blur)
 
 ### Dark Mode Shadows
+
 - Shadows less visible on dark backgrounds
 - May need to increase opacity
 - Or use glow/highlight instead
@@ -140,14 +145,14 @@ box-shadow: OFFSET-X OFFSET-Y BLUR SPREAD COLOR;
 ### Types and When to Use
 
 | Type | Pattern | Use Case |
-|------|---------|----------|
+| ------ | --------- | ---------- |
 | **Linear** | Color A → Color B along line | Backgrounds, buttons, headers |
 | **Radial** | Center → outward | Spotlights, focal points |
 | **Conic** | Around center | Pie charts, creative effects |
 
 ### Creating Harmonious Gradients
 
-```
+```text
 Good Gradient Rules:
 ├── Use ADJACENT colors on wheel (analogous)
 ├── Or same hue with different lightness
@@ -173,7 +178,7 @@ Good Gradient Rules:
 
 ### Mesh Gradients
 
-```
+```text
 Multiple radial gradients overlapped:
 ├── Each at different position
 ├── Each with transparent falloff
@@ -187,7 +192,7 @@ Multiple radial gradients overlapped:
 
 ### Gradient Borders
 
-```
+```text
 Technique: Pseudo-element with gradient background
 ├── Element has padding = border width
 ├── Pseudo-element fills with gradient
@@ -196,7 +201,7 @@ Technique: Pseudo-element with gradient background
 
 ### Animated Borders
 
-```
+```text
 Technique: Rotating gradient or conic sweep
 ├── Pseudo-element larger than content
 ├── Animation rotates the gradient
@@ -259,7 +264,7 @@ box-shadow:
 
 ### Gradient Overlay on Images
 
-```
+```text
 Purpose: Improve text readability over images
 Pattern: Gradient from transparent to opaque
 Position: Where text will appear
@@ -293,7 +298,7 @@ background:
 
 ### Container Queries (Concept)
 
-```
+```text
 Instead of viewport breakpoints:
 ├── Component responds to ITS container
 ├── Truly modular, reusable components
@@ -302,7 +307,7 @@ Instead of viewport breakpoints:
 
 ### :has() Selector (Concept)
 
-```
+```text
 Parent styling based on children:
 ├── "Parent that has X child"
 ├── Enables previously impossible patterns
@@ -311,7 +316,7 @@ Parent styling based on children:
 
 ### Scroll-Driven Animations (Concept)
 
-```
+```text
 Animation progress tied to scroll:
 ├── Entry/exit animations on scroll
 ├── Parallax effects
@@ -325,7 +330,7 @@ Animation progress tied to scroll:
 
 ### GPU-Accelerated Properties
 
-```
+```text
 CHEAP to animate (GPU):
 ├── transform (translate, scale, rotate)
 └── opacity

@@ -8,7 +8,7 @@ description: Modern template for Next.js 16, React 19 & Tailwind v4. Optimized f
 ## Tech Stack
 
 | Component | Technology | Notes |
-|-----------|------------|-------|
+| ----------- | ------------ | ------- |
 | Framework | Next.js 16+ | App Router, Turbopack, Static Exports |
 | Core | React 19 | Server Components, New Hooks, Compiler |
 | Language | TypeScript | Strict Mode |
@@ -23,7 +23,7 @@ description: Modern template for Next.js 16, React 19 & Tailwind v4. Optimized f
 
 Streamlined structure thanks to Tailwind v4 (theme configuration lives inside CSS).
 
-```
+```text
 project-name/
 ├── src/
 │   ├── app/
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
 ## Landing Page Sections
 
 | Section | Purpose | Suggested Component |
-|---------|---------|---------------------|
+| --------- | --------- | --------------------- |
 | Hero | First impression, H1 & Main CTA | `<HeroSection />` |
 | Features | Product benefits (Grid/Bento layout) | `<FeaturesGrid />` |
 | Social Proof | Partner logos, User numbers | `<LogoCloud />` |
@@ -110,7 +110,7 @@ export const metadata: Metadata = {
 ## Animation Patterns (Framer Motion)
 
 | Pattern | Usage | Implementation |
-|---------|-------|----------------|
+| --------- | ------- | ---------------- |
 | Fade Up | Headlines, paragraphs | `initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}` |
 | Stagger | Lists of Features/Cards | Use variants with `staggerChildren` |
 | Parallax | Background images or floating elements | `useScroll` & `useTransform` |
@@ -121,6 +121,7 @@ export const metadata: Metadata = {
 ## Setup Steps
 
 1. Initialize Project:
+
    ```bash
    npx create-next-app@latest my-site --typescript --tailwind --eslint
    # Select 'Yes' for App Router
@@ -128,12 +129,14 @@ export const metadata: Metadata = {
    ```
 
 2. Install Auxiliary Libraries:
+
    ```bash
    npm install framer-motion lucide-react clsx tailwind-merge
    # clsx and tailwind-merge help handle dynamic classes better
    ```
 
 3. Configure Tailwind v4 (in `src/app/globals.css`):
+
    ```css
    @import "tailwindcss";
 
@@ -144,6 +147,7 @@ export const metadata: Metadata = {
    ```
 
 4. Development:
+
    ```bash
    npm run dev --turbopack
    ```
@@ -153,7 +157,7 @@ export const metadata: Metadata = {
 ## Deployment
 
 | Platform | Method | Important Notes |
-|----------|--------|-----------------|
+| ---------- | -------- | ----------------- |
 | Vercel | Git Push | Auto-detects Next.js. Best for performance. |
 | GitHub Pages | GitHub Actions | Need to set `basePath` in `next.config.ts` if not using a custom domain. |
 | AWS S3 / CloudFront | Upload out folder | Ensure Error Document is configured to `404.html`. |

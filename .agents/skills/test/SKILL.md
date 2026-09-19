@@ -23,7 +23,7 @@ This command generates tests, runs existing tests, or checks test coverage.
 
 ## Sub-commands
 
-```
+```text
 /test                - Run all tests
 /test [file/feature] - Generate tests for specific target
 /test coverage       - Show test coverage report
@@ -83,7 +83,7 @@ Run with: `npm test`
 
 ### For Test Execution
 
-```
+```text
 🧪 Running tests...
 
 ✅ auth.test.ts (5 passed)
@@ -102,7 +102,7 @@ Total: 15 tests (14 passed, 1 failed)
 
 ## Examples
 
-```
+```text
 /test src/services/auth.service.ts
 /test user registration flow
 /test coverage

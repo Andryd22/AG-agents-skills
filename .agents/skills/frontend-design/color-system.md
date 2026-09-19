@@ -9,7 +9,7 @@
 
 ### The Color Wheel
 
-```
+```text
                     YELLOW
                       │
            Yellow-    │    Yellow-
@@ -35,14 +35,15 @@
 ### Color Relationships
 
 | Scheme | How to Create | When to Use |
-|--------|---------------|-------------|
+| -------- | --------------- | ------------- |
 | **Monochromatic** | Pick ONE hue, vary only lightness/saturation | Minimal, professional, cohesive |
 | **Analogous** | Pick 2-3 ADJACENT hues on wheel | Harmonious, calm, nature-inspired |
 | **Complementary** | Pick OPPOSITE hues on wheel | High contrast, vibrant, attention |
 | **Split-Complementary** | Base + 2 colors adjacent to complement | Dynamic but balanced |
 | **Triadic** | 3 hues EQUIDISTANT on wheel | Vibrant, playful, creative |
 
-### How to Choose a Scheme:
+### How to Choose a Scheme
+
 1. **What's the project mood?** Calm → Analogous. Bold → Complementary.
 2. **How many colors needed?** Minimal → Monochromatic. Complex → Triadic.
 3. **Who's the audience?** Conservative → Monochromatic. Young → Triadic.
@@ -52,7 +53,8 @@
 ## 2. The 60-30-10 Rule
 
 ### Distribution Principle
-```
+
+```text
 ┌─────────────────────────────────────────────────┐
 │                                                 │
 │     60% PRIMARY (Background, large areas)       │
@@ -70,6 +72,7 @@
 ```
 
 ### Implementation Pattern
+
 ```css
 :root {
   /* 60% - Pick based on light/dark mode and mood */
@@ -91,7 +94,7 @@
 ### How to Choose Based on Context
 
 | If Project Is... | Consider These Hues | Why |
-|------------------|---------------------|-----|
+| ------------------ | --------------------- | ----- |
 | **Finance, Tech, Healthcare** | Blues, Teals | Trust, stability, calm |
 | **Eco, Wellness, Nature** | Greens, Earth tones | Growth, health, organic |
 | **Food, Energy, Youth** | Orange, Yellow, Warm | Appetite, excitement, warmth |
@@ -101,7 +104,7 @@
 ### Emotional Associations (For Decision Making)
 
 | Hue Family | Positive Associations | Cautions |
-|------------|----------------------|----------|
+| ------------ | ---------------------- | ---------- |
 | **Blue** | Trust, calm, professional | Can feel cold, corporate |
 | **Green** | Growth, nature, success | Can feel boring if overused |
 | **Red** | Passion, urgency, energy | High arousal, use sparingly |
@@ -111,7 +114,8 @@
 | **Black** | Elegance, power, modern | Can feel heavy |
 | **White** | Clean, minimal, open | Can feel sterile |
 
-### Selection Process:
+### Selection Process
+
 1. **What industry?** → Narrow to 2-3 hue families
 2. **What emotion?** → Pick primary hue
 3. **What contrast?** → Decide light vs dark mode
@@ -125,7 +129,7 @@
 
 Instead of memorizing hex codes, learn to **manipulate HSL**:
 
-```
+```text
 HSL = Hue, Saturation, Lightness
 
 Hue (0-360): The color family
@@ -150,7 +154,7 @@ Lightness (0-100%): Brightness
 
 Given ANY base color, create a scale:
 
-```
+```text
 Lightness Scale:
   50  (lightest) → L: 97%
   100            → L: 94%
@@ -167,7 +171,7 @@ Lightness Scale:
 ### Saturation Adjustments
 
 | Context | Saturation Level |
-|---------|-----------------|
+| --------- | ----------------- |
 | **Professional/Corporate** | Lower (40-60%) |
 | **Playful/Youth** | Higher (70-90%) |
 | **Dark Mode** | Reduce by 10-20% |
@@ -177,10 +181,11 @@ Lightness Scale:
 
 ## 5. Context-Based Selection Guide
 
-### Instead of Copying Palettes, Follow This Process:
+### Instead of Copying Palettes, Follow This Process
 
-**Step 1: Identify the Context**
-```
+#### Step 1: Identify the Context
+
+```text
 What type of project?
 ├── E-commerce → Need trust + urgency balance
 ├── SaaS/Dashboard → Need low-fatigue, data focus
@@ -190,8 +195,9 @@ What type of project?
 └── Other → ASK the user
 ```
 
-**Step 2: Select Primary Hue Family**
-```
+##### Step 2: Select Primary Hue Family
+
+```text
 Based on context, pick ONE:
 - Blue family (trust)
 - Green family (growth)
@@ -200,8 +206,9 @@ Based on context, pick ONE:
 - OR ask user preference
 ```
 
-**Step 3: Decide Light/Dark Mode**
-```
+###### Step 3: Decide Light/Dark Mode
+
+```text
 Consider:
 - User preference?
 - Industry standard?
@@ -209,7 +216,8 @@ Consider:
 - Time of use? (evening app = dark option)
 ```
 
-**Step 4: Generate Palette Using Principles**
+###### Step 4: Generate Palette Using Principles
+
 - Use HSL manipulation
 - Follow 60-30-10 rule
 - Check contrast (WCAG)
@@ -228,7 +236,7 @@ Consider:
 
 ### Contrast in Dark Mode
 
-```
+```text
 Background layers (darker → lighter as elevation increases):
 Layer 0 (base)    → Darkest
 Layer 1 (cards)   → Slightly lighter
@@ -239,7 +247,7 @@ Layer 3 (popups)  → Lightest dark
 ### Adapting Colors for Dark Mode
 
 | Light Mode | Dark Mode Adjustment |
-|------------|---------------------|
+| ------------ | --------------------- |
 | High saturation accent | Reduce saturation 10-20% |
 | Pure white background | Dark gray with brand hue tint |
 | Black text | Light gray (not pure white) |
@@ -252,7 +260,7 @@ Layer 3 (popups)  → Lightest dark
 ### Contrast Requirements (WCAG)
 
 | Level | Normal Text | Large Text |
-|-------|-------------|------------|
+| --- | --- | --- |
 | AA (minimum) | 4.5:1 | 3:1 |
 | AAA (enhanced) | 7:1 | 4.5:1 |
 
@@ -265,7 +273,7 @@ Layer 3 (popups)  → Lightest dark
 ### Safe Patterns
 
 | Use Case | Guideline |
-|----------|-----------|
+| ---------- | ----------- |
 | **Text on light bg** | Use lightness 35% or less |
 | **Text on dark bg** | Use lightness 85% or more |
 | **Primary on white** | Ensure dark enough variant |
@@ -289,7 +297,8 @@ Before finalizing any color choice, verify:
 
 ## 9. Anti-Patterns to Avoid
 
-### ❌ DON'T:
+### ❌ DON'T
+
 - Copy the same hex codes every project
 - Default to purple/violet (AI tendency)
 - Default to dark mode + neon (AI tendency)
@@ -298,7 +307,8 @@ Before finalizing any color choice, verify:
 - Ignore user's industry context
 - Skip asking user preference
 
-### ✅ DO:
+### ✅ DO
+
 - Generate fresh palette per project
 - Ask user about color preferences
 - Consider industry and audience

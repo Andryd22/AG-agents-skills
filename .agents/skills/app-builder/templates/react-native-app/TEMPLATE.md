@@ -10,7 +10,7 @@ Modern mobile app template, optimized for New Architecture and React 19.
 ## Tech Stack
 
 | Component | Technology | Version / Notes |
-|-----------|------------|-----------------|
+| ----------- | ------------ | ----------------- |
 | Core | React Native + Expo | SDK 52+ (New Architecture Enabled) |
 | Language | TypeScript | v5+ (Strict Mode) |
 | UI Logic | React | v19 (React Compiler, auto-memoization) |
@@ -25,7 +25,7 @@ Modern mobile app template, optimized for New Architecture and React 19.
 
 Standardized structure for Expo Router and NativeWind v4.
 
-```
+```text
 project-name/
 ├── app/                 # Expo Router (File-based routing)
 │   ├── _layout.tsx      # Root Layout (Stack/Tabs config)
@@ -57,7 +57,7 @@ project-name/
 ## Navigation Patterns (Expo Router)
 
 | Pattern | Description | Implement |
-|---------|-------------|-----------|
+| --------- | ------------- | ----------- |
 | Stack | Hierarchical navigation (Push/Pop) | `<Stack />` in `_layout.tsx` |
 | Tabs | Bottom navigation bar | `<Tabs />` in `(tabs)/_layout.tsx` |
 | Drawer | Side slide-out menu | `expo-router/drawer` |
@@ -68,7 +68,7 @@ project-name/
 ## Key Packages & Purpose
 
 | Package | Purpose |
-|---------|---------|
+| --------- | --------- |
 | expo-router | File-based routing (Next.js like) |
 | nativewind | Use Tailwind CSS classes in React Native |
 | react-native-reanimated | Smooth animations (runs on UI thread) |
@@ -81,17 +81,20 @@ project-name/
 ## Setup Steps (2026 Standard)
 
 1. Initialize Project:
+
    ```bash
    npx create-expo-app@latest my-app --template default
    cd my-app
    ```
 
 2. Install Core Dependencies:
+
    ```bash
    npx expo install expo-router react-native-safe-area-context react-native-screens expo-link expo-constants expo-status-bar
    ```
 
 3. Install NativeWind v4:
+
    ```bash
    npm install nativewind tailwindcss react-native-reanimated
    ```
@@ -102,6 +105,7 @@ project-name/
    - Import `global.css` in `app/_layout.tsx`.
 
 5. Run Project:
+
    ```bash
    npx expo start -c
    # Press 'i' for iOS simulator or 'a' for Android emulator

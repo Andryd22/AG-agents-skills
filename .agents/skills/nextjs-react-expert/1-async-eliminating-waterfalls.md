@@ -310,7 +310,6 @@ Both components share the same promise, so only one fetch occurs. Layout renders
 
 **Trade-off:** Faster initial paint vs potential layout shift. Choose based on your UX priorities.
 
-
 ---
 
 ## Rule 1.6: Use `after()` and `connection()` (Next.js 16+)
@@ -321,6 +320,7 @@ Both components share the same promise, so only one fetch occurs. Layout renders
 Next.js 16 introduced APIs to prevent "Blocking the Main Thread" and ensure "Dynamic Runtime" awareness.
 
 ### 1. `after()` for Non-Blocking Logic
+
 Avoid `await` on logic that doesn't affect the initial UI (logging, analytics, emails).
 
 ```tsx
@@ -339,6 +339,7 @@ export default async function Page() {
 ```
 
 ### 2. `connection()` for Dynamic Intent
+
 Use `connection()` to signal that a component is dynamic and should not be pre-rendered as static, allowing other parts of the page to stream independently.
 
 ```tsx

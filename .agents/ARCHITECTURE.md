@@ -25,6 +25,7 @@ Antigravity deprecated workflows and retires them on 1 November 2026: every form
 ├── skills/                  # 39 Skills (also slash commands)
 ├── rules/                   # GEMINI.md (always on), caveman-rules.md
 ├── scripts/                 # 4 Master Scripts
+├── .markdownlint.jsonc      # markdownlint rules for the kit's .md files
 └── .ag-kit.json             # Written by the installer: what the kit installed
 ```
 
@@ -200,20 +201,20 @@ The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 
 ### Skill Scripts (15)
 
-| Skill                 | Script                                  | Purpose                                   |
-| --------------------- | --------------------------------------- | ----------------------------------------- |
-| `api-patterns`        | `api_validator.py`                      | API best-practice checks                  |
-| `database-design`     | `schema_validator.py`                   | Prisma / Drizzle schema checks            |
-| `frontend-design`     | `ux_audit.py`                           | UX psychology + accessibility audit       |
-| `frontend-design`     | `accessibility_checker.py`              | WCAG checks                               |
-| `mobile-design`       | `mobile_audit.py`                       | Touch targets, mobile patterns            |
-| `nextjs-react-expert` | `react_performance_checker.py`          | Static React performance hints            |
-| `nextjs-react-expert` | `convert_rules.py`                      | Rebuilds the rule files                   |
-| `test`                | `test_runner.py`                        | Runs the project's test suite             |
-| `webapp-testing`      | `playwright_runner.py`                  | E2E smoke test of a running URL           |
-| `ui-ux-pro-max`       | `search.py`, `core.py`, `design_system.py` | Searches the design database in `data/` |
-| `scroll-film`         | `assemble.sh`, `chain-step.sh`          | Video chain assembly (bash, ffmpeg ≥ 5.1) |
-| `scroll-film`         | `verify.js`                             | Screenshots + jank test (puppeteer-core)  |
+| Skill | Script | Purpose |
+| --- | --- | --- |
+| `api-patterns` | `api_validator.py` | API best-practice checks |
+| `database-design` | `schema_validator.py` | Prisma / Drizzle schema checks |
+| `frontend-design` | `ux_audit.py` | UX psychology + accessibility audit |
+| `frontend-design` | `accessibility_checker.py` | WCAG checks |
+| `mobile-design` | `mobile_audit.py` | Touch targets, mobile patterns |
+| `nextjs-react-expert` | `react_performance_checker.py` | Static React performance hints |
+| `nextjs-react-expert` | `convert_rules.py` | Rebuilds the rule files |
+| `test` | `test_runner.py` | Runs the project's test suite |
+| `webapp-testing` | `playwright_runner.py` | E2E smoke test of a running URL |
+| `ui-ux-pro-max` | `search.py`, `core.py`, `design_system.py` | Searches the design database in `data/` |
+| `scroll-film` | `assemble.sh`, `chain-step.sh` | Video chain assembly (bash, ffmpeg ≥ 5.1) |
+| `scroll-film` | `verify.js` | Screenshots + jank test (puppeteer-core) |
 
 `scroll-world/references/` also ships `knockout.py` (background removal) and `scrub-engine.js` (the scrub engine).
 

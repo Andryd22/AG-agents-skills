@@ -29,18 +29,22 @@ Markdown stays better for: tiny notes, commit messages, README first-pass, git d
 ## The Four Levels
 
 ### Level 1 — Static Doc
+
 HTML as better markdown. One-way, read-only.
 **Use cases:** reports, explainers, plans, summaries.
 
 ### Level 2 — Visual Artifact
+
 Adds SVG, tables, layouts. Still read-only.
 **Use cases:** lecture notes, design systems, dashboards, comparison tables, slide decks.
 
 ### Level 3 — Two-Way Interactive
+
 Sliders, toggles, drags. **Export button mandatory.**
 **Use cases:** parameter tuning, A/B pickers, prompt iteration, flashcard review.
 
 ### Level 4 — Throwaway Tool
+
 Purpose-built mini-app. Always ends with export back.
 **Use cases:** triage boards, config editors, dataset curation tools.
 
@@ -71,6 +75,7 @@ Purpose-built mini-app. Always ends with export back.
 ```
 
 ### Typography rules
+
 - H1: `font-family: var(--serif)`, `font-size: 40px`, `letter-spacing: -0.018em`, `line-height: 1.06`
 - H1 key word: wrap in `<em>` → renders in italic clay colour
 - Eyebrow above H1: mono, 11px, uppercase, `letter-spacing: 0.12em`, clay colour, preceded by 24px clay bar
@@ -80,6 +85,7 @@ Purpose-built mini-app. Always ends with export back.
 - H3: sans, 13px, uppercase, letter-spacing 0.07em, var(--g700)
 
 ### Anti-patterns to avoid
+
 - Linear gradients on everything
 - Glassmorphism for documents
 - External icon libraries (use inline SVG or skip)
@@ -101,6 +107,7 @@ Lecture notes use an A4 fixed layout, MathJax, flashcards and HTML versions of t
 ## Interaction Patterns (Level 3-4)
 
 ### Export button — mandatory at Level 3+
+
 ```js
 document.getElementById('copyBtn').addEventListener('click', function() {
   const output = buildExport(); // build the text to export

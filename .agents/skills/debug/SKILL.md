@@ -80,19 +80,23 @@ When `/debug` is triggered:
 ```
 
 ### 7. Prevention
+
 🛡️ [How to prevent this in the future]
-```
+
+```text
 
 ---
 
 ## Examples
 
 ```
+
 /debug login not working
 /debug API returns 500
 /debug form doesn't submit
 /debug data not saving
-```
+
+```text
 
 ---
 

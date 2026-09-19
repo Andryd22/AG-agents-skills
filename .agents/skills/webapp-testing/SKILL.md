@@ -12,7 +12,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 **Execute these for automated browser testing:**
 
 | Script | Purpose | Usage |
-|--------|---------|-------|
+| -------- | --------- | ------- |
 | `scripts/playwright_runner.py` | Basic browser test | `python scripts/playwright_runner.py https://example.com` |
 | | With screenshot | `python scripts/playwright_runner.py <url> --screenshot` |
 | | Accessibility check | `python scripts/playwright_runner.py <url> --a11y` |
@@ -26,7 +26,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### Discovery First
 
 | Target | How to Find |
-|--------|-------------|
+| -------- | ------------- |
 | Routes | Scan app/, pages/, router files |
 | API endpoints | Grep for HTTP methods |
 | Components | Find component directories |
@@ -42,7 +42,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 
 ## 2. Testing Pyramid for Web
 
-```
+```text
         /\          E2E (Few)
        /  \         Critical user flows
       /----\
@@ -60,7 +60,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### What to Test
 
 | Priority | Tests |
-|----------|-------|
+| ---------- | ------- |
 | 1 | Happy path user flows |
 | 2 | Authentication flows |
 | 3 | Critical business actions |
@@ -69,7 +69,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### E2E Best Practices
 
 | Practice | Why |
-|----------|-----|
+| ---------- | ----- |
 | Use data-testid | Stable selectors |
 | Wait for elements | Avoid flaky tests |
 | Clean state | Independent tests |
@@ -82,7 +82,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### Core Concepts
 
 | Concept | Use |
-|---------|-----|
+| --------- | ----- |
 | Page Object Model | Encapsulate page logic |
 | Fixtures | Reusable test setup |
 | Assertions | Built-in auto-wait |
@@ -91,7 +91,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### Configuration
 
 | Setting | Recommendation |
-|---------|----------------|
+| --------- | ---------------- |
 | Retries | 2 on CI |
 | Trace | on-first-retry |
 | Screenshots | on-failure |
@@ -104,7 +104,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### When to Use
 
 | Scenario | Value |
-|----------|-------|
+| ---------- | ------- |
 | Design system | High |
 | Marketing pages | High |
 | Component library | Medium |
@@ -124,7 +124,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 ### Coverage Areas
 
 | Area | Tests |
-|------|-------|
+| ------ | ------- |
 | Status codes | 200, 400, 404, 500 |
 | Response shape | Matches schema |
 | Error messages | User-friendly |
@@ -136,7 +136,7 @@ description: Web application testing principles. E2E, Playwright, deep audit str
 
 ### File Structure
 
-```
+```text
 tests/
 ├── e2e/           # Full user flows
 ├── integration/   # API, data
@@ -147,7 +147,7 @@ tests/
 ### Naming Convention
 
 | Pattern | Example |
-|---------|---------|
+| --- | --- |
 | Feature-based | `login.spec.ts` |
 | Descriptive | `user-can-checkout.spec.ts` |
 
@@ -165,7 +165,7 @@ tests/
 ### Parallelization
 
 | Strategy | Use |
-|----------|-----|
+| --- | --- |
 | Per file | Playwright default |
 | Sharding | Large suites |
 | Workers | Multiple browsers |
@@ -175,7 +175,7 @@ tests/
 ## 9. Anti-Patterns
 
 | ❌ Don't | ✅ Do |
-|----------|-------|
+| ---------- | ------- |
 | Test implementation | Test behavior |
 | Hardcode waits | Use auto-wait |
 | Skip cleanup | Isolate tests |

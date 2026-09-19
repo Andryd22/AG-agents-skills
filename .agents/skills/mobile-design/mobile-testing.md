@@ -8,7 +8,7 @@
 
 ## 🧠 MOBILE TESTING MINDSET
 
-```
+```text
 Mobile testing differs from web:
 ├── Real devices matter (emulators hide bugs)
 ├── Platform differences (iOS vs Android behavior)
@@ -24,7 +24,7 @@ Mobile testing differs from web:
 ## 🚫 AI MOBILE TESTING ANTI-PATTERNS
 
 | ❌ AI Default | Why It's Wrong | ✅ Mobile-Correct |
-|---------------|----------------|-------------------|
+| --------------- | ---------------- | ------------------- |
 | Jest-only testing | Misses native layer | Jest + E2E on device |
 | Enzyme patterns | Deprecated, web-focused | React Native Testing Library |
 | Browser-based E2E (Cypress) | Can't test native features | Detox / Maestro |
@@ -41,7 +41,7 @@ Mobile testing differs from web:
 
 ### Decision Tree
 
-```
+```text
 WHAT ARE YOU TESTING?
         │
         ├── Pure functions, utilities, helpers
@@ -70,7 +70,7 @@ WHAT ARE YOU TESTING?
 ### Tool Comparison
 
 | Tool | Platform | Speed | Reliability | Use When |
-|------|----------|-------|-------------|----------|
+| ------ | ---------- | ------- | ------------- | ---------- |
 | **Jest** | RN | ⚡⚡⚡ | ⚡⚡⚡ | Unit tests, logic |
 | **RNTL** | RN | ⚡⚡⚡ | ⚡⚡ | Component tests |
 | **flutter_test** | Flutter | ⚡⚡⚡ | ⚡⚡⚡ | Widget tests |
@@ -82,7 +82,7 @@ WHAT ARE YOU TESTING?
 
 ## 2. Testing Pyramid for Mobile
 
-```
+```text
                     ┌───────────────┐
                     │    E2E Tests  │  10%
                     │  (Real device) │  Slow, expensive, essential
@@ -101,7 +101,7 @@ WHAT ARE YOU TESTING?
 ### Why This Distribution?
 
 | Level | Why This % |
-|-------|------------|
+| ------- | ------------ |
 | **E2E 10%** | Slow, flaky, but catches integration bugs |
 | **Integration 20%** | Tests real user flows without full app |
 | **Component 30%** | Fast feedback on UI changes |
@@ -115,7 +115,7 @@ WHAT ARE YOU TESTING?
 
 ### Unit Tests (Jest)
 
-```
+```text
 ✅ TEST:
 ├── Utility functions (formatDate, calculatePrice)
 ├── State reducers (Redux, Zustand stores)
@@ -132,7 +132,7 @@ WHAT ARE YOU TESTING?
 
 ### Component Tests (RNTL / flutter_test)
 
-```
+```text
 ✅ TEST:
 ├── Component renders correctly
 ├── User interactions (tap, type, swipe)
@@ -149,7 +149,7 @@ WHAT ARE YOU TESTING?
 
 ### Integration Tests
 
-```
+```text
 ✅ TEST:
 ├── Form submission flows
 ├── Navigation between screens
@@ -165,7 +165,7 @@ WHAT ARE YOU TESTING?
 
 ### E2E Tests
 
-```
+```text
 ✅ TEST:
 ├── Critical user journeys (login, purchase, signup)
 ├── Offline → online transitions
@@ -188,7 +188,7 @@ WHAT ARE YOU TESTING?
 ### What Differs Between iOS and Android?
 
 | Area | iOS Behavior | Android Behavior | Test Both? |
-|------|--------------|------------------|------------|
+| ------ | -------------- | ------------------ | ------------ |
 | **Back navigation** | Edge swipe | System back button | ✅ YES |
 | **Permissions** | Ask once, settings | Ask each time, rationale | ✅ YES |
 | **Keyboard** | Different appearance | Different behavior | ✅ YES |
@@ -199,7 +199,7 @@ WHAT ARE YOU TESTING?
 
 ### Platform Testing Strategy
 
-```
+```text
 FOR EACH PLATFORM:
 ├── Run unit tests (same on both)
 ├── Run component tests (same on both)
@@ -216,7 +216,7 @@ FOR EACH PLATFORM:
 ### Offline Scenarios to Test
 
 | Scenario | What to Verify |
-|----------|----------------|
+| ---------- | ---------------- |
 | Start app offline | Shows cached data or offline message |
 | Go offline mid-action | Action queued, not lost |
 | Come back online | Queue synced, no duplicates |
@@ -225,7 +225,7 @@ FOR EACH PLATFORM:
 
 ### How to Test Network Conditions
 
-```
+```text
 APPROACH:
 ├── Unit tests: Mock NetInfo, test logic
 ├── Integration: Mock API responses, test UI
@@ -241,7 +241,7 @@ APPROACH:
 ### What to Measure
 
 | Metric | Target | How to Measure |
-|--------|--------|----------------|
+| -------- | -------- | ---------------- |
 | **App startup** | < 2 seconds | Profiler, Flashlight |
 | **Screen transition** | < 300ms | React DevTools |
 | **List scroll** | 60 FPS | Profiler, feel |
@@ -250,7 +250,7 @@ APPROACH:
 
 ### When to Performance Test
 
-```
+```text
 PERFORMANCE TEST:
 ├── Before release (required)
 ├── After adding heavy features
@@ -272,7 +272,7 @@ WHERE TO TEST:
 ### What to Verify
 
 | Element | Check |
-|---------|-------|
+| --------- | ------- |
 | Interactive elements | Have accessibilityLabel |
 | Images | Have alt text or decorative flag |
 | Forms | Labels linked to inputs |
@@ -282,7 +282,7 @@ WHERE TO TEST:
 
 ### How to Test
 
-```
+```text
 AUTOMATED:
 ├── React Native: jest-axe
 ├── Flutter: Accessibility checker in tests
@@ -302,7 +302,7 @@ MANUAL:
 ### What to Run Where
 
 | Stage | Tests | Devices |
-|-------|-------|---------|
+| ------- | ------- | --------- |
 | **PR** | Unit + Component | None (fast) |
 | **Merge to main** | + Integration | Simulator/Emulator |
 | **Pre-release** | + E2E | Real devices (farm) |
@@ -311,7 +311,7 @@ MANUAL:
 ### Device Farm Options
 
 | Service | Pros | Cons |
-|---------|------|------|
+| --------- | ------ | ------ |
 | **Firebase Test Lab** | Free tier, Google devices | Android focus |
 | **AWS Device Farm** | Wide selection | Expensive |
 | **BrowserStack** | Good UX | Expensive |
@@ -322,12 +322,14 @@ MANUAL:
 ## 📝 MOBILE TESTING CHECKLIST
 
 ### Before PR
+
 - [ ] Unit tests for new logic
 - [ ] Component tests for new UI
 - [ ] No console.logs in tests
 - [ ] Tests pass on CI
 
 ### Before Release
+
 - [ ] E2E on real iOS device
 - [ ] E2E on real Android device
 - [ ] Tested on low-end device
@@ -336,6 +338,7 @@ MANUAL:
 - [ ] Accessibility verified
 
 ### What to Skip (Consciously)
+
 - [ ] 100% coverage (aim for meaningful coverage)
 - [ ] Every visual permutation (use snapshots sparingly)
 - [ ] Third-party library internals

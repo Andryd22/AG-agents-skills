@@ -153,7 +153,7 @@ tldr: Self-contained 2-4 line summary. Supports formulas like \(\theta^*\).
 
 ### Anatomy of a lecture note (Level 2 default)
 
-```
+```text
 topnav          — fixed bar, links to every lecture of the course
 toc (floating)  — left of A4, highlights active section on scroll
 page (.page)    — A4 794px container
@@ -171,7 +171,7 @@ For users whose LaTeX preamble uses `amsthm` + `physics` + `algorithm2e`, mirror
 **All colours are design-system variables — no external colours.**
 
 | LaTeX | HTML class | Bordo sinistro | Sfondo |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `\begin{theorem}` | `.thm-block.theorem` | `var(--slate)` black | `var(--g100)` |
 | `\begin{definition}` | `.thm-block.definition` | `var(--clay)` orange | `var(--g100)` |
 | `\begin{lemma}` | `.thm-block.lemma` | `var(--clay-d)` dark orange | `var(--g100)` |
@@ -184,6 +184,7 @@ For users whose LaTeX preamble uses `amsthm` + `physics` + `algorithm2e`, mirror
 Automatic numbering via CSS `counter` — no JS needed.
 
 Usage:
+
 ```html
 <div class="thm-block theorem">
   <p>Theorem statement. Formula: \(\theta^* = \argmin_\theta \mathcal{L}(\theta)\).</p>
@@ -207,7 +208,7 @@ Usage:
 Configured in the MathJax block above — use them as in LaTeX:
 
 | Macro | Result |
-|---|---|
+| --- | --- |
 | `\argmin` | argmin operator with limits |
 | `\argmax` | argmax operator with limits |
 | `\bm{v}` | bold vector (as the `bm` package) |
@@ -215,7 +216,7 @@ Configured in the MathJax block above — use them as in LaTeX:
 | `\pdv{f}{x}` | partial derivative |
 | `\R`, `\N`, `\Z`, `\E`, `\P` | blackboard bold sets |
 | `\norm{v}` | norm `‖v‖` |
-| `\abs{x}` | absolute value `|x|` |
+| `\abs{x}` | absolute value `\|x\|` |
 
 ### Algorithm block — like algorithm2e
 
@@ -242,6 +243,7 @@ Lines numbered automatically via CSS counter — no JS.
 Algorithm token classes: `.algo-kw` (clay-d, bold), `.algo-fn` (slate), `.algo-cm` (g500 italic), `.algo-ind` (1.5em indent).
 
 ### Rules specific to university notes
+
 - **Language: English by default** — same rule as `latex-tutor`: titles, body, labels, callouts and flashcards in English unless the user asks for another language. Code comments always in English.
 - **Default layout: A4 fixed** — not responsive/fluid
 - **Math: MathJax always** — never plain text for equations

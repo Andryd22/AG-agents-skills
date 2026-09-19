@@ -15,7 +15,7 @@ Manage preview server: start, stop, status check.
 
 ### Commands
 
-```
+```text
 /preview           - Show current status
 /preview start     - Start server
 /preview stop      - Stop server
@@ -28,7 +28,8 @@ Manage preview server: start, stop, status check.
 ## Usage Examples
 
 ### Start Server
-```
+
+```text
 /preview start
 
 Response:
@@ -41,7 +42,8 @@ Response:
 ```
 
 ### Status Check
-```
+
+```text
 /preview
 
 Response:
@@ -54,7 +56,8 @@ Response:
 ```
 
 ### Port Conflict
-```
+
+```text
 /preview start
 
 Response:
@@ -79,4 +82,3 @@ python .agents/scripts/auto_preview.py start [port]
 python .agents/scripts/auto_preview.py stop
 python .agents/scripts/auto_preview.py status
 ```
-

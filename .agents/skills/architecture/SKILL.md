@@ -12,7 +12,7 @@ description: Architectural decision-making framework. Requirements analysis, tra
 **Read ONLY files relevant to the request!** Check the content map, find what you need.
 
 | File | Description | When to Read |
-|------|-------------|--------------|
+| ------ | ------------- | -------------- |
 | `context-discovery.md` | Questions to ask, project classification | Starting architecture design |
 | `trade-off-analysis.md` | ADR templates, trade-off framework | Documenting decisions |
 | `pattern-selection.md` | Decision trees, anti-patterns | Choosing patterns |
@@ -24,7 +24,7 @@ description: Architectural decision-making framework. Requirements analysis, tra
 ## 🔗 Related Skills
 
 | Skill | Use For |
-|-------|---------|
+| ------- | --------- |
 | `@[skills/database-design]` | Database schema design |
 | `@[skills/api-patterns]` | API design patterns |
 | `@[skills/deploy]` | Deployment and infrastructure |
@@ -33,7 +33,7 @@ description: Architectural decision-making framework. Requirements analysis, tra
 
 ## Core Principle
 
-**"Simplicity is the ultimate sophistication."**
+> "Simplicity is the ultimate sophistication."
 
 - Start simple
 - Add complexity ONLY when proven necessary

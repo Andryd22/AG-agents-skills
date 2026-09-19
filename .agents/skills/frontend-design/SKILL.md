@@ -15,7 +15,7 @@ description: Design thinking and decision-making for web UI. Use when designing 
 **Read REQUIRED files always, OPTIONAL only when needed:**
 
 | File | Status | When to Read |
-|------|--------|--------------|
+| ------ | -------- | -------------- |
 | [ux-psychology.md](ux-psychology.md) | 🔴 **REQUIRED** | Always read first! |
 | [color-system.md](color-system.md) | ⚪ Optional | Color/palette decisions |
 | [typography-system.md](typography-system.md) | ⚪ Optional | Font selection/pairing |
@@ -33,7 +33,7 @@ description: Design thinking and decision-making for web UI. Use when designing 
 **Execute these for audits (don't read, just run):**
 
 | Script | Purpose | Usage |
-|--------|---------|-------|
+| --- | --- | --- |
 | `scripts/ux_audit.py` | UX Psychology & Accessibility Audit | `python scripts/ux_audit.py <project_path>` |
 
 ---
@@ -42,21 +42,21 @@ description: Design thinking and decision-making for web UI. Use when designing 
 
 > **STOP! If the user's request is open-ended, DO NOT default to your favorites.**
 
-### When User Prompt is Vague, ASK:
+### When User Prompt is Vague, ASK
 
 **Color not specified?** Ask:
 > "What color palette do you prefer? (blue/green/orange/neutral/other?)"
 
-**Style not specified?** Ask: 
+**Style not specified?** Ask:
 > "What style are you going for? (minimal/bold/retro/futuristic/organic?)"
 
 **Layout not specified?** Ask:
 > "Do you have a layout preference? (single column/grid/asymmetric/full-width?)"
 
-### ⛔ DEFAULT TENDENCIES TO AVOID (ANTI-SAFE HARBOR):
+### ⛔ DEFAULT TENDENCIES TO AVOID (ANTI-SAFE HARBOR)
 
 | AI Default Tendency | Why It's Bad | Think Instead |
-|---------------------|--------------|---------------|
+| --------------------- | -------------- | --------------- |
 | **Bento Grids (Modern Cliché)** | Used in every AI design | Why does this content NEED a grid? |
 | **Hero Split (Left/Right)** | Predictable & Boring | How about Massive Typography or Vertical Narrative? |
 | **Mesh/Aurora Gradients** | The "new" lazy background | What's a radical color pairing? |
@@ -75,7 +75,7 @@ description: Design thinking and decision-making for web UI. Use when designing 
 Before any design work, ANSWER THESE or ASK USER:
 
 | Constraint | Question | Why It Matters |
-|------------|----------|----------------|
+| ------------ | ---------- | ---------------- |
 | **Timeline** | How much time? | Determines complexity |
 | **Content** | Ready or placeholder? | Affects layout flexibility |
 | **Brand** | Existing guidelines? | May dictate colors/fonts |
@@ -85,7 +85,7 @@ Before any design work, ANSWER THESE or ASK USER:
 ### Audience → Design Approach
 
 | Audience | Think About |
-|----------|-------------|
+| ---------- | ------------- |
 | **Gen Z** | Bold, fast, mobile-first, authentic |
 | **Millennials** | Clean, minimal, value-driven |
 | **Gen X** | Familiar, trustworthy, clear |
@@ -100,7 +100,7 @@ Before any design work, ANSWER THESE or ASK USER:
 ### Core Laws (Internalize These)
 
 | Law | Principle | Application |
-|-----|-----------|-------------|
+| ----- | ----------- | ------------- |
 | **Hick's Law** | More choices = slower decisions | Limit options, use progressive disclosure |
 | **Fitts' Law** | Bigger + closer = easier to click | Size CTAs appropriately |
 | **Miller's Law** | ~7 items in working memory | Chunk content into groups |
@@ -109,7 +109,7 @@ Before any design work, ANSWER THESE or ASK USER:
 
 ### Emotional Design Levels
 
-```
+```text
 VISCERAL (instant)  → First impression: colors, imagery, overall feel
 BEHAVIORAL (use)    → Using it: speed, feedback, efficiency
 REFLECTIVE (memory) → After: "I like what this says about me"
@@ -129,7 +129,7 @@ REFLECTIVE (memory) → After: "I like what this says about me"
 
 ### Golden Ratio (φ = 1.618)
 
-```
+```text
 Use for proportional harmony:
 ├── Content : Sidebar = roughly 62% : 38%
 ├── Each heading size = previous × 1.618 (for dramatic scale)
@@ -138,7 +138,7 @@ Use for proportional harmony:
 
 ### 8-Point Grid Concept
 
-```
+```text
 All spacing and sizing in multiples of 8:
 ├── Tight: 4px (half-step for micro)
 ├── Small: 8px
@@ -151,7 +151,7 @@ All spacing and sizing in multiples of 8:
 ### Key Sizing Principles
 
 | Element | Consideration |
-|---------|---------------|
+| --------- | --------------- |
 | **Touch targets** | Minimum comfortable tap size |
 | **Buttons** | Height based on importance hierarchy |
 | **Inputs** | Match button height for alignment |
@@ -164,7 +164,7 @@ All spacing and sizing in multiples of 8:
 
 ### 60-30-10 Rule
 
-```
+```text
 60% → Primary/Background (calm, neutral base)
 30% → Secondary (supporting areas)
 10% → Accent (CTAs, highlights, attention)
@@ -173,7 +173,7 @@ All spacing and sizing in multiples of 8:
 ### Color Psychology (For Decision Making)
 
 | If You Need... | Consider Hues | Avoid |
-|----------------|---------------|-------|
+| ---------------- | --------------- | ------- |
 | Trust, calm | Blue family | Aggressive reds |
 | Growth, nature | Green family | Industrial grays |
 | Energy, urgency | Orange, red | Passive blues |
@@ -196,7 +196,7 @@ For detailed color theory: [color-system.md](color-system.md)
 ### Scale Selection
 
 | Content Type | Scale Ratio | Feel |
-|--------------|-------------|------|
+| -------------- | ------------- | ------ |
 | Dense UI | 1.125-1.2 | Compact, efficient |
 | General web | 1.25 | Balanced (most common) |
 | Editorial | 1.333 | Readable, spacious |
@@ -204,7 +204,7 @@ For detailed color theory: [color-system.md](color-system.md)
 
 ### Pairing Concept
 
-```
+```text
 Contrast + Harmony:
 ├── DIFFERENT enough for hierarchy
 ├── SIMILAR enough for cohesion
@@ -226,7 +226,7 @@ For detailed typography: [typography-system.md](typography-system.md)
 
 ### Glassmorphism (When Appropriate)
 
-```
+```text
 Key properties:
 ├── Semi-transparent background
 ├── Backdrop blur
@@ -236,7 +236,7 @@ Key properties:
 
 ### Shadow Hierarchy
 
-```
+```text
 Elevation concept:
 ├── Higher elements = larger shadows
 ├── Y-offset > X-offset (light from above)
@@ -246,7 +246,7 @@ Elevation concept:
 
 ### Gradient Usage
 
-```
+```text
 Harmonious gradients:
 ├── Adjacent colors on wheel (analogous)
 ├── OR same hue, different lightness
@@ -263,7 +263,7 @@ For complete effects guide: [visual-effects.md](visual-effects.md)
 
 ### Timing Concept
 
-```
+```text
 Duration based on:
 ├── Distance (further = longer)
 ├── Size (larger = slower)
@@ -274,7 +274,7 @@ Duration based on:
 ### Easing Selection
 
 | Action | Easing | Why |
-|--------|--------|-----|
+| -------- | -------- | ----- |
 | Entering | Ease-out | Decelerate, settle in |
 | Leaving | Ease-in | Accelerate, exit |
 | Emphasis | Ease-in-out | Smooth, deliberate |
@@ -351,7 +351,7 @@ For animation patterns: [animation-guide.md](animation-guide.md), for advanced: 
 
 ## 10. Decision Process Summary
 
-```
+```text
 For EVERY design task:
 
 1. CONSTRAINTS
@@ -395,7 +395,7 @@ For deeper guidance on specific areas:
 ## Related Skills
 
 | Skill | When to Use |
-|-------|-------------|
+| --- | --- |
 | **frontend-design** (this) | Before coding - Learn design principles (color, typography, UX psychology) |
 | **[web-design-guidelines](../web-design-guidelines/SKILL.md)** | After coding - Audit for accessibility, performance, and best practices |
 
@@ -403,7 +403,7 @@ For deeper guidance on specific areas:
 
 After implementing your design, run the audit:
 
-```
+```text
 1. DESIGN   → Read frontend-design principles ← YOU ARE HERE
 2. CODE     → Implement the design
 3. AUDIT    → Run web-design-guidelines review
@@ -424,11 +424,13 @@ After implementing your design, run the audit:
 > For Next.js 16+ projects, use the native `next/form` component instead of standard HTML `<form>` for all GET-based search/filter operations.
 
 ### The `<Form>` Component Advantage
+
 - **Automatic Client Navigation:** Performs client-side transitions on submit.
 - **Progressive Enhancement:** Works even without JavaScript.
 - **URL Sync:** Automatically encodes input values into search params.
 
 ### Implementation Example (Search Bar)
+
 ```tsx
 import Form from 'next/form'
 
@@ -446,6 +448,7 @@ export default function SearchBar() {
 }
 ```
 
-### When to use `<Form>` vs. standard `<form>`:
+### When to use `<Form>` vs. standard `<form>`
+
 - **Use `next/form`** for: Search, Filtering, Sorting, Pagination (GET requests).
 - **Use standard `<form>`** for: Mutations, Login, Data Entry (POST requests via Server Actions).

@@ -1,0 +1,8 @@
+// markdownlint rules for the kit's Markdown files (also used by the markdownlint editor extension)
+{
+  "default": true,
+  // one paragraph per line: no hard wrap at 80 columns
+  "MD013": false,
+  // the same heading is fine under different parents (e.g. "Pros" in each option)
+  "MD024": { "siblings_only": true }
+}

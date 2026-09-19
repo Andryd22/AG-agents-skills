@@ -4,7 +4,7 @@
 
 ## Normalization Decision
 
-```
+```text
 When to normalize (separate tables):
 ├── Data is repeated across rows
 ├── Updates would need multiple changes
@@ -21,7 +21,7 @@ When to denormalize (embed/duplicate):
 ## Primary Key Selection
 
 | Type | Use When |
-|------|----------|
+| ------ | ---------- |
 | **UUID** | Distributed systems, security |
 | **ULID** | UUID + sortable by time |
 | **Auto-increment** | Simple apps, single database |
@@ -29,7 +29,7 @@ When to denormalize (embed/duplicate):
 
 ## Timestamp Strategy
 
-```
+```text
 For every table:
 ├── created_at → When created
 ├── updated_at → Last modified
@@ -41,14 +41,14 @@ Use TIMESTAMPTZ (with timezone) not TIMESTAMP
 ## Relationship Types
 
 | Type | When | Implementation |
-|------|------|----------------|
+| ------ | ------ | ---------------- |
 | **One-to-One** | Extension data | Separate table with FK |
 | **One-to-Many** | Parent-children | FK on child table |
 | **Many-to-Many** | Both sides have many | Junction table |
 
 ## Foreign Key ON DELETE
 
-```
+```text
 ├── CASCADE → Delete children with parent
 ├── SET NULL → Children become orphans
 ├── RESTRICT → Prevent delete if children exist

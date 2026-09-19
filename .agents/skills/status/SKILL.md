@@ -38,7 +38,7 @@ Show current project and agent status.
 
 ## Example Output
 
-```
+```text
 === Project Status ===
 
 📁 Project: my-ecommerce
@@ -82,5 +82,6 @@ Show current project and agent status.
 ## Technical
 
 Status uses these scripts:
+
 - `python .agents/scripts/session_manager.py status`
 - `python .agents/scripts/auto_preview.py status`
