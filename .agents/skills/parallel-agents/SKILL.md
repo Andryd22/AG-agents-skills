@@ -9,7 +9,7 @@ description: Multi-agent orchestration patterns. Use when multiple independent t
 
 ## Overview
 
-This skill coordinates the kit's specialized agents, which are Antigravity custom agents in `.agents/agents/`, through `invoke_subagent`. Each subagent starts with a clean context (none of this conversation), gets only the tools and skills in its frontmatter, and returns its result to the caller. Where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and apply it yourself, one domain at a time.
+This skill coordinates the kit's specialized agents, which are Antigravity custom agents in `.agents/agents/`, through `invoke_subagent`. Each subagent starts with a clean context (none of this conversation), gets the tools in its frontmatter, reads the skills its body names, and returns its result to the caller. Where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and apply it yourself, one domain at a time.
 
 ## When to Use Orchestration
 

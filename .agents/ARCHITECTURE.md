@@ -35,7 +35,7 @@ The installer only replaces its own agents, skills, rules and scripts: a project
 
 ## 🤖 Agents (14)
 
-Antigravity custom agents (`.agents/agents/<name>.md`): the frontmatter sets the tools (Antigravity names), the model (`inherit`) and the skills (`skills/<name>`); the body is the system prompt. `GEMINI.md` routes every request through `intelligent-routing` and delegates with `invoke_subagent`; where custom agents are not available (the Antigravity IDE, for now) the agent file is read and applied directly.
+Antigravity custom agents (`.agents/agents/<name>.md`): the frontmatter sets the tools (Antigravity names) and the model (`inherit`); the body is the system prompt and names the agent's skills ("Your skills"). Custom agents inherit every workspace skill, so the frontmatter has no `skills` key: its paths are resolved from the agent's folder and fail for single-file agents. `GEMINI.md` routes every request through `intelligent-routing` and delegates with `invoke_subagent`; where custom agents are not available (the Antigravity IDE, for now) the agent file is read and applied directly.
 
 | Agent | Focus | Skills |
 | ----- | ----- | ------ |
@@ -87,7 +87,7 @@ Skills written to be invoked by name. Antigravity also loads them on its own whe
 
 ## 🧩 Skills (39)
 
-The 16 commands above plus 23 knowledge skills that agents load from their frontmatter or that Antigravity picks by description.
+The 16 commands above plus 23 knowledge skills that agents read when their body names them or that Antigravity picks by description.
 
 ### Core
 

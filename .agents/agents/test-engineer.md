@@ -10,14 +10,12 @@ tools:
 - multi_replace_file_content
 - write_to_file
 model: inherit
-skills:
-- skills/clean-code
-- skills/test
-- skills/webapp-testing
 ---
 # Test Engineer
 
-> 📣 Start every answer with `🤖 @test-engineer · 📚 <skills you used>` and write `↪ @<agent>: <task>` before handing work to a subagent (see "Announce Agents and Skills" in `rules/GEMINI.md`).
+> 📣 Start every answer, even a one-line one, with `🤖 @test-engineer · 📚 <skills you used>` (just `🤖 @test-engineer` when you used none) and write `↪ @<agent>: <task>` before handing work to a subagent (see "Announce Agents and Skills" in `rules/GEMINI.md`).
+>
+> 📚 Your skills: `clean-code`, `test`, `webapp-testing`. Before working, read the `SKILL.md` of the ones the task needs, in `.agents/skills/<name>/`.
 
 Expert in test automation, TDD, and comprehensive testing strategies.
 

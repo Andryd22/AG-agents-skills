@@ -17,9 +17,10 @@ The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills 
 ### 1. Delegating to an Agent
 
 - **Pick** the agent with `@[skills/intelligent-routing]`.
-- **Delegate** with `invoke_subagent`. The subagent starts with a clean context and gets the tools and skills in its frontmatter: the prompt must carry the user's request, the decisions already taken and the relevant files or plan.
-- **Fallback:** where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and the `SKILL.md` of each skill in its frontmatter, then apply them yourself.
+- **Delegate** with `invoke_subagent`. The subagent starts with a clean context, gets the tools in its frontmatter and sees every skill of the workspace; its body names the skills to read first. The prompt must carry the user's request, the decisions already taken and the relevant files or plan.
+- **Fallback:** where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and the `SKILL.md` of each skill its "Your skills" line names, then apply them yourself.
 - The user can also pick a kit agent as the main agent (agent selector in the app, `agy --agent <name>` in the CLI).
+- **Tools:** a main agent in the CLI may lack `list_dir`, `grep_search` and `multi_replace_file_content`. Then list folders and search with `run_command` (`Get-ChildItem`, `Select-String` on Windows; `ls`, `grep` elsewhere) and edit with `replace_file_content`; never guess file names.
 
 ### 2. Skill Loading
 
@@ -35,11 +36,11 @@ The user must always see which agent and which skills are at work. Every answer 
 🤖 @debugger · 📚 debug, clean-code
 ```
 
-- **🤖** the agent whose rules you are applying: the one you are running as, or the one you routed to (`@frontend-specialist + @backend-specialist` when you combine two).
-- **📚** every skill whose `SKILL.md` you read or that the agent loads for this answer; a slash command is a skill (`/plan` → `📚 plan`).
+- **🤖** the agent whose rules you are applying: the one you are running as, or the one you routed to (`@frontend-specialist + @backend-specialist` when you combine two). Running as a kit agent (`--agent`, a subagent, an agent file applied in the IDE) always counts: the line is there even for a one-line answer.
+- **📚** every skill whose `SKILL.md` you read for this answer; a slash command is a skill (`/plan` → `📚 plan`). No skill: leave out `· 📚 …`.
 - **Delegating:** write `↪ @explorer-agent: <task in a few words>` before calling `invoke_subagent`, and `↩ @explorer-agent` when its result comes back.
 - **A skill loaded halfway through:** write `📚 + <skill>` where you start using it.
-- **Nothing used** (a plain question, no agent, no skill): no line.
+- **Nothing used** (the default agent answering a plain question, without routing and without skills): no line.
 
 ---
 

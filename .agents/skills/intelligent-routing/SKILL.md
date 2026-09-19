@@ -61,7 +61,7 @@ metadata:
 ## 3. Handing Off
 
 - **Native (Antigravity app and CLI):** call `invoke_subagent` with the agent's name. The subagent starts with a clean context, so the prompt must contain the user's request in full, the decisions already taken (answers to the Socratic Gate), the relevant files and, if one exists, the plan in `docs/PLAN-{slug}.md`.
-- **Fallback (no custom agents, e.g. the Antigravity IDE until it supports them):** read `.agents/agents/<name>.md` and the `SKILL.md` of each skill in its frontmatter, then answer applying them.
+- **Fallback (no custom agents, e.g. the Antigravity IDE until it supports them):** read `.agents/agents/<name>.md` and the `SKILL.md` of each skill its "Your skills" line names, then answer applying them.
 - **Questions and trivial edits** need no agent: answer directly.
 
 ## 4. Complexity

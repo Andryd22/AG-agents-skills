@@ -109,16 +109,19 @@ for p in sorted(SKILLS.rglob("SKILL.md")):
 
 # ------------------------------------------------------------------- agents
 # Antigravity custom agents (.agents/agents/<name>.md). An unknown tool name can hang the subagent.
+# Agents inherit every workspace skill; a `skills` key would be resolved from .agents/agents/ and fail,
+# so each agent names its skills in the body: "> 📚 Your skills: `a`, `b`."
 AGENT_KEYS = {"name", "description", "tools", "mainAgent", "subagent", "model", "commandExecutionPolicy",
               "mcpServers", "skills", "plugins"}
 AGENT_TOOLS = {"view_file", "list_dir", "grep_search", "run_command", "write_to_file", "replace_file_content",
                "multi_replace_file_content", "invoke_subagent", "define_subagent", "send_message",
                "manage_subagents", "manage_task", "ask_permission", "list_permissions", "ask_question",
-               "call_mcp_tool"}
+               "call_mcp_tool", "find_by_name", "search_web", "read_url_content", "generate_image", "schedule"}
 AGENT_MODELS = {"inherit", "flash", "pro"}
 EXEC_POLICIES = {"off", "auto", "eager", "sandbox"}
+YOUR_SKILLS = re.compile(r"^> 📚 Your skills: (.+?)\. ", re.M)
 for p in agent_files:
-    data, _ = frontmatter(p)
+    data, body = frontmatter(p)
     if data is None:
         continue
     if data.get("name") != p.stem:
@@ -135,10 +138,17 @@ for p in agent_files:
     for tool in data.get("tools") or []:
         if tool not in AGENT_TOOLS:
             err(f"{rel(p)}: tool '{tool}' is not an Antigravity tool name")
-    for s in data.get("skills") or []:
-        m = re.fullmatch(r"skills/([\w-]+)", str(s))
-        if not m or m.group(1) not in skill_names:
-            err(f"{rel(p)}: skill '{s}' must be skills/<existing skill>")
+    if "skills" in data:
+        err(f"{rel(p)}: no `skills` key (paths resolve from .agents/agents/ and fail): name them in the body")
+    m = YOUR_SKILLS.search(body)
+    if not m:
+        err(f"{rel(p)}: missing the line '> 📚 Your skills: `a`, `b`.' after the announce line")
+    else:
+        for s in re.findall(r"`([^`]+)`", m.group(1)):
+            if s not in skill_names:
+                err(f"{rel(p)}: 'Your skills' names '{s}', which is not a skill")
+    if f"🤖 @{p.stem}" not in body:
+        err(f"{rel(p)}: missing the announce line with 🤖 @{p.stem}")
 
 # -------------------------------------------------------------------- rules
 TRIGGERS = {"always_on", "manual", "model_decision", "glob"}
