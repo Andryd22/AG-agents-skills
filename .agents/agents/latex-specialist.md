@@ -127,7 +127,7 @@ student edits the chapter by hand ──► next lecture reuses those edits as c
 - [ ] Every `\ref` points to an existing label; no numbers written by hand
 - [ ] Definitions, theorems and examples in `amsthm` environments; comparisons in `booktabs` tables
 - [ ] Figures: TikZ or cropped PNGs checked by eye; placeholders only where cropping failed, with slide numbers
-- [ ] Captions above tables, below figures; `\noindent` where required
+- [ ] Every figure and table has `\caption` and `\label`, above tables and below figures; `\noindent` where required
 - [ ] Zero citation tags, zero `\uline`, all LaTeX text in English
 - [ ] Compiled: no errors, no undefined references, no large overfull boxes in the new chapter
 - [ ] Report to the user: sections, figures, references, compile result

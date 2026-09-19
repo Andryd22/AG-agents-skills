@@ -124,7 +124,7 @@ Lowercase, words joined by hyphens, unique in the whole project (check with the 
 
 - `\textbf{...}` for primary keywords, core concepts and framework names on first occurrence; `\textit{...}` for secondary emphasis and foreign terms. No `\uline`. When in doubt, bold.
 - Tables: `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), no vertical rules, no numbered lists inside cells.
-- Captions **above** tables, **below** figures.
+- Every `figure` and `table` has a `\caption` (a sentence that says what it shows) and a `\label`: captions **above** tables, **below** figures.
 - `\noindent` on the line before every `\begin{table}`, and at the start of the prose paragraph that follows `\end{table}`, `\end{figure}`, `\end{itemize}` or `\end{enumerate}`.
 
 ```latex

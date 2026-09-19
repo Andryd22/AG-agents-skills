@@ -4,8 +4,9 @@
 Follows main.tex through \\input and \\include and reports:
   CRITICAL  undefined references, duplicate labels, missing image files,
             citation tags ([cite], <source>, ...) that break the compile
-  IMPORTANT image placeholders still to replace, chapter/section numbers
-            written by hand instead of \\ref
+  IMPORTANT figures and tables without \\caption or \\label, captions on the
+            wrong side (tables above, figures below), image placeholders
+            still to replace, chapter/section numbers written by hand
   MINOR     unused files in images/, \\uline, \\tikzstyle, cases instead of dcases
 
 Usage:
@@ -24,6 +25,9 @@ REF = re.compile(r"\\(?:ref|eqref|pageref|autoref|cref|Cref|nameref)\{([^}]+)\}"
 GRAPHIC = re.compile(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}")
 TAGS = re.compile(r"\[cite[^\]]*\]|<source>|\[source\]|<ref>|\[citation\]|<citation>|:contentReference\[")
 HAND_NUMBER = re.compile(r"\b(?:Chapter|Section|Sec\.|Chap\.)~?\s?\d+(?:\.\d+)*")
+FLOAT = re.compile(r"\\begin\{(figure|table)\*?\}(.*?)\\end\{\1\*?\}", re.S)
+BODY = {"figure": re.compile(r"\\includegraphics|\\begin\{tikzpicture\}|\\fbox|\\begin\{subfigure\}"),
+        "table": re.compile(r"\\begin\{(?:tabular|tabularx|longtable)\*?\}")}
 VERBATIM = re.compile(r"\\begin\{(lstlisting|verbatim|minted)\}.*?\\end\{\1\}", re.S)
 IMAGE_EXT = (".png", ".jpg", ".jpeg", ".pdf", ".eps")
 
@@ -86,6 +90,21 @@ def main():
                 issues["CRITICAL"].append(f"{rel}:{line_of(text, m.start())} image file not found: {name}")
         for m in TAGS.finditer(text):
             issues["CRITICAL"].append(f"{rel}:{line_of(text, m.start())} citation tag {m.group(0)!r} breaks the compile")
+        for m in FLOAT.finditer(text):
+            kind, body = m.group(1), m.group(2)
+            where = f"{rel}:{line_of(text, m.start())} {kind}"
+            if "\\caption" not in body:
+                issues["IMPORTANT"].append(f"{where} without \\caption")
+                continue
+            if "\\label" not in body:
+                issues["IMPORTANT"].append(f"{where} without \\label")
+            content = BODY[kind].search(body)
+            if content and "subfigure" not in content.group(0):
+                caption_first = body.index("\\caption") < content.start()
+                if kind == "table" and not caption_first:
+                    issues["IMPORTANT"].append(f"{where}: caption below the table (it goes above)")
+                if kind == "figure" and caption_first:
+                    issues["IMPORTANT"].append(f"{where}: caption above the figure (it goes below)")
         for m in re.finditer(r"INSERT IMAGE[^}]*", text):
             issues["IMPORTANT"].append(f"{rel}:{line_of(text, m.start())} placeholder: {m.group(0).strip()}")
         for m in HAND_NUMBER.finditer(text):

@@ -20,7 +20,7 @@ The chapters are the user's work: report style issues, don't rewrite prose on yo
    python .agents/skills/latex-review/scripts/check_project.py .
    ```
 
-   It follows `\input`/`\include` and lists undefined references, duplicate labels, missing image files, citation tags, placeholders still to replace, chapter or section numbers written by hand, unused images, `\uline`, `\tikzstyle` and `cases`.
+   It follows `\input`/`\include` and lists undefined references, duplicate labels, missing image files, citation tags, figures and tables without caption or label or with the caption on the wrong side, placeholders still to replace, chapter or section numbers written by hand, unused images, `\uline`, `\tikzstyle` and `cases`.
 3. **Compile.** `latexmk -pdf -interaction=nonstopmode main.tex`, then read `main.log`: errors (`!` lines), `undefined` references, `multiply defined` labels, `Overfull \hbox` wider than 10pt, missing files. Give file and line for each. If no TeX distribution is installed, say so and go on.
 4. **Style.** Read the chapters to review (all, or those the user names) against the checklist below.
 5. **Report** in the user's language, in the format below.
@@ -50,6 +50,7 @@ The chapters are the user's work: report style issues, don't rewrite prose on yo
 | Cross-references | `Chapter~\ref{ch:...}` with existing labels, no numbers written by hand |
 | Placeholders | `INSERT IMAGE FROM SLIDE N` left: list them with slide numbers (`latex-tutor` can crop them) |
 | Floats | `[H]` figures that leave large blank spaces |
+| Captions | every figure and table has `\caption` and `\label`; above tables, below figures |
 
 ### 3. Style (🟡 Important, `latex-tutor` rules)
 
@@ -78,7 +79,6 @@ The chapters are the user's work: report style issues, don't rewrite prose on yo
 | Check | What to look for |
 | --- | --- |
 | Tables | `booktabs` rules, no vertical lines |
-| Captions | above tables, below figures |
 | `\noindent` | before `\begin{table}` and on the prose after tables, figures and lists |
 | Emphasis | no `\uline`; `\textit` only for secondary or foreign terms |
 | Labels | `ch:`, `sec:<slug>-`, `def:`, `thm:`, `ex:`, `fig:`, `tab:`, `eq:`, `alg:` prefixes |
