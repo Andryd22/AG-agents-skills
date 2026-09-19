@@ -1,53 +1,53 @@
 ---
 name: prompt-engineering
-description: LLM prompt design, RAG architecture, and AI integration patterns. Prompt templates, few-shot, chain-of-thought, embedding strategies, and retrieval pipelines.
+description: Progettazione di prompt per LLM, architettura RAG e schemi di integrazione dell'AI. Template di prompt, few-shot, chain-of-thought, strategie di embedding e pipeline di retrieval.
 ---
 
-# Prompt Engineering & RAG
+# Prompt engineering e RAG
 
-> Design prompts that work. Build RAG pipelines that retrieve. Integrate LLMs that scale.
+> Progetta prompt che funzionano. Costruisci pipeline RAG che recuperano. Integra LLM che reggono il carico.
 
-## Prompt Patterns
+## Schemi di prompt
 
-### Few-Shot Prompting
-
-```text
-Classify the sentiment: Positive, Negative, or Neutral.
-
-Text: "This product exceeded my expectations." → Sentiment: Positive
-Text: "The shipping was delayed by two weeks." → Sentiment: Negative
-Text: "It arrived on time, nothing special." → Sentiment: Neutral
-Text: "{USER_INPUT}" → Sentiment:
-```
-
-### Chain-of-Thought (CoT)
+### Few-shot
 
 ```text
-Question: A bakery sold 120 croissants on Monday and 30% more on Tuesday.
-How many were sold on Tuesday?
+Classifica il sentiment: Positivo, Negativo o Neutro.
 
-Let's think step by step:
-1. Monday sales = 120
-2. 30% of 120 = 0.30 × 120 = 36
-3. Tuesday = 120 + 36 = 156
-Answer: 156
+Testo: "Questo prodotto ha superato le mie aspettative." → Sentiment: Positivo
+Testo: "La spedizione è arrivata con due settimane di ritardo." → Sentiment: Negativo
+Testo: "È arrivato in tempo, niente di speciale." → Sentiment: Neutro
+Testo: "{USER_INPUT}" → Sentiment:
 ```
 
-### Structured Output (JSON Mode)
+### Chain-of-thought (CoT)
+
+```text
+Domanda: una panetteria ha venduto 120 cornetti lunedì e il 30% in più martedì.
+Quanti ne ha venduti martedì?
+
+Ragioniamo passo per passo:
+1. Vendite di lunedì = 120
+2. Il 30% di 120 = 0,30 × 120 = 36
+3. Martedì = 120 + 36 = 156
+Risposta: 156
+```
+
+### Output strutturato (modalità JSON)
 
 ```typescript
 const prompt = `
-Extract from the text below:
-- Company name
-- Job title
-- Salary range (min/max)
-- Remote policy (remote/hybrid/onsite)
+Estrai dal testo qui sotto:
+- Nome dell'azienda
+- Ruolo
+- Fascia di stipendio (min/max)
+- Modalità di lavoro (remote/hybrid/onsite)
 
-Output as JSON only:
-Text: "Acme Corp is hiring a Senior Engineer, $120K-$160K, fully remote."
+Rispondi solo in JSON:
+Testo: "Acme Corp cerca un Senior Engineer, 120K-160K €, completamente da remoto."
 `;
 
-// Expected output:
+// Output atteso:
 {
   "company": "Acme Corp",
   "title": "Senior Engineer",
@@ -56,35 +56,36 @@ Text: "Acme Corp is hiring a Senior Engineer, $120K-$160K, fully remote."
 }
 ```
 
-## RAG Architecture
+## Architettura RAG
 
 ### Pipeline
 
 ```text
-User Query → Query Rewriting → Embedding → Vector Search → Reranking → LLM Generation → Response
+Query dell'utente → riscrittura della query → embedding → ricerca vettoriale → reranking → generazione con l'LLM → risposta
 ```
 
-### Chunking Strategies
+### Strategie di chunking
 
-| Strategy | Use Case | Example |
-| ---------- | ---------- | --------- |
-| **Fixed-size** | Simple docs | 512 tokens, 64 overlap |
-| **Sentence** | QA on articles | Split by sentence boundary |
-| **Semantic** | Long technical docs | Split by heading/section |
-| **Recursive** | General purpose | Start big, split smaller if needed |
+| Strategia | Quando | Esempio |
+| --- | --- | --- |
+| **Dimensione fissa** | Documenti semplici | 512 token, 64 di sovrapposizione |
+| **Per frase** | Domande e risposte su articoli | Divisione ai confini delle frasi |
+| **Semantica** | Documenti tecnici lunghi | Divisione per titolo/sezione |
+| **Ricorsiva** | Uso generale | Parti grande, dividi di più se serve |
 
-### Embedding Model Selection
+### Scelta del modello di embedding
 
-| Model | Dimensions | Best For |
-| ------- | ------------ | ---------- |
-| `text-embedding-3-small` | 512/1536 | Cost-sensitive, high volume |
-| `text-embedding-3-large` | 256/1024/3072 | Accuracy-critical |
-| `bge-large-en-v1.5` | 1024 | Self-hosted, open source |
+| Modello | Dimensioni | Ideale per |
+| --- | --- | --- |
+| `text-embedding-3-small` | 512/1536 | Costi contenuti, grandi volumi |
+| `text-embedding-3-large` | 256/1024/3072 | Quando l'accuratezza è critica |
+| `bge-large-en-v1.5` | 1024 | Self-hosted, open source, solo inglese |
+| `bge-m3` | 1024 | Self-hosted, open source, multilingue (testi in italiano) |
 
-### Retrieval Optimization
+### Ottimizzare il retrieval
 
 ```python
-# Hybrid search: combine vector + keyword
+# Ricerca ibrida: vettoriale + parole chiave
 # LangChain v1: pip install langchain-classic langchain-community rank_bm25
 from langchain_classic.retrievers import EnsembleRetriever
 from langchain_community.retrievers import BM25Retriever
@@ -97,18 +98,18 @@ ensemble = EnsembleRetriever(
 )
 ```
 
-## Function Calling / Tool Use
+## Function calling / uso di strumenti
 
 ```python
 tools = [{
     "type": "function",
     "function": {
         "name": "search_knowledge_base",
-        "description": "Search internal docs for relevant information",
+        "description": "Cerca nei documenti interni le informazioni pertinenti",
         "parameters": {
             "type": "object",
             "properties": {
-                "query": {"type": "string", "description": "Search query"},
+                "query": {"type": "string", "description": "Testo da cercare"},
                 "top_k": {"type": "integer", "default": 5}
             },
             "required": ["query"]
@@ -117,33 +118,33 @@ tools = [{
 }]
 ```
 
-## Guardrails
+## Protezioni
 
-| Risk | Mitigation |
-| ------ | ------------ |
-| Hallucination | Ground in retrieved docs, cite sources |
-| Prompt injection | Strip input, validate structured output |
-| Data leakage | Never embed PII, filter before indexing |
-| Bias amplification | Diverse few-shot examples, output audits |
-| Token cost explosion | Cache embeddings, batch API calls |
+| Rischio | Contromisura |
+| --- | --- |
+| Allucinazioni | Ancorare ai documenti recuperati, citare le fonti |
+| Prompt injection | Ripulire l'input, validare l'output strutturato |
+| Fuga di dati | Mai fare embedding di dati personali, filtrare prima di indicizzare |
+| Amplificazione dei bias | Esempi few-shot vari, controlli sull'output |
+| Esplosione dei costi in token | Cache degli embedding, chiamate API in batch |
 
-## Anti-Patterns
+## Anti-pattern
 
-| ❌ Don't | ✅ Do |
-| ---------- | ------- |
-| Single-shot for complex tasks | Chain-of-thought or tree-of-thought |
-| `max_tokens` too low | Set high enough for complete output |
-| Index everything as one chunk | Chunk by semantic units with overlap |
-| Re-embed on every query | Cache embeddings, use incremental updates |
-| No fallback if retrieval fails | Graceful degradation: "I don't know" |
-| Ignore context window limits | Count tokens, truncate, prioritize recency |
+| ❌ Da non fare | ✅ Da fare |
+| --- | --- |
+| Un solo passo per compiti complessi | Chain-of-thought o tree-of-thought |
+| `max_tokens` troppo basso | Abbastanza alto per un output completo |
+| Indicizzare tutto come un solo chunk | Chunk per unità semantiche con sovrapposizione |
+| Ricalcolare gli embedding a ogni query | Cache degli embedding, aggiornamenti incrementali |
+| Nessun ripiego se il retrieval fallisce | Degrado controllato: "Non lo so" |
+| Ignorare i limiti della finestra di contesto | Conta i token, tronca, dai priorità ai più recenti |
 
 ## Checklist
 
-- [ ] Prompt tested with multiple inputs (3+ edge cases)
-- [ ] Structured output validated against schema
-- [ ] RAG pipeline: chunk size optimized for embedding model
-- [ ] Retrieval includes reranking step
-- [ ] Hallucination guard: sources cited inline
-- [ ] Token budget calculated (prompt + completion + context)
-- [ ] Error handling: API failures, rate limits, timeouts
+- [ ] Prompt provato con più input (3+ casi limite)
+- [ ] Output strutturato validato contro lo schema
+- [ ] Pipeline RAG: dimensione dei chunk ottimizzata per il modello di embedding
+- [ ] Il retrieval include un passo di reranking
+- [ ] Protezione dalle allucinazioni: fonti citate nel testo
+- [ ] Budget dei token calcolato (prompt + risposta + contesto)
+- [ ] Gestione degli errori: API che falliscono, rate limit, timeout
