@@ -1,268 +1,270 @@
 ---
 name: tailwind-patterns
-description: Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture.
+description: Principi di Tailwind CSS v4. Configurazione nel CSS, container query, schemi moderni, architettura dei design token.
 ---
 
-# Tailwind CSS Patterns (v4 - 2025)
+# Schemi di Tailwind CSS (v4)
 
-> Modern utility-first CSS with CSS-native configuration.
-
----
-
-## 1. Tailwind v4 Architecture
-
-### What Changed from v3
-
-| v3 (Legacy) | v4 (Current) |
-| ------------- | -------------- |
-| `tailwind.config.js` | CSS-based `@theme` directive |
-| PostCSS plugin | Oxide engine (10x faster) |
-| JIT mode | Native, always-on |
-| Plugin system | CSS-native features |
-| `@apply` directive | Still works, discouraged |
-
-### v4 Core Concepts
-
-| Concept | Description |
-| --------- | ------------- |
-| **CSS-first** | Configuration in CSS, not JavaScript |
-| **Oxide Engine** | Rust-based compiler, much faster |
-| **Native Nesting** | CSS nesting without PostCSS |
-| **CSS Variables** | All tokens exposed as `--*` vars |
+> CSS utility-first moderno con configurazione nativa nel CSS.
 
 ---
 
-## 2. CSS-Based Configuration
+## 1. Architettura di Tailwind v4
 
-### Theme Definition
+### Cosa è cambiato rispetto alla v3
+
+| v3 (vecchia) | v4 (attuale) |
+| --- | --- |
+| `tailwind.config.js` | Direttiva `@theme` nel CSS |
+| Plugin PostCSS | Motore Oxide (molto più veloce) |
+| Modalità JIT | Nativa, sempre attiva |
+| Sistema di plugin | Funzioni native del CSS |
+| Direttiva `@apply` | Funziona ancora, sconsigliata |
+
+### Concetti base della v4
+
+| Concetto | Descrizione |
+| --- | --- |
+| **Prima il CSS** | Configurazione nel CSS, non in JavaScript |
+| **Motore Oxide** | Compilatore in Rust, molto più veloce |
+| **Annidamento nativo** | Annidamento CSS senza PostCSS |
+| **Variabili CSS** | Tutti i token esposti come variabili `--*` |
+
+---
+
+## 2. Configurazione nel CSS
+
+### Definire il tema
 
 ```css
 @theme {
-  /* Colors - use semantic names */
+  /* Colori: usa nomi semantici */
   --color-primary: oklch(0.7 0.15 250);
   --color-surface: oklch(0.98 0 0);
   --color-surface-dark: oklch(0.15 0 0);
-  
-  /* Spacing scale */
+
+  /* Scala degli spazi */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 2rem;
-  
-  /* Typography */
+
+  /* Tipografia */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 ```
 
-### When to Extend vs Override
+### Estendere o sostituire
 
-| Action | Use When |
-| -------- | ---------- |
-| **Extend** | Adding new values alongside defaults |
-| **Override** | Replacing default scale entirely |
-| **Semantic tokens** | Project-specific naming (primary, surface) |
-
----
-
-## 3. Container Queries (v4 Native)
-
-### Breakpoint vs Container
-
-| Type | Responds To |
+| Azione | Quando |
 | --- | --- |
-| **Breakpoint** (`md:`) | Viewport width |
-| **Container** (`@container`) | Parent element width |
-
-### Container Query Usage
-
-| Pattern | Classes |
-| --------- | --------- |
-| Define container | `@container` on parent |
-| Container breakpoint | `@sm:`, `@md:`, `@lg:` on children |
-| Named containers | `@container/card` for specificity |
-
-### When to Use
-
-| Scenario | Use |
-| ---------- | ----- |
-| Page-level layouts | Viewport breakpoints |
-| Component-level responsive | Container queries |
-| Reusable components | Container queries (context-independent) |
+| **Estendere** | Aggiungi valori nuovi accanto a quelli predefiniti |
+| **Sostituire** | Rimpiazzi del tutto la scala predefinita |
+| **Token semantici** | Nomi specifici del progetto (primary, surface) |
 
 ---
 
-## 4. Responsive Design
+## 3. Container query (native nella v4)
 
-### Breakpoint System
+### Breakpoint o container
 
-| Prefix | Min Width | Target |
-| -------- | ----------- | -------- |
-| (none) | 0px | Mobile-first base |
-| `sm:` | 640px | Large phone / small tablet |
+| Tipo | Risponde a |
+| --- | --- |
+| **Breakpoint** (`md:`) | Larghezza del viewport |
+| **Container** (`@container`) | Larghezza dell'elemento genitore |
+
+### Come si usano
+
+| Schema | Classi |
+| --- | --- |
+| Definire il container | `@container` sul genitore |
+| Breakpoint del container | `@sm:`, `@md:`, `@lg:` sui figli |
+| Container con nome | `@container/card` (e `@md/card:` sui figli) per essere precisi |
+
+### Quando usarle
+
+| Scenario | Usa |
+| --- | --- |
+| Layout a livello di pagina | Breakpoint del viewport |
+| Responsive a livello di componente | Container query |
+| Componenti riutilizzabili | Container query (indipendenti dal contesto) |
+
+---
+
+## 4. Design responsive
+
+### Breakpoint
+
+| Prefisso | Larghezza minima | Destinazione |
+| --- | --- | --- |
+| (nessuno) | 0px | Base mobile-first |
+| `sm:` | 640px | Telefono grande / tablet piccolo |
 | `md:` | 768px | Tablet |
-| `lg:` | 1024px | Laptop |
+| `lg:` | 1024px | Portatile |
 | `xl:` | 1280px | Desktop |
-| `2xl:` | 1536px | Large desktop |
+| `2xl:` | 1536px | Desktop grande |
 
-### Mobile-First Principle
+### Prima il mobile
 
-1. Write mobile styles first (no prefix)
-2. Add larger screen overrides with prefixes
-3. Example: `w-full md:w-1/2 lg:w-1/3`
-
----
-
-## 5. Dark Mode
-
-### Configuration Strategies
-
-| Method | Behavior | Use When |
-| -------- | ---------- | ---------- |
-| `class` | `.dark` class toggles | Manual theme switcher |
-| `media` | Follows system preference | No user control |
-| `selector` | Custom selector (v4) | Complex theming |
-
-### Dark Mode Pattern
-
-| Element | Light | Dark |
-| --------- | ------- | ------ |
-| Background | `bg-white` | `dark:bg-zinc-900` |
-| Text | `text-zinc-900` | `dark:text-zinc-100` |
-| Borders | `border-zinc-200` | `dark:border-zinc-700` |
+1. Scrivi prima gli stili per mobile (senza prefisso)
+2. Aggiungi le varianti per gli schermi più grandi con i prefissi
+3. Esempio: `w-full md:w-1/2 lg:w-1/3`
 
 ---
 
-## 6. Modern Layout Patterns
+## 5. Dark mode
 
-### Flexbox Patterns
+### Strategie
 
-| Pattern | Classes |
-| --------- | --------- |
-| Center (both axes) | `flex items-center justify-center` |
-| Vertical stack | `flex flex-col gap-4` |
-| Horizontal row | `flex gap-4` |
-| Space between | `flex justify-between items-center` |
-| Wrap grid | `flex flex-wrap gap-4` |
+| Metodo | Comportamento | Quando |
+| --- | --- | --- |
+| Predefinito (media query) | Segue la preferenza del sistema | Nessun controllo da parte dell'utente |
+| Classe `.dark` | `@custom-variant dark (&:where(.dark, .dark *));` nel CSS | Selettore del tema a mano |
+| Attributo `data-theme` | `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));` | Temi più complessi |
 
-### Grid Patterns
+Nella v4 la dark mode non si configura più in `tailwind.config.js` (`darkMode: 'class'`): si ridefinisce la variante `dark` nel CSS con `@custom-variant`.
 
-| Pattern | Classes |
-| --------- | --------- |
-| Auto-fit responsive | `grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]` |
-| Asymmetric (Bento) | `grid grid-cols-3 grid-rows-2` with spans |
-| Sidebar layout | `grid grid-cols-[auto_1fr]` |
+### Schema della dark mode
 
-> **Note:** Prefer asymmetric/Bento layouts over symmetric 3-column grids.
+| Elemento | Chiaro | Scuro |
+| --- | --- | --- |
+| Sfondo | `bg-white` | `dark:bg-zinc-900` |
+| Testo | `text-zinc-900` | `dark:text-zinc-100` |
+| Bordi | `border-zinc-200` | `dark:border-zinc-700` |
 
 ---
 
-## 7. Modern Color System
+## 6. Layout moderni
 
-### OKLCH vs RGB/HSL
+### Flexbox
 
-| Format | Advantage |
-| -------- | ----------- |
-| **OKLCH** | Perceptually uniform, better for design |
-| **HSL** | Intuitive hue/saturation |
-| **RGB** | Legacy compatibility |
+| Schema | Classi |
+| --- | --- |
+| Centrato (entrambi gli assi) | `flex items-center justify-center` |
+| Pila verticale | `flex flex-col gap-4` |
+| Riga orizzontale | `flex gap-4` |
+| Spazio tra gli elementi | `flex justify-between items-center` |
+| Griglia che va a capo | `flex flex-wrap gap-4` |
 
-### Color Token Architecture
+### Grid
 
-| Layer | Example | Purpose |
-| ------- | --------- | --------- |
-| **Primitive** | `--blue-500` | Raw color values |
-| **Semantic** | `--color-primary` | Purpose-based naming |
-| **Component** | `--button-bg` | Component-specific |
+| Schema | Classi |
+| --- | --- |
+| Responsive con auto-fit | `grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]` |
+| Asimmetrico (Bento) | `grid grid-cols-3 grid-rows-2` con span |
+| Layout con barra laterale | `grid grid-cols-[auto_1fr]` |
+
+> **Nota:** meglio i layout asimmetrici/Bento delle griglie simmetriche a 3 colonne.
 
 ---
 
-## 8. Typography System
+## 7. Sistema dei colori moderno
 
-### Font Stack Pattern
+### OKLCH, RGB o HSL
 
-| Type | Recommended |
+| Formato | Vantaggio |
+| --- | --- |
+| **OKLCH** | Uniforme per la percezione, migliore per il design |
+| **HSL** | Tinta e saturazione intuitive |
+| **RGB** | Compatibilità con il vecchio |
+
+### Architettura dei token di colore
+
+| Livello | Esempio | Scopo |
+| --- | --- | --- |
+| **Primitivo** | `--blue-500` | Valori di colore grezzi |
+| **Semantico** | `--color-primary` | Nomi in base allo scopo |
+| **Componente** | `--button-bg` | Specifici del componente |
+
+---
+
+## 8. Tipografia
+
+### Pile di font
+
+| Tipo | Consigliati |
 | --- | --- |
 | Sans | `'Inter', 'SF Pro', system-ui, sans-serif` |
 | Mono | `'JetBrains Mono', 'Fira Code', monospace` |
-| Display | `'Outfit', 'Poppins', sans-serif` |
+| Titoli | `'Outfit', 'Poppins', sans-serif` |
 
-### Type Scale
+### Scala tipografica
 
-| Class | Size | Use |
-| ------- | ------ | ----- |
-| `text-xs` | 0.75rem | Labels, captions |
-| `text-sm` | 0.875rem | Secondary text |
-| `text-base` | 1rem | Body text |
-| `text-lg` | 1.125rem | Lead text |
-| `text-xl`+ | 1.25rem+ | Headings |
-
----
-
-## 9. Animation & Transitions
-
-### Built-in Animations
-
-| Class | Effect |
-| ------- | -------- |
-| `animate-spin` | Continuous rotation |
-| `animate-ping` | Attention pulse |
-| `animate-pulse` | Subtle opacity pulse |
-| `animate-bounce` | Bouncing effect |
-
-### Transition Patterns
-
-| Pattern | Classes |
-| --------- | --------- |
-| All properties | `transition-all duration-200` |
-| Specific | `transition-colors duration-150` |
-| With easing | `ease-out` or `ease-in-out` |
-| Hover effect | `hover:scale-105 transition-transform` |
+| Classe | Dimensione | Uso |
+| --- | --- | --- |
+| `text-xs` | 0.75rem | Etichette, didascalie |
+| `text-sm` | 0.875rem | Testo secondario |
+| `text-base` | 1rem | Testo del corpo |
+| `text-lg` | 1.125rem | Testo introduttivo |
+| `text-xl`+ | 1.25rem+ | Titoli |
 
 ---
 
-## 10. Component Extraction
+## 9. Animazioni e transizioni
 
-### When to Extract
+### Animazioni integrate
 
-| Signal | Action |
-| -------- | -------- |
-| Same class combo 3+ times | Extract component |
-| Complex state variants | Extract component |
-| Design system element | Extract + document |
-
-### Extraction Methods
-
-| Method | Use When |
+| Classe | Effetto |
 | --- | --- |
-| **React/Vue component** | Dynamic, JS needed |
-| **@apply in CSS** | Static, no JS needed |
-| **Design tokens** | Reusable values |
+| `animate-spin` | Rotazione continua |
+| `animate-ping` | Pulsazione per attirare l'attenzione |
+| `animate-pulse` | Leggera pulsazione dell'opacità |
+| `animate-bounce` | Effetto rimbalzo |
+
+### Transizioni
+
+| Schema | Classi |
+| --- | --- |
+| Tutte le proprietà | `transition-all duration-200` |
+| Una proprietà | `transition-colors duration-150` |
+| Con easing | `ease-out` o `ease-in-out` |
+| Effetto hover | `hover:scale-105 transition-transform` |
 
 ---
 
-## 11. Anti-Patterns
+## 10. Estrarre componenti
 
-| Don't | Do |
-| ------- | ----- |
-| Arbitrary values everywhere | Use design system scale |
-| `!important` | Fix specificity properly |
-| Inline `style=` | Use utilities |
-| Duplicate long class lists | Extract component |
-| Mix v3 config with v4 | Migrate fully to CSS-first |
-| Use `@apply` heavily | Prefer components |
+### Quando estrarre
 
----
+| Segnale | Azione |
+| --- | --- |
+| La stessa combinazione di classi 3+ volte | Estrai un componente |
+| Varianti di stato complesse | Estrai un componente |
+| Elemento del design system | Estrai + documenta |
 
-## 12. Performance Principles
+### Come estrarre
 
-| Principle | Implementation |
-| ----------- | ---------------- |
-| **Purge unused** | Automatic in v4 |
-| **Avoid dynamism** | No template string classes |
-| **Use Oxide** | Default in v4, 10x faster |
-| **Cache builds** | CI/CD caching |
+| Metodo | Quando |
+| --- | --- |
+| **Componente React/Vue** | Dinamico, serve JS |
+| **@apply nel CSS** | Statico, niente JS |
+| **Design token** | Valori riutilizzabili |
 
 ---
 
-> **Remember:** Tailwind v4 is CSS-first. Embrace CSS variables, container queries, and native features. The config file is now optional.
+## 11. Anti-pattern
+
+| Da non fare | Da fare |
+| --- | --- |
+| Valori arbitrari ovunque | Usa la scala del design system |
+| `!important` | Risolvi la specificità come si deve |
+| `style=` in linea | Usa le utility |
+| Lunghe liste di classi duplicate | Estrai un componente |
+| Mescolare la configurazione v3 con la v4 | Migra tutto alla configurazione nel CSS |
+| Abusare di `@apply` | Meglio i componenti |
+
+---
+
+## 12. Prestazioni
+
+| Principio | Implementazione |
+| --- | --- |
+| **Togli l'inutilizzato** | Automatico nella v4 |
+| **Evita le classi dinamiche** | Niente classi costruite con template string |
+| **Usa Oxide** | Predefinito nella v4, molto più veloce |
+| **Cache delle build** | Cache nella CI/CD |
+
+---
+
+> **Ricorda:** Tailwind v4 mette il CSS al primo posto. Sfrutta variabili CSS, container query e funzioni native. Il file di configurazione ora è facoltativo.

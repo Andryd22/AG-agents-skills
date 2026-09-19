@@ -1,186 +1,190 @@
 ---
 name: webapp-testing
-description: Web application testing principles. E2E, Playwright, deep audit strategies.
+description: Principi di test delle applicazioni web. E2E, Playwright, strategie di audit approfondito.
 ---
 
-# Web App Testing
+# Test delle web app
 
-> Discover and test everything. Leave no route untested.
+> Scopri e testa tutto. Nessuna route resta senza test.
 
-## 🔧 Runtime Scripts
+## 🔧 Script da eseguire
 
-**Execute these for automated browser testing:**
+**Eseguili per i test automatici nel browser:**
 
-| Script | Purpose | Usage |
-| -------- | --------- | ------- |
-| `scripts/playwright_runner.py` | Basic browser test | `python scripts/playwright_runner.py https://example.com` |
-| | With screenshot | `python scripts/playwright_runner.py <url> --screenshot` |
-| | Accessibility check | `python scripts/playwright_runner.py <url> --a11y` |
+| Script | A cosa serve | Uso |
+| --- | --- | --- |
+| `scripts/playwright_runner.py` | Test di base nel browser | `python .agents/skills/webapp-testing/scripts/playwright_runner.py https://example.com` |
+| | Con screenshot | `python .agents/skills/webapp-testing/scripts/playwright_runner.py <url> --screenshot` |
+| | Controllo di accessibilità | `python .agents/skills/webapp-testing/scripts/playwright_runner.py <url> --a11y` |
 
-**Requires:** `pip install playwright && playwright install chromium`
+**Richiede:** `pip install playwright && playwright install chromium`
 
----
-
-## 1. Deep Audit Approach
-
-### Discovery First
-
-| Target | How to Find |
-| -------- | ------------- |
-| Routes | Scan app/, pages/, router files |
-| API endpoints | Grep for HTTP methods |
-| Components | Find component directories |
-| Features | Read documentation |
-
-### Systematic Testing
-
-1. **Map** - List all routes/APIs
-2. **Scan** - Verify they respond
-3. **Test** - Cover critical paths
+L'output è un JSON (chiavi in inglese, messaggi in italiano); il codice di uscita è diverso da 0 se il controllo non va a buon fine, così `checklist.py` e `verify_all.py` non lo contano come superato.
 
 ---
 
-## 2. Testing Pyramid for Web
+## 1. Audit approfondito
+
+### Prima la scoperta
+
+| Obiettivo | Come trovarlo |
+| --- | --- |
+| Route | Scansiona `app/`, `pages/`, i file del router |
+| Endpoint API | Cerca con grep i metodi HTTP |
+| Componenti | Trova le cartelle dei componenti |
+| Funzionalità | Leggi la documentazione |
+
+### Test sistematico
+
+1. **Mappa**: elenca tutte le route e le API
+2. **Scansiona**: verifica che rispondano
+3. **Testa**: copri i percorsi critici
+
+---
+
+## 2. Piramide dei test per il web
 
 ```text
-        /\          E2E (Few)
-       /  \         Critical user flows
+        /\          E2E (pochi)
+       /  \         Flussi utente critici
       /----\
-     /      \       Integration (Some)
-    /--------\      API, data flow
+     /      \       Integrazione (alcuni)
+    /--------\      API, flusso dei dati
    /          \
-  /------------\    Component (Many)
-                    Individual UI pieces
+  /------------\    Componenti (molti)
+                    Singoli pezzi di UI
 ```
 
 ---
 
-## 3. E2E Test Principles
+## 3. Principi dei test E2E
 
-### What to Test
+### Cosa testare
 
-| Priority | Tests |
-| ---------- | ------- |
-| 1 | Happy path user flows |
-| 2 | Authentication flows |
-| 3 | Critical business actions |
-| 4 | Error handling |
+| Priorità | Test |
+| --- | --- |
+| 1 | Flussi utente del caso felice (happy path) |
+| 2 | Flussi di autenticazione |
+| 3 | Azioni di business critiche |
+| 4 | Gestione degli errori |
 
-### E2E Best Practices
+### Buone pratiche E2E
 
-| Practice | Why |
-| ---------- | ----- |
-| Use data-testid | Stable selectors |
-| Wait for elements | Avoid flaky tests |
-| Clean state | Independent tests |
-| Avoid implementation details | Test user behavior |
-
----
-
-## 4. Playwright Principles
-
-### Core Concepts
-
-| Concept | Use |
-| --------- | ----- |
-| Page Object Model | Encapsulate page logic |
-| Fixtures | Reusable test setup |
-| Assertions | Built-in auto-wait |
-| Trace Viewer | Debug failures |
-
-### Configuration
-
-| Setting | Recommendation |
-| --------- | ---------------- |
-| Retries | 2 on CI |
-| Trace | on-first-retry |
-| Screenshots | on-failure |
-| Video | retain-on-failure |
+| Pratica | Perché |
+| --- | --- |
+| Usa `data-testid` | Selettori stabili |
+| Aspetta gli elementi | Eviti test instabili (flaky) |
+| Stato pulito | Test indipendenti |
+| Evita i dettagli di implementazione | Testi il comportamento dell'utente |
 
 ---
 
-## 5. Visual Testing
+## 4. Principi di Playwright
 
-### When to Use
+### Concetti chiave
 
-| Scenario | Value |
-| ---------- | ------- |
-| Design system | High |
-| Marketing pages | High |
-| Component library | Medium |
-| Dynamic content | Lower |
+| Concetto | A cosa serve |
+| --- | --- |
+| Page Object Model | Incapsula la logica della pagina |
+| Fixture | Setup dei test riutilizzabile |
+| Asserzioni | Attesa automatica integrata |
+| Trace Viewer | Debug dei fallimenti |
 
-### Strategy
+### Configurazione
 
-- Baseline screenshots
-- Compare on changes
-- Review visual diffs
-- Update intentional changes
-
----
-
-## 6. API Testing Principles
-
-### Coverage Areas
-
-| Area | Tests |
-| ------ | ------- |
-| Status codes | 200, 400, 404, 500 |
-| Response shape | Matches schema |
-| Error messages | User-friendly |
-| Edge cases | Empty, large, special chars |
+| Impostazione | Consiglio |
+| --- | --- |
+| Retries | 2 in CI |
+| Trace | `on-first-retry` |
+| Screenshot | `only-on-failure` |
+| Video | `retain-on-failure` |
 
 ---
 
-## 7. Test Organization
+## 5. Test visivi
 
-### File Structure
+### Quando usarli
+
+| Scenario | Valore |
+| --- | --- |
+| Design system | Alto |
+| Pagine di marketing | Alto |
+| Libreria di componenti | Medio |
+| Contenuti dinamici | Più basso |
+
+### Strategia
+
+- Screenshot di riferimento (baseline)
+- Confronto a ogni modifica
+- Revisione delle differenze visive
+- Aggiornamento delle modifiche volute
+
+---
+
+## 6. Principi dei test delle API
+
+### Aree da coprire
+
+| Area | Test |
+| --- | --- |
+| Codici di stato | 200, 400, 404, 500 |
+| Forma della risposta | Rispetta lo schema |
+| Messaggi di errore | Comprensibili per l'utente |
+| Casi limite | Vuoto, molto grande, caratteri speciali |
+
+---
+
+## 7. Organizzazione dei test
+
+### Struttura dei file
 
 ```text
 tests/
-├── e2e/           # Full user flows
-├── integration/   # API, data
-├── component/     # UI units
-└── fixtures/      # Shared data
+├── e2e/           # Flussi utente completi
+├── integration/   # API, dati
+├── component/     # Unità di UI
+└── fixtures/      # Dati condivisi
 ```
 
-### Naming Convention
+### Convenzione per i nomi
 
-| Pattern | Example |
+| Schema | Esempio |
 | --- | --- |
-| Feature-based | `login.spec.ts` |
-| Descriptive | `user-can-checkout.spec.ts` |
+| Per funzionalità | `login.spec.ts` |
+| Descrittivo | `user-can-checkout.spec.ts` |
+
+I nomi dei file restano in inglese, come il resto del codice.
 
 ---
 
-## 8. CI Integration
+## 8. Integrazione con la CI
 
-### Pipeline Steps
+### Passi della pipeline
 
-1. Install dependencies
-2. Install browsers
-3. Run tests
-4. Upload artifacts (traces, screenshots)
+1. Installa le dipendenze
+2. Installa i browser
+3. Esegui i test
+4. Carica gli artefatti (trace, screenshot)
 
-### Parallelization
+### Parallelizzazione
 
-| Strategy | Use |
+| Strategia | Quando |
 | --- | --- |
-| Per file | Playwright default |
-| Sharding | Large suites |
-| Workers | Multiple browsers |
+| Per file | Predefinita in Playwright |
+| Sharding | Suite grandi |
+| Worker | Più browser |
 
 ---
 
-## 9. Anti-Patterns
+## 9. Anti-pattern
 
-| ❌ Don't | ✅ Do |
-| ---------- | ------- |
-| Test implementation | Test behavior |
-| Hardcode waits | Use auto-wait |
-| Skip cleanup | Isolate tests |
-| Ignore flaky tests | Fix root cause |
+| ❌ Non fare | ✅ Fai |
+| --- | --- |
+| Testare l'implementazione | Testa il comportamento |
+| Attese fisse nel codice | Usa l'attesa automatica |
+| Saltare la pulizia | Isola i test |
+| Ignorare i test instabili | Correggi la causa |
 
 ---
 
-> **Remember:** E2E tests are expensive. Use them for critical paths only.
+> **Ricorda:** i test E2E costano. Usali solo per i percorsi critici.

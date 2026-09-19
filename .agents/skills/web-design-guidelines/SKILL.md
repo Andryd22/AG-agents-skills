@@ -1,58 +1,58 @@
 ---
 name: web-design-guidelines
-description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
+description: Rivede il codice della UI rispetto alle Web Interface Guidelines. Usala quando ti chiedono di "rivedere la UI", "controllare l'accessibilità", "fare un audit del design", "rivedere la UX" o "controllare il sito rispetto alle buone pratiche".
 metadata:
   author: vercel
   version: "1.0.0"
-  argument-hint: <file-or-pattern>
+  argument-hint: <file-o-schema>
 ---
 
 # Web Interface Guidelines
 
-Review files for compliance with Web Interface Guidelines.
+Controlla che i file rispettino le Web Interface Guidelines.
 
-## How It Works
+## Come funziona
 
-1. Fetch the latest guidelines from the source URL below
-2. Read the specified files (or prompt user for files/pattern)
-3. Check against all rules in the fetched guidelines
-4. Output findings in the terse `file:line` format
+1. Scarica le linee guida aggiornate dall'URL qui sotto
+2. Leggi i file indicati (o chiedi all'utente file o schema)
+3. Controllali rispetto a tutte le regole scaricate
+4. Riporta i risultati nel formato sintetico `file:riga`
 
-## Guidelines Source
+## Fonte delle linee guida
 
-Fetch fresh guidelines before each review:
+Scarica linee guida fresche prima di ogni revisione:
 
 ```text
 https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md
 ```
 
-Use WebFetch to retrieve the latest rules. The fetched content contains all the rules and output format instructions.
+Usa WebFetch (o lo strumento per leggere URL che hai) per recuperare le regole aggiornate. Il contenuto scaricato contiene tutte le regole e le istruzioni sul formato dell'output; è in inglese: applicalo e scrivi il resoconto in italiano.
 
-## Usage
+## Uso
 
-When a user provides a file or pattern argument:
+Quando l'utente indica un file o uno schema:
 
-1. Fetch guidelines from the source URL above
-2. Read the specified files
-3. Apply all rules from the fetched guidelines
-4. Output findings using the format specified in the guidelines
+1. Scarica le linee guida dall'URL qui sopra
+2. Leggi i file indicati
+3. Applica tutte le regole delle linee guida scaricate
+4. Riporta i risultati nel formato indicato dalle linee guida
 
-If no files specified, ask the user which files to review.
+Se non sono indicati file, chiedi all'utente quali rivedere.
 
 ---
 
-## Related Skills
+## Skill collegate
 
-| Skill | When to Use |
+| Skill | Quando usarla |
 | --- | --- |
-| **[frontend-design](../frontend-design/SKILL.md)** | Before coding - Learn design principles (color, typography, UX psychology) |
-| **web-design-guidelines** (this) | After coding - Audit for accessibility, performance, and best practices |
+| **[frontend-design](../frontend-design/SKILL.md)** | Prima di scrivere codice: principi di design (colore, tipografia, psicologia della UX) |
+| **web-design-guidelines** (questa) | Dopo aver scritto codice: audit di accessibilità, prestazioni e buone pratiche |
 
-## Design Workflow
+## Flusso di design
 
 ```text
-1. DESIGN   → Read frontend-design principles
-2. CODE     → Implement the design
-3. AUDIT    → Run web-design-guidelines review ← YOU ARE HERE
-4. FIX      → Address findings from audit
+1. DESIGN   → leggi i principi di frontend-design
+2. CODICE   → implementa il design
+3. AUDIT    → revisione con web-design-guidelines ← SEI QUI
+4. CORREZIONI → sistema quello che l'audit ha trovato
 ```
