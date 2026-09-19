@@ -109,6 +109,15 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 `python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E.
 Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`.
 
+## 🇮🇹 Lingua
+
+Il kit è scritto in italiano, tranne l'area frontend web (`frontend-specialist`, `qa-automation-engineer` e le loro skill), ancora in inglese. I nomi di agenti, skill e comandi restano in inglese.
+
+- Gli agenti rispondono in italiano.
+- Nel codice che scrivono, commenti e messaggi sono in italiano e i nomi (variabili, funzioni, file) in inglese.
+- Gli appunti LaTeX sono nella lingua del corso, che la skill ricava dal `babel` del preambolo: i corsi nuovi sono in italiano, un corso già scritto in inglese resta in inglese.
+- I prompt per i modelli di immagini e video di `scroll-world` e `scroll-film` restano in inglese.
+
 ## 🪨 Caveman Mode
 
 Riduci l'uso dei token di circa il 65% con risposte concise e tecnicamente accurate.
