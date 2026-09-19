@@ -47,7 +47,7 @@ metadata:
 | **AI / LLM** | "LLM", "RAG", "prompt", "embedding", "AI agent" | `ai-ml-engineer` | ✅ YES |
 | **ML / Data Mining** | "scikit-learn", "classification", "clustering", "pandas", "association rules", "cross-validation" | `ai-ml-engineer` (with the `classic-ml` skill) | ✅ YES |
 | **Scroll Experience** | "scrollytelling", "3D scroll", "fly-through", "WebGL" | `scroll-experience-architect` | ✅ YES |
-| **LaTeX / Academic** | "latex", "thesis", "paper", "tikz", "chapter" | `latex-specialist` | ✅ YES |
+| **LaTeX / Academic** | "latex", "lecture notes", "slides to chapter", "thesis", "paper", "tikz" | `latex-specialist` | ✅ YES |
 | **Documentation** | "README", "API docs", "changelog" | `documentation-writer` | ❌ ONLY IF ASKED |
 | **Codebase Survey** | "analyze repo", "explain codebase", "map structure" | `explorer-agent` | ✅ YES |
 | **Requirements** | "user story", "acceptance criteria", "specs", "backlog", "roadmap", "MVP", "PRD" | `project-planner` | ✅ YES |

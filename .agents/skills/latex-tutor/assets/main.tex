@@ -1,0 +1,25 @@
+% !TeX root = main.tex
+\input{preamble}
+
+\hypersetup{pdftitle={COURSE TITLE}}
+
+% Start every chapter on an odd page (single-sided report): add a blank page if needed.
+\newcommand{\clearoddpage}{\clearpage\ifodd\value{page}\else\hbox{}\newpage\fi}
+
+\begin{document}
+
+\title{\textbf{COURSE TITLE}}
+\author{\textit{AUTHOR}}
+\date{}
+
+\hypersetup{pageanchor=false}   % the title page and the first page would both be "page 1"
+\maketitle
+\hypersetup{pageanchor=true}
+
+\tableofcontents
+\cleardoublepage
+
+% One chapter per lecture PDF, in lecture order:
+% \clearoddpage\include{chapters/1-Introduction}
+
+\end{document}

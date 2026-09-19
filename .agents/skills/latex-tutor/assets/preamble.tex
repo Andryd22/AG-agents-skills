@@ -1,0 +1,134 @@
+% !TeX root = main.tex
+% Preamble for university notes written with the latex-tutor skill.
+\documentclass[a4paper, 12pt]{report}
+
+% --- Encoding and language (document in English) ---
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % scalable fonts, needed by microtype
+\usepackage[english]{babel}
+\usepackage{comment}
+\usepackage{microtype}      % better spacing, fewer overfull/underfull boxes
+\usepackage{ragged2e}       % better alignment in narrow columns
+
+% --- Mathematics ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}      % dcases and fixes to amsmath
+\usepackage{bm}             % bold vectors: \bm{v}
+\usepackage{physics}        % \dv, \pdv, \abs, \norm
+\usepackage{amsthm}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% --- Algorithms and code ---
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblue}{rgb}{0.0,0.0,0.7}
+\definecolor{codemagenta}{rgb}{0.6,0.0,0.4}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+\definecolor{frameblue}{rgb}{0.2,0.5,0.8}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{codeblue}\bfseries,
+    numberstyle=\scriptsize\color{codegray},
+    stringstyle=\color{codemagenta},
+    basicstyle=\ttfamily\footnotesize\upshape,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=single,
+    framesep=4pt,
+    rulecolor=\color{frameblue},
+    xleftmargin=2em,
+    framexleftmargin=1.5em,
+    aboveskip=1em,
+    belowskip=1em
+}
+\lstset{style=mystyle}
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    framesep=4pt,
+    rulecolor=\color{frameblue},
+    backgroundcolor=\color{backcolour},
+    morecomment=[l]{//},
+    commentstyle=\color{codegreen}\ttfamily\itshape,
+    literate=
+    *{0}{{{\color{codepurple}0}}}{1}
+    {1}{{{\color{codepurple}1}}}{1}
+    {2}{{{\color{codepurple}2}}}{1}
+    {3}{{{\color{codepurple}3}}}{1}
+    {4}{{{\color{codepurple}4}}}{1}
+    {5}{{{\color{codepurple}5}}}{1}
+    {6}{{{\color{codepurple}6}}}{1}
+    {7}{{{\color{codepurple}7}}}{1}
+    {8}{{{\color{codepurple}8}}}{1}
+    {9}{{{\color{codepurple}9}}}{1}
+    {:}{{{\color{codegray}{:}}}}{1}
+    {,}{{{\color{codegray}{,}}}}{1}
+    {\{}{{{\color{magenta}{\{}}}}{1}
+    {\}}{{{\color{magenta}{\}}}}}{1}
+    {[}{{{\color{magenta}{[}}}}{1}
+    {]}{{{\color{magenta}{]}}}}{1},
+}
+
+% --- Lists ---
+\usepackage[shortlabels]{enumitem}
+
+% --- Figures and tables ---
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows, arrows.meta, calc, decorations.pathmorphing, decorations.pathreplacing, fit, matrix, positioning, shapes.geometric, shapes.multipart, shapes.symbols}
+\usepackage{float}          % [H] placement
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem}
+
+% --- Page layout and links ---
+\usepackage{geometry}
+\geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+\usepackage{hyperref}       % after the other packages
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% --- Theorem environments: one shared counter per chapter (Definition 5.1, Theorem 5.2, ...) ---
+\theoremstyle{plain}        % italic body
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}   % upright body
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}

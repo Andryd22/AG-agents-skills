@@ -1,82 +1,73 @@
 ---
 name: latex
-description: Write or review academic LaTeX. Delegates to the latex-specialist agent, which applies the latex-tutor (generation) and latex-review (audit) skills. Use to turn slides/notes into textbook chapters or to audit a LaTeX project before submission. Use when the user runs /latex.
+description: 'University notes in LaTeX: set up a course folder, turn a lecture PDF (and its transcript) into a chapter with figures, references and a compile check, or review the whole project. Delegates to the latex-specialist agent with the latex-tutor and latex-review skills. Use when the user runs /latex or asks for LaTeX notes from slides.'
 ---
 
-# /latex — Academic LaTeX Workflow
+# /latex — University Notes in LaTeX
 
 The request is the text that follows `/latex`.
 
 ---
 
-## Purpose
+## Modes
 
-Activate the **latex-specialist** agent to write or recheck LaTeX. The agent runs in one of two modes, each backed by a dedicated skill:
-
-| Mode | Skill | When |
+| Signal in the request | Mode | Skill |
 | --- | --- | --- |
-| **Generation** | `@[skills/latex-tutor]` | Turn PDF slides, notes, or transcripts into textbook-quality chapters |
-| **Audit** | `@[skills/latex-review]` | Review an existing LaTeX project for compiler-breaking and style issues |
+| "setup", "new course", "nuovo corso", empty folder without `main.tex` | **Setup** | `@[skills/latex-tutor]` (assets) |
+| a PDF name or path, "chapter", "generate", "from these slides", an attached PDF or transcript | **Generation** | `@[skills/latex-tutor]` |
+| "review", "check", "audit", "fix", "does it compile" | **Audit** | `@[skills/latex-review]` |
+| unclear | ask one question: new course, new chapter or review? | |
+
+Hand the work to `latex-specialist` with the request, the mode and the files involved (↪ `@latex-specialist: <mode> <files>`).
 
 ---
 
-## Mode Detection
+## Setup
 
-Read the request and pick the mode:
-
-| Signal in request | Mode |
-| ------------------- | ------ |
-| "write", "generate", "create chapter", "from these slides", uploaded PDF/transcript | **Generation** |
-| "review", "audit", "check", "fix", "does this compile", points at `main.tex` / a project | **Audit** |
-| Ambiguous | Ask one question: "Generate new LaTeX or audit existing files?" |
+1. Ask for the course title and the author name (skip what the request already says).
+2. Create in the current folder, without overwriting anything that exists:
+   - `main.tex` and `preamble.tex` from `.agents/skills/latex-tutor/assets/`, with the title and author filled in;
+   - `chapters/`, `images/`, `transcripts/`, and `slides/` unless the lecture PDFs already sit in another folder.
+3. Tell the user where to put the lecture PDFs and how to generate the first chapter (`/latex slides/1-Introduction.pdf`).
 
 ---
 
-## Flow
+## Generation
 
-1. **Detect mode** from the request (see table above).
-2. **Delegate to the agent** with full context:
+Follow the Workflow of `latex-tutor` (Project Mode):
 
-   ```text
-   Use the latex-specialist agent to [generate chapter from / audit] the LaTeX in [files or inputs from the request].
+1. Read the preamble, map the existing chapters with `grep`, read the last edited chapter to copy its conventions.
+2. Read the PDF (directly or with `slides.py text` and `render`) and the transcript if there is one.
+3. Write `chapters/<PDF name>.tex` without overwriting an existing file; add the `\include` to `main.tex`.
+4. Figures: TikZ for simple diagrams, crops with `slides.py crop` for complex ones, placeholders only as a fallback.
+5. Compile, fix the errors of the new chapter, report sections, figures, references and warnings.
 
-   CONTEXT:
-   - User Request: [full text]
-   - Mode: Generation | Audit
-   - Inputs: [PDF / transcript / project path / main.tex]
-   ```
+Without a course folder (a single PDF in a chat), `latex-tutor` works in Chat Mode: the chapter body in one `latex` code block.
 
-3. **Generation mode** — agent applies `@[skills/latex-tutor]`:
-   - Reads `preamble.tex` + course context first
-   - Synthesizes slides by theme (not 1:1)
-   - Emits LaTeX **body only** — no `\documentclass`, no preamble
-   - Strips all `[cite]` / `<source>` tags
+---
 
-4. **Audit mode** — agent applies `@[skills/latex-review]`:
-   - Reads `main.tex`, then every `\include`d file
-   - Traces all `\label` → `\ref` chains
-   - Reports by severity: 🔴 Critical → 🟡 Important → 🔵 Minor
+## Audit
 
-5. **Verify before done** — agent runs its Review Checklist:
-   matched `\begin`/`\end`, zero citation tags, `&` only in tables, `_`/`^` in math mode, captions placed right, `\cleardoublepage` per chapter.
+Follow the Review Workflow of `latex-review`: `check_project.py`, compile and log, style checklist, report by severity. Fix only after the user says which issues to fix.
 
 ---
 
 ## Usage
 
 ```text
-/latex generate a chapter from these lecture slides on neural networks
-/latex turn this transcript into a textbook section
-/latex audit my thesis project in ./thesis (start from main.tex)
-/latex review chapters/03-methods.tex and fix compile errors
+/latex setup
+/latex slides/5-Clustering.pdf
+/latex slides/5-Clustering.pdf with transcripts/5-Clustering.txt
+/latex review
+/latex fix the critical issues of chapter 7
 ```
 
 ---
 
 ## Key Principles
 
-- **Compilation is sacred** — if it doesn't compile, nothing else matters.
-- **Synthesize, don't transcribe** — structure by logic, not by slide order.
-- **Strip citation tags** — `[cite]`, `<source>`, `[ref]` crash the compiler.
-- **Output in English** — user communication stays in the user's language.
-- See `@[agents/latex-specialist]` for full conventions, anti-patterns, and checklist.
+- **The chapters are the user's**: never overwrite one, never restructure prose without approval.
+- **It must compile**: every generation ends with a compile.
+- **Synthesize, don't transcribe**: structure by topic, not by slide.
+- **LaTeX in English**, conversation in the user's language.
+- See `@[agents/latex-specialist]` for conventions and the full checklist.

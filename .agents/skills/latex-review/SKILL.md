@@ -1,159 +1,124 @@
 ---
 name: latex-review
-description: Comprehensive LaTeX project review and quality assurance. Audits entire LaTeX projects for structural integrity, compiler safety, formatting consistency, and adherence to latex-tutor style rules. Use after generating chapters or before final submission.
+description: Review a LaTeX course project for compile errors, broken references, missing images, leftover placeholders and deviations from the latex-tutor style rules, then fix what the user approves. Use after generating chapters, after editing them by hand, or before printing or sharing the notes.
 ---
 
-# SKILL.md — latex-review
+# latex-review
 
----
+You are `latex-review`, the quality check of a LaTeX course project written with `latex-tutor` and then edited by hand. You find what breaks the compile or the references first, then what departs from the style rules, and you report it by severity.
 
-## ROLE
-
-You are `latex-review`, a meticulous LaTeX Quality Assurance specialist. You audit complete LaTeX projects with surgical precision, catching every structural, stylistic, and compiler-breaking issue before the student submits.
-
----
-
-## OBJECTIVE
-
-Given a LaTeX project directory, you will:
-
-1. **Structural Audit**: Verify document structure, chapter organization, and cross-references.
-2. **Compiler Safety Check**: Find every pattern that could crash the LaTeX compiler.
-3. **Style Compliance**: Validate adherence to `latex-tutor` rules.
-4. **Quality Report**: Output a structured review with severity levels and fix instructions.
+The chapters are the user's work: report style issues, don't rewrite prose on your own initiative.
 
 ---
 
-## AUDIT SCOPE
+## Review Workflow
 
-Scan the entire project directory for:
+1. **Structure.** Read `main.tex`: preamble, `\include` order, chapters present.
+2. **Mechanical checks.** Run the bundled script from the project folder:
 
-- `main.tex` or any `.tex` file with `\documentclass`
-- All `\include` and `\input` files
-- `preamble.tex` or preamble sections
-- `.bib` bibliography files
-- Any `.sty`, `.cls`, or custom package files
-- `\begin{...}` / `\end{...}` pairing across all files
+   ```bash
+   python .agents/skills/latex-review/scripts/check_project.py .
+   ```
+
+   It follows `\input`/`\include` and lists undefined references, duplicate labels, missing image files, citation tags, placeholders still to replace, chapter or section numbers written by hand, unused images, `\uline`, `\tikzstyle` and `cases`.
+3. **Compile.** `latexmk -pdf -interaction=nonstopmode main.tex`, then read `main.log`: errors (`!` lines), `undefined` references, `multiply defined` labels, `Overfull \hbox` wider than 10pt, missing files. Give file and line for each. If no TeX distribution is installed, say so and go on.
+4. **Style.** Read the chapters to review (all, or those the user names) against the checklist below.
+5. **Report** in the user's language, in the format below.
 
 ---
 
-## REVIEW CHECKLIST
+## Checklist
 
-### 1. Compiler Safety (🔴 CRITICAL — Must Fix)
+### 1. Compile Safety (🔴 Critical)
 
-| Check | What to Look For |
-| ------- | ----------------- |
-| **Citation tags** | Search for `[cite]`, `<source>`, `[source]`, `<ref>`, `[ref]`, `[citation]`, `<citation>` — these CRASH the compiler |
-| **Unescaped characters** | `&` outside tabular, `_` outside math, `%` not escaped, `#` not escaped, `$` mismatch |
-| **Unmatched braces** | Every `{` has `}`, every `\begin{env}` has `\end{env}` |
-| **Duplicate labels** | `\label{...}` defined more than once — causes undefined references |
-| **Undefined references** | `\ref{...}` or `\cite{...}` pointing to nonexistent labels/citations |
-| **Missing packages** | Commands used but package not in preamble (`\hl{}` needs `soul`, `\bm` needs `bm`) |
-| **Math mode leaks** | Text outside `$...$` or `\[...\]` that should be in math mode |
+| Check | What to look for |
+| --- | --- |
+| Citation tags | `[cite]`, `<source>`, `[source]`, `<ref>`, `[citation]` |
+| Special characters | `&` outside tables, `_` or `^` outside math, unescaped `%`, `#`, `$` |
+| Environments | every `\begin{...}` closed, braces balanced |
+| Labels and references | duplicate labels, `\ref` to missing labels |
+| Images | `\includegraphics` files that don't exist |
+| Packages | commands whose package is not in the preamble (`\hl` needs `soul`) |
 
-### 2. Structural Integrity (🟡 Important)
+### 2. Structure (🟡 Important)
 
-| Check | What to Look For |
-| ------- | ----------------- |
-| **Chapter count** | Is each PDF/chapter present? Any missing chapters? |
-| **Section depth** | 3–6 sections per chapter, 1–4 subsections each — flag over- or under-segmentation |
-| **Cross-references** | `\ref{ch:...}` and `\ref{sec:...}` actually resolve — test by tracing labels |
-| **Cross-PDF redundancy** | Search for concepts explained in full across multiple chapters — flag for summarization |
-| **Table of Contents** | Does `\tableofcontents` reflect actual chapter/section structure? |
-| **Float placement** | Figures/tables with `[H]` that could cause large blank spaces — flag |
+| Check | What to look for |
+| --- | --- |
+| Chapters | one per lecture PDF, all included in `main.tex`, in order |
+| Size | 3–6 sections per chapter, 1–4 subsections each; more than ~12 subsections, or 1:1 with the slides, means too little synthesis |
+| Redundancy | the same concept explained in full in two chapters: keep one, reference it from the other |
+| Cross-references | `Chapter~\ref{ch:...}` with existing labels, no numbers written by hand |
+| Placeholders | `INSERT IMAGE FROM SLIDE N` left: list them with slide numbers (`latex-tutor` can crop them) |
+| Floats | `[H]` figures that leave large blank spaces |
 
-### 3. Style Compliance (🟡 Important — latex-tutor Rules)
+### 3. Style (🟡 Important, `latex-tutor` rules)
 
 | Rule | Check |
-| ------ | ------- |
-| **Thematic grouping** | Count subsections per chapter. >12? Flag: merge candidates. 1:1 with slides? Flag: insufficient synthesis. |
-| **Rhythm & variety** | Scan each chapter for stretches of >15 lines of pure prose without itemize/table/definition — flag each occurrence |
-| **Comparative tables** | Every A vs B comparison uses `tabular` with `booktabs`; no numbered lists inside cells (plain text or bullets) |
-| **Lists** | Feature lists use `itemize`/`enumerate`, not prose paragraphs |
-| **Bold keywords** | Major technical terms use `\textbf{}` on first occurrence |
-| **Theorem environments** | Definitions use `\begin{definition}`, theorems use `\begin{theorem}`, examples use `\begin{example}` — no raw text |
-| **TikZ usage** | Any diagrams ≤ 7 nodes that should be TikZ but are missing? Count TikZ diagrams per chapter |
-| **Image placeholders** | Complex diagrams (>7 nodes) have `\begin{figure}[H]` with `\fbox{\textbf{INSERT IMAGE...}}` |
-| **Prose quality** | Flag filler phrases ("It is important to note that...", "This is significant because..."), overly long sentences (>40 words), missing contextual transitions between sections |
+| --- | --- |
+| Rhythm | more than ~15 lines of prose without a list, table, definition, example or figure |
+| Lists | 3+ discrete items buried in prose |
+| Comparisons | A vs B not in a `booktabs` table, numbered lists inside cells |
+| Formal content | definitions, theorems and examples not in `amsthm` environments |
+| Keywords | main terms without `\textbf` on first occurrence |
+| TikZ | simple diagrams (≤ 7 nodes) left as images or placeholders |
+| Prose | filler ("It is important to note that..."), sentences over ~40 words |
+| Language | LaTeX text not in English |
 
-### 4. Math & Physics (🟡 Important)
+### 4. Math (🟡 Important)
 
-| Check | What to Look For |
-| ------- | ----------------- |
-| **dcases for systems** | `\begin{cases}` instead of `\begin{dcases}` → flag |
-| **Vector notation** | `\vec{v}` or `\mathbf{v}` instead of `\bm{v}` → flag |
-| **Derivative notation** | `\frac{df}{dx}` instead of `\dv{f}{x}` → flag |
-| **Physics package** | `\abs{}`, `\norm{}`, `\bra{}`, `\ket{}` used where applicable |
+| Check | What to look for |
+| --- | --- |
+| Systems | `cases` instead of `dcases` |
+| Vectors | `\vec{v}` instead of `\bm{v}` (and the choice used in the rest of the chapter) |
+| Derivatives | `\frac{df}{dx}` instead of `\dv{f}{x}`, `\pdv{f}{x}` |
+| Norms, absolute values | `\norm{}`, `\abs{}` from `physics` |
 
-### 5. Formatting Consistency (🔵 Minor)
+### 5. Formatting (🔵 Minor)
 
-| Check | What to Look For |
-| ------- | ----------------- |
-| **Table style** | All tables use `booktabs` (`\toprule`, `\midrule`, `\bottomrule`) — no vertical rules |
-| **Caption placement** | `\caption` ABOVE tables, BELOW figures — flag any violation |
-| **`\noindent` before tables** | Every `\begin{table}` must be preceded by `\noindent` on the line above — flag missing ones |
-| **`\noindent` after floats/lists** | After `\end{table}`, `\end{figure}`, `\end{itemize}`, `\end{enumerate}` — the next prose paragraph must start with `\noindent` — flag missing ones |
-| **`\uline` usage** | `\uline` is prohibited — flag every occurrence, replace with `\textbf` |
-| **Figure filename convention** | Placeholders consistent: `INSERT IMAGE FROM SLIDE [page number]` |
-| **List indentation** | Consistent `itemize`/`enumerate` nesting, no orphan items |
-| **Lists vs prose** | 3+ discrete items buried in prose that should be `itemize`/`enumerate` — flag |
-| **Font consistency** | No `\uline`, no manual size changes; `\textit` only for secondary/foreign terms |
-| **Chapter pagination** | Each chapter file ends with `\cleardoublepage` (or `\newpage` for single-sided) — flag if missing |
+| Check | What to look for |
+| --- | --- |
+| Tables | `booktabs` rules, no vertical lines |
+| Captions | above tables, below figures |
+| `\noindent` | before `\begin{table}` and on the prose after tables, figures and lists |
+| Emphasis | no `\uline`; `\textit` only for secondary or foreign terms |
+| Labels | `ch:`, `sec:<slug>-`, `def:`, `thm:`, `ex:`, `fig:`, `tab:`, `eq:`, `alg:` prefixes |
+| TikZ | `\tikzstyle` (deprecated) |
+| Chapter end | `\cleardoublepage` at the end of each chapter, as in the other chapters |
+| Images | unused files in `images/` |
 
 ---
 
-## OUTPUT FORMAT
-
-Generate the review as a structured report:
+## Report Format
 
 ```markdown
-## 📋 LaTeX Project Review: [Project Name]
+## LaTeX review: [course]
 
-### 🔴 Critical (Must Fix — Compiler Will Crash)
-| # | File | Line | Issue | Fix |
-|---|------|------|-------|-----|
-| 1 | chapter_2.tex | 145 | `[cite]` found — will crash compiler | Remove tag, use `\cite{...}` |
-| 2 | chapter_4.tex | 89 | Unmatched `{` in math mode | Close brace: `...}` |
+Compile: OK / N errors · check_project.py: X critical, Y important, Z minor
 
-### 🟡 Important (Style & Structure)
-| # | File | Line | Issue | Fix |
-|---|------|------|-------|-----|
-| 1 | chapter_3.tex | 200-280 | 80 lines of pure prose, no visual breaks | Add itemize or definition for the feature list |
-| 2 | chapter_5.tex | — | 18 subsections — excessive fragmentation | Merge sections 5.1–5.3 into one with `\paragraph{}` |
+### 🔴 Critical (the PDF does not build or references are broken)
+| # | File:line | Issue | Fix |
+| --- | --- | --- | --- |
+| 1 | chapters/2-Data.tex:145 | `[cite]` tag | remove it |
 
-### 🔵 Minor (Polish)
-| # | File | Line | Issue | Fix |
-|---|------|------|-------|-----|
-| 1 | chapter_1.tex | 34 | `\frac{df}{dx}` → use `\dv{f}{x}` | Replace with physics package command |
+### 🟡 Important (structure and style)
+| # | File:line | Issue | Fix |
+| --- | --- | --- | --- |
+| 1 | chapters/3-Preprocessing.tex:200-280 | 80 lines of prose | turn the feature list into itemize |
 
-### 📊 Summary
-- Total files reviewed: X
-- Critical issues: Y
-- Important issues: Z
-- Minor issues: W
-- TikZ diagrams found: N across all chapters
-- Overall: [READY / NEEDS FIXES / NOT READY]
+### 🔵 Minor
+| # | File:line | Issue | Fix |
+| --- | --- | --- | --- |
+| 1 | chapters/1-Introduction.tex:34 | `\frac{df}{dx}` | `\dv{f}{x}` |
+
+Summary: [READY / NEEDS FIXES / DOES NOT COMPILE]
 ```
 
 ---
 
-## REVIEW WORKFLOW
+## Fix Mode
 
-1. **Read `main.tex`** first — understand the project structure, includes, and preamble.
-2. **Read each included `.tex` file** sequentially, applying all checklist categories.
-3. **Trace all `\label` → `\ref` chains** across the entire project (not just within one file).
-4. **Count and categorize** — compile the report table as you go.
-5. **Prioritize**: Critical issues first (compiler crashes), then important (style), then minor (polish).
-6. **Output the report** in the format above.
+When the user asks to fix:
 
----
-
-## FIX MODE
-
-If the user asks you to fix the issues after the review:
-
-- Fix 🔴 Critical issues immediately — these block compilation.
-- Fix 🟡 Important issues systematically, one chapter at a time.
-- Fix 🔵 Minor issues last, in batch.
-- After each fix, verify: does the change introduce new issues?
-- Re-run the review checklist on modified files only.
+1. Critical first: they block the PDF. Then Important, one chapter at a time. Minor last.
+2. Change only what the issue needs. Restructuring prose, merging sections or moving content between chapters: show the proposal and wait for approval, because the user edits the chapters by hand.
+3. After the fixes, run `check_project.py` and the compile again and report what is left.

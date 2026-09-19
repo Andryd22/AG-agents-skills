@@ -93,7 +93,7 @@ Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: i comandi 
 | `/caveman` | Attiva la modalità di risposta per risparmiare token |
 | `/html-it` | Framework per output HTML di alta qualità |
 | `/scroll-film` | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
-| `/latex` | Scrive o revisiona LaTeX accademico (agent latex-specialist) |
+| `/latex` | Appunti LaTeX: prepara un corso, scrive un capitolo da un PDF (con figure ritagliate e compilazione), revisiona il progetto |
 | `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
 | `/classic-ml` | Data mining e machine learning classico con pandas e scikit-learn |
 

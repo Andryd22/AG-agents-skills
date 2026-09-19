@@ -77,7 +77,7 @@ Skills written to be invoked by name. Antigravity also loads them on its own whe
 | `/caveman`           | Terse answers (on, off, lite, full, ultra)              |
 | `/ui-ux-pro-max`     | Design with the searchable design database              |
 | `/html-it`           | HTML output instead of markdown                         |
-| `/latex`             | Academic LaTeX writing/review                           |
+| `/latex`             | LaTeX notes: course setup, chapter from a PDF, review   |
 | `/scroll-film`       | Animated scroll-film sites                              |
 | `/scroll-experience` | Unifies three-js + scroll-film + scroll-world           |
 
@@ -199,7 +199,7 @@ python .agents/scripts/verify_all.py . --url http://localhost:3000
 
 The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 
-### Skill Scripts (15)
+### Skill Scripts (17)
 
 | Skill | Script | Purpose |
 | --- | --- | --- |
@@ -211,6 +211,8 @@ The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 | `nextjs-react-expert` | `react_performance_checker.py` | Static React performance hints |
 | `nextjs-react-expert` | `convert_rules.py` | Rebuilds the rule files |
 | `test` | `test_runner.py` | Runs the project's test suite |
+| `latex-tutor` | `slides.py` | Slide text, slide images and figure crops from lecture PDFs |
+| `latex-review` | `check_project.py` | Labels, references, images and placeholders of a LaTeX project |
 | `webapp-testing` | `playwright_runner.py` | E2E smoke test of a running URL |
 | `ui-ux-pro-max` | `search.py`, `core.py`, `design_system.py` | Searches the design database in `data/` |
 | `scroll-film` | `assemble.sh`, `chain-step.sh` | Video chain assembly (bash, ffmpeg ≥ 5.1) |
@@ -227,7 +229,7 @@ The audit scripts skip `node_modules/`, build folders and `.agents/` itself.
 | **Total Agents**    | 14                              |
 | **Total Skills**    | 39 (16 commands)                |
 | **Total Rules**     | 2                               |
-| **Total Scripts**   | 4 (master) + 15 (skill-level)   |
+| **Total Scripts**   | 4 (master) + 17 (skill-level)   |
 
 Counts are checked by `.github/scripts/validate_kit.py` in CI.
 
