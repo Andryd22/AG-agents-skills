@@ -111,7 +111,8 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 
 ### Controlli finali
 
-`python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E. Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`. Lint e type check restano quelli del progetto (`npm run lint`, `tsc --noEmit`, ...).
+`python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E.
+Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`.
 
 ## 🪨 Caveman Mode
 
