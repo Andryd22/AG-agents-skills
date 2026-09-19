@@ -1,4 +1,4 @@
-// Repository-wide markdownlint rules: the kit's rules plus the HTML table in README.md
+// Regole markdownlint per tutto il repository: quelle del kit più la tabella HTML del README.md
 {
   "extends": "./.agents/.markdownlint.jsonc",
   "MD033": { "allowed_elements": ["table", "thead", "tbody", "tr", "th", "td", "code"] }

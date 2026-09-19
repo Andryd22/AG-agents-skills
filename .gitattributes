@@ -1,2 +1,2 @@
-# bash rejects scripts with CRLF line endings, whatever core.autocrlf says
+# bash rifiuta gli script con fine riga CRLF, qualunque cosa dica core.autocrlf
 *.sh text eol=lf

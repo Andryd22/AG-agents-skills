@@ -1,4 +1,4 @@
-# Ignore
+# Da ignorare
 node_modules/
 __pycache__/
 *.pyc

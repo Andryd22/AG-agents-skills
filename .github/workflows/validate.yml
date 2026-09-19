@@ -11,27 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout del repository
         uses: actions/checkout@v7
 
-      - name: Set up Node.js
+      - name: Configura Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
 
-      - name: Set up Python
+      - name: Configura Python
         uses: actions/setup-python@v7
         with:
           python-version: '3.11'
 
-      - name: Install validator dependencies
+      - name: Installa le dipendenze del validatore
         run: pip install pyyaml
 
-      - name: Validate CLI help
+      - name: Controlla l'aiuto della CLI
         run: node bin/install.js help
 
-      - name: Validate kit (frontmatter, references, counts, scripts, installer)
+      - name: Controlla il kit (frontmatter, riferimenti, conteggi, script, installer)
         run: python .github/scripts/validate_kit.py
 
-      - name: Lint Markdown (rules in .markdownlint.jsonc)
+      - name: Lint del Markdown (regole in .markdownlint.jsonc)
         run: npx --yes markdownlint-cli2@0.23.2 "**/*.md"

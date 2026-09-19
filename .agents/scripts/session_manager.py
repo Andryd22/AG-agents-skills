@@ -2,10 +2,10 @@
 """
 Session Manager - Antigravity Kit
 =================================
-Analyzes project state, detects tech stack, tracks file statistics, and provides
-a summary of the current session.
+Analizza lo stato del progetto, riconosce lo stack, conta i file e riassume la
+sessione in corso.
 
-Usage:
+Uso:
     python .agents/scripts/session_manager.py status [path]
     python .agents/scripts/session_manager.py info [path]
 """
@@ -55,7 +55,7 @@ def analyze_package_json(root: Path) -> Dict[str, Any]:
 
 def count_files(root: Path) -> Dict[str, int]:
     stats = {"created": 0, "modified": 0, "total": 0}
-    # Simple count for now, comprehensive tracking would require git diff or extensive history
+    # Per ora un conteggio semplice: un tracciamento completo richiederebbe git diff o una cronologia estesa
     exclude = {".git", "node_modules", ".next", "dist", "build", ".agent", ".agents", ".gemini", "__pycache__"}
     
     for root_dir, dirs, files in os.walk(root):
@@ -65,7 +65,7 @@ def count_files(root: Path) -> Dict[str, int]:
     return stats
 
 def detect_features(root: Path) -> List[str]:
-    # Heuristic: look at folder names in src/
+    # Euristica: guarda i nomi delle cartelle in src/
     features = []
     src = root / "src"
     if src.exists():
@@ -73,40 +73,40 @@ def detect_features(root: Path) -> List[str]:
         for d in possible_dirs:
             p = src / d
             if p.exists() and p.is_dir():
-                # List subdirectories as likely features
+                # Le sottocartelle sono probabilmente funzionalità
                 for child in p.iterdir():
                     if child.is_dir():
                         features.append(child.name)
-    return features[:10] # Limit to top 10
+    return features[:10] # al massimo 10
 
 def print_status(root: Path):
     info = analyze_package_json(root)
     stats = count_files(root)
     features = detect_features(root)
     
-    print("\n=== Project Status ===")
-    print(f"\n📁 Project: {info.get('name', root.name)}")
-    print(f"📂 Path: {root}")
-    print(f"🏷️  Type: {', '.join(info.get('stack', ['Generic']))}")
-    print(f"📊 Status: Active")
-    
-    print("\n🔧 Tech Stack:")
+    print("\n=== Stato del progetto ===")
+    print(f"\n📁 Progetto: {info.get('name', root.name)}")
+    print(f"📂 Percorso: {root}")
+    print(f"🏷️  Tipo: {', '.join(info.get('stack') or ['generico'])}")
+    print("📊 Stato: attivo")
+
+    print("\n🔧 Stack:")
     for tech in info.get('stack', []):
         print(f"   • {tech}")
         
-    print(f"\n✅ Detected Modules/Features ({len(features)}):")
+    print(f"\n✅ Moduli/funzionalità trovati ({len(features)}):")
     for feat in features:
         print(f"   • {feat}")
     if not features:
-        print("   (No distinct feature modules detected)")
+        print("   (nessun modulo di funzionalità riconosciuto)")
         
-    print(f"\n📄 Files: {stats['total']} total files tracked")
+    print(f"\n📄 File: {stats['total']} in totale")
     print("\n====================\n")
 
 def main():
-    parser = argparse.ArgumentParser(description="Session Manager")
-    parser.add_argument("command", choices=["status", "info"], help="Command to run")
-    parser.add_argument("path", nargs="?", default=".", help="Project path")
+    parser = argparse.ArgumentParser(description="Stato del progetto e della sessione")
+    parser.add_argument("command", choices=["status", "info"], help="comando da eseguire")
+    parser.add_argument("path", nargs="?", default=".", help="cartella del progetto")
     
     args = parser.parse_args()
     root = get_project_root(args.path)

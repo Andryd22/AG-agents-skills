@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-Full Verification Suite - Antigravity Kit
-==========================================
+Suite di verifica completa - Antigravity Kit
+============================================
 
-Runs every check available in the kit, E2E included.
-Use this before deployment or major releases.
+Esegue tutti i controlli del kit, E2E compresi.
+Usala prima di un deploy o di un rilascio importante.
 
-Usage:
-    python scripts/verify_all.py . --url <URL>
+Uso:
+    python .agents/scripts/verify_all.py . --url <URL>
 
-Includes:
-    ✅ Schema Validation (Prisma / Drizzle)
-    ✅ Test Suite (unit + integration)
-    ✅ API Validation (OpenAPI / route files)
-    ✅ UX Audit + Accessibility Check
-    ✅ Playwright E2E (needs --url)
+Comprende:
+    ✅ Validazione dello schema (Prisma)
+    ✅ Suite di test (unitari + integrazione)
+    ✅ Validazione delle API (OpenAPI / file delle rotte)
+    ✅ Audit UX + controllo dell'accessibilità
+    ✅ E2E con Playwright (serve --url)
 """
 
 import sys
@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import List, Dict, Optional
 from datetime import datetime
 
-# ANSI colors
+# Colori ANSI
 class Colors:
     HEADER = '\033[95m'
     BLUE = '\033[94m'
@@ -52,21 +52,21 @@ def print_warning(text: str):
 def print_error(text: str):
     print(f"{Colors.RED}❌ {text}{Colors.ENDC}")
 
-# Complete verification suite
+# Suite di verifica completa
 VERIFICATION_SUITE = [
-    # P1: Data Layer
+    # P1: dati
     {
-        "category": "Data Layer",
+        "category": "Dati",
         "checks": [
-            ("Schema Validation", ".agents/skills/database-design/scripts/schema_validator.py", False),
+            ("Validazione dello schema", ".agents/skills/database-design/scripts/schema_validator.py", False),
         ]
     },
 
-    # P2: Testing
+    # P2: test
     {
-        "category": "Testing",
+        "category": "Test",
         "checks": [
-            ("Test Suite", ".agents/skills/test/scripts/test_runner.py", True),
+            ("Suite di test", ".agents/skills/test/scripts/test_runner.py", True),
         ]
     },
 
@@ -74,61 +74,61 @@ VERIFICATION_SUITE = [
     {
         "category": "API",
         "checks": [
-            ("API Validation", ".agents/skills/api-patterns/scripts/api_validator.py", False),
+            ("Validazione delle API", ".agents/skills/api-patterns/scripts/api_validator.py", False),
         ]
     },
 
-    # P4: UX & Accessibility
+    # P4: UX e accessibilità
     {
-        "category": "UX & Accessibility",
+        "category": "UX e accessibilità",
         "checks": [
-            ("UX Audit", ".agents/skills/frontend-design/scripts/ux_audit.py", False),
-            ("Accessibility Check", ".agents/skills/frontend-design/scripts/accessibility_checker.py", False),
+            ("Audit UX", ".agents/skills/frontend-design/scripts/ux_audit.py", False),
+            ("Controllo dell'accessibilità", ".agents/skills/frontend-design/scripts/accessibility_checker.py", False),
         ]
     },
 
-    # P5: E2E Testing (requires URL)
+    # P5: test E2E (serve l'URL)
     {
-        "category": "E2E Testing",
+        "category": "Test E2E",
         "requires_url": True,
         "checks": [
-            ("Playwright E2E", ".agents/skills/webapp-testing/scripts/playwright_runner.py", False),
+            ("E2E con Playwright", ".agents/skills/webapp-testing/scripts/playwright_runner.py", False),
         ]
     },
 ]
 
 def run_script(name: str, script_path: Path, project_path: str, url: Optional[str] = None) -> dict:
-    """Run validation script"""
+    """Esegue uno script di controllo"""
     if not script_path.exists():
-        print_warning(f"{name}: Script not found, skipping")
+        print_warning(f"{name}: script non trovato, lo salto")
         return {"name": name, "passed": True, "skipped": True, "duration": 0}
     
-    print_step(f"Running: {name}")
+    print_step(f"Eseguo: {name}")
     start_time = datetime.now()
     
-    # Build command
-    # Same interpreter that runs this script (plain "python" may not exist, e.g. macOS)
+    # Comando da eseguire
+    # Lo stesso interprete di questo script (un semplice "python" può non esistere, es. su macOS)
     if url and "playwright" in script_path.name.lower():
-        cmd = [sys.executable, str(script_path), url]  # playwright_runner.py reads the URL from argv[1]
+        cmd = [sys.executable, str(script_path), url]  # playwright_runner.py legge l'URL da argv[1]
     else:
         cmd = [sys.executable, str(script_path), project_path]
     
-    # Run
+    # Esecuzione
     try:
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            timeout=600  # 10 minute timeout for slow checks
+            timeout=600  # 10 minuti al massimo, per i controlli lenti
         )
         
         duration = (datetime.now() - start_time).total_seconds()
         passed = result.returncode == 0
         
         if passed:
-            print_success(f"{name}: PASSED ({duration:.1f}s)")
+            print_success(f"{name}: SUPERATO ({duration:.1f} s)")
         else:
-            print_error(f"{name}: FAILED ({duration:.1f}s)")
+            print_error(f"{name}: FALLITO ({duration:.1f} s)")
             if result.stderr:
                 print(f"  {result.stderr[:300]}")
         
@@ -143,43 +143,43 @@ def run_script(name: str, script_path: Path, project_path: str, url: Optional[st
     
     except subprocess.TimeoutExpired:
         duration = (datetime.now() - start_time).total_seconds()
-        print_error(f"{name}: TIMEOUT (>{duration:.0f}s)")
+        print_error(f"{name}: TIMEOUT (>{duration:.0f} s)")
         return {"name": name, "passed": False, "skipped": False, "duration": duration, "error": "Timeout"}
     
     except Exception as e:
         duration = (datetime.now() - start_time).total_seconds()
-        print_error(f"{name}: ERROR - {str(e)}")
+        print_error(f"{name}: ERRORE - {str(e)}")
         return {"name": name, "passed": False, "skipped": False, "duration": duration, "error": str(e)}
 
 def print_final_report(results: List[dict], start_time: datetime):
-    """Print comprehensive final report"""
+    """Stampa il report finale completo"""
     total_duration = (datetime.now() - start_time).total_seconds()
     
-    print_header("📊 FULL VERIFICATION REPORT")
+    print_header("📊 REPORT DELLA VERIFICA COMPLETA")
     
-    # Statistics
+    # Statistiche
     total = len(results)
     passed = sum(1 for r in results if r["passed"] and not r.get("skipped"))
     failed = sum(1 for r in results if not r["passed"] and not r.get("skipped"))
     skipped = sum(1 for r in results if r.get("skipped"))
     
-    print(f"Total Duration: {total_duration:.1f}s")
-    print(f"Total Checks: {total}")
-    print(f"{Colors.GREEN}✅ Passed: {passed}{Colors.ENDC}")
-    print(f"{Colors.RED}❌ Failed: {failed}{Colors.ENDC}")
-    print(f"{Colors.YELLOW}⏭️  Skipped: {skipped}{Colors.ENDC}")
+    print(f"Durata totale: {total_duration:.1f} s")
+    print(f"Controlli totali: {total}")
+    print(f"{Colors.GREEN}✅ Superati: {passed}{Colors.ENDC}")
+    print(f"{Colors.RED}❌ Falliti: {failed}{Colors.ENDC}")
+    print(f"{Colors.YELLOW}⏭️  Saltati: {skipped}{Colors.ENDC}")
     print()
     
-    # Category breakdown
-    print(f"{Colors.BOLD}Results by Category:{Colors.ENDC}")
+    # Risultati per categoria
+    print(f"{Colors.BOLD}Risultati per categoria:{Colors.ENDC}")
     current_category = None
     for r in results:
-        # Print category header if changed
+        # Intestazione della categoria, se è cambiata
         if r.get("category") and r["category"] != current_category:
             current_category = r["category"]
             print(f"\n{Colors.BOLD}{Colors.CYAN}{current_category}:{Colors.ENDC}")
         
-        # Print result
+        # Risultato
         if r.get("skipped"):
             status = f"{Colors.YELLOW}⏭️ {Colors.ENDC}"
         elif r["passed"]:
@@ -187,73 +187,73 @@ def print_final_report(results: List[dict], start_time: datetime):
         else:
             status = f"{Colors.RED}❌{Colors.ENDC}"
         
-        duration_str = f"({r.get('duration', 0):.1f}s)" if not r.get("skipped") else ""
+        duration_str = f"({r.get('duration', 0):.1f} s)" if not r.get("skipped") else ""
         print(f"  {status} {r['name']} {duration_str}")
     
     print()
     
-    # Failed checks detail
+    # Dettaglio dei controlli falliti
     if failed > 0:
-        print(f"{Colors.BOLD}{Colors.RED}❌ FAILED CHECKS:{Colors.ENDC}")
+        print(f"{Colors.BOLD}{Colors.RED}❌ CONTROLLI FALLITI:{Colors.ENDC}")
         for r in results:
             if not r["passed"] and not r.get("skipped"):
                 print(f"\n{Colors.RED}✗ {r['name']}{Colors.ENDC}")
                 if r.get("error"):
                     error_preview = r["error"][:200]
-                    print(f"  Error: {error_preview}")
+                    print(f"  Errore: {error_preview}")
         print()
     
-    # Final verdict
+    # Verdetto finale
     if failed > 0:
-        print_error(f"VERIFICATION FAILED - {failed} check(s) need attention")
-        print(f"\n{Colors.YELLOW}💡 Tip: Fix critical (security, lint) issues first{Colors.ENDC}")
+        print_error(f"VERIFICA FALLITA - {failed} controllo/i da sistemare")
+        print(f"\n{Colors.YELLOW}💡 Consiglio: correggi prima i problemi critici (test, schema){Colors.ENDC}")
         return False
     else:
-        print_success("✨ ALL CHECKS PASSED - Ready for deployment! ✨")
+        print_success("✨ TUTTI I CONTROLLI SUPERATI - pronto per il deploy! ✨")
         return True
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run complete Antigravity Kit verification suite",
+        description="Esegue la suite di verifica completa dell'Antigravity Kit",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
-  python scripts/verify_all.py . --url http://localhost:3000
-  python scripts/verify_all.py . --url https://staging.example.com --no-e2e
+Esempi:
+  python .agents/scripts/verify_all.py . --url http://localhost:3000
+  python .agents/scripts/verify_all.py . --url https://staging.example.com --no-e2e
         """
     )
-    parser.add_argument("project", help="Project path to validate")
-    parser.add_argument("--url", required=True, help="URL for performance & E2E checks")
-    parser.add_argument("--no-e2e", action="store_true", help="Skip E2E tests")
-    parser.add_argument("--stop-on-fail", action="store_true", help="Stop on first failure")
+    parser.add_argument("project", help="cartella del progetto da controllare")
+    parser.add_argument("--url", required=True, help="URL dell'app avviata, per i controlli E2E")
+    parser.add_argument("--no-e2e", action="store_true", help="salta i test E2E")
+    parser.add_argument("--stop-on-fail", action="store_true", help="si ferma al primo errore")
     
     args = parser.parse_args()
     
     project_path = Path(args.project).resolve()
     
     if not project_path.exists():
-        print_error(f"Project path does not exist: {project_path}")
+        print_error(f"La cartella del progetto non esiste: {project_path}")
         sys.exit(1)
     
-    print_header("🚀 ANTIGRAVITY KIT - FULL VERIFICATION SUITE")
-    print(f"Project: {project_path}")
+    print_header("🚀 ANTIGRAVITY KIT - SUITE DI VERIFICA COMPLETA")
+    print(f"Progetto: {project_path}")
     print(f"URL: {args.url}")
-    print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Inizio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     start_time = datetime.now()
     results = []
     
-    # Run all verification categories
+    # Tutte le categorie di verifica
     for suite in VERIFICATION_SUITE:
         category = suite["category"]
         requires_url = suite.get("requires_url", False)
         
-        # Skip if requires URL and not provided
+        # Salta se serve l'URL e non c'è
         if requires_url and not args.url:
             continue
         
-        # Skip E2E if flag set
-        if args.no_e2e and category == "E2E Testing":
+        # Salta gli E2E se richiesto
+        if args.no_e2e and category == "Test E2E":
             continue
         
         print_header(f"📋 {category.upper()}")
@@ -264,13 +264,13 @@ Examples:
             result["category"] = category
             results.append(result)
             
-            # Stop on critical failure if flag set
+            # Con --stop-on-fail si ferma al primo controllo obbligatorio fallito
             if args.stop_on_fail and required and not result["passed"] and not result.get("skipped"):
-                print_error(f"CRITICAL: {name} failed. Stopping verification.")
+                print_error(f"CRITICO: {name} è fallito. Interrompo la verifica.")
                 print_final_report(results, start_time)
                 sys.exit(1)
     
-    # Print final report
+    # Report finale
     all_passed = print_final_report(results, start_time)
     
     sys.exit(0 if all_passed else 1)
