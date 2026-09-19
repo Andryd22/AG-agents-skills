@@ -33,7 +33,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 
 ## 🧠 Dynamic Question Generation
 
-**⛔ NEVER use static templates.** Read `dynamic-questioning.md` for principles.
+**⛔ NEVER use static templates.** Read `references/dynamic-questioning.md` for principles.
 
 ### Core Principles
 
@@ -72,7 +72,7 @@ description: 'Socratic Gate and structured option exploration: ask only what can
 **If Not Specified:** [Default + rationale]
 ```
 
-**For detailed domain-specific question banks and algorithms**, see: `dynamic-questioning.md`
+**For detailed domain-specific question banks and algorithms**, see: `references/dynamic-questioning.md`
 
 ---
 

@@ -88,7 +88,7 @@ When user's prompt is NOT in English:
 
 ### 🛑 Socratic Gate
 
-**MANDATORY: Every user request must pass through the Socratic Gate before ANY tool use or implementation.**
+**MANDATORY: Every user request must pass through the Socratic Gate before implementation (writing code, creating files, delegating work). Reading files to understand the request is always allowed.**
 
 | Request Type            | Strategy       | Required Action                                                   |
 | ----------------------- | -------------- | ----------------------------------------------------------------- |
