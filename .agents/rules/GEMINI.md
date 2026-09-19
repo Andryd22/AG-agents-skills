@@ -20,7 +20,7 @@ The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills 
 - **Delegate** with `invoke_subagent`. The subagent starts with a clean context, gets the tools in its frontmatter and sees every skill of the workspace; its body names the skills to read first. The prompt must carry the user's request, the decisions already taken and the relevant files or plan.
 - **Fallback:** where custom agents are not available (the Antigravity IDE until it supports them), read `.agents/agents/<name>.md` and the `SKILL.md` of each skill its "Your skills" line names, then apply them yourself.
 - The user can also pick a kit agent as the main agent (agent selector in the app, `/agents` in the CLI).
-- **Tools:** kit agents get the tools in their frontmatter; the CLI default agent lacks `list_dir`, `grep_search` and `multi_replace_file_content`. Without them, list folders and search with `run_command` (`Get-ChildItem`, `Select-String` on Windows; `ls`, `grep` elsewhere); never guess file names. Edit only the lines that change: separate spots in one file take `multi_replace_file_content` or one replacement each, not one block that rewrites the lines in between.
+- **Tools:** a kit agent gets only the tools in its frontmatter (plus `manage_task`); the CLI default agent lacks `list_dir` and `grep_search`, and in the CLI no agent has `multi_replace_file_content`. Without `list_dir` or `grep_search`, list folders and search with `run_command` (`Get-ChildItem`, `Select-String` on Windows; `ls`, `grep` elsewhere); never guess file names. Edit only the lines that change: one replacement per separate spot, not one block that rewrites the lines in between.
 
 ### 2. Skill Loading
 

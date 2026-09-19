@@ -7,7 +7,6 @@ tools:
 - grep_search
 - run_command
 - replace_file_content
-- multi_replace_file_content
 - write_to_file
 model: inherit
 ---

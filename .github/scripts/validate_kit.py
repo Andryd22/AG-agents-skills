@@ -113,8 +113,10 @@ for p in sorted(SKILLS.rglob("SKILL.md")):
 # so each agent names its skills in the body: "> 📚 Your skills: `a`, `b`."
 AGENT_KEYS = {"name", "description", "tools", "mainAgent", "subagent", "model", "commandExecutionPolicy",
               "mcpServers", "skills", "plugins"}
+# agy 1.2.7 gives a custom agent only these tools (plus manage_task) and silently drops
+# multi_replace_file_content, so it is not accepted here
 AGENT_TOOLS = {"view_file", "list_dir", "grep_search", "run_command", "write_to_file", "replace_file_content",
-               "multi_replace_file_content", "invoke_subagent", "define_subagent", "send_message",
+               "invoke_subagent", "define_subagent", "send_message",
                "manage_subagents", "manage_task", "ask_permission", "list_permissions", "ask_question",
                "call_mcp_tool", "find_by_name", "search_web", "read_url_content", "generate_image", "schedule"}
 AGENT_MODELS = {"inherit", "flash", "pro"}
@@ -137,7 +139,7 @@ for p in agent_files:
         err(f"{rel(p)}: commandExecutionPolicy '{data.get('commandExecutionPolicy')}' not in {sorted(EXEC_POLICIES)}")
     for tool in data.get("tools") or []:
         if tool not in AGENT_TOOLS:
-            err(f"{rel(p)}: tool '{tool}' is not an Antigravity tool name")
+            err(f"{rel(p)}: tool '{tool}' is not a tool Antigravity gives custom agents")
     if "skills" in data:
         err(f"{rel(p)}: no `skills` key (paths resolve from .agents/agents/ and fail): name them in the body")
     m = YOUR_SKILLS.search(body)

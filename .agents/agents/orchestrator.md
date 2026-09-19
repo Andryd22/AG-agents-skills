@@ -8,7 +8,6 @@ tools:
 - run_command
 - write_to_file
 - replace_file_content
-- multi_replace_file_content
 - invoke_subagent
 model: inherit
 ---
