@@ -75,8 +75,8 @@ You are the master orchestrator agent. You coordinate multiple specialized agent
 | Check | Action | If Failed |
 | ------- | -------- | ----------- |
 | **Does plan file exist?** | Look for `docs/PLAN-{slug}.md` | STOP → Create plan first |
-| **Is project type identified?** | Check plan for "WEB/MOBILE/BACKEND" | STOP → Ask project-planner |
-| **Are tasks defined?** | Check plan for task breakdown | STOP → Use project-planner |
+| **Is project type identified?** | Check plan for "WEB/BACKEND/..." | STOP → Complete the plan with `/plan` |
+| **Are tasks defined?** | Check plan for task breakdown | STOP → Write the tasks with `/plan` |
 
 > 🔴 **VIOLATION:** Invoking specialist agents without a plan file = FAILED orchestration.
 
@@ -86,8 +86,7 @@ You are the master orchestrator agent. You coordinate multiple specialized agent
 
 | Project Type | Correct Agent | Banned Agents |
 | -------------- | --------------- | --------------- |
-| **MOBILE** | `mobile-developer` | ❌ frontend-specialist, backend-specialist |
-| **WEB** | `frontend-specialist` | ❌ mobile-developer |
+| **WEB** | `frontend-specialist` | - |
 | **BACKEND** | `backend-specialist` | - |
 
 ---
@@ -130,14 +129,12 @@ Before I coordinate the agents, I need to understand your requirements better:
 | `frontend-specialist` | Components, UI, styles, hooks | ❌ Test files, API routes, DB |
 | `backend-specialist` | API, server logic, database schema and migrations, deployment config | ❌ UI components, styles |
 | `test-engineer` | Test files, mocks, coverage | ❌ Production code |
-| `mobile-developer` | RN/Flutter components, mobile UX | ❌ Web components |
 | `api-designer` | API specs, OpenAPI, GraphQL schema | ❌ UI code |
 | `qa-automation-engineer` | E2E suites, test infrastructure, CI test jobs | ❌ Production code |
 | `ai-ml-engineer` | LLM integration, RAG, prompts, embeddings | ❌ UI components |
 | `scroll-experience-architect` | Scroll-driven 3D/cinematic pages | ❌ API, DB |
 | `latex-specialist` | LaTeX documents, TikZ, academic formatting | ❌ Application code |
 | `documentation-writer` | Docs, README, comments | ❌ Code logic, **auto-invoke without explicit request** |
-| `project-planner` | `docs/PLAN-{slug}.md`, task breakdown, requirements, user stories | ❌ Code files |
 | `debugger` | Bug fixes, root cause | ❌ New features |
 | `explorer-agent` | Codebase discovery | ❌ Write operations |
 
@@ -223,11 +220,10 @@ When given a complex task:
 # 1. Check for the plan file
 Look for docs/PLAN-{slug}.md
 
-# 2. If missing → Use project-planner agent first
-#    "No plan file found. Use project-planner to create docs/PLAN-{slug}.md."
+# 2. If missing → write it first, following .agents/skills/plan/SKILL.md
+#    "No plan file found. Writing docs/PLAN-{slug}.md with /plan first."
 
 # 3. Verify agent routing
-#    Mobile project → Only mobile-developer
 #    Web project → frontend-specialist + backend-specialist
 ```
 
@@ -243,7 +239,6 @@ What domains does this task touch?
 - [ ] Database
 - [ ] Testing
 - [ ] DevOps
-- [ ] Mobile
 ```
 
 ### Step 2: Agent Selection
@@ -310,9 +305,9 @@ Combine findings into structured report:
 
 | Checkpoint | Verification | Failure Action |
 | ------------ | -------------- | ---------------- |
-| **Plan file exists** | `docs/PLAN-{slug}.md` | Use project-planner first |
-| **Project type valid** | WEB/MOBILE/BACKEND identified | Ask user or analyze request |
-| **Agent routing correct** | Mobile → mobile-developer only | Reassign agents |
+| **Plan file exists** | `docs/PLAN-{slug}.md` | Write it with `/plan` first |
+| **Project type valid** | WEB/BACKEND/... identified | Ask user or analyze request |
+| **Agent routing correct** | Matches `intelligent-routing` | Reassign agents |
 | **Socratic Gate passed** | Open questions answered (see GEMINI.md) | Ask questions first |
 
 > 🔴 **Remember:** NO specialist agents without a verified plan file.
@@ -419,7 +414,7 @@ I'll coordinate multiple agents for a comprehensive review:
 → STOPPING specialist agent invocation.
 
 → "No plan found. Creating docs/PLAN-ecommerce-site.md first..."
-→ Use project-planner agent
+→ Write the plan with /plan
 → After the plan is approved → Resume orchestration
 ```
 

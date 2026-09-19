@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: 'Coordinate at least three specialist agents on a complex, multi-domain task: plan first with project-planner, get approval, then delegate in parallel and verify. Use when the user runs /orchestrate or the task spans several domains.'
+description: 'Coordinate at least three specialist agents on a complex, multi-domain task: plan first with /plan, get approval, then delegate in parallel and verify. Use when the user runs /orchestrate or the task spans several domains.'
 ---
 
 # Multi-Agent Orchestration
@@ -48,10 +48,10 @@ The request is the text that follows `/orchestrate`.
 
 | Step | Agent | Action |
 | --- | --- | --- |
-| 1 | `project-planner` | Create `docs/PLAN-{slug}.md` |
+| 1 | you, with `/plan` | Create `docs/PLAN-{slug}.md` |
 | 2 | (optional) `explorer-agent` | Codebase discovery if needed |
 
-> 🔴 **NO OTHER AGENTS during planning!** Only project-planner and explorer-agent.
+> 🔴 **NO OTHER AGENTS during planning!** Only explorer-agent, for codebase discovery.
 
 ### ⏸️ CHECKPOINT: User Approval
 
@@ -90,10 +90,8 @@ Identify ALL domains this task touches:
 □ API design   → api-designer
 □ Frontend/UI  → frontend-specialist (also performance and SEO)
 □ Testing      → test-engineer, qa-automation-engineer (E2E)
-□ Mobile       → mobile-developer
 □ AI / LLM     → ai-ml-engineer
 □ Scroll / 3D  → scroll-experience-architect
-□ Planning     → project-planner
 ```
 
 ### Step 2: Phase Detection
@@ -108,7 +106,7 @@ Identify ALL domains this task touches:
 **PHASE 1 (Planning):**
 
 ```text
-Use the project-planner agent to create docs/PLAN-{slug}.md
+Write docs/PLAN-{slug}.md following .agents/skills/plan/SKILL.md
 → STOP after plan is created
 → ASK user for approval
 ```
@@ -134,15 +132,15 @@ When invoking ANY subagent, you MUST include:
 **Example with FULL context:**
 
 ```text
-Use the project-planner agent to create docs/PLAN-student-social.md:
+Use the frontend-specialist agent to build the feed described in docs/PLAN-student-social.md:
 
 **CONTEXT:**
 - User Request: "A social platform for students, using mock data"
 - Decisions: Tech=Vue 3, Layout=Grid Widgets, Auth=Mock, Design=Youthful & dynamic
 - Previous Work: Orchestrator asked 6 questions, user chose all options
-- Current Plan: docs/PLAN-student-social.md exists with initial structure
+- Current Plan: docs/PLAN-student-social.md, approved by the user
 
-**TASK:** Complete the plan based on ABOVE decisions. Do NOT infer from folder name.
+**TASK:** Build the feed components of the plan, following the decisions ABOVE. Do NOT infer from folder name.
 ```
 
 > ⚠️ **VIOLATION:** Invoking subagent without full context = subagent will make wrong assumptions!
@@ -177,7 +175,7 @@ Combine all agent outputs into unified report.
 ### Agents Invoked (MINIMUM 3)
 | # | Agent | Focus Area | Status |
 |---|-------|------------|--------|
-| 1 | project-planner | Task breakdown | ✅ |
+| 1 | backend-specialist | API and data | ✅ |
 | 2 | frontend-specialist | UI implementation | ✅ |
 | 3 | test-engineer | Verification scripts | ✅ |
 

@@ -1,6 +1,6 @@
 ---
 name: status
-description: 'Show project and agent status: stack, features, pending work, file counts and preview server. Use when the user runs /status or asks where the project stands.'
+description: 'Show project and agent status: stack, features, pending work and file counts. Use when the user runs /status or asks where the project stands.'
 ---
 
 # /status - Show Status
@@ -28,11 +28,6 @@ Show current project and agent status.
 3. **File Statistics**
    - Files created count
    - Files modified count
-
-4. **Preview Status**
-   - Is server running
-   - URL
-   - Health check
 
 ---
 
@@ -70,18 +65,12 @@ Show current project and agent status.
 ✅ backend-specialist → Completed
 🔄 frontend-specialist → Dashboard components (60%)
 ⏳ test-engineer → Waiting
-
-=== Preview ===
-
-🌐 URL: http://localhost:3000
-💚 Health: OK
 ```
 
 ---
 
 ## Technical
 
-Status uses these scripts:
+Status uses this script:
 
 - `python .agents/scripts/session_manager.py status`
-- `python .agents/scripts/auto_preview.py status`

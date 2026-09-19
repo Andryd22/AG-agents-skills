@@ -1,6 +1,6 @@
 ---
 name: latex-tutor
-description: Turn lecture slides (PDF), notes and audio transcripts into textbook-style LaTeX chapters for university courses. In a LaTeX course folder it reads the preamble and the chapters already written, writes chapters/NN-Name.tex, crops figures from the PDF, adds cross-references and compiles; in a chat it returns the chapter body in one code block. Use for notes in LaTeX/PDF; for HTML notes use html-it.
+description: Turn lecture slides (PDF), notes and audio transcripts into textbook-style LaTeX chapters for university courses. In a LaTeX course folder it reads the preamble and the chapters already written, writes chapters/NN-Name.tex, crops figures from the PDF, adds cross-references and compiles; in a chat it returns the chapter body in one code block. Use for notes in LaTeX/PDF.
 ---
 
 # latex-tutor

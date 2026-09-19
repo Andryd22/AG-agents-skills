@@ -15,7 +15,6 @@ Includes:
     ✅ API Validation (OpenAPI / route files)
     ✅ UX Audit + Accessibility Check
     ✅ Playwright E2E (needs --url)
-    ✅ Mobile Audit (if applicable)
 """
 
 import sys
@@ -94,14 +93,6 @@ VERIFICATION_SUITE = [
         "requires_url": True,
         "checks": [
             ("Playwright E2E", ".agents/skills/webapp-testing/scripts/playwright_runner.py", False),
-        ]
-    },
-
-    # P6: Mobile (if applicable)
-    {
-        "category": "Mobile",
-        "checks": [
-            ("Mobile Audit", ".agents/skills/mobile-design/scripts/mobile_audit.py", False),
         ]
     },
 ]

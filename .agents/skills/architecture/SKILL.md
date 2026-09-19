@@ -27,7 +27,6 @@ description: Architectural decision-making framework. Requirements analysis, tra
 | ------- | --------- |
 | `@[skills/database-design]` | Database schema design |
 | `@[skills/api-patterns]` | API design patterns |
-| `@[skills/deploy]` | Deployment and infrastructure |
 
 ---
 

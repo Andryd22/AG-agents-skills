@@ -151,7 +151,6 @@ File to edit: UserService.ts
 | **frontend-specialist** | UX Audit | `python .agents/skills/frontend-design/scripts/ux_audit.py .` |
 | **frontend-specialist** | A11y Check | `python .agents/skills/frontend-design/scripts/accessibility_checker.py .` |
 | **backend-specialist** | API Validator | `python .agents/skills/api-patterns/scripts/api_validator.py .` |
-| **mobile-developer** | Mobile Audit | `python .agents/skills/mobile-design/scripts/mobile_audit.py .` |
 | **backend-specialist** | Schema Validate | `python .agents/skills/database-design/scripts/schema_validator.py .` |
 | **frontend-specialist** | React Performance | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py .` |
 | **test-engineer** | Test Runner | `python .agents/skills/test/scripts/test_runner.py .` |

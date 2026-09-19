@@ -29,8 +29,8 @@ L'installer sostituisce solo agenti, skill, regole e script del kit (li annota i
 
 | Componente | Quantità | Descrizione |
 | --- | --- | --- |
-| **Agenti** | 14 | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
-| **Skill** | 39 | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
+| **Agenti** | 12 | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
+| **Skill** | 32 | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
 | **Regole** | 2 | `GEMINI.md` (sempre attiva) e `caveman-rules.md` |
 
 La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.agents/ARCHITECTURE.md).
@@ -80,18 +80,13 @@ Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: i comandi 
 | Comando | Descrizione |
 | --- | --- |
 | `/brainstorm` | Esplora le opzioni prima dell'implementazione |
-| `/create` | Crea nuove funzionalità o applicazioni |
 | `/debug` | Debugging sistematico |
-| `/deploy` | Esegue il deploy dell'applicazione |
-| `/enhance` | Migliora il codice esistente |
 | `/orchestrate` | Coordinazione multi-agente |
-| `/plan` | Crea un piano dettagliato per le task |
-| `/preview` | Visualizza un'anteprima delle modifiche in locale |
+| `/plan` | Scrive il piano del lavoro in `docs/PLAN-{slug}.md`, senza codice |
 | `/status` | Controlla lo stato del progetto |
 | `/test` | Genera ed esegue i test |
 | `/ui-ux-pro-max` | Progetta interfacce con 58 stili e 96 palette |
 | `/caveman` | Attiva la modalità di risposta per risparmiare token |
-| `/html-it` | Framework per output HTML di alta qualità |
 | `/scroll-film` | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
 | `/latex` | Appunti LaTeX: prepara un corso, scrive un capitolo da un PDF (con figure ritagliate e compilazione), revisiona il progetto |
 | `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
@@ -101,7 +96,7 @@ Esempio:
 
 ```text
 /brainstorm sistema di autenticazione
-/create pagina di destinazione con varie sezioni
+/plan pagina di destinazione con varie sezioni
 /debug perché il login fallisce
 ```
 

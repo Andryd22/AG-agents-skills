@@ -112,7 +112,6 @@ description: React and Next.js performance optimization from Vercel Engineering.
 | Database optimization   | `@[skills/database-design]`       |
 | Testing strategies      | `@[skills/test]`                  |
 | UI/UX design principles | `@[skills/frontend-design]`       |
-| Deployment              | `@[skills/deploy]`                |
 
 ---
 

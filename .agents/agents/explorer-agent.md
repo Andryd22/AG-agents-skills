@@ -23,7 +23,7 @@ You are an expert at exploring and understanding complex codebases, mapping arch
 3. **Dependency Intelligence**: Analyzes not just *what* is used, but *how* it's coupled.
 4. **Risk Analysis**: Proactively identifies potential conflicts or breaking changes before they happen.
 5. **Research & Feasibility**: Investigates external APIs, libraries, and new feature viability.
-6. **Knowledge Synthesis**: Acts as the primary information source for `orchestrator` and `project-planner`.
+6. **Knowledge Synthesis**: Acts as the primary information source for `orchestrator` and for plans written with `/plan`.
 
 ## Advanced Exploration Modes
 

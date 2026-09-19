@@ -22,7 +22,7 @@ metadata:
 | **SIMPLE CODE** | "fix", "add", "change" (single file) | TIER 0 + TIER 1 (lite) | Inline Edit |
 | **COMPLEX CODE** | "build", "create", "implement", "refactor" | TIER 0 + TIER 1 (full) + Agent | **`docs/PLAN-{slug}.md` required** |
 | **DESIGN/UI** | "design", "UI", "page", "dashboard" | TIER 0 + TIER 1 + Agent | **`docs/PLAN-{slug}.md` required** |
-| **SLASH CMD** | /create, /orchestrate, /debug, ... | The skill with that name | Variable |
+| **SLASH CMD** | /plan, /orchestrate, /debug, ... | The skill with that name | Variable |
 
 ## 2. Agent Selection Matrix
 
@@ -32,7 +32,6 @@ metadata:
 | --- | --- | --- | --- |
 | **Authentication** | "login", "auth", "signup", "password", "jwt" | `backend-specialist` + `test-engineer` | ✅ YES |
 | **UI Component** | "button", "card", "layout", "style" | `frontend-specialist` | ✅ YES |
-| **Mobile UI** | "screen", "navigation", "touch", "gesture" | `mobile-developer` | ✅ YES |
 | **Web App** | "webapp", "nextjs", "react", "vue" | `frontend-specialist` + `backend-specialist` + `test-engineer` | ⚠️ ASK FIRST |
 | **API Design** | "API design", "OpenAPI", "contract", "versioning" | `api-designer` | ✅ YES |
 | **API Endpoint** | "endpoint", "route", "POST", "GET" | `backend-specialist` + `test-engineer` | ✅ YES |
@@ -40,7 +39,7 @@ metadata:
 | **Bug Fix** | "error", "bug", "not working", "broken" | `debugger` + `explorer-agent` + `test-engineer` | ✅ YES |
 | **Unit/Integration** | "test", "coverage", "unit", "tdd" | `test-engineer` | ✅ YES |
 | **E2E / QA** | "e2e", "playwright", "cypress", "regression" | `qa-automation-engineer` | ✅ YES |
-| **Deployment** | "deploy", "production", "CI/CD", "docker" | `backend-specialist` (with the `deploy` skill) | ✅ YES |
+| **Deployment** | "deploy", "production", "CI/CD", "docker" | `backend-specialist` | ✅ YES |
 | **Security Review** | "security", "vulnerability", "owasp" | `backend-specialist` (no dedicated security agent) | ✅ YES |
 | **Performance** | "slow", "optimize", "performance", "speed" | `frontend-specialist` (web) or `backend-specialist` (server) | ✅ YES |
 | **SEO / Web Vitals** | "seo", "meta", "core web vitals", "sitemap" | `frontend-specialist` | ✅ YES |
@@ -50,9 +49,9 @@ metadata:
 | **LaTeX / Academic** | "latex", "lecture notes", "slides to chapter", "thesis", "paper", "tikz" | `latex-specialist` | ✅ YES |
 | **Documentation** | "README", "API docs", "changelog" | `documentation-writer` | ❌ ONLY IF ASKED |
 | **Codebase Survey** | "analyze repo", "explain codebase", "map structure" | `explorer-agent` | ✅ YES |
-| **Requirements** | "user story", "acceptance criteria", "specs", "backlog", "roadmap", "MVP", "PRD" | `project-planner` | ✅ YES |
-| **Planning** | "plan", "break down", "task list" | `project-planner` | ✅ YES |
-| **Full Stack** | "build app", "fullstack", "platform" | `project-planner` + `frontend-specialist` + `backend-specialist` | ⚠️ ASK FIRST |
+| **Requirements** | "user story", "acceptance criteria", "specs", "backlog", "roadmap", "MVP", "PRD" | No agent: the `plan` skill | ✅ YES |
+| **Planning** | "plan", "break down", "task list" | No agent: the `plan` skill | ✅ YES |
+| **Full Stack** | "build app", "fullstack", "platform" | `orchestrator` (plan with `/plan`, then `frontend-specialist` + `backend-specialist`) | ⚠️ ASK FIRST |
 | **New Feature** | "build", "create", "implement", "new app" | `orchestrator` → multi-agent | ⚠️ ASK FIRST |
 | **Complex Task** | Multiple domains detected | `orchestrator` → multi-agent | ⚠️ ASK FIRST |
 
@@ -93,4 +92,4 @@ metadata:
 | ------ | --------- | -------- |
 | Generic question | "How does React work?" | No agent, answer directly |
 | Very vague | "Make it better" | Ask what to improve, then route |
-| Contradictory | "Add mobile support to the web app" | Ask: responsive web or native app? Then route |
+| Contradictory | "Add mobile support to the web app" | Ask: responsive web (`frontend-specialist`) or native app (not covered by the kit)? Then route |

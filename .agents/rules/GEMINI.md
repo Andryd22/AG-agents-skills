@@ -12,7 +12,7 @@ trigger: always_on
 
 > **MANDATORY:** Before any implementation, route the request to the right agent and load its skills. This is the highest priority rule.
 
-The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills live in `.agents/skills/` and double as slash commands (`/plan`, `/create`, `/debug`, `/test`, `/orchestrate`, ...).
+The kit's agents are Antigravity custom agents in `.agents/agents/`. Its skills live in `.agents/skills/` and double as slash commands (`/plan`, `/debug`, `/test`, `/orchestrate`, ...).
 
 ### 1. Delegating to an Agent
 
@@ -69,7 +69,7 @@ When user's prompt is NOT in English:
 - **Code**: Concise, direct, no over-engineering. Self-documenting.
 - **Testing**: Mandatory. Pyramid (Unit > Int > E2E) + AAA Pattern.
 - **Performance**: Measure first. Adhere to 2025 standards (Core Web Vitals).
-- **Infra/Safety**: 5-Phase Deployment. Verify secrets security.
+- **Infra/Safety**: Verify secrets security.
 
 ### 📁 File Dependency Awareness
 
@@ -119,7 +119,7 @@ When user's prompt is NOT in English:
 2. **Handle Spec-heavy Requests:** When the user gives detailed answers (Answers 1, 2, 3...), do not re-ask them. Mention a **Trade-off** or **Edge Case** only when it changes what you will build (e.g., "LocalStorage confirmed: should old data be migrated when the format changes?").
 3. **Wait:** Do NOT invoke subagents or write code while a blocking question is open.
 4. **Reference:** Full protocol in `@[skills/brainstorm]`.
-5. **Proportion:** The orchestrator and the planner follow the same rule: 1-2 quick questions when the request is mostly clear, more only for open-ended builds.
+5. **Proportion:** The orchestrator and `/plan` follow the same rule: 1-2 quick questions when the request is mostly clear, more only for open-ended builds.
 
 ### 🏁 Final Checklist Protocol
 
@@ -145,7 +145,7 @@ When user's prompt is NOT in English:
 
 | Mode | Agent | Behavior |
 | --- | --- | --- |
-| **plan** | `project-planner` | 4-phase methodology. NO CODE before Phase 4. |
+| **plan** | `/plan` skill | Plan in `docs/PLAN-{slug}.md`. NO CODE until the plan is approved. |
 | **ask** | - | Focus on understanding. Ask questions. |
 | **edit** | routed agent | Execute. Multi-domain work goes to `orchestrator`, which checks `docs/PLAN-{slug}.md` first. |
 
@@ -155,12 +155,12 @@ When user's prompt is NOT in English:
 
 ### Agents & Skills
 
-- **Masters**: `orchestrator`, `project-planner`, `backend-specialist` (API/DB/security/deploy), `frontend-specialist` (UI/UX/performance/SEO), `mobile-developer`, `debugger`
-- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorm`, `app-builder`, `frontend-design`, `mobile-design`
-- **Commands**: `/brainstorm`, `/plan`, `/create`, `/enhance`, `/orchestrate`, `/debug`, `/test`, `/preview`, `/deploy`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/html-it`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
+- **Masters**: `orchestrator`, `backend-specialist` (API/DB/security/deploy), `frontend-specialist` (UI/UX/performance/SEO), `debugger`
+- **Key Skills**: `clean-code`, `intelligent-routing`, `brainstorm`, `plan`, `frontend-design`
+- **Commands**: `/brainstorm`, `/plan`, `/orchestrate`, `/debug`, `/test`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
 
 ### Key Scripts
 
 - **Verify**: `.agents/scripts/verify_all.py`, `.agents/scripts/checklist.py`
-- **Audits**: `ux_audit.py`, `accessibility_checker.py`, `mobile_audit.py`, `schema_validator.py`, `api_validator.py`
+- **Audits**: `ux_audit.py`, `accessibility_checker.py`, `schema_validator.py`, `api_validator.py`
 - **Test**: `playwright_runner.py`, `test_runner.py`
