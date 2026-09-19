@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Read lecture slides from a PDF: text per slide, slide images, figure crops.
+"""Legge le slide di una lezione da un PDF: testo di ogni slide, immagini delle slide, ritagli delle figure.
 
-Works with one slide per page and with handouts (several framed slides per
-page). Slides are numbered 1..N in reading order. Coordinates are percentages
-of the slide (0-100), x from the left, y from the top.
+Funziona con una slide per pagina e con gli handout (più slide incorniciate per
+pagina). Le slide sono numerate 1..N in ordine di lettura. Le coordinate sono
+percentuali della slide (0-100), x da sinistra, y dall'alto.
 
-Usage:
+Uso:
     python slides.py info   slides.pdf
     python slides.py text   slides.pdf [--slides 3-7,10]
     python slides.py render slides.pdf --slides 5 [--out tmp] [--grid] [--dpi 150]
@@ -13,7 +13,7 @@ Usage:
     python slides.py crop   slides.pdf --slide 5 --box 10,30,90,95 --out images/ch05_name.png
     python slides.py crop   slides.pdf --slide 5 --auto --out images/ch05_name.png
 
-Requires PyMuPDF: pip install pymupdf
+Richiede PyMuPDF: pip install pymupdf
 """
 import argparse
 import collections
@@ -27,12 +27,12 @@ except ImportError:  # PyMuPDF < 1.24.3
     try:
         import fitz as pymupdf
     except ImportError:
-        sys.exit("PyMuPDF missing: pip install pymupdf")
+        sys.exit("PyMuPDF mancante: pip install pymupdf")
 
 
-# ------------------------------------------------------------------ slides
+# ------------------------------------------------------------------- slide
 def frame_candidates(page):
-    """Large rectangles on a page: the frames of handout slides (and some big boxes)."""
+    """Rettangoli grandi in una pagina: le cornici delle slide degli handout (e qualche riquadro grande)."""
     w, h = page.rect.width, page.rect.height
     found = []
     for d in page.get_drawings():
@@ -44,10 +44,11 @@ def frame_candidates(page):
 
 
 def all_slides(doc):
-    """[(number, page, rect)] in reading order.
+    """[(numero, pagina, rettangolo)] in ordine di lettura.
 
-    A handout frame is a large rectangle found at the same place on many pages;
-    a big box drawn inside one slide is not. Without frames, a page is a slide.
+    La cornice di un handout è un rettangolo grande che si trova nello stesso punto
+    di molte pagine; un riquadro grande disegnato dentro una slide no. Senza
+    cornici, una pagina è una slide.
     """
     key = lambda r: tuple(round(v / 5) for v in r)
     per_page = [frame_candidates(page) for page in doc]
@@ -73,7 +74,7 @@ def parse_range(spec, total):
 
 
 def rel(box, frame):
-    """Absolute box -> percentages of the slide frame."""
+    """Riquadro assoluto -> percentuali della cornice della slide."""
     return (100 * (box.x0 - frame.x0) / frame.width, 100 * (box.y0 - frame.y0) / frame.height,
             100 * (box.x1 - frame.x0) / frame.width, 100 * (box.y1 - frame.y0) / frame.height)
 
@@ -82,12 +83,12 @@ def fmt_box(b):
     return ",".join(f"{max(0.0, min(100.0, v)):.0f}" for v in b)
 
 
-# --------------------------------------------------------------- elements
+# --------------------------------------------------------------- elementi
 _CACHE = {}
 
 
 def elements(page, frame):
-    """Images, drawings and text lines inside a slide, with a key that stays the same on every slide."""
+    """Immagini, disegni e righe di testo di una slide, con una chiave che resta uguale su ogni slide."""
     cache_key = (page.number, tuple(frame))
     if cache_key in _CACHE:
         return _CACHE[cache_key]
@@ -116,7 +117,7 @@ def elements(page, frame):
 
 
 def template_keys(slides):
-    """Keys present on at least half of the slides: logos, headers, footers, page numbers."""
+    """Chiavi presenti in almeno metà delle slide: loghi, intestazioni, piè di pagina, numeri di pagina."""
     count = collections.Counter()
     for _, page, frame in slides:
         count.update({item[2] for item in elements(page, frame)})
@@ -128,7 +129,7 @@ def figure_candidates(page, frame, template):
     items = [it for it in elements(page, frame) if it[2] not in template]
     area = frame.width * frame.height
     found = [("image", it[1]) for it in items if it[0] == "image" and it[1].width * it[1].height > 0.01 * area]
-    # merge nearby drawings into clusters (diagrams, charts, tables drawn with lines)
+    # unisce i disegni vicini in gruppi (diagrammi, grafici, tabelle disegnate con linee)
     pad = 0.02 * frame.width
     clusters = []
     for it in items:
@@ -145,11 +146,11 @@ def figure_candidates(page, frame, template):
     return sorted(found, key=lambda f: (f[1].y0, f[1].x0))
 
 
-# ---------------------------------------------------------------- commands
+# ---------------------------------------------------------------- comandi
 def cmd_info(doc, slides, args):
     per_page = collections.Counter(page.number for _, page, _ in slides)
-    print(f"{args.pdf}: {doc.page_count} pages, {len(slides)} slides "
-          f"({max(per_page.values())} per page)")
+    print(f"{args.pdf}: {doc.page_count} pagine, {len(slides)} slide "
+          f"({max(per_page.values())} per pagina)")
 
 
 def cmd_text(doc, slides, args):
@@ -157,8 +158,8 @@ def cmd_text(doc, slides, args):
     for n in parse_range(args.slides, len(slides)):
         _, page, frame = slides[n - 1]
         lines = [it[3] for it in elements(page, frame) if it[0] == "text" and it[2] not in template]
-        print(f"=== slide {n} (page {page.number + 1}) ===")
-        print("\n".join(lines) if lines else "(no text: look at the rendered slide)")
+        print(f"=== slide {n} (pagina {page.number + 1}) ===")
+        print("\n".join(lines) if lines else "(nessun testo: guarda la slide renderizzata)")
         print()
 
 
@@ -186,26 +187,29 @@ def cmd_render(doc, slides, args):
         print(path)
 
 
+KIND = {"image": "immagine", "drawing": "disegno"}
+
+
 def cmd_figures(doc, slides, args):
     template = template_keys(slides)
     for n in parse_range(args.slides, len(slides)):
         _, page, frame = slides[n - 1]
         for i, (kind, box) in enumerate(figure_candidates(page, frame, template), 1):
             r = rel(box, frame)
-            print(f"slide {n} (page {page.number + 1}) figure {i}: {kind:7s} box {fmt_box(r)}"
-                  f"  ({(r[2] - r[0]) * (r[3] - r[1]) / 100:.0f}% of the slide)")
+            print(f"slide {n} (pagina {page.number + 1}) figura {i}: {KIND[kind]:8s} box {fmt_box(r)}"
+                  f"  ({(r[2] - r[0]) * (r[3] - r[1]) / 100:.0f}% della slide)")
 
 
 def cmd_crop(doc, slides, args):
     if not 1 <= args.slide <= len(slides):
-        sys.exit(f"slide {args.slide} out of range 1-{len(slides)}")
+        sys.exit(f"slide {args.slide} fuori intervallo 1-{len(slides)}")
     _, page, frame = slides[args.slide - 1]
     if args.box:
         x0, y0, x1, y1 = (float(v) for v in args.box.split(","))
     else:
         figs = figure_candidates(page, frame, template_keys(slides))
         if not figs:
-            sys.exit(f"slide {args.slide}: no figure found, pass --box after looking at the rendered slide")
+            sys.exit(f"slide {args.slide}: nessuna figura trovata, passa --box dopo aver guardato la slide renderizzata")
         union = figs[0][1]
         for _, box in figs[1:]:
             union |= box
@@ -214,7 +218,7 @@ def cmd_crop(doc, slides, args):
     clip = pymupdf.Rect(frame.x0 + frame.width * x0 / 100, frame.y0 + frame.height * y0 / 100,
                         frame.x0 + frame.width * x1 / 100, frame.y0 + frame.height * y1 / 100) & frame
     if clip.is_empty:
-        sys.exit("empty box")
+        sys.exit("riquadro vuoto")
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     pix = page.get_pixmap(clip=clip, dpi=args.dpi, alpha=False)
@@ -229,20 +233,20 @@ def main():
         p = sub.add_parser(name)
         p.add_argument("pdf")
         if name in ("text", "render", "figures"):
-            p.add_argument("--slides", help="e.g. 3-7,10 (default: all)")
+            p.add_argument("--slides", help="es. 3-7,10 (predefinito: tutte)")
         if name == "render":
             p.add_argument("--out", default="slides-render")
-            p.add_argument("--grid", action="store_true", help="overlay a 10%% grid to read coordinates")
+            p.add_argument("--grid", action="store_true", help="sovrappone una griglia al 10%% per leggere le coordinate")
             p.add_argument("--dpi", type=int, default=150)
         if name == "crop":
             p.add_argument("--slide", type=int, required=True)
-            p.add_argument("--box", help="x0,y0,x1,y1 in percent of the slide")
-            p.add_argument("--auto", action="store_true", help="union of the detected figures (default without --box)")
-            p.add_argument("--margin", type=float, default=1.0, help="percent added around --auto")
+            p.add_argument("--box", help="x0,y0,x1,y1 in percentuale della slide")
+            p.add_argument("--auto", action="store_true", help="unione delle figure trovate (predefinito senza --box)")
+            p.add_argument("--margin", type=float, default=1.0, help="percentuale aggiunta intorno al ritaglio --auto")
             p.add_argument("--dpi", type=int, default=200)
             p.add_argument("--out", required=True)
     args = ap.parse_args()
-    # slide text has symbols (−, →, •) that the Windows console code page cannot print
+    # il testo delle slide ha simboli (−, →, •) che la code page della console di Windows non sa stampare
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     doc = pymupdf.open(args.pdf)

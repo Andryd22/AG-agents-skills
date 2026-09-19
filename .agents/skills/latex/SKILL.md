@@ -1,73 +1,73 @@
 ---
 name: latex
-description: 'University notes in LaTeX: set up a course folder, turn a lecture PDF (and its transcript) into a chapter with figures, references and a compile check, or review the whole project. Delegates to the latex-specialist agent with the latex-tutor and latex-review skills. Use when the user runs /latex or asks for LaTeX notes from slides.'
+description: 'Appunti universitari in LaTeX: prepara la cartella di un corso, trasforma il PDF di una lezione (e la sua trascrizione) in un capitolo con figure, riferimenti e compilazione, oppure revisiona tutto il progetto. Passa il lavoro all''agente latex-specialist con le skill latex-tutor e latex-review. Usala quando l''utente lancia /latex o chiede appunti LaTeX dalle slide.'
 ---
 
-# /latex — University Notes in LaTeX
+# /latex — Appunti universitari in LaTeX
 
-The request is the text that follows `/latex`.
+La richiesta è il testo che segue `/latex`.
 
 ---
 
-## Modes
+## Modalità
 
-| Signal in the request | Mode | Skill |
+| Segnale nella richiesta | Modalità | Skill |
 | --- | --- | --- |
-| "setup", "new course", "nuovo corso", empty folder without `main.tex` | **Setup** | `@[skills/latex-tutor]` (assets) |
-| a PDF name or path, "chapter", "generate", "from these slides", an attached PDF or transcript | **Generation** | `@[skills/latex-tutor]` |
-| "review", "check", "audit", "fix", "does it compile" | **Audit** | `@[skills/latex-review]` |
-| unclear | ask one question: new course, new chapter or review? | |
+| "setup", "nuovo corso", "new course", cartella vuota senza `main.tex` | **Setup** | `@[skills/latex-tutor]` (assets) |
+| il nome o il percorso di un PDF, "capitolo", "genera", "da queste slide", un PDF o una trascrizione allegati | **Generazione** | `@[skills/latex-tutor]` |
+| "revisiona", "controlla", "review", "correggi", "compila?" | **Revisione** | `@[skills/latex-review]` |
+| non chiaro | una domanda: nuovo corso, nuovo capitolo o revisione? | |
 
-Hand the work to `latex-specialist` with the request, the mode and the files involved (↪ `@latex-specialist: <mode> <files>`).
+Passa il lavoro a `latex-specialist` con la richiesta, la modalità e i file coinvolti (↪ `@latex-specialist: <modalità> <file>`).
 
 ---
 
 ## Setup
 
-1. Ask for the course title and the author name (skip what the request already says).
-2. Create in the current folder, without overwriting anything that exists:
-   - `main.tex` and `preamble.tex` from `.agents/skills/latex-tutor/assets/`, with the title and author filled in;
-   - `chapters/`, `images/`, `transcripts/`, and `slides/` unless the lecture PDFs already sit in another folder.
-3. Tell the user where to put the lecture PDFs and how to generate the first chapter (`/latex slides/1-Introduction.pdf`).
+1. Chiedi il titolo del corso e il nome dell'autore (salta quello che la richiesta dice già). Il corso nuovo è in italiano; in inglese solo se l'utente lo chiede.
+2. Crea nella cartella corrente, senza sovrascrivere niente di quello che esiste:
+   - `main.tex` e `preamble.tex` da `.agents/skills/latex-tutor/assets/`, con titolo e autore compilati (per un corso in inglese segui il commento in cima a `preamble.tex`);
+   - `chapters/`, `images/`, `transcripts/`, e `slides/` a meno che i PDF delle lezioni non stiano già in un'altra cartella.
+3. Di' all'utente dove mettere i PDF delle lezioni e come generare il primo capitolo (`/latex slides/1-Introduzione.pdf`).
 
 ---
 
-## Generation
+## Generazione
 
-Follow the Workflow of `latex-tutor` (Project Mode):
+Segui la Procedura di `latex-tutor` (modalità Progetto):
 
-1. Read the preamble, map the existing chapters with `grep`, read the last edited chapter to copy its conventions.
-2. Read the PDF (directly or with `slides.py text` and `render`) and the transcript if there is one.
-3. Write `chapters/<PDF name>.tex` without overwriting an existing file; add the `\include` to `main.tex`.
-4. Figures: TikZ for simple diagrams, crops with `slides.py crop` for complex ones, placeholders only as a fallback.
-5. Compile, fix the errors of the new chapter, report sections, figures, references and warnings.
+1. Leggi il preambolo (e la lingua del corso dal suo `babel`), mappa i capitoli esistenti con `grep`, leggi l'ultimo capitolo modificato per copiarne le convenzioni.
+2. Leggi il PDF (direttamente o con `slides.py text` e `render`) e la trascrizione, se c'è.
+3. Scrivi `chapters/<nome del PDF>.tex` senza sovrascrivere un file esistente; aggiungi l'`\include` a `main.tex`.
+4. Figure: TikZ per i diagrammi semplici, ritagli con `slides.py crop` per quelli complessi, segnaposto solo come ripiego.
+5. Compila, correggi gli errori del nuovo capitolo, riporta sezioni, figure, riferimenti e avvisi.
 
-Without a course folder (a single PDF in a chat), `latex-tutor` works in Chat Mode: the chapter body in one `latex` code block.
-
----
-
-## Audit
-
-Follow the Review Workflow of `latex-review`: `check_project.py`, compile and log, style checklist, report by severity. Fix only after the user says which issues to fix.
+Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice `latex`.
 
 ---
 
-## Usage
+## Revisione
+
+Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazione e log, checklist di stile, resoconto per gravità. Correggi solo dopo che l'utente ha detto quali problemi correggere.
+
+---
+
+## Uso
 
 ```text
 /latex setup
 /latex slides/5-Clustering.pdf
-/latex slides/5-Clustering.pdf with transcripts/5-Clustering.txt
-/latex review
-/latex fix the critical issues of chapter 7
+/latex slides/5-Clustering.pdf con transcripts/5-Clustering.txt
+/latex revisione
+/latex correggi i problemi critici del capitolo 7
 ```
 
 ---
 
-## Key Principles
+## Principi
 
-- **The chapters are the user's**: never overwrite one, never restructure prose without approval.
-- **It must compile**: every generation ends with a compile.
-- **Synthesize, don't transcribe**: structure by topic, not by slide.
-- **LaTeX in English**, conversation in the user's language.
-- See `@[agents/latex-specialist]` for conventions and the full checklist.
+- **I capitoli sono dell'utente**: mai sovrascriverne uno, mai ristrutturare la prosa senza approvazione.
+- **Deve compilare**: ogni generazione finisce con una compilazione.
+- **Sintetizza, non trascrivere**: struttura per argomento, non per slide.
+- **LaTeX nella lingua del corso** (italiano per i corsi nuovi, quella dei capitoli già scritti per i corsi esistenti), conversazione in italiano.
+- Convenzioni e checklist completa in `@[agents/latex-specialist]`.

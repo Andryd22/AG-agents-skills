@@ -1,30 +1,37 @@
 % !TeX root = main.tex
-% Preamble for university notes written with the latex-tutor skill.
+% Preambolo per gli appunti universitari scritti con la skill latex-tutor.
+% Corso in inglese: babel con [english], i nomi dei teoremi in inglese (Theorem, Lemma,
+% Corollary, Proposition, Definition, Example) e togli le righe \SetAlgorithmName, \SetKwInput
+% e \lstlistingname.
 \documentclass[a4paper, 12pt]{report}
 
-% --- Encoding and language (document in English) ---
+% --- Codifica e lingua (documento in italiano) ---
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}        % scalable fonts, needed by microtype
-\usepackage[english]{babel}
+\usepackage{lmodern}        % font scalabili, servono a microtype
+\usepackage[italian]{babel}
 \usepackage{comment}
-\usepackage{microtype}      % better spacing, fewer overfull/underfull boxes
-\usepackage{ragged2e}       % better alignment in narrow columns
+\usepackage{microtype}      % spaziatura migliore, meno box overfull/underfull
+\usepackage{ragged2e}       % allineamento migliore nelle colonne strette
 
-% --- Mathematics ---
+% --- Matematica ---
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-\usepackage{mathtools}      % dcases and fixes to amsmath
-\usepackage{bm}             % bold vectors: \bm{v}
+\usepackage{mathtools}      % dcases e correzioni ad amsmath
+\usepackage{bm}             % vettori in grassetto: \bm{v}
 \usepackage{physics}        % \dv, \pdv, \abs, \norm
 \usepackage{amsthm}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
-% --- Algorithms and code ---
+% --- Algoritmi e codice ---
 \usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\SetAlgorithmName{Algoritmo}{algoritmo}{Elenco degli algoritmi}
+\SetKwInput{KwData}{Dati}
+\SetKwInput{KwResult}{Risultato}
 \usepackage{listings}
+\renewcommand{\lstlistingname}{Listato}
 \usepackage{xcolor}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -95,14 +102,14 @@
     {]}{{{\color{magenta}{]}}}}{1},
 }
 
-% --- Lists ---
+% --- Elenchi ---
 \usepackage[shortlabels]{enumitem}
 
-% --- Figures and tables ---
+% --- Figure e tabelle ---
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{arrows, arrows.meta, calc, decorations.pathmorphing, decorations.pathreplacing, fit, matrix, positioning, shapes.geometric, shapes.multipart, shapes.symbols}
-\usepackage{float}          % [H] placement
+\usetikzlibrary{babel, arrows, arrows.meta, calc, decorations.pathmorphing, decorations.pathreplacing, fit, matrix, positioning, shapes.geometric, shapes.multipart, shapes.symbols}
+\usepackage{float}          % posizionamento [H]
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
@@ -112,10 +119,10 @@
 \usepackage{wrapfig}
 \usepackage[normalem]{ulem}
 
-% --- Page layout and links ---
+% --- Pagina e link ---
 \usepackage{geometry}
 \geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
-\usepackage{hyperref}       % after the other packages
+\usepackage{hyperref}       % dopo gli altri pacchetti
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -123,12 +130,12 @@
     urlcolor=cyan,
 }
 
-% --- Theorem environments: one shared counter per chapter (Definition 5.1, Theorem 5.2, ...) ---
-\theoremstyle{plain}        % italic body
-\newtheorem{theorem}{Theorem}[chapter]
+% --- Teoremi: un contatore comune per capitolo (Definizione 5.1, Teorema 5.2, ...) ---
+\theoremstyle{plain}        % corpo in corsivo
+\newtheorem{theorem}{Teorema}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{proposition}[theorem]{Proposition}
-\theoremstyle{definition}   % upright body
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollario}
+\newtheorem{proposition}[theorem]{Proposizione}
+\theoremstyle{definition}   % corpo dritto
+\newtheorem{definition}[theorem]{Definizione}
+\newtheorem{example}[theorem]{Esempio}

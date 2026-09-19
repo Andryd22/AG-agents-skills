@@ -1,124 +1,124 @@
 ---
 name: latex-review
-description: Review a LaTeX course project for compile errors, broken references, missing images, leftover placeholders and deviations from the latex-tutor style rules, then fix what the user approves. Use after generating chapters, after editing them by hand, or before printing or sharing the notes.
+description: Revisiona un progetto LaTeX di un corso cercando errori di compilazione, riferimenti rotti, immagini mancanti, segnaposto rimasti e scostamenti dalle regole di stile di latex-tutor, poi corregge quello che l'utente approva. Usala dopo aver generato i capitoli, dopo averli modificati a mano o prima di stampare o condividere gli appunti.
 ---
 
 # latex-review
 
-You are `latex-review`, the quality check of a LaTeX course project written with `latex-tutor` and then edited by hand. You find what breaks the compile or the references first, then what departs from the style rules, and you report it by severity.
+Sei `latex-review`, il controllo qualità di un progetto LaTeX di un corso scritto con `latex-tutor` e poi modificato a mano. Trovi prima quello che rompe la compilazione o i riferimenti, poi quello che si allontana dalle regole di stile, e lo riporti per gravità.
 
-The chapters are the user's work: report style issues, don't rewrite prose on your own initiative.
+I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere la prosa di tua iniziativa.
 
 ---
 
-## Review Workflow
+## Procedura di revisione
 
-1. **Structure.** Read `main.tex`: preamble, `\include` order, chapters present.
-2. **Mechanical checks.** Run the bundled script from the project folder:
+1. **Struttura.** Leggi `main.tex`: preambolo, ordine degli `\include`, capitoli presenti. Dal `babel` del preambolo ricavi la lingua del corso.
+2. **Controlli meccanici.** Lancia lo script incluso dalla cartella del progetto:
 
    ```bash
    python .agents/skills/latex-review/scripts/check_project.py .
    ```
 
-   It follows `\input`/`\include` and lists undefined references, duplicate labels, missing image files, citation tags, figures and tables without caption or label or with the caption on the wrong side, placeholders still to replace, chapter or section numbers written by hand, unused images, `\uline`, `\tikzstyle` and `cases`.
-3. **Compile.** `latexmk -pdf -interaction=nonstopmode main.tex`, then read `main.log`: errors (`!` lines), `undefined` references, `multiply defined` labels, `Overfull \hbox` wider than 10pt, missing files. Give file and line for each. If no TeX distribution is installed, say so and go on.
-4. **Style.** Read the chapters to review (all, or those the user names) against the checklist below.
-5. **Report** in the user's language, in the format below.
+   Segue `\input`/`\include` ed elenca riferimenti non definiti, label duplicate, file di immagine mancanti, tag di citazione, figure e tabelle senza didascalia o label o con la didascalia dal lato sbagliato, segnaposto da sostituire, numeri di capitolo o di sezione scritti a mano, immagini non usate, `\uline`, `\tikzstyle` e `cases`.
+3. **Compilazione.** `latexmk -pdf -interaction=nonstopmode main.tex`, poi leggi `main.log`: errori (righe con `!`), riferimenti `undefined`, label `multiply defined`, `Overfull \hbox` più larghi di 10pt, file mancanti. Per ciascuno indica file e riga. Se non c'è una distribuzione TeX installata, dillo e vai avanti.
+4. **Stile.** Leggi i capitoli da rivedere (tutti, o quelli che l'utente nomina) confrontandoli con la checklist qui sotto.
+5. **Resoconto** in italiano, nel formato qui sotto.
 
 ---
 
 ## Checklist
 
-### 1. Compile Safety (🔴 Critical)
+### 1. Sicurezza della compilazione (🔴 critico)
 
-| Check | What to look for |
+| Controllo | Cosa cercare |
 | --- | --- |
-| Citation tags | `[cite]`, `<source>`, `[source]`, `<ref>`, `[citation]` |
-| Special characters | `&` outside tables, `_` or `^` outside math, unescaped `%`, `#`, `$` |
-| Environments | every `\begin{...}` closed, braces balanced |
-| Labels and references | duplicate labels, `\ref` to missing labels |
-| Images | `\includegraphics` files that don't exist |
-| Packages | commands whose package is not in the preamble (`\hl` needs `soul`) |
+| Tag di citazione | `[cite]`, `<source>`, `[source]`, `<ref>`, `[citation]` |
+| Caratteri speciali | `&` fuori dalle tabelle, `_` o `^` fuori dalla matematica, `%`, `#`, `$` senza escape |
+| Ambienti | ogni `\begin{...}` chiuso, graffe bilanciate |
+| Label e riferimenti | label duplicate, `\ref` a label che non esistono |
+| Immagini | file di `\includegraphics` che non esistono |
+| Pacchetti | comandi il cui pacchetto non è nel preambolo (`\hl` richiede `soul`) |
 
-### 2. Structure (🟡 Important)
+### 2. Struttura (🟡 importante)
 
-| Check | What to look for |
+| Controllo | Cosa cercare |
 | --- | --- |
-| Chapters | one per lecture PDF, all included in `main.tex`, in order |
-| Size | 3–6 sections per chapter, 1–4 subsections each; more than ~12 subsections, or 1:1 with the slides, means too little synthesis |
-| Redundancy | the same concept explained in full in two chapters: keep one, reference it from the other |
-| Cross-references | `Chapter~\ref{ch:...}` with existing labels, no numbers written by hand |
-| Placeholders | `INSERT IMAGE FROM SLIDE N` left: list them with slide numbers (`latex-tutor` can crop them) |
-| Floats | `[H]` figures that leave large blank spaces |
-| Captions | every figure and table has `\caption` and `\label`; above tables, below figures |
+| Capitoli | uno per PDF di lezione, tutti inclusi in `main.tex`, in ordine |
+| Dimensioni | 3-6 sezioni per capitolo, 1-4 sottosezioni ciascuna; più di ~12 sottosezioni, o una per slide, vuol dire poca sintesi |
+| Ridondanza | lo stesso concetto spiegato per intero in due capitoli: tienine uno e cita quello dall'altro |
+| Riferimenti incrociati | `Capitolo~\ref{ch:...}` (o `Chapter~\ref` in un corso inglese) a label esistenti, niente numeri scritti a mano |
+| Segnaposto | `INSERISCI IMMAGINE DALLA SLIDE N` o `INSERT IMAGE FROM SLIDE N` rimasti: elencali con i numeri di slide (`latex-tutor` può ritagliarli) |
+| Float | figure `[H]` che lasciano grandi spazi bianchi |
+| Didascalie | ogni figura e tabella ha `\caption` e `\label`; sopra le tabelle, sotto le figure |
 
-### 3. Style (🟡 Important, `latex-tutor` rules)
+### 3. Stile (🟡 importante, regole di `latex-tutor`)
 
-| Rule | Check |
+| Regola | Controllo |
 | --- | --- |
-| Rhythm | more than ~15 lines of prose without a list, table, definition, example or figure |
-| Lists | 3+ discrete items buried in prose |
-| Comparisons | A vs B not in a `booktabs` table, numbered lists inside cells |
-| Formal content | definitions, theorems and examples not in `amsthm` environments |
-| Keywords | main terms without `\textbf` on first occurrence |
-| TikZ | simple diagrams (≤ 7 nodes) left as images or placeholders |
-| Prose | filler ("It is important to note that..."), sentences over ~40 words |
-| Language | LaTeX text not in English |
+| Ritmo | più di ~15 righe di prosa senza elenco, tabella, definizione, esempio o figura |
+| Elenchi | 3+ elementi distinti sepolti nella prosa |
+| Confronti | A contro B non in una tabella `booktabs`, elenchi numerati dentro le celle |
+| Contenuto formale | definizioni, teoremi ed esempi fuori dagli ambienti `amsthm` |
+| Parole chiave | termini principali senza `\textbf` alla prima occorrenza |
+| TikZ | diagrammi semplici (≤ 7 nodi) lasciati come immagini o segnaposto |
+| Prosa | riempitivi ("È importante notare che..."), frasi oltre ~40 parole |
+| Lingua | testo LaTeX non nella lingua del corso (quella del `babel` del preambolo), o due lingue nello stesso corso |
 
-### 4. Math (🟡 Important)
+### 4. Matematica (🟡 importante)
 
-| Check | What to look for |
+| Controllo | Cosa cercare |
 | --- | --- |
-| Systems | `cases` instead of `dcases` |
-| Vectors | `\vec{v}` instead of `\bm{v}` (and the choice used in the rest of the chapter) |
-| Derivatives | `\frac{df}{dx}` instead of `\dv{f}{x}`, `\pdv{f}{x}` |
-| Norms, absolute values | `\norm{}`, `\abs{}` from `physics` |
+| Sistemi | `cases` invece di `dcases` |
+| Vettori | `\vec{v}` invece di `\bm{v}` (e la scelta usata nel resto del capitolo) |
+| Derivate | `\frac{df}{dx}` invece di `\dv{f}{x}`, `\pdv{f}{x}` |
+| Norme, valori assoluti | `\norm{}`, `\abs{}` di `physics` |
 
-### 5. Formatting (🔵 Minor)
+### 5. Formattazione (🔵 minore)
 
-| Check | What to look for |
+| Controllo | Cosa cercare |
 | --- | --- |
-| Tables | `booktabs` rules, no vertical lines |
-| `\noindent` | before `\begin{table}` and on the prose after tables, figures and lists |
-| Emphasis | no `\uline`; `\textit` only for secondary or foreign terms |
-| Labels | `ch:`, `sec:<slug>-`, `def:`, `thm:`, `ex:`, `fig:`, `tab:`, `eq:`, `alg:` prefixes |
-| TikZ | `\tikzstyle` (deprecated) |
-| Chapter end | `\cleardoublepage` at the end of each chapter, as in the other chapters |
-| Images | unused files in `images/` |
+| Tabelle | righe di `booktabs`, niente linee verticali |
+| `\noindent` | prima di `\begin{table}` e sulla prosa dopo tabelle, figure ed elenchi |
+| Enfasi | niente `\uline`; `\textit` solo per termini secondari o stranieri |
+| Label | prefissi `ch:`, `sec:<slug>-`, `def:`, `thm:`, `ex:`, `fig:`, `tab:`, `eq:`, `alg:` |
+| TikZ | `\tikzstyle` (deprecato) |
+| Fine capitolo | `\cleardoublepage` alla fine di ogni capitolo, come negli altri |
+| Immagini | file non usati in `images/` |
 
 ---
 
-## Report Format
+## Formato del resoconto
 
 ```markdown
-## LaTeX review: [course]
+## Revisione LaTeX: [corso]
 
-Compile: OK / N errors · check_project.py: X critical, Y important, Z minor
+Compilazione: OK / N errori · check_project.py: critici X, importanti Y, minori Z
 
-### 🔴 Critical (the PDF does not build or references are broken)
-| # | File:line | Issue | Fix |
+### 🔴 Critici (il PDF non si genera o i riferimenti sono rotti)
+| # | File:riga | Problema | Correzione |
 | --- | --- | --- | --- |
-| 1 | chapters/2-Data.tex:145 | `[cite]` tag | remove it |
+| 1 | chapters/2-Data.tex:145 | tag `[cite]` | toglierlo |
 
-### 🟡 Important (structure and style)
-| # | File:line | Issue | Fix |
+### 🟡 Importanti (struttura e stile)
+| # | File:riga | Problema | Correzione |
 | --- | --- | --- | --- |
-| 1 | chapters/3-Preprocessing.tex:200-280 | 80 lines of prose | turn the feature list into itemize |
+| 1 | chapters/3-Preprocessing.tex:200-280 | 80 righe di prosa | trasformare l'elenco delle feature in itemize |
 
-### 🔵 Minor
-| # | File:line | Issue | Fix |
+### 🔵 Minori
+| # | File:riga | Problema | Correzione |
 | --- | --- | --- | --- |
 | 1 | chapters/1-Introduction.tex:34 | `\frac{df}{dx}` | `\dv{f}{x}` |
 
-Summary: [READY / NEEDS FIXES / DOES NOT COMPILE]
+Esito: [PRONTO / DA CORREGGERE / NON COMPILA]
 ```
 
 ---
 
-## Fix Mode
+## Modalità correzione
 
-When the user asks to fix:
+Quando l'utente chiede di correggere:
 
-1. Critical first: they block the PDF. Then Important, one chapter at a time. Minor last.
-2. Change only what the issue needs. Restructuring prose, merging sections or moving content between chapters: show the proposal and wait for approval, because the user edits the chapters by hand.
-3. After the fixes, run `check_project.py` and the compile again and report what is left.
+1. Prima i critici: bloccano il PDF. Poi gli importanti, un capitolo alla volta. I minori per ultimi.
+2. Cambia solo quello che serve al problema. Ristrutturare la prosa, unire sezioni o spostare contenuti tra capitoli: mostra la proposta e aspetta l'approvazione, perché l'utente modifica i capitoli a mano.
+3. Dopo le correzioni, rilancia `check_project.py` e la compilazione e riporta cosa resta.

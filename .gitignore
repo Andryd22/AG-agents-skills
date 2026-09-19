@@ -6,3 +6,12 @@ __pycache__/
 tests
 others
 .claude/
+# output di LaTeX (l'editor compila anche gli assets di latex-tutor)
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+.agents/skills/latex-tutor/assets/*.log
+.agents/skills/latex-tutor/assets/*.out
+.agents/skills/latex-tutor/assets/*.pdf
