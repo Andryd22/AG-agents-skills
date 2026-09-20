@@ -21,6 +21,10 @@ import sys
 import subprocess
 import argparse
 from pathlib import Path
+
+# Radice del kit (la cartella che contiene .agents/): gli script si cercano qui,
+# così il controllo funziona anche su un progetto fuori dal kit.
+KIT_ROOT = Path(__file__).resolve().parents[2]
 from typing import List, Tuple, Optional
 
 # Colori ANSI per il terminale
@@ -186,7 +190,7 @@ Esempi:
     # Controlli di base
     print_header("📋 CONTROLLI DI BASE")
     for name, script_path, required in CORE_CHECKS:
-        script = project_path / script_path
+        script = KIT_ROOT / script_path
         result = run_script(name, script, str(project_path))
         results.append(result)
         
@@ -200,7 +204,7 @@ Esempi:
     if args.url and not args.skip_performance:
         print_header("🌐 CONTROLLI E2E")
         for name, script_path, required in PERFORMANCE_CHECKS:
-            script = project_path / script_path
+            script = KIT_ROOT / script_path
             result = run_script(name, script, str(project_path), args.url)
             results.append(result)
     

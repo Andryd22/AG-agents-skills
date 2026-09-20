@@ -21,6 +21,10 @@ import sys
 import subprocess
 import argparse
 from pathlib import Path
+
+# Radice del kit (la cartella che contiene .agents/): gli script si cercano qui,
+# così la verifica funziona anche su un progetto fuori dal kit.
+KIT_ROOT = Path(__file__).resolve().parents[2]
 from typing import List, Dict, Optional
 from datetime import datetime
 
@@ -259,7 +263,7 @@ Esempi:
         print_header(f"📋 {category.upper()}")
         
         for name, script_path, required in suite["checks"]:
-            script = project_path / script_path
+            script = KIT_ROOT / script_path
             result = run_script(name, script, str(project_path), args.url)
             result["category"] = category
             results.append(result)

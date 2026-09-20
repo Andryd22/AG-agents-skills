@@ -111,12 +111,14 @@ Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.p
 
 ## 🇮🇹 Lingua
 
-Il kit è scritto in italiano, tranne l'area frontend web (`frontend-specialist`, `qa-automation-engineer` e le loro skill), ancora in inglese. I nomi di agenti, skill e comandi restano in inglese.
+Il kit è scritto tutto in italiano. I nomi di agenti, skill e comandi restano in inglese.
 
 - Gli agenti rispondono in italiano.
 - Nel codice che scrivono, commenti e messaggi sono in italiano e i nomi (variabili, funzioni, file) in inglese.
 - Gli appunti LaTeX sono nella lingua del corso, che la skill ricava dal `babel` del preambolo: i corsi nuovi sono in italiano, un corso già scritto in inglese resta in inglese.
 - I prompt per i modelli di immagini e video di `scroll-world` e `scroll-film` restano in inglese.
+- Restano in inglese anche i dati su cui lavorano due skill: il database CSV di `ui-ux-pro-max` (si interroga con parole chiave inglesi) e le linee guida Vercel che `web-design-guidelines` scarica a ogni revisione. I report sono comunque in italiano.
+- Le sezioni di `nextjs-react-expert` sono la traduzione delle regole Vercel: se le rigeneri con `convert_rules.py` tornano in inglese e vanno ritradotte.
 
 ## 🪨 Caveman Mode
 

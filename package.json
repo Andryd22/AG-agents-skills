@@ -1,6 +1,6 @@
 {
   "name": "ag-agents-skills",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Agenti e skill per Google Antigravity, in italiano - 12 agenti, 32 skill (fork di Andryd22 con modalità caveman, AI/ML e ML classico, appunti LaTeX, esperienze di scroll con Three.js)",
   "bin": {
     "ag-agents-skills": "./bin/install.js"
