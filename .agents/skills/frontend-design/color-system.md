@@ -1,321 +1,321 @@
-# Color System Reference
+# Riferimento sistema colori
 
-> Color theory principles, selection process, and decision-making guidelines.
-> **No memorized hex codes - learn to THINK about color.**
+> Principi di teoria del colore, processo di scelta e linee guida per decidere.
+> **Nessun codice hex a memoria: impara a RAGIONARE sul colore.**
 
 ---
 
-## 1. Color Theory Fundamentals
+## 1. Fondamenti di teoria del colore
 
-### The Color Wheel
+### La ruota dei colori
 
 ```text
-                    YELLOW
+                    GIALLO
                       │
-           Yellow-    │    Yellow-
-           Green      │    Orange
+           Giallo-    │    Giallo-
+           verde      │    arancio
               ╲       │       ╱
                ╲      │      ╱
-    GREEN ─────────── ● ─────────── ORANGE
+    VERDE ─────────── ● ─────────── ARANCIONE
                ╱      │      ╲
               ╱       │       ╲
-           Blue-      │    Red-
-           Green      │    Orange
+           Blu-       │    Rosso-
+           verde      │    arancio
                       │
-                     RED
+                    ROSSO
                       │
-                   PURPLE
+                    VIOLA
                   ╱       ╲
-             Blue-         Red-
-             Purple        Purple
+             Blu-          Rosso-
+             viola         viola
                   ╲       ╱
-                    BLUE
+                     BLU
 ```
 
-### Color Relationships
+### Relazioni tra colori
 
-| Scheme | How to Create | When to Use |
-| -------- | --------------- | ------------- |
-| **Monochromatic** | Pick ONE hue, vary only lightness/saturation | Minimal, professional, cohesive |
-| **Analogous** | Pick 2-3 ADJACENT hues on wheel | Harmonious, calm, nature-inspired |
-| **Complementary** | Pick OPPOSITE hues on wheel | High contrast, vibrant, attention |
-| **Split-Complementary** | Base + 2 colors adjacent to complement | Dynamic but balanced |
-| **Triadic** | 3 hues EQUIDISTANT on wheel | Vibrant, playful, creative |
+| Schema | Come crearlo | Quando usarlo |
+| --- | --- | --- |
+| **Monocromatico** | Scegli UNA sola tonalità e varia solo luminosità/saturazione | Minimal, professionale, coerente |
+| **Analogo** | Scegli 2-3 tonalità ADIACENTI sulla ruota | Armonioso, calmo, ispirato alla natura |
+| **Complementare** | Scegli tonalità OPPOSTE sulla ruota | Contrasto alto, vivace, attira l'attenzione |
+| **Complementare diviso** | Base + i 2 colori adiacenti al suo complementare | Dinamico ma equilibrato |
+| **Triadico** | 3 tonalità EQUIDISTANTI sulla ruota | Vivace, giocoso, creativo |
 
-### How to Choose a Scheme
+### Come scegliere uno schema
 
-1. **What's the project mood?** Calm → Analogous. Bold → Complementary.
-2. **How many colors needed?** Minimal → Monochromatic. Complex → Triadic.
-3. **Who's the audience?** Conservative → Monochromatic. Young → Triadic.
+1. **Qual è il mood del progetto?** Calmo → analogo. Deciso → complementare.
+2. **Quanti colori servono?** Pochi → monocromatico. Molti → triadico.
+3. **Chi è il pubblico?** Conservatore → monocromatico. Giovane → triadico.
 
 ---
 
-## 2. The 60-30-10 Rule
+## 2. La regola 60-30-10
 
-### Distribution Principle
+### Principio di distribuzione
 
 ```text
 ┌─────────────────────────────────────────────────┐
 │                                                 │
-│     60% PRIMARY (Background, large areas)       │
-│     → Should be neutral or calming              │
-│     → Carries the overall tone                  │
+│     60% PRIMARIO (sfondo, aree ampie)           │
+│     → Deve essere neutro o rilassante           │
+│     → Definisce il tono generale                │
 │                                                 │
 ├────────────────────────────────────┬────────────┤
 │                                    │            │
-│   30% SECONDARY                    │ 10% ACCENT │
-│   (Cards, sections, headers)       │ (CTAs,     │
-│   → Supports without dominating    │ highlights)│
-│                                    │ → Draws    │
-│                                    │   attention│
+│   30% SECONDARIO                   │ 10% ACCENTO│
+│   (card, sezioni, header)          │ (CTA,      │
+│   → Supporta senza dominare        │ highlight) │
+│                                    │ → Attira   │
+│                                    │ attenzione │
 └────────────────────────────────────┴────────────┘
 ```
 
-### Implementation Pattern
+### Pattern di implementazione
 
 ```css
 :root {
-  /* 60% - Pick based on light/dark mode and mood */
-  --color-bg: /* neutral: white, off-white, or dark gray */
-  --color-surface: /* slightly different from bg */
+  /* 60% - Scegli in base a light/dark mode e al mood */
+  --color-bg: /* neutro: bianco, bianco sporco o grigio scuro */
+  --color-surface: /* leggermente diverso dal bg */
   
-  /* 30% - Pick based on brand or context */
-  --color-secondary: /* muted version of primary or neutral */
+  /* 30% - Scegli in base al brand o al contesto */
+  --color-secondary: /* versione attenuata del primario o un neutro */
   
-  /* 10% - Pick based on desired action/emotion */
-  --color-accent: /* vibrant, attention-grabbing */
+  /* 10% - Scegli in base all'azione/emozione che vuoi suscitare */
+  --color-accent: /* vivace, cattura l'attenzione */
 }
 ```
 
 ---
 
-## 3. Color Psychology - Meaning & Selection
+## 3. Psicologia del colore: significato e scelta
 
-### How to Choose Based on Context
+### Come scegliere in base al contesto
 
-| If Project Is... | Consider These Hues | Why |
-| ------------------ | --------------------- | ----- |
-| **Finance, Tech, Healthcare** | Blues, Teals | Trust, stability, calm |
-| **Eco, Wellness, Nature** | Greens, Earth tones | Growth, health, organic |
-| **Food, Energy, Youth** | Orange, Yellow, Warm | Appetite, excitement, warmth |
-| **Luxury, Beauty, Creative** | Deep Teal, Gold, Black | Sophistication, premium |
-| **Urgency, Sales, Alerts** | Red, Orange | Action, attention, passion |
-
-### Emotional Associations (For Decision Making)
-
-| Hue Family | Positive Associations | Cautions |
-| ------------ | ---------------------- | ---------- |
-| **Blue** | Trust, calm, professional | Can feel cold, corporate |
-| **Green** | Growth, nature, success | Can feel boring if overused |
-| **Red** | Passion, urgency, energy | High arousal, use sparingly |
-| **Orange** | Warmth, friendly, creative | Can feel cheap if saturated |
-| **Purple** | ⚠️ **BANNED** - AI overuses this! | Use Deep Teal/Maroon/Emerald instead |
-| **Yellow** | Optimism, attention, happy | Hard to read, use as accent |
-| **Black** | Elegance, power, modern | Can feel heavy |
-| **White** | Clean, minimal, open | Can feel sterile |
-
-### Selection Process
-
-1. **What industry?** → Narrow to 2-3 hue families
-2. **What emotion?** → Pick primary hue
-3. **What contrast?** → Decide light vs dark mode
-4. **ASK USER** → Confirm before proceeding
-
----
-
-## 4. Palette Generation Principles
-
-### From a Single Color (HSL Method)
-
-Instead of memorizing hex codes, learn to **manipulate HSL**:
-
-```text
-HSL = Hue, Saturation, Lightness
-
-Hue (0-360): The color family
-  0/360 = Red
-  60 = Yellow
-  120 = Green
-  180 = Cyan
-  240 = Blue
-  300 = Purple
-
-Saturation (0-100%): Color intensity
-  Low = Muted, sophisticated
-  High = Vibrant, energetic
-
-Lightness (0-100%): Brightness
-  0% = Black
-  50% = Pure color
-  100% = White
-```
-
-### Generating a Full Palette
-
-Given ANY base color, create a scale:
-
-```text
-Lightness Scale:
-  50  (lightest) → L: 97%
-  100            → L: 94%
-  200            → L: 86%
-  300            → L: 74%
-  400            → L: 66%
-  500 (base)     → L: 50-60%
-  600            → L: 48%
-  700            → L: 38%
-  800            → L: 30%
-  900 (darkest)  → L: 20%
-```
-
-### Saturation Adjustments
-
-| Context | Saturation Level |
-| --------- | ----------------- |
-| **Professional/Corporate** | Lower (40-60%) |
-| **Playful/Youth** | Higher (70-90%) |
-| **Dark Mode** | Reduce by 10-20% |
-| **Accessibility** | Ensure contrast, may need adjustment |
-
----
-
-## 5. Context-Based Selection Guide
-
-### Instead of Copying Palettes, Follow This Process
-
-#### Step 1: Identify the Context
-
-```text
-What type of project?
-├── E-commerce → Need trust + urgency balance
-├── SaaS/Dashboard → Need low-fatigue, data focus
-├── Health/Wellness → Need calming, natural feel
-├── Luxury/Premium → Need understated elegance
-├── Creative/Portfolio → Need personality, memorable
-└── Other → ASK the user
-```
-
-##### Step 2: Select Primary Hue Family
-
-```text
-Based on context, pick ONE:
-- Blue family (trust)
-- Green family (growth)
-- Warm family (energy)
-- Neutral family (elegant)
-- OR ask user preference
-```
-
-###### Step 3: Decide Light/Dark Mode
-
-```text
-Consider:
-- User preference?
-- Industry standard?
-- Content type? (text-heavy = light preferred)
-- Time of use? (evening app = dark option)
-```
-
-###### Step 4: Generate Palette Using Principles
-
-- Use HSL manipulation
-- Follow 60-30-10 rule
-- Check contrast (WCAG)
-- Test with actual content
-
----
-
-## 6. Dark Mode Principles
-
-### Key Rules (No Fixed Codes)
-
-1. **Never pure black** → Use very dark gray with slight hue
-2. **Never pure white text** → Use 87-92% lightness
-3. **Reduce saturation** → Vibrant colors strain eyes in dark mode
-4. **Elevation = brightness** → Higher elements slightly lighter
-
-### Contrast in Dark Mode
-
-```text
-Background layers (darker → lighter as elevation increases):
-Layer 0 (base)    → Darkest
-Layer 1 (cards)   → Slightly lighter
-Layer 2 (modals)  → Even lighter
-Layer 3 (popups)  → Lightest dark
-```
-
-### Adapting Colors for Dark Mode
-
-| Light Mode | Dark Mode Adjustment |
-| ------------ | --------------------- |
-| High saturation accent | Reduce saturation 10-20% |
-| Pure white background | Dark gray with brand hue tint |
-| Black text | Light gray (not pure white) |
-| Colorful backgrounds | Desaturated, darker versions |
-
----
-
-## 7. Accessibility Guidelines
-
-### Contrast Requirements (WCAG)
-
-| Level | Normal Text | Large Text |
+| Se il progetto è... | Considera queste tonalità | Perché |
 | --- | --- | --- |
-| AA (minimum) | 4.5:1 | 3:1 |
-| AAA (enhanced) | 7:1 | 4.5:1 |
+| **Finanza, tech, sanità** | Blu, verde acqua | Fiducia, stabilità, calma |
+| **Eco, benessere, natura** | Verdi, toni della terra | Crescita, salute, naturalezza |
+| **Cibo, energia, giovani** | Arancio, giallo, colori caldi | Appetito, entusiasmo, calore |
+| **Lusso, bellezza, creatività** | Verde petrolio scuro, oro, nero | Raffinatezza, premium |
+| **Urgenza, saldi, avvisi** | Rosso, arancio | Azione, attenzione, passione |
 
-### How to Check Contrast
+### Associazioni emotive (per decidere)
 
-1. **Convert colors to luminance**
-2. **Calculate ratio**: (lighter + 0.05) / (darker + 0.05)
-3. **Adjust until ratio meets requirement**
+| Famiglia di tonalità | Associazioni positive | Attenzione |
+| --- | --- | --- |
+| **Blu** | Fiducia, calma, professionalità | Può sembrare freddo, aziendale |
+| **Verde** | Crescita, natura, successo | Se abusato può annoiare |
+| **Rosso** | Passione, urgenza, energia | Molto eccitante, usalo con parsimonia |
+| **Arancio** | Calore, cordialità, creatività | Se troppo saturo può sembrare economico |
+| **Viola** | ⚠️ **VIETATO**: l'AI lo usa fin troppo! | Usa invece verde petrolio scuro, bordeaux o smeraldo |
+| **Giallo** | Ottimismo, attenzione, allegria | Poco leggibile, usalo come accento |
+| **Nero** | Eleganza, potere, modernità | Può risultare pesante |
+| **Bianco** | Pulizia, minimalismo, apertura | Può sembrare asettico |
 
-### Safe Patterns
+### Processo di scelta
 
-| Use Case | Guideline |
-| ---------- | ----------- |
-| **Text on light bg** | Use lightness 35% or less |
-| **Text on dark bg** | Use lightness 85% or more |
-| **Primary on white** | Ensure dark enough variant |
-| **Buttons** | High contrast between bg and text |
-
----
-
-## 8. Color Selection Checklist
-
-Before finalizing any color choice, verify:
-
-- [ ] **Asked user preference?** (if not specified)
-- [ ] **Matches project context?** (industry, audience)
-- [ ] **Follows 60-30-10?** (proper distribution)
-- [ ] **WCAG compliant?** (contrast checked)
-- [ ] **Works in both modes?** (if dark mode needed)
-- [ ] **NOT your default/favorite?** (variety check)
-- [ ] **Different from last project?** (avoid repetition)
+1. **Qual è il settore?** → Restringi a 2-3 famiglie di tonalità
+2. **Qual è l'emozione?** → Scegli la tonalità primaria
+3. **Che contrasto?** → Decidi tra light e dark mode
+4. **CHIEDI ALL'UTENTE** → Conferma prima di procedere
 
 ---
 
-## 9. Anti-Patterns to Avoid
+## 4. Principi per generare una palette
 
-### ❌ DON'T
+### Da un solo colore (metodo HSL)
 
-- Copy the same hex codes every project
-- Default to purple/violet (AI tendency)
-- Default to dark mode + neon (AI tendency)
-- Use pure black (#000000) backgrounds
-- Use pure white (#FFFFFF) text on dark
-- Ignore user's industry context
-- Skip asking user preference
+Invece di memorizzare codici hex, impara a **manipolare l'HSL**:
 
-### ✅ DO
+```text
+HSL = Hue, Saturation, Lightness (tonalità, saturazione, luminosità)
 
-- Generate fresh palette per project
-- Ask user about color preferences
-- Consider industry and audience
-- Use HSL for flexible manipulation
-- Test contrast and accessibility
-- Offer light AND dark options
+Hue (0-360): la famiglia di colore
+  0/360 = rosso
+  60 = giallo
+  120 = verde
+  180 = ciano
+  240 = blu
+  300 = viola
+
+Saturation (0-100%): intensità del colore
+  Bassa = attenuato, raffinato
+  Alta = vivace, energico
+
+Lightness (0-100%): luminosità
+  0% = nero
+  50% = colore puro
+  100% = bianco
+```
+
+### Generare una palette completa
+
+Partendo da QUALSIASI colore base, crea una scala:
+
+```text
+Scala di luminosità:
+  50  (più chiaro) → L: 97%
+  100              → L: 94%
+  200              → L: 86%
+  300              → L: 74%
+  400              → L: 66%
+  500 (base)       → L: 50-60%
+  600              → L: 48%
+  700              → L: 38%
+  800              → L: 30%
+  900 (più scuro)  → L: 20%
+```
+
+### Regolare la saturazione
+
+| Contesto | Livello di saturazione |
+| --- | --- |
+| **Professionale/aziendale** | Più bassa (40-60%) |
+| **Giocoso/giovane** | Più alta (70-90%) |
+| **Dark mode** | Riducila del 10-20% |
+| **Accessibilità** | Garantisci il contrasto, potrebbe servire qualche ritocco |
 
 ---
 
-> **Remember**: Colors are decisions, not defaults. Every project deserves thoughtful selection based on its unique context.
+## 5. Guida alla scelta in base al contesto
+
+### Invece di copiare palette, segui questo processo
+
+#### Passo 1: identifica il contesto
+
+```text
+Che tipo di progetto è?
+├── E-commerce → Serve equilibrio tra fiducia e urgenza
+├── SaaS/Dashboard → Serve poca fatica visiva, focus sui dati
+├── Salute/benessere → Serve un'atmosfera calma e naturale
+├── Lusso/premium → Serve un'eleganza sobria
+├── Creativo/portfolio → Serve personalità, deve restare impresso
+└── Altro → CHIEDI all'utente
+```
+
+##### Passo 2: scegli la famiglia di tonalità primaria
+
+```text
+In base al contesto, scegline UNA:
+- Famiglia dei blu (fiducia)
+- Famiglia dei verdi (crescita)
+- Famiglia dei caldi (energia)
+- Famiglia dei neutri (eleganza)
+- OPPURE chiedi la preferenza all'utente
+```
+
+###### Passo 3: scegli tra light e dark mode
+
+```text
+Valuta:
+- Preferenza dell'utente?
+- Standard del settore?
+- Tipo di contenuto? (molto testo = meglio light)
+- Momento d'uso? (app serale = opzione dark)
+```
+
+###### Passo 4: genera la palette seguendo i principi
+
+- Manipola l'HSL
+- Segui la regola 60-30-10
+- Controlla il contrasto (WCAG)
+- Prova con contenuti reali
+
+---
+
+## 6. Principi della dark mode
+
+### Regole chiave (nessun codice fisso)
+
+1. **Mai nero puro** → Usa un grigio molto scuro con una leggera tonalità
+2. **Mai testo bianco puro** → Usa una luminosità dell'87-92%
+3. **Riduci la saturazione** → In dark mode i colori vivaci affaticano la vista
+4. **Elevazione = luminosità** → Gli elementi più in alto sono un po' più chiari
+
+### Contrasto in dark mode
+
+```text
+Livelli di sfondo (da più scuro a più chiaro man mano che sale l'elevazione):
+Livello 0 (base)    → Il più scuro
+Livello 1 (card)    → Un po' più chiaro
+Livello 2 (modali)  → Ancora più chiaro
+Livello 3 (popup)   → Lo scuro più chiaro
+```
+
+### Adattare i colori alla dark mode
+
+| Light mode | Adattamento per la dark mode |
+| --- | --- |
+| Accento molto saturo | Riduci la saturazione del 10-20% |
+| Sfondo bianco puro | Grigio scuro con una sfumatura della tonalità del brand |
+| Testo nero | Grigio chiaro (non bianco puro) |
+| Sfondi colorati | Versioni desaturate e più scure |
+
+---
+
+## 7. Linee guida di accessibilità
+
+### Requisiti di contrasto (WCAG)
+
+| Livello | Testo normale | Testo grande |
+| --- | --- | --- |
+| AA (minimo) | 4.5:1 | 3:1 |
+| AAA (avanzato) | 7:1 | 4.5:1 |
+
+### Come verificare il contrasto
+
+1. **Converti i colori in luminanza relativa**
+2. **Calcola il rapporto**: (più chiaro + 0.05) / (più scuro + 0.05)
+3. **Regola finché il rapporto non soddisfa il requisito**
+
+### Pattern sicuri
+
+| Caso d'uso | Linea guida |
+| --- | --- |
+| **Testo su sfondo chiaro** | Usa una luminosità del 35% o meno |
+| **Testo su sfondo scuro** | Usa una luminosità dell'85% o più |
+| **Primario su bianco** | Assicurati che la variante sia abbastanza scura |
+| **Pulsanti** | Contrasto alto tra sfondo e testo |
+
+---
+
+## 8. Checklist per la scelta dei colori
+
+Prima di confermare qualsiasi scelta di colore, verifica:
+
+- [ ] **Hai chiesto la preferenza dell'utente?** (se non è specificata)
+- [ ] **È adatta al contesto del progetto?** (settore, pubblico)
+- [ ] **Rispetta la regola 60-30-10?** (distribuzione corretta)
+- [ ] **È conforme alle WCAG?** (contrasto verificato)
+- [ ] **Funziona in entrambe le modalità?** (se serve la dark mode)
+- [ ] **NON è la tua scelta predefinita/preferita?** (verifica la varietà)
+- [ ] **È diversa dall'ultimo progetto?** (evita le ripetizioni)
+
+---
+
+## 9. Anti-pattern da evitare
+
+### ❌ NON FARE
+
+- Copiare gli stessi codici hex in ogni progetto
+- Ripiegare sul viola (tendenza tipica dell'AI)
+- Ripiegare su dark mode + neon (tendenza tipica dell'AI)
+- Usare sfondi nero puro (#000000)
+- Usare testo bianco puro (#FFFFFF) su sfondo scuro
+- Ignorare il settore dell'utente
+- Saltare la domanda sulle preferenze dell'utente
+
+### ✅ FAI
+
+- Genera una palette nuova per ogni progetto
+- Chiedi all'utente le sue preferenze di colore
+- Tieni conto di settore e pubblico
+- Usa l'HSL per manipolare i colori con flessibilità
+- Verifica contrasto e accessibilità
+- Proponi opzioni light E dark
+
+---
+
+> **Ricorda**: i colori sono decisioni, non impostazioni predefinite. Ogni progetto merita una scelta ponderata in base al suo contesto specifico.

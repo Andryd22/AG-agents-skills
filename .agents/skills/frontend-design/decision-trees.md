@@ -1,442 +1,442 @@
-# Decision Trees & Context Templates
+# Alberi decisionali e template per contesto
 
-> Context-based design THINKING, not fixed solutions.
-> **These are decision GUIDES, not copy-paste templates.**
-> **For UX psychology principles (Hick's, Fitts', etc.) see:** [ux-psychology.md](ux-psychology.md)
-
----
-
-## ⚠️ How to Use This File
-
-This file helps you DECIDE, not copy.
-
-- Decision trees → Help you THINK through options
-- Templates → Show STRUCTURE and PRINCIPLES, not exact values
-- **Always ask user preferences** before applying
-- **Generate fresh palettes** based on context, don't copy hex codes
-- **Apply UX laws** from ux-psychology.md to validate decisions
+> Pensiero di design basato sul contesto, non soluzioni fisse.
+> **Sono GUIDE per decidere, non template da copiare e incollare.**
+> **Per i principi di psicologia UX (Hick, Fitts, ecc.) vedi:** [ux-psychology.md](ux-psychology.md)
 
 ---
 
-## 1. Master Decision Tree
+## ⚠️ Come usare questo file
+
+Questo file ti aiuta a DECIDERE, non a copiare.
+
+- Alberi decisionali → ti aiutano a RAGIONARE sulle opzioni
+- Template → mostrano STRUTTURA e PRINCIPI, non valori esatti
+- **Chiedi sempre le preferenze dell'utente** prima di applicarli
+- **Genera palette nuove** in base al contesto, non copiare i codici hex
+- **Applica le leggi UX** di ux-psychology.md per convalidare le scelte
+
+---
+
+## 1. Albero decisionale principale
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                     WHAT ARE YOU BUILDING?                   │
+│                    COSA STAI COSTRUENDO?                    │
 └─────────────────────────────────────────────────────────────┘
                               │
         ┌─────────────────────┼─────────────────────┐
         │                     │                     │
         ▼                     ▼                     ▼
-   E-COMMERCE            SaaS/APP              CONTENT
-   - Product pages       - Dashboard           - Blog
-   - Checkout            - Tools               - Portfolio
-   - Catalog             - Admin               - Landing
+   E-COMMERCE            SaaS/APP              CONTENUTI
+   - Pagine prodotto     - Dashboard           - Blog
+   - Checkout            - Strumenti           - Portfolio
+   - Catalogo            - Admin               - Landing
         │                     │                     │
         ▼                     ▼                     ▼
-   PRINCIPLES:           PRINCIPLES:           PRINCIPLES:
-   - Trust               - Functionality       - Storytelling
-   - Action              - Clarity             - Emotion
-   - Urgency             - Efficiency          - Creativity
+   PRINCIPI:             PRINCIPI:             PRINCIPI:
+   - Fiducia             - Funzionalità        - Storytelling
+   - Azione              - Chiarezza           - Emozione
+   - Urgenza             - Efficienza          - Creatività
 ```
 
 ---
 
-## 2. Audience Decision Tree
+## 2. Albero decisionale per pubblico
 
-### Who is your target user?
+### Chi è il tuo pubblico di riferimento?
 
 ```text
-TARGET AUDIENCE
+PUBBLICO DI RIFERIMENTO
       │
-      ├── Gen Z (18-25)
-      │   ├── Colors: Bold, vibrant, unexpected combinations
-      │   ├── Type: Large, expressive, variable
-      │   ├── Layout: Mobile-first, vertical, snackable
-      │   ├── Effects: Motion, gamification, interactive
-      │   └── Approach: Authentic, fast, no corporate feel
+      ├── Gen Z (nati 1997-2012)
+      │   ├── Colori: decisi, vivaci, combinazioni inattese
+      │   ├── Tipografia: grande, espressiva, variabile
+      │   ├── Layout: mobile-first, verticale, a piccole dosi
+      │   ├── Effetti: movimento, gamification, interattività
+      │   └── Approccio: autentico, veloce, niente aria da azienda
       │
-      ├── Millennials (26-41)
-      │   ├── Colors: Muted, earthy, sophisticated
-      │   ├── Type: Clean, readable, functional
-      │   ├── Layout: Responsive, card-based, organized
-      │   ├── Effects: Subtle, purposeful only
-      │   └── Approach: Value-driven, transparent, sustainable
+      ├── Millennial (nati 1981-1996)
+      │   ├── Colori: tenui, terrosi, sofisticati
+      │   ├── Tipografia: pulita, leggibile, funzionale
+      │   ├── Layout: responsive, a card, ordinato
+      │   ├── Effetti: sottili, solo se hanno uno scopo
+      │   └── Approccio: orientato ai valori, trasparente, sostenibile
       │
-      ├── Gen X (42-57)
-      │   ├── Colors: Professional, trusted, conservative
-      │   ├── Type: Familiar, clear, no-nonsense
-      │   ├── Layout: Traditional hierarchy, predictable
-      │   ├── Effects: Minimal, functional feedback
-      │   └── Approach: Direct, efficient, reliable
+      ├── Gen X (nati 1965-1980)
+      │   ├── Colori: professionali, rassicuranti, conservativi
+      │   ├── Tipografia: familiare, chiara, senza fronzoli
+      │   ├── Layout: gerarchia tradizionale, prevedibile
+      │   ├── Effetti: minimi, feedback funzionale
+      │   └── Approccio: diretto, efficiente, affidabile
       │
-      ├── Boomers (58+)
-      │   ├── Colors: High contrast, simple, clear
-      │   ├── Type: Large sizes, high readability
-      │   ├── Layout: Simple, linear, uncluttered
-      │   ├── Effects: None or very minimal
-      │   └── Approach: Clear, detailed, trustworthy
+      ├── Boomer (nati 1946-1964)
+      │   ├── Colori: alto contrasto, semplici, chiari
+      │   ├── Tipografia: dimensioni grandi, alta leggibilità
+      │   ├── Layout: semplice, lineare, senza confusione
+      │   ├── Effetti: nessuno o minimi
+      │   └── Approccio: chiaro, dettagliato, affidabile
       │
       └── B2B / Enterprise
-          ├── Colors: Professional palette, muted
-          ├── Type: Clean, data-friendly, scannable
-          ├── Layout: Grid-based, organized, efficient
-          ├── Effects: Professional, subtle
-          └── Approach: Expert, solution-focused, ROI-driven
+          ├── Colori: palette professionale, tenue
+          ├── Tipografia: pulita, adatta ai dati, facile da scorrere
+          ├── Layout: basato su griglia, ordinato, efficiente
+          ├── Effetti: professionali, sottili
+          └── Approccio: esperto, orientato alle soluzioni e al ROI
 ```
 
 ---
 
-## 3. Color Selection Decision Tree
+## 3. Albero decisionale per il colore
 
-### Instead of fixed hex codes, use this process
+### Invece di codici hex fissi, segui questo processo
 
 ```text
-WHAT EMOTION/ACTION DO YOU WANT?
+QUALE EMOZIONE/AZIONE VUOI OTTENERE?
             │
-            ├── Trust & Security
-            │   └── Consider: Blue family, professional neutrals
-            │       → ASK user for specific shade preference
+            ├── Fiducia e sicurezza
+            │   └── Considera: famiglia dei blu, neutri professionali
+            │       → CHIEDI all'utente la sfumatura che preferisce
             │
-            ├── Growth & Health
-            │   └── Consider: Green family, natural tones
-            │       → ASK user if eco/nature/wellness focus
+            ├── Crescita e salute
+            │   └── Considera: famiglia dei verdi, toni naturali
+            │       → CHIEDI se il focus è eco/natura/benessere
             │
-            ├── Urgency & Action
-            │   └── Consider: Warm colors (orange/red) as ACCENTS
-            │       → Use sparingly, ASK if appropriate
+            ├── Urgenza e azione
+            │   └── Considera: colori caldi (arancio/rosso) come ACCENTI
+            │       → Usali con parsimonia, CHIEDI se sono adatti
             │
-            ├── Luxury & Premium
-            │   └── Consider: Deep darks, metallics, restrained palette
-            │       → ASK about brand positioning
+            ├── Lusso e premium
+            │   └── Considera: scuri profondi, metallici, palette sobria
+            │       → CHIEDI del posizionamento del brand
             │
-            ├── Creative & Playful
-            │   └── Consider: Multi-color, unexpected combinations
-            │       → ASK about brand personality
+            ├── Creativo e giocoso
+            │   └── Considera: più colori, combinazioni inattese
+            │       → CHIEDI della personalità del brand
             │
-            └── Calm & Minimal
-                └── Consider: Neutrals with single accent
-                    → ASK what accent color fits brand
+            └── Calmo e minimal
+                └── Considera: neutri con un solo accento
+                    → CHIEDI quale colore d'accento si adatta al brand
 ```
 
-### The Process
+### Il processo
 
-1. Identify the emotion needed
-2. Narrow to color FAMILY
-3. ASK user for preference within family
-4. Generate fresh palette using HSL principles
+1. Individua l'emozione che serve
+2. Restringi a una FAMIGLIA di colori
+3. CHIEDI all'utente la preferenza all'interno della famiglia
+4. Genera una palette nuova con i principi HSL
 
 ---
 
-## 4. Typography Decision Tree
+## 4. Albero decisionale per la tipografia
 
 ```text
-WHAT'S THE CONTENT TYPE?
+CHE TIPO DI CONTENUTO È?
           │
-          ├── Data-Heavy (Dashboard, SaaS)
-          │   ├── Style: Sans-serif, clear, compact
-          │   ├── Scale: Tighter ratio (1.125-1.2)
-          │   └── Priority: Scannability, density
+          ├── Ricco di dati (dashboard, SaaS)
+          │   ├── Stile: sans-serif, chiaro, compatto
+          │   ├── Scala: rapporto più stretto (1.125-1.2)
+          │   └── Priorità: facilità di scansione, densità
           │
-          ├── Editorial (Blog, Magazine)
-          │   ├── Style: Serif heading + Sans body works well
-          │   ├── Scale: More dramatic (1.333+)
-          │   └── Priority: Reading comfort, hierarchy
+          ├── Editoriale (blog, rivista)
+          │   ├── Stile: titoli serif + testo sans funziona bene
+          │   ├── Scala: più drammatica (1.333+)
+          │   └── Priorità: comfort di lettura, gerarchia
           │
-          ├── Modern Tech (Startup, SaaS Marketing)
-          │   ├── Style: Geometric or humanist sans
-          │   ├── Scale: Balanced (1.25)
-          │   └── Priority: Modern feel, clarity
+          ├── Tech moderno (startup, marketing SaaS)
+          │   ├── Stile: sans geometrico o umanista
+          │   ├── Scala: bilanciata (1.25)
+          │   └── Priorità: aspetto moderno, chiarezza
           │
-          ├── Luxury (Fashion, Premium)
-          │   ├── Style: Elegant serif or thin sans
-          │   ├── Scale: Dramatic (1.5-1.618)
-          │   └── Priority: Sophistication, whitespace
+          ├── Lusso (moda, premium)
+          │   ├── Stile: serif elegante o sans sottile
+          │   ├── Scala: drammatica (1.5-1.618)
+          │   └── Priorità: raffinatezza, spazio bianco
           │
-          └── Playful (Kids, Games, Casual)
-              ├── Style: Rounded, friendly fonts
-              ├── Scale: Varied, expressive
-              └── Priority: Fun, approachable, readable
+          └── Giocoso (bambini, giochi, casual)
+              ├── Stile: font arrotondati, amichevoli
+              ├── Scala: varia, espressiva
+              └── Priorità: divertente, alla mano, leggibile
 ```
 
-### Selection Process
+### Processo di scelta
 
-1. Identify content type
-2. Choose style DIRECTION
-3. ASK user if they have brand fonts
-4. Select fonts that match direction
+1. Individua il tipo di contenuto
+2. Scegli la DIREZIONE stilistica
+3. CHIEDI all'utente se ha font del brand
+4. Scegli font coerenti con la direzione
 
 ---
 
-## 5. E-commerce Guidelines {#e-commerce}
+## 5. Linee guida per l'e-commerce {#e-commerce}
 
-### Key Principles (Not Fixed Rules)
+### Principi chiave (non regole fisse)
 
-- **Trust first:** How will you show security?
-- **Action-oriented:** Where are the CTAs?
-- **Scannable:** Can users compare quickly?
+- **Prima la fiducia:** come mostrerai la sicurezza?
+- **Orientato all'azione:** dove sono le CTA?
+- **Facile da scorrere:** gli utenti possono confrontare in fretta?
 
-### Color Thinking
+### Ragionare sul colore
 
 ```text
-E-commerce typically needs:
-├── Trust color (often blue family) → ASK preference
-├── Clean background (white/neutral) → depends on brand
-├── Action accent (for CTAs, sales) → depends on urgency level
-├── Success/error semantics → standard conventions work
-└── Brand integration → ASK about existing colors
+Di solito l'e-commerce ha bisogno di:
+├── Colore della fiducia (spesso famiglia dei blu) → CHIEDI la preferenza
+├── Sfondo pulito (bianco/neutro) → dipende dal brand
+├── Accento per l'azione (CTA, saldi) → dipende dal livello di urgenza
+├── Semantica successo/errore → le convenzioni standard funzionano
+└── Integrazione col brand → CHIEDI dei colori esistenti
 ```
 
-### Layout Principles
+### Principi di layout
 
 ```text
 ┌────────────────────────────────────────────────────┐
-│  HEADER: Brand + Search + Cart                      │
-│  (Keep essential actions visible)                   │
+│  HEADER: brand + ricerca + carrello                │
+│  (Tieni visibili le azioni essenziali)             │
 ├────────────────────────────────────────────────────┤
-│  TRUST ZONE: Why trust this site?                   │
-│  (Shipping, returns, security - if applicable)      │
+│  ZONA FIDUCIA: perché fidarsi di questo sito?      │
+│  (Spedizioni, resi, sicurezza, se pertinenti)      │
 ├────────────────────────────────────────────────────┤
-│  HERO: Primary message or offer                     │
-│  (Clear CTA, single focus)                          │
+│  HERO: messaggio o offerta principale              │
+│  (CTA chiara, un solo focus)                       │
 ├────────────────────────────────────────────────────┤
-│  CATEGORIES: Easy navigation                        │
-│  (Visual, filterable, scannable)                    │
+│  CATEGORIE: navigazione facile                     │
+│  (Visive, filtrabili, facili da scorrere)          │
 ├────────────────────────────────────────────────────┤
-│  PRODUCTS: Easy comparison                          │
-│  (Price, rating, quick actions visible)             │
+│  PRODOTTI: confronto facile                        │
+│  (Prezzo, valutazione, azioni rapide in vista)     │
 ├────────────────────────────────────────────────────┤
-│  SOCIAL PROOF: Why others trust                     │
-│  (Reviews, testimonials - if available)             │
+│  RIPROVA SOCIALE: perché gli altri si fidano       │
+│  (Recensioni, testimonianze, se disponibili)       │
 ├────────────────────────────────────────────────────┤
-│  FOOTER: All the details                            │
-│  (Policies, contact, trust badges)                  │
+│  FOOTER: tutti i dettagli                          │
+│  (Policy, contatti, badge di fiducia)              │
 └────────────────────────────────────────────────────┘
 ```
 
-### Psychology to Apply
+### Psicologia da applicare
 
-- Hick's Law: Limit navigation choices
-- Fitts' Law: Size CTAs appropriately
-- Social proof: Show where relevant
-- Scarcity: Use honestly if at all
-
----
-
-## 6. SaaS Dashboard Guidelines {#saas}
-
-### Key Principles
-
-- **Functional first:** Data clarity over decoration
-- **Calm UI:** Reduce cognitive load
-- **Consistent:** Predictable patterns
-
-### Color Thinking
-
-```text
-Dashboard typically needs:
-├── Background: Light OR dark (ASK preference)
-├── Surface: Slight contrast from background
-├── Primary accent: For key actions
-├── Data colors: Success/warning/danger semantics
-└── Muted: For secondary information
-```
-
-### Layout Principles
-
-```text
-Consider these patterns (not mandated):
-
-OPTION A: Sidebar + Content
-├── Fixed sidebar for navigation
-└── Main area for content
-
-OPTION B: Top nav + Content
-├── Horizontal navigation
-└── More horizontal content space
-
-OPTION C: Collapsed + Expandable
-├── Icon-only sidebar expands
-└── Maximum content area
-
-→ ASK user about their navigation preference
-```
-
-### Psychology to Apply
-
-- Hick's Law: Group navigation items
-- Miller's Law: Chunk information
-- Cognitive Load: Whitespace, consistency
+- Legge di Hick: limita le scelte di navigazione
+- Legge di Fitts: dimensiona bene le CTA
+- Riprova sociale: mostrala dove serve
+- Scarsità: usala con onestà, se proprio la usi
 
 ---
 
-## 7. Landing Page Guidelines {#landing-page}
+## 6. Linee guida per le dashboard SaaS {#saas}
 
-### Key Principles
+### Principi chiave
 
-- **Hero-centric:** First impression matters most
-- **Single focus:** One primary CTA
-- **Emotional:** Connect before selling
+- **Prima la funzione:** chiarezza dei dati prima della decorazione
+- **UI calma:** riduci il carico cognitivo
+- **Coerente:** pattern prevedibili
 
-### Color Thinking
+### Ragionare sul colore
 
 ```text
-Landing page typically needs:
-├── Brand primary: Hero background or accent
-├── Clean secondary: Most of page
-├── CTA color: Stands out from everything
-├── Supporting: For sections, testimonials
-└── ASK about brand colors first!
+Di solito una dashboard ha bisogno di:
+├── Sfondo: chiaro O scuro (CHIEDI la preferenza)
+├── Superficie: leggero contrasto rispetto allo sfondo
+├── Accento primario: per le azioni chiave
+├── Colori dei dati: semantica successo/avviso/pericolo
+└── Tenue: per le informazioni secondarie
 ```
 
-### Structure Principles
+### Principi di layout
+
+```text
+Valuta questi pattern (non sono obbligatori):
+
+OPZIONE A: sidebar + contenuto
+├── Sidebar fissa per la navigazione
+└── Area principale per il contenuto
+
+OPZIONE B: navigazione in alto + contenuto
+├── Navigazione orizzontale
+└── Più spazio orizzontale per il contenuto
+
+OPZIONE C: compressa + espandibile
+├── Sidebar solo icone che si espande
+└── Massima area per il contenuto
+
+→ CHIEDI all'utente come preferisce la navigazione
+```
+
+### Psicologia da applicare
+
+- Legge di Hick: raggruppa le voci di navigazione
+- Legge di Miller: dividi le informazioni in blocchi
+- Carico cognitivo: spazio bianco, coerenza
+
+---
+
+## 7. Linee guida per le landing page {#landing-page}
+
+### Principi chiave
+
+- **Centrata sull'hero:** la prima impressione conta più di tutto
+- **Un solo focus:** una CTA principale
+- **Emotiva:** crea un legame prima di vendere
+
+### Ragionare sul colore
+
+```text
+Di solito una landing page ha bisogno di:
+├── Primario del brand: sfondo dell'hero o accento
+├── Secondario pulito: gran parte della pagina
+├── Colore della CTA: spicca su tutto il resto
+├── Di supporto: per sezioni e testimonianze
+└── CHIEDI prima dei colori del brand!
+```
+
+### Principi di struttura
 
 ```text
 ┌────────────────────────────────────────────────────┐
-│  Navigation: Minimal, CTA visible                   │
+│  Navigazione: minima, CTA visibile                 │
 ├────────────────────────────────────────────────────┤
-│  HERO: Hook + Value + CTA                          │
-│  (Most important section, biggest impact)           │
+│  HERO: gancio + valore + CTA                       │
+│  (La sezione più importante, massimo impatto)      │
 ├────────────────────────────────────────────────────┤
-│  PROBLEM: What pain do they have?                   │
+│  PROBLEMA: che difficoltà hanno?                   │
 ├────────────────────────────────────────────────────┤
-│  SOLUTION: How you solve it                         │
+│  SOLUZIONE: come la risolvi                        │
 ├────────────────────────────────────────────────────┤
-│  PROOF: Why believe you?                            │
-│  (Testimonials, logos, stats)                       │
+│  PROVE: perché crederti?                           │
+│  (Testimonianze, loghi, numeri)                    │
 ├────────────────────────────────────────────────────┤
-│  HOW: Simple explanation of process                 │
+│  COME: spiegazione semplice del processo           │
 ├────────────────────────────────────────────────────┤
-│  PRICING: If applicable                             │
+│  PREZZI: se applicabile                            │
 ├────────────────────────────────────────────────────┤
-│  FAQ: Address objections                            │
+│  FAQ: rispondi alle obiezioni                      │
 ├────────────────────────────────────────────────────┤
-│  FINAL CTA: Repeat main action                      │
+│  CTA FINALE: ripeti l'azione principale            │
 └────────────────────────────────────────────────────┘
 ```
 
-### Psychology to Apply
+### Psicologia da applicare
 
-- Visceral: Beautiful hero impression
-- Serial Position: Key info top/bottom
-- Social Proof: Testimonials work
+- Viscerale: un hero che colpisce per la bellezza
+- Posizione seriale: informazioni chiave in alto e in fondo
+- Riprova sociale: le testimonianze funzionano
 
 ---
 
-## 8. Portfolio Guidelines {#portfolio}
+## 8. Linee guida per i portfolio {#portfolio}
 
-### Key Principles
+### Principi chiave
 
-- **Personality:** Show who you are
-- **Work-focused:** Let projects speak
-- **Memorable:** Stand out from templates
+- **Personalità:** mostra chi sei
+- **Centrato sui lavori:** lascia parlare i progetti
+- **Memorabile:** distinguiti dai template
 
-### Color Thinking
+### Ragionare sul colore
 
 ```text
-Portfolio is personal - many options:
-├── Minimal: Neutrals + one signature accent
-├── Bold: Unexpected color choices
-├── Dark: Moody, artistic feel
-├── Light: Clean, professional feel
-└── ASK about personal brand identity!
+Il portfolio è personale, le opzioni sono tante:
+├── Minimal: neutri + un accento distintivo
+├── Deciso: scelte di colore inattese
+├── Scuro: atmosfera intensa, artistica
+├── Chiaro: aspetto pulito, professionale
+└── CHIEDI del personal brand!
 ```
 
-### Structure Principles
+### Principi di struttura
 
 ```text
 ┌────────────────────────────────────────────────────┐
-│  Navigation: Unique to your personality             │
+│  Navigazione: in linea con la tua personalità      │
 ├────────────────────────────────────────────────────┤
-│  INTRO: Who you are, what you do                   │
-│  (Make it memorable, not generic)                   │
+│  INTRO: chi sei, cosa fai                          │
+│  (Rendila memorabile, non generica)                │
 ├────────────────────────────────────────────────────┤
-│  WORK: Featured projects                            │
-│  (Large, visual, interactive)                       │
+│  LAVORI: progetti in evidenza                      │
+│  (Grandi, visivi, interattivi)                     │
 ├────────────────────────────────────────────────────┤
-│  ABOUT: Personal story                              │
-│  (Creates connection)                               │
+│  CHI SONO: storia personale                        │
+│  (Crea un legame)                                  │
 ├────────────────────────────────────────────────────┤
-│  CONTACT: Easy to reach                             │
-│  (Clear, direct)                                    │
+│  CONTATTI: facile da raggiungere                   │
+│  (Chiaro, diretto)                                 │
 └────────────────────────────────────────────────────┘
 ```
 
-### Psychology to Apply
+### Psicologia da applicare
 
-- Von Restorff: Be uniquely memorable
-- Reflective: Personal story creates connection
-- Emotional: Personality over professionalism
-
----
-
-## 9. Pre-Design Checklists
-
-### Before Starting ANY Design
-
-- [ ] **Audience defined?** (who exactly)
-- [ ] **Primary goal identified?** (what action)
-- [ ] **Constraints known?** (time, brand, tech)
-- [ ] **Content available?** (or placeholders needed)
-- [ ] **User preferences asked?** (colors, style, layout)
-
-### Before Choosing Colors
-
-- [ ] **Asked user preference?**
-- [ ] **Considered context?** (industry, emotion)
-- [ ] **Different from your default?**
-- [ ] **Checked accessibility?**
-
-### Before Finalizing Layout
-
-- [ ] **Hierarchy clear?**
-- [ ] **Primary CTA obvious?**
-- [ ] **Mobile considered?**
-- [ ] **Content fits structure?**
-
-### Before Delivery
-
-- [ ] **Looks premium, not generic?**
-- [ ] **Would you be proud of this?**
-- [ ] **Different from last project?**
+- Von Restorff: sii memorabile in modo unico
+- Riflessivo: la storia personale crea un legame
+- Emotivo: la personalità conta più della professionalità
 
 ---
 
-## 10. Complexity Estimation
+## 9. Checklist prima del design
 
-### Quick Projects (Hours)
+### Prima di iniziare QUALSIASI design
 
-```text
-Simple landing page
-Small portfolio
-Basic form
-Single component
-```
+- [ ] **Pubblico definito?** (chi, esattamente)
+- [ ] **Obiettivo principale individuato?** (quale azione)
+- [ ] **Vincoli noti?** (tempi, brand, tecnologia)
+- [ ] **Contenuti disponibili?** (o servono segnaposto)
+- [ ] **Preferenze chieste all'utente?** (colori, stile, layout)
 
-→ Approach: Minimal decisions, focused execution
+### Prima di scegliere i colori
 
-### Medium Projects (Days)
+- [ ] **Hai chiesto la preferenza all'utente?**
+- [ ] **Hai considerato il contesto?** (settore, emozione)
+- [ ] **È diverso dal tuo default?**
+- [ ] **Hai verificato l'accessibilità?**
 
-```text
-Multi-page site
-Dashboard with modules
-E-commerce category
-Complex forms
-```
+### Prima di definire il layout
 
-→ Approach: Establish tokens, custom components
+- [ ] **Gerarchia chiara?**
+- [ ] **CTA principale evidente?**
+- [ ] **Mobile considerato?**
+- [ ] **I contenuti stanno nella struttura?**
 
-### Large Projects (Weeks)
+### Prima della consegna
 
-```text
-Full SaaS application
-E-commerce platform
-Custom design system
-Complex workflows
-```
-
-→ Approach: Full design system, documentation, testing
+- [ ] **Sembra premium, non generico?**
+- [ ] **Ne andresti fiero?**
+- [ ] **È diverso dall'ultimo progetto?**
 
 ---
 
-> **Remember**: These templates show STRUCTURE and THINKING process. Every project needs fresh color, typography, and styling decisions based on its unique context. ASK when unclear.
+## 10. Stima della complessità
+
+### Progetti rapidi (ore)
+
+```text
+Landing page semplice
+Portfolio piccolo
+Form di base
+Singolo componente
+```
+
+→ Approccio: poche decisioni, esecuzione mirata
+
+### Progetti medi (giorni)
+
+```text
+Sito multipagina
+Dashboard con moduli
+Categoria di e-commerce
+Form complessi
+```
+
+→ Approccio: definisci i token, componenti personalizzati
+
+### Progetti grandi (settimane)
+
+```text
+Applicazione SaaS completa
+Piattaforma e-commerce
+Design system personalizzato
+Workflow complessi
+```
+
+→ Approccio: design system completo, documentazione, test
+
+---
+
+> **Ricorda**: questi template mostrano la STRUTTURA e il processo di RAGIONAMENTO. Ogni progetto richiede scelte nuove di colori, tipografia e stile, basate sul suo contesto. CHIEDI quando qualcosa non è chiaro.

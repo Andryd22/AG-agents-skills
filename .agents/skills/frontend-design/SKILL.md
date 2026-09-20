@@ -1,435 +1,436 @@
 ---
 name: frontend-design
-description: Design thinking and decision-making for web UI. Use when designing components, layouts, color schemes, typography, or creating aesthetic interfaces. Teaches principles, not fixed values.
+description: Pensiero progettuale e scelte di design per le UI web. Usala quando progetti componenti, layout, palette di colori, tipografia o interfacce curate nell'estetica. Insegna principi, non valori fissi.
 ---
 
-# Frontend Design System
+# Design system per il frontend
 
-> **Philosophy:** Every pixel has purpose. Restraint is luxury. User psychology drives decisions.
-> **Core Principle:** THINK, don't memorize. ASK, don't assume.
-
----
-
-## 🎯 Selective Reading Rule (MANDATORY)
-
-**Read REQUIRED files always, OPTIONAL only when needed:**
-
-| File | Status | When to Read |
-| ------ | -------- | -------------- |
-| [ux-psychology.md](ux-psychology.md) | 🔴 **REQUIRED** | Always read first! |
-| [color-system.md](color-system.md) | ⚪ Optional | Color/palette decisions |
-| [typography-system.md](typography-system.md) | ⚪ Optional | Font selection/pairing |
-| [visual-effects.md](visual-effects.md) | ⚪ Optional | Glassmorphism, shadows, gradients |
-| [animation-guide.md](animation-guide.md) | ⚪ Optional | Animation needed |
-| [motion-graphics.md](motion-graphics.md) | ⚪ Optional | Lottie, GSAP, 3D |
-| [decision-trees.md](decision-trees.md) | ⚪ Optional | Context templates |
-
-> 🔴 **ux-psychology.md = ALWAYS READ. Others = only if relevant.**
+> **Filosofia:** ogni pixel ha uno scopo. La sobrietà è lusso. Le decisioni le guida la psicologia dell'utente.
+> **Principio chiave:** PENSA, non memorizzare. CHIEDI, non dare per scontato.
 
 ---
 
-## 🔧 Runtime Scripts
+## 🎯 Regola di lettura selettiva (OBBLIGATORIA)
 
-**Execute these for audits (don't read, just run):**
+**Leggi sempre i file OBBLIGATORI, quelli FACOLTATIVI solo se servono:**
 
-| Script | Purpose | Usage |
+| File | Stato | Quando leggerlo |
 | --- | --- | --- |
-| `scripts/ux_audit.py` | UX Psychology & Accessibility Audit | `python scripts/ux_audit.py <project_path>` |
+| [ux-psychology.md](ux-psychology.md) | 🔴 **OBBLIGATORIO** | Sempre, per primo! |
+| [color-system.md](color-system.md) | ⚪ Facoltativo | Scelte di colori e palette |
+| [typography-system.md](typography-system.md) | ⚪ Facoltativo | Scelta e abbinamento dei font |
+| [visual-effects.md](visual-effects.md) | ⚪ Facoltativo | Glassmorphism, ombre, gradienti |
+| [animation-guide.md](animation-guide.md) | ⚪ Facoltativo | Quando servono animazioni |
+| [motion-graphics.md](motion-graphics.md) | ⚪ Facoltativo | Lottie, GSAP, 3D |
+| [decision-trees.md](decision-trees.md) | ⚪ Facoltativo | Template per contesto |
+
+> 🔴 **ux-psychology.md = LEGGILO SEMPRE. Gli altri = solo se pertinenti.**
 
 ---
 
-## ⚠️ CRITICAL: ASK BEFORE ASSUMING (MANDATORY)
+## 🔧 Script da eseguire
 
-> **STOP! If the user's request is open-ended, DO NOT default to your favorites.**
+**Eseguili per gli audit (non leggerli, lanciali e basta):**
 
-### When User Prompt is Vague, ASK
-
-**Color not specified?** Ask:
-> "What color palette do you prefer? (blue/green/orange/neutral/other?)"
-
-**Style not specified?** Ask:
-> "What style are you going for? (minimal/bold/retro/futuristic/organic?)"
-
-**Layout not specified?** Ask:
-> "Do you have a layout preference? (single column/grid/asymmetric/full-width?)"
-
-### ⛔ DEFAULT TENDENCIES TO AVOID (ANTI-SAFE HARBOR)
-
-| AI Default Tendency | Why It's Bad | Think Instead |
-| --------------------- | -------------- | --------------- |
-| **Bento Grids (Modern Cliché)** | Used in every AI design | Why does this content NEED a grid? |
-| **Hero Split (Left/Right)** | Predictable & Boring | How about Massive Typography or Vertical Narrative? |
-| **Mesh/Aurora Gradients** | The "new" lazy background | What's a radical color pairing? |
-| **Glassmorphism** | AI's idea of "premium" | How about solid, high-contrast flat? |
-| **Deep Cyan / Fintech Blue** | Safe harbor from purple ban | Why not Red, Black, or Neon Green? |
-| **"Orchestrate / Empower"** | AI-generated copywriting | How would a human say this? |
-| Dark background + neon glow | Overused, "AI look" | What does the BRAND actually need? |
-| **Rounded everything** | Generic/Safe | Where can I use sharp, brutalist edges? |
-
-> 🔴 **"Every 'safe' structure you choose brings you one step closer to a generic template. TAKE RISKS."**
+| Script | A cosa serve | Uso |
+| --- | --- | --- |
+| `scripts/ux_audit.py` | Audit di psicologia UX e accessibilità | `python .agents/skills/frontend-design/scripts/ux_audit.py <cartella_progetto>` |
+| `scripts/accessibility_checker.py` | Audit WCAG di HTML/JSX/TSX | `python .agents/skills/frontend-design/scripts/accessibility_checker.py <cartella_progetto>` |
 
 ---
 
-## 1. Constraint Analysis (ALWAYS FIRST)
+## ⚠️ CRITICO: CHIEDI PRIMA DI DARE PER SCONTATO (OBBLIGATORIO)
 
-Before any design work, ANSWER THESE or ASK USER:
+> **FERMATI! Se la richiesta dell'utente è aperta, NON ripiegare sulle tue scelte preferite.**
 
-| Constraint | Question | Why It Matters |
-| ------------ | ---------- | ---------------- |
-| **Timeline** | How much time? | Determines complexity |
-| **Content** | Ready or placeholder? | Affects layout flexibility |
-| **Brand** | Existing guidelines? | May dictate colors/fonts |
-| **Tech** | What stack? | Affects capabilities |
-| **Audience** | Who exactly? | Drives all visual decisions |
+### Se la richiesta dell'utente è vaga, CHIEDI
 
-### Audience → Design Approach
+**Colore non indicato?** Chiedi:
+> "Che palette di colori preferisci? (blu/verde/arancio/neutra/altro?)"
 
-| Audience | Think About |
-| ---------- | ------------- |
-| **Gen Z** | Bold, fast, mobile-first, authentic |
-| **Millennials** | Clean, minimal, value-driven |
-| **Gen X** | Familiar, trustworthy, clear |
-| **Boomers** | Readable, high contrast, simple |
-| **B2B** | Professional, data-focused, trust |
-| **Luxury** | Restrained elegance, whitespace |
+**Stile non indicato?** Chiedi:
+> "Che stile cerchi? (minimal/deciso/retrò/futuristico/organico?)"
 
----
+**Layout non indicato?** Chiedi:
+> "Hai una preferenza per il layout? (colonna singola/griglia/asimmetrico/a tutta larghezza?)"
 
-## 2. UX Psychology Principles
+### ⛔ TENDENZE PREDEFINITE DA EVITARE (NIENTE PORTO SICURO)
 
-### Core Laws (Internalize These)
+| Tendenza predefinita dell'AI | Perché è un problema | Pensa invece |
+| --- | --- | --- |
+| **Bento grid (cliché moderno)** | Compare in ogni design fatto dall'AI | Perché questo contenuto HA BISOGNO di una griglia? |
+| **Hero diviso (sinistra/destra)** | Prevedibile e noioso | Perché non una tipografia enorme o una narrazione verticale? |
+| **Gradienti mesh/aurora** | Il "nuovo" sfondo pigro | Qual è un abbinamento di colori radicale? |
+| **Glassmorphism** | L'idea di "premium" dell'AI | Perché non un flat pieno e ad alto contrasto? |
+| **Ciano scuro / blu fintech** | Il porto sicuro dopo il divieto del viola | Perché non rosso, nero o verde neon? |
+| **"Orchestrare / Potenziare"** | Copy scritto dall'AI | Come lo direbbe una persona? |
+| Sfondo scuro + bagliore neon | Abusato, "look da AI" | Di cosa ha BISOGNO davvero il BRAND? |
+| **Tutto arrotondato** | Generico, sicuro | Dove posso usare spigoli vivi, brutalisti? |
 
-| Law | Principle | Application |
-| ----- | ----------- | ------------- |
-| **Hick's Law** | More choices = slower decisions | Limit options, use progressive disclosure |
-| **Fitts' Law** | Bigger + closer = easier to click | Size CTAs appropriately |
-| **Miller's Law** | ~7 items in working memory | Chunk content into groups |
-| **Von Restorff** | Different = memorable | Make CTAs visually distinct |
-| **Serial Position** | First/last remembered most | Key info at start/end |
-
-### Emotional Design Levels
-
-```text
-VISCERAL (instant)  → First impression: colors, imagery, overall feel
-BEHAVIORAL (use)    → Using it: speed, feedback, efficiency
-REFLECTIVE (memory) → After: "I like what this says about me"
-```
-
-### Trust Building
-
-- Security indicators on sensitive actions
-- Social proof where relevant
-- Clear contact/support access
-- Consistent, professional design
-- Transparent policies
+> 🔴 **"Ogni struttura 'sicura' che scegli ti avvicina di un passo a un template generico. RISCHIA."**
 
 ---
 
-## 3. Layout Principles
+## 1. Analisi dei vincoli (SEMPRE PER PRIMA)
 
-### Golden Ratio (φ = 1.618)
+Prima di qualsiasi lavoro di design, RISPONDI a queste domande o CHIEDI all'utente:
 
-```text
-Use for proportional harmony:
-├── Content : Sidebar = roughly 62% : 38%
-├── Each heading size = previous × 1.618 (for dramatic scale)
-├── Spacing can follow: sm → md → lg (each × 1.618)
-```
+| Vincolo | Domanda | Perché conta |
+| --- | --- | --- |
+| **Tempi** | Quanto tempo c'è? | Determina la complessità |
+| **Contenuti** | Pronti o segnaposto? | Incide sulla flessibilità del layout |
+| **Brand** | Ci sono linee guida? | Possono imporre colori e font |
+| **Tecnologia** | Quale stack? | Incide su cosa puoi fare |
+| **Pubblico** | Chi, esattamente? | Guida tutte le scelte visive |
 
-### 8-Point Grid Concept
+### Pubblico → approccio al design
 
-```text
-All spacing and sizing in multiples of 8:
-├── Tight: 4px (half-step for micro)
-├── Small: 8px
-├── Medium: 16px
-├── Large: 24px, 32px
-├── XL: 48px, 64px, 80px
-└── Adjust based on content density
-```
-
-### Key Sizing Principles
-
-| Element | Consideration |
-| --------- | --------------- |
-| **Touch targets** | Minimum comfortable tap size |
-| **Buttons** | Height based on importance hierarchy |
-| **Inputs** | Match button height for alignment |
-| **Cards** | Consistent padding, breathable |
-| **Reading width** | 45-75 characters optimal |
-
----
-
-## 4. Color Principles
-
-### 60-30-10 Rule
-
-```text
-60% → Primary/Background (calm, neutral base)
-30% → Secondary (supporting areas)
-10% → Accent (CTAs, highlights, attention)
-```
-
-### Color Psychology (For Decision Making)
-
-| If You Need... | Consider Hues | Avoid |
-| ---------------- | --------------- | ------- |
-| Trust, calm | Blue family | Aggressive reds |
-| Growth, nature | Green family | Industrial grays |
-| Energy, urgency | Orange, red | Passive blues |
-| Luxury, creativity | Deep Teal, Gold, Emerald | Cheap-feeling brights |
-| Clean, minimal | Neutrals | Overwhelming color |
-
-### Selection Process
-
-1. **What's the industry?** (narrows options)
-2. **What's the emotion?** (picks primary)
-3. **Light or dark mode?** (sets foundation)
-4. **ASK USER** if not specified
-
-For detailed color theory: [color-system.md](color-system.md)
-
----
-
-## 5. Typography Principles
-
-### Scale Selection
-
-| Content Type | Scale Ratio | Feel |
-| -------------- | ------------- | ------ |
-| Dense UI | 1.125-1.2 | Compact, efficient |
-| General web | 1.25 | Balanced (most common) |
-| Editorial | 1.333 | Readable, spacious |
-| Hero/display | 1.5-1.618 | Dramatic impact |
-
-### Pairing Concept
-
-```text
-Contrast + Harmony:
-├── DIFFERENT enough for hierarchy
-├── SIMILAR enough for cohesion
-└── Usually: display + neutral, or serif + sans
-```
-
-### Readability Rules
-
-- **Line length**: 45-75 characters optimal
-- **Line height**: 1.4-1.6 for body text
-- **Contrast**: Check WCAG requirements
-- **Size**: 16px+ for body on web
-
-For detailed typography: [typography-system.md](typography-system.md)
-
----
-
-## 6. Visual Effects Principles
-
-### Glassmorphism (When Appropriate)
-
-```text
-Key properties:
-├── Semi-transparent background
-├── Backdrop blur
-├── Subtle border for definition
-└── ⚠️ **WARNING:** Standard blue/white glassmorphism is a modern cliché. Use it radically or not at all.
-```
-
-### Shadow Hierarchy
-
-```text
-Elevation concept:
-├── Higher elements = larger shadows
-├── Y-offset > X-offset (light from above)
-├── Multiple layers = more realistic
-└── Dark mode: may need glow instead
-```
-
-### Gradient Usage
-
-```text
-Harmonious gradients:
-├── Adjacent colors on wheel (analogous)
-├── OR same hue, different lightness
-├── Avoid harsh complementary pairs
-├── 🚫 **NO Mesh/Aurora Gradients** (floating blobs)
-└── VARY from project to project radically
-```
-
-For complete effects guide: [visual-effects.md](visual-effects.md)
-
----
-
-## 7. Animation Principles
-
-### Timing Concept
-
-```text
-Duration based on:
-├── Distance (further = longer)
-├── Size (larger = slower)
-├── Importance (critical = clear)
-└── Context (urgent = fast, luxury = slow)
-```
-
-### Easing Selection
-
-| Action | Easing | Why |
-| -------- | -------- | ----- |
-| Entering | Ease-out | Decelerate, settle in |
-| Leaving | Ease-in | Accelerate, exit |
-| Emphasis | Ease-in-out | Smooth, deliberate |
-| Playful | Bounce | Fun, energetic |
-
-### Performance
-
-- Animate only transform and opacity
-- Respect reduced-motion preference
-- Test on low-end devices
-
-For animation patterns: [animation-guide.md](animation-guide.md), for advanced: [motion-graphics.md](motion-graphics.md)
-
----
-
-## 8. "Wow Factor" Checklist
-
-### Premium Indicators
-
-- [ ] Generous whitespace (luxury = breathing room)
-- [ ] Subtle depth and dimension
-- [ ] Smooth, purposeful animations
-- [ ] Attention to detail (alignment, consistency)
-- [ ] Cohesive visual rhythm
-- [ ] Custom elements (not all defaults)
-
-### Trust Builders
-
-- [ ] Security cues where appropriate
-- [ ] Social proof / testimonials
-- [ ] Clear value proposition
-- [ ] Professional imagery
-- [ ] Consistent design language
-
-### Emotional Triggers
-
-- [ ] Hero that evokes intended emotion
-- [ ] Human elements (faces, stories)
-- [ ] Progress/achievement indicators
-- [ ] Moments of delight
-
----
-
-## 9. Anti-Patterns (What NOT to Do)
-
-### ❌ Lazy Design Indicators
-
-- Default system fonts without consideration
-- Stock imagery that doesn't match
-- Inconsistent spacing
-- Too many competing colors
-- Walls of text without hierarchy
-- Inaccessible contrast
-
-### ❌ AI Tendency Patterns (AVOID!)
-
-- **Same colors every project**
-- **Dark + neon as default**
-- **Purple/violet everything (PURPLE BAN ✅)**
-- **Bento grids for simple landing pages**
-- **Mesh Gradients & Glow Effects**
-- **Same layout structure / Vercel clone**
-- **Not asking user preferences**
-
-### ❌ Dark Patterns (Unethical)
-
-- Hidden costs
-- Fake urgency
-- Forced actions
-- Deceptive UI
-- Confirmshaming
-
----
-
-## 10. Decision Process Summary
-
-```text
-For EVERY design task:
-
-1. CONSTRAINTS
-   └── What's the timeline, brand, tech, audience?
-   └── If unclear → ASK
-
-2. CONTENT
-   └── What content exists?
-   └── What's the hierarchy?
-
-3. STYLE DIRECTION
-   └── What's appropriate for context?
-   └── If unclear → ASK (don't default!)
-
-4. EXECUTION
-   └── Apply principles above
-   └── Check against anti-patterns
-
-5. REVIEW
-   └── "Does this serve the user?"
-   └── "Is this different from my defaults?"
-   └── "Would I be proud of this?"
-```
-
----
-
-## Reference Files
-
-For deeper guidance on specific areas:
-
-- [color-system.md](color-system.md) - Color theory and selection process
-- [typography-system.md](typography-system.md) - Font pairing and scale decisions
-- [visual-effects.md](visual-effects.md) - Effects principles and techniques
-- [animation-guide.md](animation-guide.md) - Motion design principles
-- [motion-graphics.md](motion-graphics.md) - Advanced: Lottie, GSAP, SVG, 3D, Particles
-- [decision-trees.md](decision-trees.md) - Context-specific templates
-- [ux-psychology.md](ux-psychology.md) - User psychology deep dive
-
----
-
-## Related Skills
-
-| Skill | When to Use |
+| Pubblico | A cosa pensare |
 | --- | --- |
-| **frontend-design** (this) | Before coding - Learn design principles (color, typography, UX psychology) |
-| **[web-design-guidelines](../web-design-guidelines/SKILL.md)** | After coding - Audit for accessibility, performance, and best practices |
+| **Gen Z** | Deciso, veloce, mobile-first, autentico |
+| **Millennial** | Pulito, minimal, orientato ai valori |
+| **Gen X** | Familiare, affidabile, chiaro |
+| **Boomer** | Leggibile, alto contrasto, semplice |
+| **B2B** | Professionale, centrato sui dati, fiducia |
+| **Lusso** | Eleganza sobria, spazio bianco |
 
-## Post-Design Workflow
+---
 
-After implementing your design, run the audit:
+## 2. Principi di psicologia UX
+
+### Leggi fondamentali (interiorizzale)
+
+| Legge | Principio | Applicazione |
+| --- | --- | --- |
+| **Legge di Hick** | Più scelte = decisioni più lente | Limita le opzioni, usa la progressive disclosure |
+| **Legge di Fitts** | Più grande + più vicino = più facile da cliccare | Dimensiona bene le CTA |
+| **Legge di Miller** | ~7 elementi nella memoria di lavoro | Raggruppa i contenuti in blocchi |
+| **Effetto Von Restorff** | Diverso = memorabile | Rendi le CTA visivamente distinte |
+| **Posizione seriale** | Si ricordano di più il primo e l'ultimo | Informazioni chiave all'inizio e alla fine |
+
+### Livelli del design emotivo
 
 ```text
-1. DESIGN   → Read frontend-design principles ← YOU ARE HERE
-2. CODE     → Implement the design
-3. AUDIT    → Run web-design-guidelines review
-4. FIX      → Address findings from audit
+VISCERALE (istante)   → Prima impressione: colori, immagini, sensazione generale
+COMPORTAMENTALE (uso) → Durante l'uso: velocità, feedback, efficienza
+RIFLESSIVO (ricordo)  → Dopo: "Mi piace quello che dice di me"
 ```
 
-> **Next Step:** After coding, use `web-design-guidelines` skill to audit your implementation for accessibility, focus states, animations, and performance issues.
+### Costruire la fiducia
+
+- Indicatori di sicurezza nelle azioni sensibili
+- Riprova sociale dove serve
+- Accesso chiaro a contatti e assistenza
+- Design coerente e professionale
+- Policy trasparenti
 
 ---
 
-> **Remember:** Design is THINKING, not copying. Every project deserves fresh consideration based on its unique context and users. **Avoid the Modern SaaS Safe Harbor!**
+## 3. Principi di layout
+
+### Sezione aurea (φ = 1.618)
+
+```text
+Usala per proporzioni armoniose:
+├── Contenuto : sidebar = circa 62% : 38%
+├── Ogni dimensione dei titoli = precedente × 1.618 (per una scala d'impatto)
+├── La spaziatura può seguire: sm → md → lg (ognuno × 1.618)
+```
+
+### Griglia da 8 punti
+
+```text
+Tutte le spaziature e le dimensioni in multipli di 8:
+├── Stretto: 4px (mezzo passo per i micro-dettagli)
+├── Piccolo: 8px
+├── Medio: 16px
+├── Grande: 24px, 32px
+├── XL: 48px, 64px, 80px
+└── Adatta in base alla densità dei contenuti
+```
+
+### Principi chiave di dimensionamento
+
+| Elemento | Cosa considerare |
+| --- | --- |
+| **Touch target** | Dimensione minima comoda per il tocco |
+| **Pulsanti** | Altezza in base alla gerarchia di importanza |
+| **Input** | Stessa altezza dei pulsanti, per l'allineamento |
+| **Card** | Padding coerente, che lasci respirare |
+| **Larghezza di lettura** | Ottimale 45-75 caratteri |
 
 ---
 
-## 5. Next.js 16+ Modern Form Patterns
+## 4. Principi del colore
+
+### Regola 60-30-10
+
+```text
+60% → Primario/sfondo (base calma e neutra)
+30% → Secondario (aree di supporto)
+10% → Accento (CTA, evidenziazioni, attenzione)
+```
+
+### Psicologia del colore (per decidere)
+
+| Se ti serve... | Considera le tonalità | Evita |
+| --- | --- | --- |
+| Fiducia, calma | Famiglia dei blu | Rossi aggressivi |
+| Crescita, natura | Famiglia dei verdi | Grigi industriali |
+| Energia, urgenza | Arancio, rosso | Blu passivi |
+| Lusso, creatività | Verde petrolio scuro, oro, smeraldo | Colori accesi che sanno di economico |
+| Pulito, minimal | Neutri | Troppo colore |
+
+### Processo di scelta
+
+1. **Qual è il settore?** (restringe le opzioni)
+2. **Qual è l'emozione?** (sceglie il primario)
+3. **Light o dark mode?** (definisce la base)
+4. **CHIEDI ALL'UTENTE** se non è specificato
+
+Per la teoria del colore nel dettaglio: [color-system.md](color-system.md)
+
+---
+
+## 5. Principi di tipografia
+
+### Scelta della scala
+
+| Tipo di contenuto | Rapporto di scala | Effetto |
+| --- | --- | --- |
+| UI densa | 1.125-1.2 | Compatta, efficiente |
+| Web generico | 1.25 | Bilanciata (la più comune) |
+| Editoriale | 1.333 | Leggibile, ariosa |
+| Hero/display | 1.5-1.618 | Impatto drammatico |
+
+### Abbinamento dei font
+
+```text
+Contrasto + armonia:
+├── Abbastanza DIVERSI per creare gerarchia
+├── Abbastanza SIMILI per restare coerenti
+└── Di solito: display + neutro, oppure serif + sans
+```
+
+### Regole di leggibilità
+
+- **Lunghezza della riga**: ottimale 45-75 caratteri
+- **Interlinea**: 1.4-1.6 per il testo
+- **Contrasto**: verifica i requisiti WCAG
+- **Dimensione**: almeno 16px per il testo sul web
+
+Per la tipografia nel dettaglio: [typography-system.md](typography-system.md)
+
+---
+
+## 6. Principi degli effetti visivi
+
+### Glassmorphism (quando è appropriato)
+
+```text
+Proprietà chiave:
+├── Sfondo semitrasparente
+├── Sfocatura dello sfondo (backdrop blur)
+├── Bordo sottile per definire la forma
+└── ⚠️ **ATTENZIONE:** il glassmorphism standard blu/bianco è un cliché moderno. Usalo in modo radicale o non usarlo.
+```
+
+### Gerarchia delle ombre
+
+```text
+Concetto di elevazione:
+├── Elementi più in alto = ombre più ampie
+├── Offset Y > offset X (luce dall'alto)
+├── Più livelli = più realismo
+└── Dark mode: può servire un bagliore (glow) al posto dell'ombra
+```
+
+### Uso dei gradienti
+
+```text
+Gradienti armoniosi:
+├── Colori adiacenti sulla ruota (analoghi)
+├── OPPURE stessa tonalità, luminosità diversa
+├── Evita coppie complementari stridenti
+├── 🚫 **NIENTE gradienti mesh/aurora** (blob fluttuanti)
+└── CAMBIA radicalmente da un progetto all'altro
+```
+
+Per la guida completa agli effetti: [visual-effects.md](visual-effects.md)
+
+---
+
+## 7. Principi di animazione
+
+### Tempi
+
+```text
+La durata dipende da:
+├── Distanza (più lontano = più lunga)
+├── Dimensione (più grande = più lenta)
+├── Importanza (critica = chiara)
+└── Contesto (urgente = veloce, lusso = lenta)
+```
+
+### Scelta dell'easing
+
+| Azione | Easing | Perché |
+| --- | --- | --- |
+| Entrata | Ease-out | Rallenta e si assesta |
+| Uscita | Ease-in | Accelera ed esce |
+| Enfasi | Ease-in-out | Fluida, intenzionale |
+| Giocosa | Bounce | Divertente, energica |
+
+### Prestazioni
+
+- Anima solo transform e opacity
+- Rispetta la preferenza per il movimento ridotto (reduced motion)
+- Testa su dispositivi di fascia bassa
+
+Per i pattern di animazione: [animation-guide.md](animation-guide.md), per quelli avanzati: [motion-graphics.md](motion-graphics.md)
+
+---
+
+## 8. Checklist "effetto wow"
+
+### Segnali di qualità premium
+
+- [ ] Spazio bianco generoso (lusso = respiro)
+- [ ] Profondità e dimensione sottili
+- [ ] Animazioni fluide e con uno scopo
+- [ ] Cura dei dettagli (allineamento, coerenza)
+- [ ] Ritmo visivo coerente
+- [ ] Elementi personalizzati (non tutto di default)
+
+### Elementi che creano fiducia
+
+- [ ] Segnali di sicurezza dove servono
+- [ ] Riprova sociale / testimonianze
+- [ ] Proposta di valore chiara
+- [ ] Immagini professionali
+- [ ] Linguaggio di design coerente
+
+### Leve emotive
+
+- [ ] Hero che suscita l'emozione voluta
+- [ ] Elementi umani (volti, storie)
+- [ ] Indicatori di progresso e traguardi
+- [ ] Piccoli momenti di sorpresa piacevole
+
+---
+
+## 9. Anti-pattern (cosa NON fare)
+
+### ❌ Segnali di design pigro
+
+- Font di sistema predefiniti scelti senza riflettere
+- Foto stock che non c'entrano
+- Spaziature incoerenti
+- Troppi colori in competizione
+- Muri di testo senza gerarchia
+- Contrasto non accessibile
+
+### ❌ Pattern tipici dell'AI (EVITALI!)
+
+- **Stessi colori in ogni progetto**
+- **Scuro + neon come default**
+- **Viola/violetto ovunque (DIVIETO DEL VIOLA ✅)**
+- **Bento grid per landing page semplici**
+- **Gradienti mesh ed effetti glow**
+- **Stessa struttura di layout / clone di Vercel**
+- **Non chiedere le preferenze all'utente**
+
+### ❌ Dark pattern (non etici)
+
+- Costi nascosti
+- Falsa urgenza
+- Azioni forzate
+- UI ingannevole
+- Confirmshaming (far sentire in colpa chi rifiuta)
+
+---
+
+## 10. Riepilogo del processo decisionale
+
+```text
+Per OGNI attività di design:
+
+1. VINCOLI
+   └── Quali sono tempi, brand, tecnologia e pubblico?
+   └── Se non è chiaro → CHIEDI
+
+2. CONTENUTI
+   └── Quali contenuti esistono?
+   └── Qual è la gerarchia?
+
+3. DIREZIONE STILISTICA
+   └── Cosa è adatto al contesto?
+   └── Se non è chiaro → CHIEDI (niente default!)
+
+4. ESECUZIONE
+   └── Applica i principi qui sopra
+   └── Confronta il risultato con gli anti-pattern
+
+5. REVISIONE
+   └── "Serve davvero all'utente?"
+   └── "È diverso dalle mie scelte di default?"
+   └── "Ne andrei fiero?"
+```
+
+---
+
+## File di riferimento
+
+Per approfondire aree specifiche:
+
+- [color-system.md](color-system.md) - Teoria del colore e processo di scelta
+- [typography-system.md](typography-system.md) - Abbinamento dei font e scelta della scala
+- [visual-effects.md](visual-effects.md) - Principi e tecniche degli effetti
+- [animation-guide.md](animation-guide.md) - Principi di motion design
+- [motion-graphics.md](motion-graphics.md) - Avanzato: Lottie, GSAP, SVG, 3D, particelle
+- [decision-trees.md](decision-trees.md) - Template specifici per contesto
+- [ux-psychology.md](ux-psychology.md) - Psicologia dell'utente in profondità
+
+---
+
+## Skill collegate
+
+| Skill | Quando usarla |
+| --- | --- |
+| **frontend-design** (questa) | Prima di scrivere codice: impara i principi di design (colore, tipografia, psicologia UX) |
+| **[web-design-guidelines](../web-design-guidelines/SKILL.md)** | Dopo aver scritto il codice: audit di accessibilità, prestazioni e buone pratiche |
+
+## Workflow dopo il design
+
+Dopo aver implementato il design, esegui l'audit:
+
+```text
+1. DESIGN   → Leggi i principi di frontend-design ← SEI QUI
+2. CODICE   → Implementa il design
+3. AUDIT    → Esegui la revisione con web-design-guidelines
+4. CORREGGI → Risolvi i problemi emersi dall'audit
+```
+
+> **Passo successivo:** dopo aver scritto il codice, usa la skill `web-design-guidelines` per verificare l'implementazione: accessibilità, stati di focus, animazioni e prestazioni.
+
+---
+
+> **Ricorda:** il design è PENSARE, non copiare. Ogni progetto merita una riflessione nuova, basata sul suo contesto e sui suoi utenti. **Evita il porto sicuro del SaaS moderno!**
+
+---
+
+## 11. Pattern moderni per i form in Next.js 16+
 
 > [!IMPORTANT]
-> For Next.js 16+ projects, use the native `next/form` component instead of standard HTML `<form>` for all GET-based search/filter operations.
+> Nei progetti Next.js 16+ usa il componente nativo `next/form` al posto del normale `<form>` HTML per tutte le operazioni di ricerca e filtro basate su GET.
 
-### The `<Form>` Component Advantage
+### I vantaggi del componente `<Form>`
 
-- **Automatic Client Navigation:** Performs client-side transitions on submit.
-- **Progressive Enhancement:** Works even without JavaScript.
-- **URL Sync:** Automatically encodes input values into search params.
+- **Navigazione automatica lato client:** all'invio esegue una transizione lato client.
+- **Progressive enhancement:** funziona anche senza JavaScript.
+- **Sincronizzazione con l'URL:** codifica automaticamente i valori degli input nei search params.
 
-### Implementation Example (Search Bar)
+### Esempio di implementazione (barra di ricerca)
 
 ```tsx
 import Form from 'next/form'
@@ -448,7 +449,7 @@ export default function SearchBar() {
 }
 ```
 
-### When to use `<Form>` vs. standard `<form>`
+### Quando usare `<Form>` e quando il normale `<form>`
 
-- **Use `next/form`** for: Search, Filtering, Sorting, Pagination (GET requests).
-- **Use standard `<form>`** for: Mutations, Login, Data Entry (POST requests via Server Actions).
+- **Usa `next/form`** per: ricerca, filtri, ordinamento, paginazione (richieste GET).
+- **Usa il normale `<form>`** per: mutazioni, login, inserimento dati (richieste POST tramite Server Actions).

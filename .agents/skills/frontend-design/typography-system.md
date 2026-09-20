@@ -1,39 +1,39 @@
-# Typography System Reference
+# Riferimento sistema tipografico
 
-> Typography principles and decision-making - learn to think, not memorize.
-> **No fixed font names or sizes - understand the system.**
+> Principi tipografici e come prendere decisioni: impara a ragionare, non a memorizzare.
+> **Nessun nome di font o dimensione fissa: capisci il sistema.**
 
 ---
 
-## 1. Modular Scale Principles
+## 1. Principi della scala modulare
 
-### What is a Modular Scale?
+### Cos'è una scala modulare?
 
 ```text
-A mathematical relationship between font sizes:
-├── Pick a BASE size (usually body text)
-├── Pick a RATIO (multiplier)
-└── Generate all sizes using: base × ratio^n
+Una relazione matematica tra le dimensioni dei font:
+├── Scegli una dimensione BASE (di solito il testo del corpo)
+├── Scegli un RAPPORTO (ratio, il moltiplicatore)
+└── Genera tutte le dimensioni con: base × ratio^n
 ```
 
-### Common Ratios and When to Use
+### Rapporti comuni e quando usarli
 
-| Ratio | Value | Feeling | Best For |
-| ------- | ------- | --------- | ---------- |
-| Minor Second | 1.067 | Very subtle | Dense UI, small screens |
-| Major Second | 1.125 | Subtle | Compact interfaces |
-| Minor Third | 1.2 | Comfortable | Mobile apps, cards |
-| Major Third | 1.25 | Balanced | General web (most common) |
-| Perfect Fourth | 1.333 | Noticeable | Editorial, blogs |
-| Perfect Fifth | 1.5 | Dramatic | Headlines, marketing |
-| Golden Ratio | 1.618 | Maximum impact | Hero sections, display |
+| Rapporto | Valore | Sensazione | Ideale per |
+| --- | --- | --- | --- |
+| Seconda minore (Minor Second) | 1.067 | Molto discreta | UI dense, schermi piccoli |
+| Seconda maggiore (Major Second) | 1.125 | Discreta | Interfacce compatte |
+| Terza minore (Minor Third) | 1.2 | Comoda | App mobile, card |
+| Terza maggiore (Major Third) | 1.25 | Equilibrata | Web generico (la più comune) |
+| Quarta giusta (Perfect Fourth) | 1.333 | Evidente | Editoriale, blog |
+| Quinta giusta (Perfect Fifth) | 1.5 | Drammatica | Titoli, marketing |
+| Sezione aurea (Golden Ratio) | 1.618 | Impatto massimo | Sezioni hero, display |
 
-### Generate Your Scale
+### Genera la tua scala
 
 ```text
-Given: base = YOUR_BASE_SIZE, ratio = YOUR_RATIO
+Dati: base = YOUR_BASE_SIZE, ratio = YOUR_RATIO
 
-Scale:
+Scala:
 ├── xs:  base ÷ ratio²
 ├── sm:  base ÷ ratio
 ├── base: YOUR_BASE_SIZE
@@ -41,305 +41,305 @@ Scale:
 ├── xl:  base × ratio²
 ├── 2xl: base × ratio³
 ├── 3xl: base × ratio⁴
-└── ... continue as needed
+└── ... continua quanto serve
 ```
 
-### Choosing Base Size
+### Scegliere la dimensione base
 
-| Context | Base Size Range | Why |
-| --------- | ----------------- | ----- |
-| Mobile-first | 16-18px | Readability on small screens |
-| Desktop app | 14-16px | Information density |
-| Editorial | 18-21px | Long-form reading comfort |
-| Accessibility focus | 18px+ | Easier to read |
+| Contesto | Dimensione base | Perché |
+| --- | --- | --- |
+| Mobile-first | 16-18px | Leggibilità su schermi piccoli |
+| App desktop | 14-16px | Densità di informazioni |
+| Editoriale | 18-21px | Comfort nelle letture lunghe |
+| Priorità all'accessibilità | 18px+ | Più facile da leggere |
 
 ---
 
-## 2. Font Pairing Principles
+## 2. Principi di font pairing
 
-### What Makes Fonts Work Together
-
-```text
-Contrast + Harmony:
-├── Different ENOUGH to create hierarchy
-├── Similar ENOUGH to feel cohesive
-└── Usually: serif + sans, or display + neutral
-```
-
-### Pairing Strategies
-
-| Strategy | How | Result |
-| ---------- | ----- | -------- |
-| **Contrast** | Serif heading + Sans body | Classic, editorial feel |
-| **Same Family** | One variable font, different weights | Cohesive, modern |
-| **Same Designer** | Fonts by same foundry | Often harmonious proportions |
-| **Era Match** | Fonts from same time period | Historical consistency |
-
-### What to Look For
+### Cosa fa funzionare bene due font insieme
 
 ```text
-When pairing, compare:
-├── x-height (height of lowercase letters)
-├── Letter width (narrow vs wide)
-├── Stroke contrast (thin/thick variation)
-└── Overall mood (formal vs casual)
+Contrasto + armonia:
+├── Abbastanza DIVERSI da creare gerarchia
+├── Abbastanza SIMILI da risultare coerenti
+└── Di solito: serif + sans, oppure display + neutro
 ```
 
-### Safe Pairing Patterns
+### Strategie di abbinamento
 
-| Heading Style | Body Style | Mood |
-| --------------- | ------------ | ------ |
-| Geometric sans | Humanist sans | Modern, friendly |
-| Display serif | Clean sans | Editorial, sophisticated |
-| Neutral sans | Same sans | Minimal, tech |
-| Bold geometric | Light geometric | Contemporary |
+| Strategia | Come | Risultato |
+| --- | --- | --- |
+| **Contrasto** | Titoli serif + corpo sans | Aspetto classico, editoriale |
+| **Stessa famiglia** | Un solo variable font, pesi diversi | Coerente, moderno |
+| **Stesso designer** | Font della stessa fonderia | Proporzioni spesso armoniose |
+| **Stessa epoca** | Font dello stesso periodo storico | Coerenza storica |
 
-### Avoid
+### Cosa guardare
 
-- ❌ Two decorative fonts together
-- ❌ Similar fonts that conflict
-- ❌ More than 2-3 font families
-- ❌ Fonts with very different x-heights
+```text
+Quando abbini due font, confronta:
+├── x-height (altezza delle lettere minuscole)
+├── Larghezza delle lettere (strette o larghe)
+├── Contrasto del tratto (variazione tra sottile e spesso)
+└── Mood generale (formale o informale)
+```
+
+### Abbinamenti sicuri
+
+| Stile dei titoli | Stile del corpo | Mood |
+| --- | --- | --- |
+| Sans geometrico | Sans umanista | Moderno, amichevole |
+| Serif display | Sans pulito | Editoriale, sofisticato |
+| Sans neutro | Lo stesso sans | Minimal, tech |
+| Geometrico bold | Geometrico light | Contemporaneo |
+
+### Evita
+
+- ❌ Due font decorativi insieme
+- ❌ Font simili che stonano tra loro
+- ❌ Più di 2-3 famiglie di font
+- ❌ Font con x-height molto diverse
 
 ---
 
-## 3. Line Height Principles
+## 3. Principi del line-height
 
-### The Relationship
+### La relazione
 
 ```text
-Line height depends on:
-├── Font size (larger text = less line height needed)
-├── Line length (longer lines = more line height)
-├── Font design (some fonts need more space)
-└── Content type (headings vs body)
+Il line-height dipende da:
+├── Dimensione del font (testo più grande = serve meno line-height)
+├── Lunghezza della riga (righe più lunghe = più line-height)
+├── Disegno del font (alcuni font chiedono più spazio)
+└── Tipo di contenuto (titoli o corpo)
 ```
 
-### Guidelines by Context
+### Linee guida per contesto
 
-| Content Type | Line Height Range | Why |
-| -------------- | ------------------- | ----- |
-| **Headings** | 1.1 - 1.3 | Short lines, want compact |
-| **Body text** | 1.4 - 1.6 | Comfortable reading |
-| **Long-form** | 1.6 - 1.8 | Maximum readability |
-| **UI elements** | 1.2 - 1.4 | Space efficiency |
+| Tipo di contenuto | Line-height | Perché |
+| --- | --- | --- |
+| **Titoli** | 1.1 - 1.3 | Righe brevi, meglio compatte |
+| **Testo del corpo** | 1.4 - 1.6 | Lettura comoda |
+| **Testi lunghi** | 1.6 - 1.8 | Massima leggibilità |
+| **Elementi UI** | 1.2 - 1.4 | Uso efficiente dello spazio |
 
-### Adjustment Factors
+### Fattori di aggiustamento
 
-- **Longer line length** → Increase line height
-- **Larger font size** → Decrease line height ratio
-- **All caps** → May need more line height
-- **Tight tracking** → May need more line height
+- **Righe più lunghe** → aumenta il line-height
+- **Font più grande** → riduci il rapporto di line-height
+- **Tutto maiuscolo** → può servire più line-height
+- **Tracking stretto** → può servire più line-height
 
 ---
 
-## 4. Line Length Principles
+## 4. Principi della lunghezza di riga
 
-### Optimal Reading Width
+### Larghezza di lettura ottimale
 
 ```text
-The sweet spot: 45-75 characters per line
-├── < 45: Too choppy, breaks flow
-├── 45-75: Comfortable reading
-├── > 75: Eye tracking strain
+Il punto ideale: 45-75 caratteri per riga
+├── < 45: troppo spezzettata, interrompe il flusso
+├── 45-75: lettura comoda
+├── > 75: l'occhio fatica a seguire le righe
 ```
 
-### How to Measure
+### Come misurarla
 
 ```css
-/* Character-based (recommended) */
-max-width: 65ch; /* ch = width of "0" character */
+/* Basata sui caratteri (consigliato) */
+max-width: 65ch; /* ch = larghezza del carattere "0" */
 
-/* This adapts to font size automatically */
+/* Si adatta da sola alla dimensione del font */
 ```
 
-### Context Adjustments
+### Aggiustamenti per contesto
 
-| Context | Character Range |
-| --------- | ----------------- |
-| Desktop article | 60-75 characters |
-| Mobile | 35-50 characters |
-| Sidebar text | 30-45 characters |
-| Wide monitors | Still cap at ~75ch |
+| Contesto | Caratteri per riga |
+| --- | --- |
+| Articolo su desktop | 60-75 caratteri |
+| Mobile | 35-50 caratteri |
+| Testo in sidebar | 30-45 caratteri |
+| Monitor larghi | Resta comunque intorno a ~75ch |
 
 ---
 
-## 5. Responsive Typography Principles
+## 5. Principi di tipografia responsive
 
-### The Problem
+### Il problema
 
 ```text
-Fixed sizes don't scale well:
-├── Desktop size too big on mobile
-├── Mobile size too small on desktop
-└── Breakpoint jumps feel jarring
+Le dimensioni fisse non scalano bene:
+├── La dimensione per desktop è troppo grande su mobile
+├── La dimensione per mobile è troppo piccola su desktop
+└── I salti ai breakpoint risultano bruschi
 ```
 
-### Fluid Typography (clamp)
+### Tipografia fluida (clamp)
 
 ```css
-/* Syntax: clamp(MIN, PREFERRED, MAX) */
+/* Sintassi: clamp(MIN, PREFERRED, MAX) */
 font-size: clamp(
   MINIMUM_SIZE,
   FLUID_CALCULATION,
   MAXIMUM_SIZE
 );
 
-/* FLUID_CALCULATION typically: 
-   base + viewport-relative-unit */
+/* FLUID_CALCULATION di solito: 
+   base + unità relativa al viewport */
 ```
 
-### Scaling Strategy
+### Strategia di scalatura
 
-| Element | Scaling Behavior |
-| --------- | ----------------- |
-| Body text | Slight scaling (1rem → 1.125rem) |
-| Subheadings | Moderate scaling |
-| Headings | More dramatic scaling |
-| Display text | Most dramatic scaling |
+| Elemento | Come scala |
+| --- | --- |
+| Testo del corpo | Poco (1rem → 1.125rem) |
+| Sottotitoli | Moderatamente |
+| Titoli | In modo più marcato |
+| Testo display | In modo molto marcato |
 
 ---
 
-## 6. Weight and Emphasis Principles
+## 6. Principi di peso ed enfasi
 
-### Semantic Weight Usage
+### Uso semantico dei pesi
 
-| Weight Range | Name | Use For |
-| -------------- | ------ | --------- |
-| 300-400 | Light/Normal | Body text, paragraphs |
-| 500 | Medium | Subtle emphasis |
-| 600 | Semibold | Subheadings, labels |
-| 700 | Bold | Headings, strong emphasis |
-| 800-900 | Heavy/Black | Display, hero text |
+| Peso | Nome | Da usare per |
+| --- | --- | --- |
+| 300-400 | Light/Normal | Testo del corpo, paragrafi |
+| 500 | Medium | Enfasi leggera |
+| 600 | Semibold | Sottotitoli, etichette |
+| 700 | Bold | Titoli, enfasi forte |
+| 800-900 | Heavy/Black | Display, testo hero |
 
-### Creating Contrast
+### Creare contrasto
 
 ```text
-Good contrast = skip at least 2 weight levels
-├── 400 body + 700 heading = good
-├── 400 body + 500 emphasis = subtle
-├── 600 heading + 700 subheading = too similar
+Buon contrasto = salta almeno 2 livelli di peso
+├── corpo 400 + titolo 700 = buono
+├── corpo 400 + enfasi 500 = appena percettibile
+├── titolo 600 + sottotitolo 700 = troppo simili
 ```
 
-### Avoid
+### Evita
 
-- ❌ Too many weights (max 3-4 per page)
-- ❌ Adjacent weights for hierarchy (400/500)
-- ❌ Heavy weights for long text
+- ❌ Troppi pesi (massimo 3-4 per pagina)
+- ❌ Pesi adiacenti per la gerarchia (400/500)
+- ❌ Pesi molto forti per i testi lunghi
 
 ---
 
-## 7. Letter Spacing (Tracking)
+## 7. Spaziatura tra le lettere (tracking)
 
-### Principles
+### Principi
 
 ```text
-Large text (headings): tighter tracking
-├── Letters are big, gaps feel larger
-└── Slight negative tracking looks better
+Testo grande (titoli): tracking più stretto
+├── Le lettere sono grandi, gli spazi sembrano più ampi
+└── Un tracking leggermente negativo rende meglio
 
-Small text (body): normal or slightly wider
-├── Improves readability at small sizes
-└── Never negative for body text
+Testo piccolo (corpo): normale o leggermente più largo
+├── Migliora la leggibilità alle dimensioni piccole
+└── Mai negativo per il testo del corpo
 
-ALL CAPS: always wider tracking
-├── Uppercase lacks ascenders/descenders
-└── Needs more space to feel right
+TUTTO MAIUSCOLO: tracking sempre più largo
+├── Le maiuscole non hanno ascendenti/discendenti
+└── Hanno bisogno di più spazio per risultare equilibrate
 ```
 
-### Adjustment Guidelines
+### Linee guida di aggiustamento
 
-| Context | Tracking Adjustment |
-| --------- | --------------------- |
-| Display/Hero | -2% to -4% |
-| Headings | -1% to -2% |
-| Body text | 0% (normal) |
-| Small text | +1% to +2% |
-| ALL CAPS | +5% to +10% |
+| Contesto | Aggiustamento del tracking |
+| --- | --- |
+| Display/Hero | da -2% a -4% |
+| Titoli | da -1% a -2% |
+| Testo del corpo | 0% (normale) |
+| Testo piccolo | da +1% a +2% |
+| TUTTO MAIUSCOLO | da +5% a +10% |
 
 ---
 
-## 8. Hierarchy Principles
+## 8. Principi di gerarchia
 
-### Visual Hierarchy Through Type
+### Gerarchia visiva con la tipografia
 
 ```text
-Ways to create hierarchy:
-├── SIZE (most obvious)
-├── WEIGHT (bold stands out)
-├── COLOR (contrast levels)
-├── SPACING (margins separate sections)
-└── POSITION (top = important)
+Modi per creare gerarchia:
+├── DIMENSIONE (il più evidente)
+├── PESO (il bold risalta)
+├── COLORE (livelli di contrasto)
+├── SPAZIATURA (i margini separano le sezioni)
+└── POSIZIONE (in alto = importante)
 ```
 
-### Typical Hierarchy
+### Gerarchia tipica
 
-| Level | Characteristics |
-| ------- | ----------------- |
-| Primary (H1) | Largest, boldest, most distinct |
-| Secondary (H2) | Noticeably smaller but still bold |
-| Tertiary (H3) | Medium size, may use weight only |
-| Body | Standard size and weight |
-| Caption/Meta | Smaller, often lighter color |
+| Livello | Caratteristiche |
+| --- | --- |
+| Primario (H1) | Il più grande, il più marcato, il più distinto |
+| Secondario (H2) | Visibilmente più piccolo ma ancora bold |
+| Terziario (H3) | Dimensione media, può distinguersi solo per il peso |
+| Corpo | Dimensione e peso standard |
+| Didascalie/meta | Più piccolo, spesso di colore più chiaro |
 
-### Testing Hierarchy
+### Verificare la gerarchia
 
-Ask: "Can I tell what's most important at a glance?"
+Chiediti: "Capisco al primo sguardo cosa conta di più?"
 
-If squinting at the page, the hierarchy should still be clear.
+Anche guardando la pagina con gli occhi socchiusi, la gerarchia deve restare chiara.
 
 ---
 
-## 9. Readability Psychology
+## 9. Psicologia della leggibilità
 
-### F-Pattern Reading
+### Lettura a F (F-pattern)
 
 ```text
-Users scan in F-pattern:
-├── Across the top (first line)
-├── Down the left side
-├── Across again (subheading)
-└── Continue down left
+Gli utenti scorrono la pagina a F:
+├── In orizzontale in alto (prima riga)
+├── Giù lungo il lato sinistro
+├── Di nuovo in orizzontale (sottotitolo)
+└── Poi ancora giù a sinistra
 ```
 
-**Implication**: Key info on left and in headings
+**Conseguenza**: metti le informazioni chiave a sinistra e nei titoli
 
-### Chunking for Comprehension
+### Suddividere per capire meglio
 
-- Short paragraphs (3-4 lines max)
-- Clear subheadings
-- Bullet points for lists
-- White space between sections
+- Paragrafi brevi (massimo 3-4 righe)
+- Sottotitoli chiari
+- Elenchi puntati per le liste
+- Spazio bianco tra le sezioni
 
-### Cognitive Ease
+### Facilità cognitiva
 
-- Familiar fonts = easier reading
-- High contrast = less strain
-- Consistent patterns = predictable
-
----
-
-## 10. Typography Selection Checklist
-
-Before finalizing typography:
-
-- [ ] **Asked user for font preferences?**
-- [ ] **Considered brand/context?**
-- [ ] **Selected appropriate scale ratio?**
-- [ ] **Limited to 2-3 font families?**
-- [ ] **Tested readability at all sizes?**
-- [ ] **Checked line length (45-75ch)?**
-- [ ] **Verified contrast for accessibility?**
-- [ ] **Different from your last project?**
-
-### Anti-Patterns
-
-- ❌ Same fonts every project
-- ❌ Too many font families
-- ❌ Ignoring readability for style
-- ❌ Fixed sizes without responsiveness
-- ❌ Decorative fonts for body text
+- Font familiari = lettura più facile
+- Contrasto alto = meno affaticamento
+- Pattern coerenti = comportamento prevedibile
 
 ---
 
-> **Remember**: Typography is about communication clarity. Choose based on content needs and audience, not personal preference.
+## 10. Checklist per scegliere la tipografia
+
+Prima di chiudere la tipografia:
+
+- [ ] **Hai chiesto all'utente le sue preferenze sui font?**
+- [ ] **Hai considerato brand e contesto?**
+- [ ] **Hai scelto un rapporto di scala adatto?**
+- [ ] **Ti sei limitato a 2-3 famiglie di font?**
+- [ ] **Hai verificato la leggibilità a tutte le dimensioni?**
+- [ ] **Hai controllato la lunghezza di riga (45-75ch)?**
+- [ ] **Hai verificato il contrasto per l'accessibilità?**
+- [ ] **È diversa dal tuo ultimo progetto?**
+
+### Anti-pattern
+
+- ❌ Gli stessi font in ogni progetto
+- ❌ Troppe famiglie di font
+- ❌ Sacrificare la leggibilità allo stile
+- ❌ Dimensioni fisse senza adattamento responsive
+- ❌ Font decorativi per il testo del corpo
+
+---
+
+> **Ricorda**: la tipografia serve a comunicare con chiarezza. Scegli in base alle esigenze del contenuto e al pubblico, non ai tuoi gusti personali.

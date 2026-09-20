@@ -1,306 +1,306 @@
-# Motion Graphics Reference
+# Riferimento motion graphics
 
-> Advanced animation techniques for premium web experiences - Lottie, GSAP, SVG, 3D, Particles.
-> **Learn the principles, create WOW effects.**
+> Tecniche di animazione avanzate per esperienze web premium: Lottie, GSAP, SVG, 3D, particelle.
+> **Impara i principi, crea effetti WOW.**
 
 ---
 
-## 1. Lottie Animations
+## 1. Animazioni Lottie
 
-### What is Lottie?
+### Cos'è Lottie?
 
 ```text
-JSON-based vector animations:
-├── Exported from After Effects via Bodymovin
-├── Lightweight (smaller than GIF/video)
-├── Scalable (vector-based, no pixelation)
-├── Interactive (control playback, segments)
-└── Cross-platform (web, iOS, Android, React Native)
+Animazioni vettoriali basate su JSON:
+├── Esportate da After Effects con Bodymovin
+├── Leggere (più piccole di GIF/video)
+├── Scalabili (vettoriali, niente pixel sgranati)
+├── Interattive (controllo della riproduzione, segmenti)
+└── Multipiattaforma (web, iOS, Android, React Native)
 ```
 
-### When to Use Lottie
+### Quando usare Lottie
 
-| Use Case | Why Lottie? |
-| ---------- | ------------- |
-| **Loading animations** | Branded, smooth, lightweight |
-| **Empty states** | Engaging illustrations |
-| **Onboarding flows** | Complex multi-step animations |
-| **Success/Error feedback** | Delightful micro-interactions |
-| **Animated icons** | Consistent cross-platform |
+| Caso d'uso | Perché Lottie? |
+| --- | --- |
+| **Animazioni di caricamento** | Brandizzate, fluide, leggere |
+| **Stati vuoti** | Illustrazioni coinvolgenti |
+| **Flussi di onboarding** | Animazioni complesse in più passaggi |
+| **Feedback di successo/errore** | Micro-interazioni piacevoli |
+| **Icone animate** | Coerenti su tutte le piattaforme |
 
-### Principles
+### Principi
 
-- Keep file size under 100KB for performance
-- Use loop sparingly (avoid distraction)
-- Provide static fallback for reduced-motion
-- Lazy load animation files when possible
+- Tieni il file sotto i 100KB per le prestazioni
+- Usa il loop con parsimonia (evita le distrazioni)
+- Prevedi un fallback statico per il reduced-motion
+- Se possibile, carica i file di animazione in lazy load
 
-### Sources
+### Fonti
 
-- LottieFiles.com (free library)
-- After Effects + Bodymovin (custom)
-- Figma plugins (export from design)
+- LottieFiles.com (libreria gratuita)
+- After Effects + Bodymovin (animazioni su misura)
+- Plugin di Figma (esportazione dal design)
 
 ---
 
 ## 2. GSAP (GreenSock)
 
-### What Makes GSAP Different
+### Cosa rende diverso GSAP
 
 ```text
-Professional timeline-based animation:
-├── Precise control over sequences
-├── ScrollTrigger for scroll-driven animations
-├── MorphSVG for shape transitions
-├── Physics-based easing
-└── Works with any DOM element
+Animazioni professionali basate su timeline:
+├── Controllo preciso delle sequenze
+├── ScrollTrigger per le animazioni guidate dallo scroll
+├── MorphSVG per le transizioni tra forme
+├── Easing basato sulla fisica
+└── Funziona con qualsiasi elemento del DOM
 ```
 
-### Core Concepts
+### Concetti chiave
 
-| Concept | Purpose |
-| --------- | --------- |
-| **Tween** | Single A→B animation |
-| **Timeline** | Sequenced/overlapping animations |
-| **ScrollTrigger** | Scroll position controls playback |
-| **Stagger** | Cascade effect across elements |
+| Concetto | Scopo |
+| --- | --- |
+| **Tween** | Singola animazione da A a B |
+| **Timeline** | Animazioni in sequenza/sovrapposte |
+| **ScrollTrigger** | La posizione di scroll controlla la riproduzione |
+| **Stagger** | Effetto a cascata su più elementi |
 
-### When to Use GSAP
+### Quando usare GSAP
 
-- ✅ Complex sequenced animations
-- ✅ Scroll-triggered reveals
-- ✅ Precise timing control needed
-- ✅ SVG morphing effects
-- ❌ Simple hover/focus effects (use CSS)
-- ❌ Performance-critical mobile (heavier)
+- ✅ Animazioni complesse in sequenza
+- ✅ Rivelazioni attivate dallo scroll
+- ✅ Quando serve un controllo preciso dei tempi
+- ✅ Effetti di morphing SVG
+- ❌ Semplici effetti di hover/focus (usa il CSS)
+- ❌ Mobile con prestazioni critiche (è più pesante)
 
-### Principles
+### Principi
 
-- Use timeline for orchestration (not individual tweens)
-- Stagger delay: 0.05-0.15s between items
-- ScrollTrigger: start at 70-80% viewport entry
-- Kill animations on unmount (prevent memory leaks)
+- Usa le timeline per orchestrare (non tween singoli)
+- Ritardo di stagger: 0.05-0.15s tra un elemento e l'altro
+- ScrollTrigger: fai partire l'animazione quando l'elemento entra al 70-80% del viewport
+- Termina le animazioni allo smontaggio (evita memory leak)
 
 ---
 
-## 3. SVG Animations
+## 3. Animazioni SVG
 
-### Types of SVG Animation
+### Tipi di animazione SVG
 
-| Type | Technique | Use Case |
-| ------ | ----------- | ---------- |
-| **Line Drawing** | stroke-dashoffset | Logo reveals, signatures |
-| **Morph** | Path interpolation | Icon transitions |
-| **Transform** | rotate, scale, translate | Interactive icons |
-| **Color** | fill/stroke transition | State changes |
+| Tipo | Tecnica | Caso d'uso |
+| --- | --- | --- |
+| **Disegno di linee** | stroke-dashoffset | Rivelazione di loghi, firme |
+| **Morph** | Interpolazione dei path | Transizioni tra icone |
+| **Transform** | rotate, scale, translate | Icone interattive |
+| **Colore** | Transizione di fill/stroke | Cambi di stato |
 
-### Line Drawing Principles
+### Principi del disegno di linee
 
 ```text
-How stroke-dashoffset drawing works:
-├── Set dasharray to path length
-├── Set dashoffset equal to dasharray (hidden)
-├── Animate dashoffset to 0 (revealed)
-└── Create "drawing" effect
+Come funziona il disegno con stroke-dashoffset:
+├── Imposta dasharray alla lunghezza del path
+├── Imposta dashoffset uguale a dasharray (nascosto)
+├── Anima dashoffset fino a 0 (visibile)
+└── Ottieni l'effetto "disegno"
 ```
 
-### When to Use SVG Animations
+### Quando usare le animazioni SVG
 
-- ✅ Logo reveals, brand moments
-- ✅ Icon state transitions (hamburger ↔ X)
-- ✅ Infographics, data visualization
-- ✅ Interactive illustrations
-- ❌ Photo-realistic content (use video)
-- ❌ Very complex scenes (performance)
+- ✅ Rivelazione di loghi, momenti di brand
+- ✅ Transizioni di stato delle icone (hamburger ↔ X)
+- ✅ Infografiche, visualizzazione di dati
+- ✅ Illustrazioni interattive
+- ❌ Contenuti fotorealistici (usa un video)
+- ❌ Scene molto complesse (prestazioni)
 
-### Principles
+### Principi
 
-- Get path length dynamically for accuracy
-- Duration: 1-3s for full drawings
-- Easing: ease-out for natural feel
-- Simple fills complement, don't compete
+- Ricava la lunghezza del path in modo dinamico, per precisione
+- Durata: 1-3s per i disegni completi
+- Easing: ease-out per un effetto naturale
+- I riempimenti semplici completano, non competono
 
 ---
 
-## 4. 3D CSS Transforms
+## 4. Trasformazioni 3D in CSS
 
-### Core Properties
+### Proprietà chiave
 
 ```text
-CSS 3D Space:
-├── perspective: depth of 3D field (500-1500px typical)
-├── transform-style: preserve-3d (enable children 3D)
-├── rotateX/Y/Z: rotation per axis
-├── translateZ: move toward/away from viewer
-└── backface-visibility: show/hide back side
+Spazio 3D in CSS:
+├── perspective: profondità del campo 3D (di solito 500-1500px)
+├── transform-style: preserve-3d (attiva il 3D nei figli)
+├── rotateX/Y/Z: rotazione per asse
+├── translateZ: avvicina/allontana dall'osservatore
+└── backface-visibility: mostra/nasconde il retro
 ```
 
-### Common 3D Patterns
+### Pattern 3D comuni
 
-| Pattern | Use Case |
-| --------- | ---------- |
-| **Card flip** | Reveals, flashcards, product views |
-| **Tilt on hover** | Interactive cards, 3D depth |
-| **Parallax layers** | Hero sections, immersive scrolling |
-| **3D carousel** | Image galleries, sliders |
+| Pattern | Caso d'uso |
+| --- | --- |
+| **Card flip** | Rivelazioni, flashcard, viste prodotto |
+| **Tilt all'hover** | Card interattive, profondità 3D |
+| **Livelli in parallax** | Sezioni hero, scroll immersivo |
+| **Carosello 3D** | Gallerie di immagini, slider |
 
-### Principles
+### Principi
 
-- Perspective: 800-1200px for subtle, 400-600px for dramatic
-- Keep transforms simple (rotate + translate)
-- Ensure backface-visibility: hidden for flips
-- Test on Safari (different rendering)
-
----
-
-## 5. Particle Effects
-
-### Types of Particle Systems
-
-| Type | Feel | Use Case |
-| ------ | ------ | ---------- |
-| **Geometric** | Tech, network | SaaS, tech sites |
-| **Confetti** | Celebration | Success moments |
-| **Snow/Rain** | Atmospheric | Seasonal, mood |
-| **Dust/Bokeh** | Dreamy | Photography, luxury |
-| **Fireflies** | Magical | Games, fantasy |
-
-### Libraries
-
-| Library | Best For |
-| --------- | ---------- |
-| **tsParticles** | Configurable, lightweight |
-| **particles.js** | Simple backgrounds |
-| **Canvas API** | Custom, maximum control |
-| **Three.js** | Complex 3D particles |
-
-### Principles
-
-- Default: 30-50 particles (not overwhelming)
-- Movement: slow, organic (speed 0.5-2)
-- Opacity: 0.3-0.6 (don't compete with content)
-- Connections: subtle lines for "network" feel
-- ⚠️ Disable or reduce on mobile
-
-### When to Use
-
-- ✅ Hero backgrounds (atmospheric)
-- ✅ Success celebrations (confetti burst)
-- ✅ Tech visualization (connected nodes)
-- ❌ Content-heavy pages (distraction)
-- ❌ Low-powered devices (battery drain)
+- Perspective: 800-1200px per un effetto sottile, 400-600px per uno drammatico
+- Mantieni le trasformazioni semplici (rotate + translate)
+- Assicurati di impostare backface-visibility: hidden per i flip
+- Prova su Safari (renderizza in modo diverso)
 
 ---
 
-## 6. Scroll-Driven Animations
+## 5. Effetti particellari
 
-### Native CSS (Modern)
+### Tipi di sistemi di particelle
+
+| Tipo | Sensazione | Caso d'uso |
+| --- | --- | --- |
+| **Geometriche** | Tech, rete | SaaS, siti tech |
+| **Coriandoli** | Festa | Momenti di successo |
+| **Neve/pioggia** | Atmosfera | Stagionali, mood |
+| **Polvere/bokeh** | Sognante | Fotografia, lusso |
+| **Lucciole** | Magia | Giochi, fantasy |
+
+### Librerie
+
+| Libreria | Ideale per |
+| --- | --- |
+| **tsParticles** | Configurabile, leggera |
+| **particles.js** | Sfondi semplici (non più mantenuta: preferisci tsParticles) |
+| **Canvas API** | Effetti su misura, massimo controllo |
+| **Three.js** | Particelle 3D complesse |
+
+### Principi
+
+- Predefinito: 30-50 particelle (senza esagerare)
+- Movimento: lento, organico (velocità 0.5-2)
+- Opacità: 0.3-0.6 (non devono competere con il contenuto)
+- Connessioni: linee sottili per l'effetto "rete"
+- ⚠️ Disattivale o riducile su mobile
+
+### Quando usarle
+
+- ✅ Sfondi hero (atmosfera)
+- ✅ Festeggiare un successo (esplosione di coriandoli)
+- ✅ Visualizzazioni tech (nodi collegati)
+- ❌ Pagine ricche di contenuto (distraggono)
+- ❌ Dispositivi poco potenti (consumano batteria)
+
+---
+
+## 6. Animazioni guidate dallo scroll
+
+### CSS nativo (moderno)
 
 ```text
-CSS Scroll Timelines:
-├── animation-timeline: scroll() - document scroll
-├── animation-timeline: view() - element in viewport
-├── animation-range: entry/exit thresholds
-└── No JavaScript required
+Scroll timeline in CSS:
+├── animation-timeline: scroll() - progresso dello scroll del contenitore
+├── animation-timeline: view() - visibilità dell'elemento nel viewport
+├── animation-range: soglie di entrata/uscita
+└── Nessun JavaScript necessario
 ```
 
-### Principles
+### Principi
 
-| Trigger Point | Use Case |
-| --------------- | ---------- |
-| **Entry 0%** | When element starts entering |
-| **Entry 50%** | When half visible |
-| **Cover 50%** | When centered in viewport |
-| **Exit 100%** | When fully exited |
+| Punto di attivazione | Caso d'uso |
+| --- | --- |
+| **Entry 0%** | Quando l'elemento inizia a entrare |
+| **Entry 50%** | Quando è visibile per metà |
+| **Cover 50%** | Quando è al centro del viewport |
+| **Exit 100%** | Quando è uscito del tutto |
 
-### Best Practices
+### Buone pratiche
 
-- Reveal animations: start at ~25% entry
-- Parallax: continuous scroll progress
-- Sticky elements: use cover range
-- Always test scroll performance
+- Animazioni di rivelazione: parti a circa il 25% di entry
+- Parallax: segui il progresso continuo dello scroll
+- Elementi sticky: usa il range cover
+- Verifica sempre le prestazioni dello scroll
 
 ---
 
-## 7. Performance Principles
+## 7. Principi di prestazioni
 
-### GPU vs CPU Animation
+### Animazioni su GPU e su CPU
 
 ```text
-CHEAP (GPU-accelerated):
+ECONOMICHE (accelerate dalla GPU):
 ├── transform (translate, scale, rotate)
 ├── opacity
-└── filter (use sparingly)
+└── filter (con parsimonia)
 
-EXPENSIVE (triggers reflow):
+COSTOSE (causano reflow):
 ├── width, height
 ├── top, left, right, bottom
 ├── padding, margin
-└── complex box-shadow
+└── box-shadow complessi
 ```
 
-### Optimization Checklist
+### Checklist di ottimizzazione
 
-- [ ] Animate only transform/opacity
-- [ ] Use `will-change` before heavy animations (remove after)
-- [ ] Test on low-end devices
-- [ ] Implement `prefers-reduced-motion`
-- [ ] Lazy load animation libraries
-- [ ] Throttle scroll-based calculations
+- [ ] Anima solo transform/opacity
+- [ ] Usa `will-change` prima delle animazioni pesanti (e poi rimuovilo)
+- [ ] Prova su dispositivi di fascia bassa
+- [ ] Implementa `prefers-reduced-motion`
+- [ ] Carica le librerie di animazione in lazy load
+- [ ] Limita la frequenza (throttle) dei calcoli legati allo scroll
 
 ---
 
-## 8. Motion Graphics Decision Tree
+## 8. Albero decisionale per le motion graphics
 
 ```text
-What animation do you need?
+Che animazione ti serve?
 │
-├── Complex branded animation?
-│   └── Lottie (After Effects export)
+├── Animazione complessa e brandizzata?
+│   └── Lottie (esportata da After Effects)
 │
-├── Sequenced scroll-triggered?
+├── Sequenza attivata dallo scroll?
 │   └── GSAP + ScrollTrigger
 │
-├── Logo/icon animation?
-│   └── SVG animation (stroke or morph)
+├── Animazione di logo/icona?
+│   └── Animazione SVG (stroke o morph)
 │
-├── Interactive 3D effect?
-│   └── CSS 3D Transforms (simple) or Three.js (complex)
+├── Effetto 3D interattivo?
+│   └── CSS 3D Transforms (semplice) o Three.js (complesso)
 │
-├── Atmospheric background?
-│   └── tsParticles or Canvas
+├── Sfondo d'atmosfera?
+│   └── tsParticles o Canvas
 │
-└── Simple entrance/hover?
-    └── CSS @keyframes or Framer Motion
+└── Semplice entrata/hover?
+    └── CSS @keyframes o Motion (ex Framer Motion)
 ```
 
 ---
 
-## 9. Anti-Patterns
+## 9. Anti-pattern
 
-| ❌ Don't | ✅ Do |
-| ---------- | ------- |
-| Animate everything at once | Stagger and sequence |
-| Use heavy libraries for simple effects | Start with CSS |
-| Ignore reduced-motion | Always provide fallback |
-| Block main thread | Optimize for 60fps |
-| Same particles every project | Match brand/context |
-| Complex effects on mobile | Feature detection |
-
----
-
-## 10. Quick Reference
-
-| Effect | Tool | Performance |
-| -------- | ------ | ------------- |
-| Loading spinner | CSS/Lottie | Light |
-| Staggered reveal | GSAP/Framer | Medium |
-| SVG path draw | CSS stroke | Light |
-| 3D card flip | CSS transforms | Light |
-| Particle background | tsParticles | Heavy |
-| Scroll parallax | GSAP ScrollTrigger | Medium |
-| Shape morphing | GSAP MorphSVG | Medium |
+| ❌ Non fare | ✅ Fai |
+| --- | --- |
+| Animare tutto insieme | Usa stagger e sequenze |
+| Usare librerie pesanti per effetti semplici | Parti dal CSS |
+| Ignorare il reduced-motion | Prevedi sempre un fallback |
+| Bloccare il main thread | Ottimizza per i 60fps |
+| Le stesse particelle in ogni progetto | Adattale a brand e contesto |
+| Effetti complessi su mobile | Usa la feature detection |
 
 ---
 
-> **Remember**: Motion graphics should enhance, not distract. Every animation must serve a PURPOSE—feedback, guidance, delight, or storytelling.
+## 10. Riferimento rapido
+
+| Effetto | Strumento | Prestazioni |
+| --- | --- | --- |
+| Spinner di caricamento | CSS/Lottie | Leggero |
+| Rivelazione a cascata | GSAP/Motion | Medio |
+| Disegno di path SVG | CSS stroke | Leggero |
+| Card flip 3D | CSS transforms | Leggero |
+| Sfondo particellare | tsParticles | Pesante |
+| Parallax allo scroll | GSAP ScrollTrigger | Medio |
+| Morphing di forme | GSAP MorphSVG | Medio |
+
+---
+
+> **Ricorda**: le motion graphics devono valorizzare, non distrarre. Ogni animazione deve avere uno SCOPO: feedback, guida, piacere o storytelling.

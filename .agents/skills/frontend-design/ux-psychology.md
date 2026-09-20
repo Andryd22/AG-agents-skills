@@ -1,64 +1,64 @@
-# UX Psychology Reference
+# Riferimento di psicologia UX
 
-> Deep dive into UX laws, emotional design, trust building, and behavioral psychology.
-
----
-
-## 1. Core UX Laws
-
-### Hick's Law
-
-**Principle:** The time to make a decision increases logarithmically with the number of choices.
-
-```text
-Decision Time = a + b × log₂(n + 1)
-Where n = number of choices
-```
-
-**Application:**
-
-- Navigation: Max 5-7 top-level items
-- Forms: Break into steps (progressive disclosure)
-- Options: Default selections when possible
-- Filters: Prioritize most-used, hide advanced
-
-**Example:**
-
-```text
-❌ Bad: 15 menu items in one nav
-✅ Good: 5 main categories + "More" 
-
-❌ Bad: 20 form fields at once
-✅ Good: 3-step wizard with 5-7 fields each
-```
+> Approfondimento su leggi UX, design emotivo, costruzione della fiducia e psicologia comportamentale.
 
 ---
 
-### Fitts' Law
+## 1. Leggi UX fondamentali
 
-**Principle:** Time to reach a target = function of distance and size.
+### Legge di Hick
+
+**Principio:** il tempo necessario per prendere una decisione cresce in modo logaritmico con il numero di scelte.
+
+```text
+Tempo di decisione = a + b × log₂(n + 1)
+Dove n = numero di scelte
+```
+
+**Applicazione:**
+
+- Navigazione: massimo 5-7 voci di primo livello
+- Form: suddividili in step (progressive disclosure)
+- Opzioni: selezioni predefinite quando possibile
+- Filtri: dai priorità a quelli più usati, nascondi quelli avanzati
+
+**Esempio:**
+
+```text
+❌ Male: 15 voci di menu in una sola nav
+✅ Bene: 5 categorie principali + "Altro"
+
+❌ Male: 20 campi del form tutti insieme
+✅ Bene: wizard in 3 step con 5-7 campi ciascuno
+```
+
+---
+
+### Legge di Fitts
+
+**Principio:** il tempo per raggiungere un target è funzione della sua distanza e della sua dimensione.
 
 ```text
 MT = a + b × log₂(1 + D/W)
-Where D = distance, W = width
+Dove D = distanza, W = larghezza
 ```
 
-**Application:**
+**Applicazione:**
 
-- CTAs: Make primary buttons larger (min 44px height)
-- Touch targets: 44×44px minimum on mobile
-- Placement: Important actions near natural cursor position
-- Corners: "Magic corners" (infinite edge = easy to hit)
+- CTA: rendi più grandi i pulsanti primari (altezza minima 44px)
+- Touch target: minimo 44×44px su mobile
+- Posizionamento: azioni importanti vicino alla posizione naturale del cursore
+- Angoli: "angoli magici" (bordo infinito = facili da colpire)
 
-**Button Sizing:**
+**Dimensionamento dei pulsanti:**
 
 ```css
-/* Size by importance */
+/* Dimensiona in base all'importanza */
 .btn-primary { height: 48px; padding: 0 24px; }
 .btn-secondary { height: 40px; padding: 0 16px; }
 .btn-tertiary { height: 36px; padding: 0 12px; }
 
-/* Mobile touch targets */
+/* Touch target su mobile */
 @media (hover: none) {
   .btn { min-height: 44px; min-width: 44px; }
 }
@@ -66,52 +66,52 @@ Where D = distance, W = width
 
 ---
 
-### Miller's Law
+### Legge di Miller
 
-**Principle:** Average person can hold 7±2 chunks in working memory.
+**Principio:** una persona media riesce a tenere 7±2 blocchi (chunk) nella memoria di lavoro.
 
-**Application:**
+**Applicazione:**
 
-- Lists: Group into chunks of 5-7 items
-- Navigation: Max 7 menu items
-- Content: Break long content with headings
-- Phone numbers: 555-123-4567 (chunked)
+- Liste: raggruppa in blocchi da 5-7 elementi
+- Navigazione: massimo 7 voci di menu
+- Contenuti: spezza i testi lunghi con i titoli
+- Numeri di telefono: 555-123-4567 (a blocchi)
 
-**Chunking Example:**
+**Esempio di chunking:**
 
 ```text
 ❌ 5551234567
 ✅ 555-123-4567
 
-❌ Long paragraph of text without breaks
-✅ Short paragraphs
-   With bullet points
-   And subheadings
+❌ Un lungo paragrafo di testo senza interruzioni
+✅ Paragrafi brevi
+   Con elenchi puntati
+   E sottotitoli
 ```
 
 ---
 
-### Von Restorff Effect (Isolation Effect)
+### Effetto Von Restorff (effetto di isolamento)
 
-**Principle:** An item that stands out is more likely to be remembered.
+**Principio:** un elemento che spicca ha più probabilità di essere ricordato.
 
-**Application:**
+**Applicazione:**
 
-- CTA buttons: Distinct color from other elements
-- Pricing: Highlight recommended plan
-- Important info: Visual differentiation
-- New features: Badge or callout
+- Pulsanti CTA: colore distinto dagli altri elementi
+- Pricing: evidenzia il piano consigliato
+- Informazioni importanti: differenziazione visiva
+- Nuove funzionalità: badge o callout
 
-**Example:**
+**Esempio:**
 
 ```css
-/* All buttons gray, primary stands out */
+/* Tutti i pulsanti grigi, il primario spicca */
 .btn { background: #E5E7EB; }
 .btn-primary { background: #3B82F6; }
 
-/* Recommended plan highlighted */
+/* Piano consigliato evidenziato */
 .pricing-card { border: 1px solid #E5E7EB; }
-.pricing-card.popular { 
+.pricing-card.popular {
   border: 2px solid #3B82F6;
   box-shadow: var(--shadow-lg);
 }
@@ -119,706 +119,706 @@ Where D = distance, W = width
 
 ---
 
-### Serial Position Effect
+### Effetto di posizione seriale
 
-**Principle:** Items at the beginning (primacy) and end (recency) of a list are remembered best.
+**Principio:** gli elementi all'inizio (primacy) e alla fine (recency) di una lista sono quelli ricordati meglio.
 
-**Application:**
+**Applicazione:**
 
-- Navigation: Most important items first and last
-- Lists: Key info at top and bottom
-- Forms: Most critical fields at start
-- CTAs: Repeat at top and bottom of long pages
+- Navigazione: le voci più importanti per prime e per ultime
+- Liste: informazioni chiave in cima e in fondo
+- Form: i campi più critici all'inizio
+- CTA: ripetile in cima e in fondo alle pagine lunghe
 
-**Example:**
+**Esempio:**
 
 ```text
-Navigation: Home | [key items] | Contact
+Navigazione: Home | [voci chiave] | Contatti
 
-Long landing page:
-- CTA at hero (top)
-- Content sections
-- CTA repeated at bottom
+Landing page lunga:
+- CTA nella hero (in alto)
+- Sezioni di contenuto
+- CTA ripetuta in fondo
 ```
 
-### Jakob’s Law
+### Legge di Jakob
 
-**Principle:** Users spend most of their time on other sites. They prefer your site to work the same way as all the other sites they already know.
+**Principio:** gli utenti passano la maggior parte del tempo su altri siti. Preferiscono che il tuo sito funzioni come tutti gli altri siti che già conoscono.
 
-**Application:**
+**Applicazione:**
 
-- **Patterns:** Use standard placement for search bars and carts.
-- **Mental Models:** Leverage familiar icons (e.g., a magnifying glass).
-- **Vocabulary:** Use "Log In" instead of "Enter the Portal."
-- **Layout:** Keep the logo in the top-left for "Home" navigation.
-- **Interaction:** Swiping right to go back/next should feel native.
-- **Feedback:** Standard colors (Red = Error, Green = Success).
+- **Pattern:** usa le posizioni standard per barra di ricerca e carrello.
+- **Modelli mentali:** sfrutta icone familiari (per es. la lente d'ingrandimento).
+- **Lessico:** usa "Accedi" invece di "Entra nel portale".
+- **Layout:** tieni il logo in alto a sinistra come link alla "Home".
+- **Interazione:** lo swipe a destra per tornare indietro o andare avanti deve sembrare nativo.
+- **Feedback:** colori standard (rosso = errore, verde = successo).
 
-**Example:**
-
-```text
-❌ Bad: A website where clicking the logo takes you to an "About Us" page.
-✅ Good: Clicking the logo always returns the user to the Homepage.
-
-❌ Bad: Using a "Star" icon to represent "Delete."
-✅ Good: Using a "Trash Can" icon to represent "Delete."
-```
-
----
-
-### Tesler’s Law (Conservation of Complexity)
-
-**Principle:** For any system, there is a certain amount of complexity which cannot be reduced, only shifted from user to software.
-
-**Application:**
-
-- **Backend:** Let the system handle formatting (e.g., currency).
-- **Detection:** Auto-detect card type or city via ZIP code.
-- **Automation:** Pre-fill returning user data.
-- **Personalization:** Show only relevant fields based on previous answers.
-- **Defaults:** Smart defaults for common settings.
-- **Integration:** Use SSO (Social Logins) to offload registration friction.
-
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: Making users type "USD $" before every price field in a form.
-✅ Good: The app automatically prefixing the "$" based on the user's location.
+❌ Male: un sito in cui il clic sul logo porta alla pagina "Chi siamo".
+✅ Bene: il clic sul logo riporta sempre l'utente alla homepage.
 
-❌ Bad: Forcing users to manually select their "Card Type" (Visa/Mastercard).
-✅ Good: Detecting the card type automatically from the first four digits entered.
+❌ Male: usare un'icona "stella" per indicare "Elimina".
+✅ Bene: usare un'icona "cestino" per indicare "Elimina".
 ```
 
 ---
 
-### Parkinson’s Law
+### Legge di Tesler (conservazione della complessità)
 
-**Principle:** Any task will inflate until all available time is spent.
+**Principio:** in ogni sistema c'è una quota di complessità che non si può ridurre, ma solo spostare dall'utente al software.
 
-**Application:**
+**Applicazione:**
 
-- **Efficiency:** Use "Auto-save" to reduce task completion time.
-- **Speed:** Limit the steps in a conversion funnel.
-- **Clarity:** Use clear labels to prevent "hover-poking" for meaning.
-- **Feedback:** Real-time validation to stop users from wasting time on errors.
-- **Onboarding:** Quick "Express" setup for power users.
-- **Constraints:** Set character limits on inputs to focus thoughts.
+- **Backend:** lascia che sia il sistema a gestire la formattazione (per es. la valuta).
+- **Rilevamento:** rileva in automatico il tipo di carta, o la città dal CAP.
+- **Automazione:** precompila i dati degli utenti che tornano.
+- **Personalizzazione:** mostra solo i campi pertinenti in base alle risposte precedenti.
+- **Default:** valori predefiniti intelligenti per le impostazioni comuni.
+- **Integrazione:** usa l'SSO (social login) per togliere attrito alla registrazione.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A 10-page registration form that allows users to browse away and lose data.
-✅ Good: A "One-Tap Sign In" using Google or Apple ID.
+❌ Male: costringere gli utenti a digitare "USD $" prima di ogni campo prezzo del form.
+✅ Bene: l'app antepone da sola il "$" in base alla posizione dell'utente.
 
-❌ Bad: Giving a user an indefinite amount of time to fill out a bio.
-✅ Good: Providing a "Suggested Bios" feature to help them finish in seconds.
+❌ Male: costringere gli utenti a scegliere a mano il "tipo di carta" (Visa/Mastercard).
+✅ Bene: rilevare il tipo di carta in automatico dalle prime quattro cifre inserite.
 ```
 
 ---
 
-### Doherty Threshold
+### Legge di Parkinson
 
-**Principle:** Productivity skyrockets when a computer and its users interact at a pace (<400ms) that ensures neither has to wait on the other.
+**Principio:** ogni attività si dilata fino a occupare tutto il tempo disponibile.
 
-**Application:**
+**Applicazione:**
 
-- **Feedback:** Use immediate visual cues for clicks.
-- **Loading:** Use skeleton screens for perceivable performance.
-- **Optimism:** Update UI before the server responds (Optimistic UI).
-- **Motion:** Use micro-animations to mask slight delays.
-- **Caching:** Pre-load next pages or assets in the background.
-- **Prioritization:** Load text content before heavy high-res images.
+- **Efficienza:** usa il salvataggio automatico ("Auto-save") per ridurre il tempo di completamento.
+- **Velocità:** limita gli step di un funnel di conversione.
+- **Chiarezza:** usa etichette chiare, così l'utente non deve andare a tentoni con l'hover per capirne il significato.
+- **Feedback:** validazione in tempo reale, così l'utente non perde tempo sugli errori.
+- **Onboarding:** configurazione rapida ("Express") per gli utenti esperti.
+- **Vincoli:** imposta limiti di caratteri sugli input per far concentrare i pensieri.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A button that does nothing for 2 seconds after being clicked.
-✅ Good: A button that immediately changes color and shows a "Loading" spinner.
+❌ Male: un form di registrazione di 10 pagine che lascia uscire dalla pagina e perdere i dati.
+✅ Bene: un "accesso con un tocco" tramite Google o Apple ID.
 
-❌ Bad: A blank white screen that appears while data is fetching.
-✅ Good: A skeleton screen showing the gray outlines of where content will appear.
+❌ Male: dare all'utente un tempo illimitato per scrivere una bio.
+✅ Bene: offrire una funzione di "bio suggerite" che aiuta a finire in pochi secondi.
 ```
 
 ---
 
-### Postel’s Law (Robustness Principle)
+### Soglia di Doherty
 
-**Principle:** Be conservative in what you do, be liberal in what you accept from others.
+**Principio:** la produttività schizza in alto quando computer e utenti interagiscono a un ritmo (<400ms) tale che nessuno dei due debba aspettare l'altro.
 
-**Application:**
+**Applicazione:**
 
-- **Error Handling:** Don't error out for a missing space or dash.
-- **Formatting:** Accept dates in DD/MM/YYYY or MM/DD/YYYY.
-- **Inputs:** Strip trailing/leading white space automatically.
-- **Fallbacks:** Use default avatars if a user hasn't uploaded a photo.
-- **Search:** Accept typos and provide "Did you mean...?" suggestions.
-- **Accessibility:** Ensure the site works across all browsers and devices.
+- **Feedback:** usa segnali visivi immediati per i clic.
+- **Caricamento:** usa gli skeleton screen per migliorare la performance percepita.
+- **Ottimismo:** aggiorna la UI prima che risponda il server (Optimistic UI).
+- **Motion:** usa micro-animazioni per mascherare piccoli ritardi.
+- **Caching:** precarica in background le pagine o gli asset successivi.
+- **Priorità:** carica il testo prima delle immagini pesanti ad alta risoluzione.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: Rejecting a phone number because the user put a space in it.
-✅ Good: Accepting the input and stripping the spaces automatically.
+❌ Male: un pulsante che per 2 secondi dopo il clic non fa nulla.
+✅ Bene: un pulsante che cambia subito colore e mostra uno spinner di caricamento.
 
-❌ Bad: Forcing users to type "January" instead of "01" or "Jan."
-✅ Good: A date field that understands all three formats.
+❌ Male: una schermata bianca vuota mentre i dati vengono caricati.
+✅ Bene: uno skeleton screen con le sagome grigie dei punti in cui apparirà il contenuto.
 ```
 
 ---
 
-### Occam’s Razor
+### Legge di Postel (principio di robustezza)
 
-**Principle:** Among competing hypotheses that predict equally well, the one with the fewest assumptions should be selected. The simplest solution is usually the best.
+**Principio:** sii rigoroso in ciò che fai e tollerante in ciò che accetti dagli altri.
 
-**Application:**
+**Applicazione:**
 
-- **Logic:** Remove unnecessary clicks.
-- **Visuals:** Use only as many fonts/colors as strictly necessary.
-- **Function:** If one field can do the work of two, combine them.
-- **Copy:** Use the shortest possible text to convey meaning.
-- **Layout:** Remove decorative elements that don't serve a goal.
-- **Flow:** Avoid branching paths unless absolutely required.
+- **Gestione degli errori:** non dare errore per uno spazio o un trattino mancante.
+- **Formattazione:** accetta le date sia in GG/MM/AAAA sia in MM/GG/AAAA.
+- **Input:** elimina in automatico gli spazi iniziali e finali.
+- **Fallback:** usa avatar predefiniti se l'utente non ha caricato una foto.
+- **Ricerca:** tollera i refusi e proponi suggerimenti del tipo "Forse cercavi...?".
+- **Accessibilità:** assicurati che il sito funzioni su tutti i browser e dispositivi.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A "Login" button that opens a new page, then email, then password.
-✅ Good: A single login modal that asks for both on one screen.
+❌ Male: rifiutare un numero di telefono perché l'utente ci ha messo uno spazio.
+✅ Bene: accettare l'input ed eliminare gli spazi in automatico.
 
-❌ Bad: Using 5 different font sizes and 4 colors on a single card.
-✅ Good: Using 2 font sizes and 1 accent color.
+❌ Male: costringere gli utenti a scrivere "gennaio" invece di "01" o "gen".
+✅ Bene: un campo data che capisce tutti e tre i formati.
 ```
 
 ---
 
-## 2. Visual Perception (Gestalt Principles)
+### Rasoio di Occam
 
-### Law of Proximity
+**Principio:** tra ipotesi concorrenti con la stessa capacità predittiva va scelta quella con meno assunzioni. La soluzione più semplice di solito è la migliore.
 
-**Principle:** Objects that are near, or proximate to each other, tend to be grouped together.
+**Applicazione:**
 
-**Application:**
+- **Logica:** elimina i clic inutili.
+- **Aspetto visivo:** usa solo i font e i colori strettamente necessari.
+- **Funzione:** se un campo può fare il lavoro di due, uniscili.
+- **Copy:** usa il testo più breve possibile per trasmettere il significato.
+- **Layout:** elimina gli elementi decorativi che non servono a uno scopo.
+- **Flusso:** evita i percorsi ramificati se non sono indispensabili.
 
-- **Grouping:** Keep labels physically close to input fields.
-- **Spacing:** Larger margins between unrelated content blocks.
-- **Cards:** Text inside a card should be closer to its image than the border.
-- **Footers:** Cluster legal links together away from social links.
-- **Navigation:** Group "User" settings separate from "App" settings.
-- **Forms:** Group Address fields together, separate from Credit Card fields.
-
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: Large, equal gaps between every line of text in a form.
-✅ Good: Tight spacing between a label and its input, with larger gaps between pairs.
+❌ Male: un pulsante "Accedi" che apre una nuova pagina, poi l'email, poi la password.
+✅ Bene: un'unica modale di login che chiede entrambe in una sola schermata.
 
-❌ Bad: A "Submit" button floating in the middle of a page, far from the form.
-✅ Good: The "Submit" button placed directly under the last input field.
+❌ Male: usare 5 dimensioni di font diverse e 4 colori in una sola card.
+✅ Bene: usare 2 dimensioni di font e 1 colore d'accento.
 ```
 
 ---
 
-### Law of Similarity
+## 2. Percezione visiva (principi della Gestalt)
 
-**Principle:** The human eye tends to perceive similar elements in a design as a complete picture, shape, or group, even if those elements are separated.
+### Legge di prossimità
 
-**Application:**
+**Principio:** gli oggetti vicini tra loro tendono a essere percepiti come un gruppo.
 
-- **Consistency:** Consistent colors for all clickable links.
-- **Iconography:** All icons in a set should have the same stroke weight.
-- **Buttons:** Same shape/size for buttons with the same importance.
-- **Typography:** Use the same H2 style for all section headers.
-- **Feedback:** All "Delete" actions should use the same color (e.g. Red).
-- **States:** Hover and Active states must be consistent across the app.
+**Applicazione:**
 
-**Example:**
+- **Raggruppamento:** tieni le etichette fisicamente vicine ai campi di input.
+- **Spaziatura:** margini più ampi tra blocchi di contenuto non correlati.
+- **Card:** il testo in una card deve stare più vicino alla sua immagine che al bordo.
+- **Footer:** raggruppa i link legali, lontano dai link social.
+- **Navigazione:** tieni le impostazioni "Utente" separate da quelle "App".
+- **Form:** raggruppa i campi dell'indirizzo, separati da quelli della carta di credito.
+
+**Esempio:**
 
 ```text
-❌ Bad: Some links are blue, some are green, and some are just bold black.
-✅ Good: Every clickable text element in the app is the same shade of Blue.
+❌ Male: spazi ampi e uguali tra tutte le righe di testo di un form.
+✅ Bene: spaziatura stretta tra etichetta e input, con spazi più ampi tra una coppia e l'altra.
 
-❌ Bad: Using a "Blue Button" for "Submit" and the same "Blue Button" for "Cancel."
-✅ Good: "Submit" is Solid Blue; "Cancel" is a Blue Outline (Ghost Button).
+❌ Male: un pulsante "Invia" che fluttua a metà pagina, lontano dal form.
+✅ Bene: il pulsante "Invia" subito sotto l'ultimo campo di input.
 ```
 
 ---
 
-### Law of Common Region
+### Legge di somiglianza
 
-**Principle:** Elements tend to be perceived into groups if they are sharing an area with a clearly defined boundary.
+**Principio:** l'occhio umano tende a percepire gli elementi simili di un design come un'unica immagine, forma o gruppo, anche se sono separati.
 
-**Application:**
+**Applicazione:**
 
-- **Containerizing:** Use cards to group images and titles.
-- **Borders:** Use lines to separate the sidebar from the main feed.
-- **Backgrounds:** Use a different background color for the footer.
-- **Modals:** Use a distinct box to separate pop-ups from the page.
-- **Lists:** Alternating background colors (zebra striping) for rows.
-- **Header:** A solid bar across the top to group navigation items.
+- **Coerenza:** colori coerenti per tutti i link cliccabili.
+- **Iconografia:** tutte le icone di un set devono avere lo stesso spessore del tratto.
+- **Pulsanti:** stessa forma e dimensione per pulsanti della stessa importanza.
+- **Tipografia:** usa lo stesso stile H2 per tutti i titoli di sezione.
+- **Feedback:** tutte le azioni "Elimina" devono usare lo stesso colore (per es. rosso).
+- **Stati:** gli stati hover e active devono essere coerenti in tutta l'app.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A list of news articles where the text and image of different stories overlap.
-✅ Good: Each article is contained within its own white card on a light gray background.
+❌ Male: alcuni link sono blu, altri verdi, altri semplicemente neri in grassetto.
+✅ Bene: ogni testo cliccabile dell'app ha la stessa tonalità di blu.
 
-❌ Bad: A footer that has the same background color as the main body.
-✅ Good: A dark-themed footer that clearly separates legal links from page content.
+❌ Male: usare lo stesso "pulsante blu" sia per "Invia" sia per "Annulla".
+✅ Bene: "Invia" è blu pieno; "Annulla" ha solo il contorno blu (ghost button).
 ```
 
 ---
 
-### Law of Uniform Connectedness
+### Legge della regione comune
 
-**Principle:** Elements that are visually connected (e.g., via lines, arrows) are perceived as more related than elements with no connection.
+**Principio:** gli elementi tendono a essere percepiti come gruppo se condividono un'area con un confine ben definito.
 
-**Application:**
+**Applicazione:**
 
-- **Flow:** Use lines to connect steps in a progress wizard.
-- **Menus:** Dropdowns that "touch" or connect to their parent button.
-- **Graphs:** Lines connecting data points in a chart.
-- **Relationship:** Connecting a toggle switch to the text it controls.
-- **Hierarchy:** Tree structures for file directories.
-- **Forms:** Connecting a "Credit Card" radio button to the fieldset below it.
+- **Contenitori:** usa le card per raggruppare immagini e titoli.
+- **Bordi:** usa delle linee per separare la sidebar dal feed principale.
+- **Sfondi:** usa un colore di sfondo diverso per il footer.
+- **Modali:** usa un riquadro distinto per separare i pop-up dalla pagina.
+- **Liste:** colori di sfondo alternati per le righe (zebra striping).
+- **Header:** una barra piena in alto per raggruppare le voci di navigazione.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A 3-step setup where the numbers "1", "2", and "3" are scattered.
-✅ Good: A horizontal line connecting "1", "2", and "3" to show a sequence.
+❌ Male: un elenco di notizie in cui testo e immagini di articoli diversi si sovrappongono.
+✅ Bene: ogni articolo sta nella sua card bianca su sfondo grigio chiaro.
 
-❌ Bad: Floating dropdown menus that don't touch the button that opened them.
-✅ Good: A dropdown menu that visually "attaches" to the parent button.
+❌ Male: un footer con lo stesso colore di sfondo del corpo della pagina.
+✅ Bene: un footer scuro che separa chiaramente i link legali dal contenuto della pagina.
 ```
 
 ---
 
-### Law of Prägnanz (Simplicity)
+### Legge della connessione uniforme
 
-**Principle:** People will perceive and interpret ambiguous or complex images as the simplest form possible, because it is the interpretation that requires the least cognitive effort.
+**Principio:** gli elementi collegati visivamente (per es. da linee o frecce) vengono percepiti come più correlati di quelli non collegati.
 
-**Application:**
+**Applicazione:**
 
-- **Clarity:** Use clear, geometric icons for navigation.
-- **Reduction:** Remove unnecessary 3D textures or shadows.
-- **Shapes:** Prefer standard rectangles/circles over complex polygons.
-- **Focus:** Use high-contrast silhouettes for primary actions.
-- **Logos:** Simple brand marks that are recognizable at small sizes.
-- **UX:** One main goal per page to keep the "mental shape" simple.
+- **Flusso:** usa delle linee per collegare gli step di un wizard.
+- **Menu:** dropdown che "toccano" il pulsante da cui partono o vi si collegano.
+- **Grafici:** linee che collegano i punti dati di un grafico.
+- **Relazione:** collega un interruttore (toggle) al testo che controlla.
+- **Gerarchia:** strutture ad albero per le cartelle dei file.
+- **Form:** collega il radio button "Carta di credito" al fieldset sottostante.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A hyper-realistic 3D illustration of a file folder for the "Files" icon.
-✅ Good: A simple 2D outline of a folder.
+❌ Male: una configurazione in 3 step in cui i numeri "1", "2" e "3" sono sparsi.
+✅ Bene: una linea orizzontale che collega "1", "2" e "3" per mostrare la sequenza.
 
-❌ Bad: A multi-colored, complex logo used as a loading spinner.
-✅ Good: A simple, single-color circular ring.
+❌ Male: menu dropdown fluttuanti che non toccano il pulsante che li ha aperti.
+✅ Bene: un menu dropdown che si "aggancia" visivamente al pulsante da cui parte.
 ```
 
 ---
 
-### Law of Figure/Ground
+### Legge della Prägnanz (semplicità)
 
-**Principle:** The eye differentiates an object from its surrounding area. a form, silhouette, or shape is perceived as figure (object), while the surrounding area is perceived as ground (background).
+**Principio:** le persone percepiscono e interpretano le immagini ambigue o complesse nella forma più semplice possibile, perché è l'interpretazione che richiede il minimo sforzo cognitivo.
 
-**Application:**
+**Applicazione:**
 
-- **Focus:** Use overlays (scrims) for modals to pop the content.
-- **Depth:** Drop shadows to imply the "figure" is sitting above the "ground."
-- **Contrast:** Light text on dark ground (or vice versa).
-- **Blur:** Use background blur to emphasize foreground text.
-- **Navigation:** Floating sticky headers that stay above the page content.
-- **Hover:** Elevate cards slightly on hover to define them as the figure.
+- **Chiarezza:** usa icone chiare e geometriche per la navigazione.
+- **Riduzione:** elimina texture 3D e ombre non necessarie.
+- **Forme:** preferisci rettangoli e cerchi standard ai poligoni complessi.
+- **Focus:** usa sagome ad alto contrasto per le azioni primarie.
+- **Logo:** marchi semplici, riconoscibili anche a dimensioni ridotte.
+- **UX:** un solo obiettivo principale per pagina, per mantenere semplice la "forma mentale".
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A popup window that has no shadow or border, blending into the page.
-✅ Good: A modal with a drop shadow and a dimmed background overlay.
+❌ Male: un'illustrazione 3D iperrealistica di una cartella come icona "File".
+✅ Bene: il semplice contorno 2D di una cartella.
 
-❌ Bad: White text placed directly over a busy, multi-colored photograph.
-✅ Good: White text placed over a dark semi-transparent "scrim."
+❌ Male: un logo complesso e multicolore usato come spinner di caricamento.
+✅ Bene: un semplice anello circolare di un solo colore.
 ```
 
 ---
 
-### Law of Focal Point
+### Legge figura/sfondo
 
-**Principle:** Whatever stands out visually will capture and hold the viewer’s attention first.
+**Principio:** l'occhio distingue un oggetto dall'area che lo circonda. Una forma o una sagoma viene percepita come figura (oggetto), mentre l'area intorno viene percepita come sfondo.
 
-**Application:**
+**Applicazione:**
 
-- **Entry:** Place the primary value proposition at the focal point.
-- **Color:** Use one high-vibrancy "Action Color" against a neutral UI.
-- **Movement:** Use subtle animation on the CTA to draw the eye.
-- **Size:** The most important statistic should be the largest font.
-- **Typography:** Use bold weights for headers and standard weights for body.
-- **Direction:** Use arrows or gaze (images of people looking at a button).
+- **Focus:** usa overlay (scrim) per le modali, così il contenuto risalta.
+- **Profondità:** ombre esterne per suggerire che la "figura" sta sopra lo "sfondo".
+- **Contrasto:** testo chiaro su sfondo scuro (o viceversa).
+- **Sfocatura:** usa il blur dello sfondo per dare risalto al testo in primo piano.
+- **Navigazione:** header sticky fluttuanti che restano sopra il contenuto della pagina.
+- **Hover:** solleva leggermente le card all'hover per definirle come figura.
 
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A homepage with 5 buttons of the same size and color.
-✅ Good: One large "Get Started" button in a bright color.
+❌ Male: un popup senza ombra né bordo, che si confonde con la pagina.
+✅ Bene: una modale con ombra e un overlay che scurisce lo sfondo.
 
-❌ Bad: A dashboard where "Total Revenue" is the same size as "System Version."
-✅ Good: "Total Revenue" displayed in huge, bold numbers at the top center.
+❌ Male: testo bianco messo direttamente sopra una foto affollata e multicolore.
+✅ Bene: testo bianco sopra uno "scrim" scuro semitrasparente.
 ```
 
 ---
 
-## 3. Cognitive Biases & Behavior
+### Legge del punto focale
 
-### Zeigarnik Effect
+**Principio:** ciò che risalta visivamente cattura e trattiene per primo l'attenzione di chi guarda.
 
-**Principle:** People remember uncompleted or interrupted tasks better than completed tasks.
+**Applicazione:**
 
-**Application:**
+- **Ingresso:** metti la value proposition principale nel punto focale.
+- **Colore:** usa un solo "colore d'azione" molto acceso su una UI neutra.
+- **Movimento:** usa un'animazione discreta sulla CTA per attirare lo sguardo.
+- **Dimensione:** il dato più importante deve avere il font più grande.
+- **Tipografia:** pesi bold per i titoli e pesi normali per il corpo del testo.
+- **Direzione:** usa frecce o lo sguardo (immagini di persone che guardano un pulsante).
 
-- **Gamification:** Use "Profile 60% complete" bars.
-- **Engagement:** Tease the next module in a learning path.
-- **Retention:** Show a "To-Do" list of features yet to be explored.
-- **Feedback:** Persistent badges for unread messages.
-- **Momentum:** Show "Next" steps immediately after completing one.
-- **Shopping:** "Finish your order" reminders in the cart.
-
-**Example:**
+**Esempio:**
 
 ```text
-❌ Bad: A silent onboarding process that gives no indication of what's left.
-✅ Good: A checklist that shows "3 of 5 steps finished."
-
-❌ Bad: An e-learning app that shows a checkmark even if a video was half-watched.
-✅ Good: A progress ring that stays half-full until the video is finished.
-```
-
-### Goal Gradient Effect
-
-**Principle:** The tendency to approach a goal increases with proximity to the goal.
-
-**Application:**
-
-- **Momentum:** Give users "Artificial Advancement" (e.g. 2 free stamps).
-- **Progress:** Break a 10-field form into two 5-field steps.
-- **Feedback:** Celebrate milestones halfway through a task.
-- **Motivation:** Show the user how close they are to a reward/status.
-- **Navigation:** Use breadcrumbs to show how close they are to the end.
-- **Loading:** Speed up the loading animation as it nears 100%.
-
-**Example:**
-
-```text
-❌ Bad: A progress bar that starts at 0% and feels like a long climb.
-✅ Good: A bar that starts at 20% because the user "started" by opening the app.
-
-❌ Bad: A checkout flow where the "Final Review" feels like a surprise 5th step.
-✅ Good: Clearly labeling the steps: "Shipping > Payment > Almost Done!"
-```
-
-### Peak-End Rule
-
-**Principle:** People judge an experience largely based on how they felt at its peak (the most intense point) and at its end, rather than the total sum or average of every moment.
-
-**Application:**
-
-- **Success:** Make the "Order Confirmed" screen memorable.
-- **Delight:** Add confetti or a unique animation at the point of value.
-- **Support:** Ensure the final interaction with a chat bot is helpful.
-- **Unboarding:** Even when a user leaves, make the final exit clean.
-- **Onboarding:** End the first session with a clear "Win."
-- **Error Handling:** Turn a 404 page into a fun, helpful interaction.
-
-**Example:**
-
-```text
-❌ Bad: After a 20-minute tax filing process, the app just says "Submitted."
-✅ Good: A "Congratulations!" screen with a summary of the refund amount.
-
-❌ Bad: A game that ends with a simple "Game Over" text in plain font.
-✅ Good: A summary screen showing high scores with celebratory music.
-```
-
-### Aesthetic-Usability Effect
-
-**Principle:** Users often perceive aesthetically pleasing design as design that’s more usable.
-
-**Application:**
-
-- **Trust:** High-fidelity visuals buy "trust credit" for minor bugs.
-- **Branding:** Consistent high-quality imagery build professionalism.
-- **Engagement:** Beautiful interfaces keep users exploring longer.
-- **Patience:** Users are more forgiving of load times if the UI is pretty.
-- **Confidence:** Clean design makes complex tools feel more manageable.
-- **Loyalty:** People form emotional bonds with beautiful products.
-
-**Example:**
-
-```text
-❌ Bad: A banking app with misaligned text and clashing 1990s colors.
-✅ Good: A sleek, modern banking app with smooth animations.
-
-❌ Bad: Using low-resolution, pixelated stock photos.
-✅ Good: Using high-definition, custom brand illustrations.
-```
-
-### Anchoring Bias
-
-**Principle:** Users rely heavily on the first piece of information offered (the "anchor") when making decisions.
-
-**Application:**
-
-- **Pricing:** Show the original price crossed out.
-- **Tiers:** Put the most expensive "Enterprise" plan on the far left.
-- **Sorting:** Highlight "Most Popular" as the first recommendation.
-- **Discounts:** State the "Save 20%" before showing the final price.
-- **Limits:** "Limit 12 per customer" anchors the idea that it's high value.
-- **Defaults:** Start with a high "Suggested Donation" amount.
-
-**Example:**
-
-```text
-❌ Bad: Only showing the price "$49."
-✅ Good: Showing "~~$99~~ $49 (50% Off)."
-
-❌ Bad: Sorting a list of laptops from cheapest to most expensive.
-✅ Good: Showing a high-end "Pro" model first to make others seem cheap.
-```
-
-### Social Proof
-
-**Principle:** People copy the actions of others in an attempt to undertake behavior in a given situation.
-
-**Application:**
-
-- **Validation:** Display "Join 50,000+ others."
-- **Reviews:** Star ratings and verified customer testimonials.
-- **Logos:** "Trusted by" section showing partner brands.
-- **Live Feed:** "Sarah just bought this 5 mins ago" notifications.
-- **Activity:** "300 people are currently viewing this item."
-- **Certificates:** Industry awards and security badges.
-
-**Example:**
-
-```text
-❌ Bad: A signup page with just a form.
-✅ Good: A signup page that says "Join 2 million designers."
-
-❌ Bad: Anonymous reviews with no names or photos.
-✅ Good: Reviews that include a face, a name, and a "Verified Buyer" tag.
-```
-
-### Scarcity Principle
-
-**Principle:** Humans place a higher value on an object that is scarce, and a lower value on those that are in abundance.
-
-**Application:**
-
-- **Urgency:** "Only 2 items left in stock."
-- **Time:** Ticking countdown timers for sales.
-- **Access:** "Invite-only" betas or exclusive tiers.
-- **Seasonality:** "Summer Edition" products.
-- **Low Stock:** "Back in stock soon - pre-order now."
-- **Demand:** "In high demand - 10 people have this in their cart."
-
-**Example:**
-
-```text
-❌ Bad: A sale that never ends and has no countdown.
-✅ Good: A "Deal of the Day" with a ticking timer.
-
-❌ Bad: Showing a product is available with no stock count.
-✅ Good: "Only 3 left at this price!"
-```
-
-### Authority Bias
-
-**Principle:** The tendency to attribute greater accuracy to the opinion of an authority figure and be more influenced by that opinion.
-
-**Application:**
-
-- **Expertise:** Use "Expert-verified" or professional headshots.
-- **Certifications:** Trust seals (Norton, ISO, HIPAA).
-- **Media:** "As seen on TechCrunch/Forbes" logos.
-- **Endorsements:** Testimonials from industry leaders or influencers.
-- **Language:** Confident, professional, and accurate copy.
-- **History:** "Established in 1950" to imply longevity and trust.
-
-**Example:**
-
-```text
-❌ Bad: A health blog written by "Admin."
-✅ Good: A health article "Reviewed by Dr. Jane Smith, Cardiologist."
-
-❌ Bad: A security app with no mentions of certifications.
-✅ Good: Displaying "ISO 27001 Certified" and "Norton Secured" logos.
-```
-
-### Loss Aversion
-
-**Principle:** People generally prefer avoiding losses to acquiring equivalent gains. It is better to not lose $5 than to find $5.
-
-**Application:**
-
-- **Messaging:** "Don't lose your discount."
-- **Trials:** "Your free trial is ending - keep your data now."
-- **Scarcity:** "Once it's gone, it's gone for good."
-- **Carts:** "Don't miss out on the items in your cart."
-- **Loyalty:** "You've earned 500 points - don't let them expire."
-- **Risk:** "30-day money-back guarantee" (reduces the "loss" of money).
-
-**Example:**
-
-```text
-❌ Bad: "Click here to get a $10 coupon."
-✅ Good: "You have a $10 credit waiting. Use it before it expires tonight!"
-
-❌ Bad: "Cancel your subscription."
-✅ Good: "If you cancel, you will lose access to your 50 saved projects."
-```
-
-### False-Consensus Effect
-
-**Principle:** People tend to overestimate the extent to which their opinions, beliefs, preferences, values, and habits are normal and typical of those of others.
-
-**Application:**
-
-- **Testing:** You are not the user - test with real target audiences.
-- **Research:** Use qualitative data (interviews) and quantitative data (analytics).
-- **Bias:** Use "Blind Design Reviews" to avoid personal favoritism.
-- **Persona:** Stick to established User Personas over personal hunches.
-- **Variation:** Test with users from different demographics/abilities.
-- **Objectivity:** Use heatmaps to see actual user behavior.
-
-**Example:**
-
-```text
-❌ Bad: A designer deciding a feature is "intuitive" without testing it.
-✅ Good: Running an A/B test to see which version users prefer.
-
-❌ Bad: Building an app entirely in English because "everyone knows English."
-✅ Good: Adding localization based on actual user location data.
-```
-
-### Curse of Knowledge
-
-**Principle:** A cognitive bias that occurs when an individual, communicating with other individuals, unknowingly assumes that the others have the background to understand.
-
-**Application:**
-
-- **Copy:** Avoid jargon and use plain language.
-- **Onboarding:** Tutorials that assume the user knows nothing.
-- **Tooltips:** Explain complex terms on hover.
-- **Structure:** Progressive disclosure (hide advanced settings).
-- **Labels:** Use icons + text labels for navigation (don't rely on icons alone).
-- **Support:** Comprehensive FAQs for first-time users.
-
-**Example:**
-
-```text
-❌ Bad: An error message saying "Exception: Null Pointer at 0x0045."
-✅ Good: An error message saying "Something went wrong. Please try refreshing."
-
-❌ Bad: Navigating a cloud app using terms like "S3 Bucket Instances."
-✅ Good: Using simple terms like "File Storage."
-```
-
-### Stepping Stone Effect (Foot-in-the-Door)
-
-**Principle:** Users commit to large tasks if they start with small ones.
-
-**Application:**
-
-- **Funnel:** Ask for email before asking for credit card.
-- **Engagement:** Ask for one preference (e.g. "Dark Mode?") before registration.
-- **Onboarding:** Use a series of "Quick Yes/No" questions.
-- **Trust:** Offer a free PDF/tool before asking for a subscription.
-- **Profile:** Ask to upload a photo first, then fill out the bio later.
-- **Sales:** Offer a low-cost "tripwire" product before the main service.
-
-**Example:**
-
-```text
-❌ Bad: A "Start Free Trial" button that immediately requires credit card info.
-✅ Good: Asking for an email and password first, then offering the trial.
-
-❌ Bad: A survey that shows all 50 questions on one page.
-✅ Good: A survey that starts with one easy "Yes/No" question.
+❌ Male: una homepage con 5 pulsanti della stessa dimensione e dello stesso colore.
+✅ Bene: un solo grande pulsante "Inizia" in un colore acceso.
+
+❌ Male: una dashboard in cui "Fatturato totale" ha la stessa dimensione di "Versione di sistema".
+✅ Bene: "Fatturato totale" mostrato con numeri enormi in grassetto, in alto al centro.
 ```
 
 ---
 
-## 2. Emotional Design (Don Norman)
+## 3. Bias cognitivi e comportamento
 
-### Three Levels of Processing
+### Effetto Zeigarnik
+
+**Principio:** le persone ricordano le attività incompiute o interrotte meglio di quelle completate.
+
+**Applicazione:**
+
+- **Gamification:** usa barre del tipo "Profilo completo al 60%".
+- **Engagement:** anticipa il modulo successivo di un percorso di apprendimento.
+- **Retention:** mostra una lista "Da fare" delle funzionalità ancora da esplorare.
+- **Feedback:** badge persistenti per i messaggi non letti.
+- **Slancio:** mostra i passi "Successivi" subito dopo averne completato uno.
+- **Shopping:** promemoria "Completa l'ordine" nel carrello.
+
+**Esempio:**
+
+```text
+❌ Male: un onboarding silenzioso che non dà alcuna indicazione di cosa manca.
+✅ Bene: una checklist che mostra "3 step su 5 completati".
+
+❌ Male: un'app di e-learning che mostra la spunta anche se il video è stato visto a metà.
+✅ Bene: un anello di avanzamento che resta pieno a metà finché il video non è finito.
+```
+
+### Effetto del gradiente dell'obiettivo (goal gradient)
+
+**Principio:** la spinta verso un obiettivo aumenta man mano che ci si avvicina.
+
+**Applicazione:**
+
+- **Slancio:** dai agli utenti un "avanzamento artificiale" (per es. 2 timbri omaggio).
+- **Avanzamento:** dividi un form da 10 campi in due step da 5.
+- **Feedback:** festeggia i traguardi a metà di un'attività.
+- **Motivazione:** mostra all'utente quanto è vicino a un premio o a un nuovo status.
+- **Navigazione:** usa i breadcrumb per mostrare quanto manca alla fine.
+- **Caricamento:** accelera l'animazione di caricamento quando si avvicina al 100%.
+
+**Esempio:**
+
+```text
+❌ Male: una barra di avanzamento che parte da 0% e sembra una lunga salita.
+✅ Bene: una barra che parte dal 20% perché l'utente ha "iniziato" aprendo l'app.
+
+❌ Male: un checkout in cui il "Riepilogo finale" sembra un 5° step a sorpresa.
+✅ Bene: step etichettati chiaramente: "Spedizione > Pagamento > Quasi fatto!"
+```
+
+### Regola del picco-fine (peak-end rule)
+
+**Principio:** le persone giudicano un'esperienza soprattutto in base a come si sono sentite nel momento di picco (il più intenso) e alla fine, non in base alla somma o alla media di tutti i momenti.
+
+**Applicazione:**
+
+- **Successo:** rendi memorabile la schermata "Ordine confermato".
+- **Delight:** aggiungi coriandoli o un'animazione unica nel momento in cui arriva il valore.
+- **Supporto:** assicurati che l'ultima interazione con un chatbot sia utile.
+- **Offboarding:** anche quando un utente se ne va, rendi pulita l'uscita finale.
+- **Onboarding:** chiudi la prima sessione con una "vittoria" chiara.
+- **Gestione degli errori:** trasforma una pagina 404 in un'interazione divertente e utile.
+
+**Esempio:**
+
+```text
+❌ Male: dopo 20 minuti di dichiarazione dei redditi, l'app dice solo "Inviato".
+✅ Bene: una schermata "Complimenti!" con il riepilogo dell'importo del rimborso.
+
+❌ Male: un gioco che finisce con un semplice "Game Over" in un font anonimo.
+✅ Bene: una schermata di riepilogo con i punteggi migliori e musica celebrativa.
+```
+
+### Effetto estetica-usabilità
+
+**Principio:** gli utenti tendono a percepire un design esteticamente gradevole come più usabile.
+
+**Applicazione:**
+
+- **Trust:** una grafica curata fa guadagnare "credito di fiducia" per i bug minori.
+- **Branding:** immagini coerenti e di qualità trasmettono professionalità.
+- **Engagement:** le interfacce belle tengono gli utenti a esplorare più a lungo.
+- **Pazienza:** gli utenti perdonano di più i tempi di caricamento se la UI è bella.
+- **Sicurezza:** un design pulito fa sembrare più gestibili gli strumenti complessi.
+- **Fedeltà:** le persone creano legami emotivi con i prodotti belli.
+
+**Esempio:**
+
+```text
+❌ Male: un'app bancaria con testo disallineato e colori anni '90 che stridono.
+✅ Bene: un'app bancaria elegante e moderna con animazioni fluide.
+
+❌ Male: usare foto stock pixelate a bassa risoluzione.
+✅ Bene: usare illustrazioni di brand personalizzate in alta definizione.
+```
+
+### Bias di ancoraggio
+
+**Principio:** per decidere, gli utenti si basano molto sulla prima informazione che ricevono (l'"ancora").
+
+**Applicazione:**
+
+- **Pricing:** mostra il prezzo originale barrato.
+- **Piani:** metti il piano "Enterprise", il più costoso, all'estrema sinistra.
+- **Ordinamento:** metti in evidenza "Il più popolare" come prima raccomandazione.
+- **Sconti:** indica "Risparmi il 20%" prima di mostrare il prezzo finale.
+- **Limiti:** "Massimo 12 per cliente" ancora l'idea che il prodotto valga molto.
+- **Default:** parti da un importo alto di "donazione suggerita".
+
+**Esempio:**
+
+```text
+❌ Male: mostrare solo il prezzo "$49".
+✅ Bene: mostrare "~~$99~~ $49 (-50%)".
+
+❌ Male: ordinare una lista di laptop dal più economico al più costoso.
+✅ Bene: mostrare per primo un modello "Pro" di fascia alta, così gli altri sembrano economici.
+```
+
+### Riprova sociale (social proof)
+
+**Principio:** le persone copiano le azioni degli altri per capire come comportarsi in una data situazione.
+
+**Applicazione:**
+
+- **Conferma:** mostra "Unisciti a oltre 50.000 persone".
+- **Recensioni:** valutazioni a stelle e testimonianze di clienti verificati.
+- **Logo:** sezione "Scelto da" con i brand partner.
+- **Feed live:** notifiche del tipo "Sara l'ha comprato 5 minuti fa".
+- **Attività:** "300 persone stanno guardando questo articolo".
+- **Certificati:** premi di settore e badge di sicurezza.
+
+**Esempio:**
+
+```text
+❌ Male: una pagina di registrazione con solo un form.
+✅ Bene: una pagina di registrazione che dice "Unisciti a 2 milioni di designer".
+
+❌ Male: recensioni anonime, senza nomi né foto.
+✅ Bene: recensioni con un volto, un nome e l'etichetta "Acquirente verificato".
+```
+
+### Principio di scarsità
+
+**Principio:** le persone danno più valore a ciò che è scarso e meno a ciò che è abbondante.
+
+**Applicazione:**
+
+- **Urgenza:** "Solo 2 articoli rimasti in magazzino".
+- **Tempo:** timer con conto alla rovescia per le offerte.
+- **Accesso:** beta "solo su invito" o piani esclusivi.
+- **Stagionalità:** prodotti "Summer Edition".
+- **Scorte basse:** "Presto di nuovo disponibile: preordina ora".
+- **Domanda:** "Molto richiesto: 10 persone lo hanno nel carrello".
+
+**Esempio:**
+
+```text
+❌ Male: una promozione che non finisce mai e non ha conto alla rovescia.
+✅ Bene: un'"Offerta del giorno" con il timer che scorre.
+
+❌ Male: mostrare che un prodotto è disponibile senza indicare la quantità.
+✅ Bene: "Solo 3 rimasti a questo prezzo!"
+```
+
+### Bias di autorità
+
+**Principio:** la tendenza ad attribuire maggiore accuratezza all'opinione di una figura autorevole e a lasciarsene influenzare di più.
+
+**Applicazione:**
+
+- **Competenza:** usa diciture come "Verificato da esperti" o foto professionali.
+- **Certificazioni:** sigilli di fiducia (Norton, ISO, HIPAA).
+- **Media:** loghi "Visto su TechCrunch/Forbes".
+- **Endorsement:** testimonianze di leader di settore o influencer.
+- **Linguaggio:** copy sicuro, professionale e accurato.
+- **Storia:** "Dal 1950" per suggerire longevità e affidabilità.
+
+**Esempio:**
+
+```text
+❌ Male: un blog sulla salute scritto da "Admin".
+✅ Bene: un articolo sulla salute "Revisionato dalla dott.ssa Jane Smith, cardiologa".
+
+❌ Male: un'app di sicurezza che non cita alcuna certificazione.
+✅ Bene: mostrare i loghi "Certificato ISO 27001" e "Norton Secured".
+```
+
+### Avversione alla perdita
+
+**Principio:** in genere le persone preferiscono evitare una perdita piuttosto che ottenere un guadagno equivalente. Non perdere 5 $ conta più che trovarne 5.
+
+**Applicazione:**
+
+- **Messaggi:** "Non perdere il tuo sconto".
+- **Prove gratuite:** "La tua prova gratuita sta per scadere: conserva i tuoi dati ora".
+- **Scarsità:** "Quando finisce, è finito per sempre".
+- **Carrello:** "Non lasciarti sfuggire gli articoli nel carrello".
+- **Fedeltà:** "Hai accumulato 500 punti: non lasciarli scadere".
+- **Rischio:** "Soddisfatti o rimborsati entro 30 giorni" (riduce la "perdita" di denaro).
+
+**Esempio:**
+
+```text
+❌ Male: "Clicca qui per ricevere un coupon da 10 $".
+✅ Bene: "Hai un credito di 10 $ che ti aspetta. Usalo prima che scada stanotte!"
+
+❌ Male: "Annulla l'abbonamento".
+✅ Bene: "Se annulli, perderai l'accesso ai tuoi 50 progetti salvati".
+```
+
+### Effetto falso consenso
+
+**Principio:** le persone tendono a sopravvalutare quanto le proprie opinioni, convinzioni, preferenze, valori e abitudini siano normali e condivisi dagli altri.
+
+**Applicazione:**
+
+- **Test:** tu non sei l'utente: testa con il vero pubblico di riferimento.
+- **Ricerca:** usa dati qualitativi (interviste) e quantitativi (analytics).
+- **Bias:** usa le "design review alla cieca" per evitare favoritismi personali.
+- **Persona:** attieniti alle User Persona definite invece che alle intuizioni personali.
+- **Varietà:** testa con utenti di fasce demografiche e abilità diverse.
+- **Oggettività:** usa le heatmap per vedere il comportamento reale degli utenti.
+
+**Esempio:**
+
+```text
+❌ Male: un designer che decide che una funzionalità è "intuitiva" senza testarla.
+✅ Bene: fare un A/B test per vedere quale versione preferiscono gli utenti.
+
+❌ Male: costruire un'app interamente in inglese perché "tutti sanno l'inglese".
+✅ Bene: aggiungere la localizzazione in base ai dati reali sulla posizione degli utenti.
+```
+
+### Maledizione della conoscenza
+
+**Principio:** un bias cognitivo per cui chi comunica con altre persone dà per scontato, senza rendersene conto, che abbiano le conoscenze di base per capire.
+
+**Applicazione:**
+
+- **Copy:** evita il gergo e usa un linguaggio semplice.
+- **Onboarding:** tutorial che partono dal presupposto che l'utente non sappia nulla.
+- **Tooltip:** spiega i termini complessi all'hover.
+- **Struttura:** progressive disclosure (nascondi le impostazioni avanzate).
+- **Etichette:** usa icone + etichette di testo per la navigazione (non affidarti alle sole icone).
+- **Supporto:** FAQ complete per chi usa il prodotto per la prima volta.
+
+**Esempio:**
+
+```text
+❌ Male: un messaggio di errore che dice "Exception: Null Pointer at 0x0045".
+✅ Bene: un messaggio di errore che dice "Qualcosa è andato storto. Prova ad aggiornare la pagina".
+
+❌ Male: far navigare un'app cloud con termini come "S3 Bucket Instances".
+✅ Bene: usare termini semplici come "Archivio file".
+```
+
+### Effetto trampolino (foot-in-the-door)
+
+**Principio:** gli utenti si impegnano in attività grandi se cominciano da quelle piccole.
+
+**Applicazione:**
+
+- **Funnel:** chiedi l'email prima della carta di credito.
+- **Engagement:** chiedi una sola preferenza (per es. "Dark mode?") prima della registrazione.
+- **Onboarding:** usa una serie di domande rapide "Sì/No".
+- **Trust:** offri un PDF o uno strumento gratuito prima di chiedere un abbonamento.
+- **Profilo:** chiedi prima di caricare una foto e solo dopo di compilare la bio.
+- **Vendite:** offri un prodotto "tripwire" a basso costo prima del servizio principale.
+
+**Esempio:**
+
+```text
+❌ Male: un pulsante "Inizia la prova gratuita" che chiede subito i dati della carta.
+✅ Bene: chiedere prima email e password, poi offrire la prova.
+
+❌ Male: un sondaggio che mostra tutte le 50 domande in una sola pagina.
+✅ Bene: un sondaggio che inizia con una semplice domanda "Sì/No".
+```
+
+---
+
+## 4. Design emotivo (Don Norman)
+
+### I tre livelli di elaborazione
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│  VISCERAL (Lizard Brain)                                    │
-│  ─────────────────────                                      │
-│  • Immediate, automatic reaction                            │
-│  • First impressions (first 50ms)                          │
-│  • Aesthetics: colors, shapes, imagery                      │
-│  • "Wow, this looks beautiful!"                            │
+│  VISCERALE (cervello rettiliano)                            │
+│  ───────────────────────────────                            │
+│  • Reazione immediata e automatica                          │
+│  • Prime impressioni (primi 50ms)                           │
+│  • Estetica: colori, forme, immagini                        │
+│  • "Wow, che bello!"                                        │
 ├─────────────────────────────────────────────────────────────┤
-│  BEHAVIORAL (Functional Brain)                              │
-│  ─────────────────────────────                              │
-│  • Usability and function                                   │
-│  • Pleasure from effective use                              │
-│  • Performance, reliability, ease                           │
-│  • "This works exactly how I expected!"                    │
+│  COMPORTAMENTALE (cervello funzionale)                      │
+│  ─────────────────────────────────────                      │
+│  • Usabilità e funzione                                     │
+│  • Piacere di un uso efficace                               │
+│  • Performance, affidabilità, facilità                      │
+│  • "Funziona esattamente come mi aspettavo!"                │
 ├─────────────────────────────────────────────────────────────┤
-│  REFLECTIVE (Conscious Brain)                               │
+│  RIFLESSIVO (cervello conscio)                              │
 │  ─────────────────────────────                              │
-│  • Conscious thought and meaning                            │
-│  • Personal identity and values                             │
-│  • Long-term memory and loyalty                             │
-│  • "This brand represents who I am"                        │
+│  • Pensiero consapevole e significato                       │
+│  • Identità e valori personali                              │
+│  • Memoria a lungo termine e fedeltà                        │
+│  • "Questo brand rappresenta chi sono"                      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Designing for Each Level
+### Progettare per ciascun livello
 
-**Visceral:**
+**Viscerale:**
 
 ```css
-/* Beautiful first impression */
+/* Una prima impressione bellissima */
 .hero {
   background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
   color: white;
 }
 
-/* Pleasing microinteractions */
+/* Microinterazioni piacevoli */
 .button:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
 ```
 
-**Behavioral:**
+**Comportamentale:**
 
 ```javascript
-// Instant feedback
+// Feedback immediato
 button.onclick = () => {
   button.disabled = true;
   button.textContent = 'Saving...';
-  
+
   save().then(() => {
-    showSuccess('Saved!');  // Immediate confirmation
+    showSuccess('Saved!');  // Conferma immediata
   });
 };
 ```
 
-**Reflective:**
+**Riflessivo:**
 
 ```html
-<!-- Brand story and values -->
+<!-- Storia e valori del brand -->
 <section class="about">
   <h2>Why We Exist</h2>
   <p>We believe technology should empower, not complicate...</p>
 </section>
 
-<!-- Social proof connecting to identity -->
+<!-- Riprova sociale legata all'identità -->
 <blockquote>
   "This tool helped me become the designer I wanted to be."
 </blockquote>
@@ -826,51 +826,51 @@ button.onclick = () => {
 
 ---
 
-## 3. Trust Building System
+## 5. Sistema per costruire la fiducia
 
-### Trust Signal Categories
+### Categorie di segnali di fiducia
 
-| Category | Elements | Implementation |
-| ---------- | ---------- | ---------------- |
-| **Security** | SSL, badges, encryption | Visible padlock, security logos on forms |
-| **Social Proof** | Reviews, testimonials, logos | Star ratings, customer photos, brand logos |
-| **Transparency** | Policies, pricing, contact | Clear links, no hidden fees, real address |
-| **Professional** | Design quality, consistency | No broken elements, consistent branding |
-| **Authority** | Certifications, awards, media | "As seen in...", industry certifications |
+| Categoria | Elementi | Implementazione |
+| --- | --- | --- |
+| **Sicurezza** | SSL, badge, crittografia | Lucchetto visibile, loghi di sicurezza sui form |
+| **Riprova sociale** | Recensioni, testimonianze, loghi | Valutazioni a stelle, foto dei clienti, loghi dei brand |
+| **Trasparenza** | Policy, prezzi, contatti | Link chiari, nessun costo nascosto, indirizzo reale |
+| **Professionalità** | Qualità del design, coerenza | Nessun elemento rotto, branding coerente |
+| **Autorità** | Certificazioni, premi, media | "Visto su...", certificazioni di settore |
 
-### Trust Signal Placement
+### Dove posizionare i segnali di fiducia
 
 ```text
-┌────────────────────────────────────────────────────┐
-│  HEADER: Trust banner ("Free shipping | 30-day    │
-│          returns | Secure checkout")               │
-├────────────────────────────────────────────────────┤
-│  HERO: Social proof ("Trusted by 10,000+")        │
-├────────────────────────────────────────────────────┤
-│  PRODUCT: Reviews visible, security badges         │
-├────────────────────────────────────────────────────┤
-│  CHECKOUT: Payment icons, SSL badge, guarantee     │
-├────────────────────────────────────────────────────┤
-│  FOOTER: Contact info, policies, certifications    │
-└────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│  HEADER: banner di fiducia ("Spedizione gratuita |   │
+│          Reso entro 30 giorni | Checkout sicuro")    │
+├──────────────────────────────────────────────────────┤
+│  HERO: riprova sociale ("Scelto da oltre 10.000")    │
+├──────────────────────────────────────────────────────┤
+│  PRODOTTO: recensioni visibili, badge di sicurezza   │
+├──────────────────────────────────────────────────────┤
+│  CHECKOUT: icone di pagamento, badge SSL, garanzia   │
+├──────────────────────────────────────────────────────┤
+│  FOOTER: contatti, policy, certificazioni            │
+└──────────────────────────────────────────────────────┘
 ```
 
-### Trust-Building CSS Patterns
+### Pattern CSS per costruire fiducia
 
 ```css
-/* Trust badge styling */
+/* Stile del badge di fiducia */
 .trust-badge {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: #F0FDF4;  /* Light green = security */
-  border-radius: 2px; /* Sharp for trust = precision feel */
+  background: #F0FDF4;  /* Verde chiaro = sicurezza */
+  border-radius: 2px; /* Angoli netti per la fiducia = senso di precisione */
   font-size: 14px;
   color: #166534;
 }
 
-/* Secure form indicator */
+/* Indicatore di form sicuro */
 .secure-form::before {
   content: '🔒 Secure form';
   display: block;
@@ -879,115 +879,115 @@ button.onclick = () => {
   margin-bottom: 8px;
 }
 
-/* Testimonial card */
+/* Card della testimonianza */
 .testimonial {
   display: flex;
   gap: 16px;
   padding: 24px;
   background: white;
-  border-radius: 16px; /* Friendly = larger radius */
+  border-radius: 16px; /* Amichevole = raggio più ampio */
   box-shadow: var(--shadow-sm);
 }
 
 .testimonial-avatar {
   width: 48px;
   height: 48px;
-  border-radius: 50%;  /* Real photos > initials */
+  border-radius: 50%;  /* Foto reali > iniziali */
 }
 ```
 
 ---
 
-## 4. Cognitive Load Management
+## 6. Gestione del carico cognitivo
 
-### Three Types of Cognitive Load
+### I tre tipi di carico cognitivo
 
-| Type | Definition | Designer's Role |
-| ------ | ------------ | ----------------- |
-| **Intrinsic** | Inherent complexity of task | Break into smaller steps |
-| **Extraneous** | Load from poor design | Eliminate this! |
-| **Germane** | Effort for learning | Support and encourage |
+| Tipo | Definizione | Ruolo del designer |
+| --- | --- | --- |
+| **Intrinseco** | Complessità propria dell'attività | Suddividila in step più piccoli |
+| **Estraneo** | Carico dovuto a un design scadente | Eliminalo! |
+| **Pertinente** (germane) | Sforzo dedicato all'apprendimento | Sostienilo e incoraggialo |
 
-### Reduction Strategies
+### Strategie di riduzione
 
-#### 1. Simplify (Reduce Extraneous)
+#### 1. Semplifica (riduci il carico estraneo)
 
 ```css
-/* Visual noise → Clean */
+/* Rumore visivo → pulizia */
 .card-busy {
   border: 2px solid red;
   background: linear-gradient(...);
   box-shadow: 0 0 20px ...;
-  /* Too much! */
+  /* Troppo! */
 }
 
 .card-clean {
   background: white;
   border-radius: 16px;
   box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
-  /* Calm, focused */
+  /* Calmo, focalizzato */
 }
 ```
 
-##### 2. Chunk Information
+#### 2. Suddividi le informazioni in blocchi
 
 ```html
-<!-- Overwhelming -->
+<!-- Opprimente -->
 <form>
-  <!-- 15 fields at once -->
+  <!-- 15 campi tutti insieme -->
 </form>
 
-<!-- Chunked -->
+<!-- A blocchi -->
 <form>
   <fieldset>
     <legend>Step 1: Personal Info</legend>
-    <!-- 3-4 fields -->
+    <!-- 3-4 campi -->
   </fieldset>
   <fieldset>
     <legend>Step 2: Shipping</legend>
-    <!-- 3-4 fields -->
+    <!-- 3-4 campi -->
   </fieldset>
 </form>
 ```
 
-###### 3. Progressive Disclosure
+#### 3. Progressive disclosure
 
 ```html
-<!-- Hide complexity until needed -->
+<!-- Nascondi la complessità finché non serve -->
 <div class="filters">
   <div class="filters-basic">
-    <!-- Common filters visible -->
+    <!-- Filtri comuni visibili -->
   </div>
   <button onclick="toggleAdvanced()">
     Advanced Options ▼
   </button>
   <div class="filters-advanced" hidden>
-    <!-- Complex filters hidden -->
+    <!-- Filtri complessi nascosti -->
   </div>
 </div>
 ```
 
-###### 4. Use Familiar Patterns
+#### 4. Usa pattern familiari
 
 ```text
-✅ Standard navigation placement
-✅ Expected icon meanings (🔍 = search)
-✅ Conventional form layouts
-✅ Common gesture patterns (swipe, pinch)
+✅ Posizione standard della navigazione
+✅ Significati delle icone che l'utente si aspetta (🔍 = ricerca)
+✅ Layout dei form convenzionali
+✅ Gesture comuni (swipe, pinch)
 ```
 
-###### 5. Offload Information
+#### 5. Alleggerisci la memoria dell'utente
 
 ```html
-<!-- Don't make users remember -->
+<!-- Non costringere gli utenti a ricordare -->
 <label>
   Card Number
-  <input type="text" inputmode="numeric" 
-         autocomplete="cc-number" 
+  <input type="text" inputmode="numeric"
+         autocomplete="cc-number"
          placeholder="1234 5678 9012 3456">
 </label>
 
-<!-- Show what they entered -->
+<!-- Mostra cosa hanno inserito -->
 <div class="order-summary">
   <p>Shipping to: <strong>John Doe, 123 Main St...</strong></p>
   <a href="#">Edit</a>
@@ -996,33 +996,33 @@ button.onclick = () => {
 
 ---
 
-## 5. Persuasive Design (Ethical)
+## 7. Design persuasivo (etico)
 
-### Ethical Persuasion Techniques
+### Tecniche di persuasione etica
 
-| Technique | Ethical Use | Dark Pattern (Avoid) |
-| ----------- | ------------- | ---------------------- |
-| **Scarcity** | Real stock levels | Fake countdown timers |
-| **Social Proof** | Genuine reviews | Fake testimonials |
-| **Authority** | Real credentials | Misleading badges |
-| **Urgency** | Real deadlines | Manufactured FOMO |
-| **Commitment** | Progress saving | Guilt-tripping |
+| Tecnica | Uso etico | Dark pattern (da evitare) |
+| --- | --- | --- |
+| **Scarsità** | Scorte reali | Timer con conto alla rovescia finti |
+| **Riprova sociale** | Recensioni autentiche | Testimonianze false |
+| **Autorità** | Credenziali reali | Badge ingannevoli |
+| **Urgenza** | Scadenze reali | FOMO artificiale |
+| **Impegno** | Salvataggio dei progressi | Far sentire in colpa l'utente |
 
-### Nudge Patterns
+### Pattern di nudge
 
-**Smart Defaults:**
+**Default intelligenti:**
 
 ```html
-<!-- Pre-select the recommended option -->
+<!-- Preseleziona l'opzione consigliata -->
 <input type="radio" name="plan" value="monthly">
 <input type="radio" name="plan" value="annual" checked>
   Annual (Save 20%)
 ```
 
-**Anchoring:**
+**Ancoraggio:**
 
 ```html
-<!-- Show original price to frame discount -->
+<!-- Mostra il prezzo originale per inquadrare lo sconto -->
 <div class="price">
   <span class="original">$99</span>
   <span class="current">$79</span>
@@ -1030,23 +1030,23 @@ button.onclick = () => {
 </div>
 ```
 
-**Social Proof:**
+**Riprova sociale:**
 
 ```html
-<!-- Real-time activity -->
+<!-- Attività in tempo reale -->
 <div class="activity">
   <span class="avatar">👤</span>
   <span>Sarah from NYC just purchased</span>
 </div>
 
-<!-- Aggregate proof -->
+<!-- Riprova aggregata -->
 <p>Join 50,000+ designers who use our tool</p>
 ```
 
-**Progress & Commitment:**
+**Avanzamento e impegno:**
 
 ```html
-<!-- Show progress to encourage completion -->
+<!-- Mostra l'avanzamento per incoraggiare il completamento -->
 <div class="progress">
   <div class="progress-bar" style="width: 60%"></div>
   <span>60% complete - almost there!</span>
@@ -1055,134 +1055,134 @@ button.onclick = () => {
 
 ---
 
-## 6. User Persona Quick Reference
+## 8. Guida rapida alle User Persona
 
-### Gen Z (Born 1997-2012)
+### Gen Z (nati nel 1997-2012)
 
 ```text
-CHARACTERISTICS:
-- Digital natives, mobile-first
-- Value authenticity, diversity
-- Short attention spans
-- Visual learners
+CARATTERISTICHE:
+- Nativi digitali, mobile-first
+- Danno valore ad autenticità e diversità
+- Soglia di attenzione breve
+- Apprendono soprattutto per immagini
 
-DESIGN APPROACH:
-├── Colors: Vibrant, hypercolor, bold gradients
-├── Typography: Large, variable, experimental
-├── Layout: Vertical scroll, mobile-native
-├── Interactions: Fast, gamified, gesture-based
-├── Content: Short-form video, memes, stories
-└── Trust: Peer reviews > authority
+APPROCCIO DI DESIGN:
+├── Colori: vivaci, ipercolori, gradienti decisi
+├── Tipografia: grande, variabile, sperimentale
+├── Layout: scroll verticale, nativo per mobile
+├── Interazioni: veloci, gamificate, basate su gesture
+├── Contenuti: video brevi, meme, stories
+└── Trust: recensioni dei pari > autorità
 ```
 
-### Millennials (Born 1981-1996)
+### Millennial (nati nel 1981-1996)
 
 ```text
-CHARACTERISTICS:
-- Value experiences over things
-- Research before buying
-- Socially conscious
-- Price-sensitive but quality-aware
+CARATTERISTICHE:
+- Preferiscono le esperienze agli oggetti
+- Si informano prima di comprare
+- Attenti alle questioni sociali
+- Sensibili al prezzo ma attenti alla qualità
 
-DESIGN APPROACH:
-├── Colors: Muted pastels, earth tones
-├── Typography: Clean, readable sans-serif
-├── Layout: Responsive, card-based
-├── Interactions: Smooth, purposeful animations
-├── Content: Value-driven, transparent
-└── Trust: Reviews, sustainability, values
+APPROCCIO DI DESIGN:
+├── Colori: pastelli tenui, toni terra
+├── Tipografia: sans-serif pulito e leggibile
+├── Layout: responsive, basato su card
+├── Interazioni: animazioni fluide e motivate
+├── Contenuti: orientati ai valori, trasparenti
+└── Trust: recensioni, sostenibilità, valori
 ```
 
-### Gen X (Born 1965-1980)
+### Gen X (nati nel 1965-1980)
 
 ```text
-CHARACTERISTICS:
-- Independent, self-reliant
-- Value efficiency
-- Skeptical of marketing
-- Balanced tech comfort
+CARATTERISTICHE:
+- Indipendenti, autosufficienti
+- Danno valore all'efficienza
+- Scettici verso il marketing
+- Discreta dimestichezza con la tecnologia
 
-DESIGN APPROACH:
-├── Colors: Professional, trustworthy
-├── Typography: Familiar, conservative
-├── Layout: Clear hierarchy, traditional
-├── Interactions: Functional, not flashy
-├── Content: Direct, fact-based
-└── Trust: Expertise, track record
+APPROCCIO DI DESIGN:
+├── Colori: professionali, affidabili
+├── Tipografia: familiare, conservativa
+├── Layout: gerarchia chiara, tradizionale
+├── Interazioni: funzionali, non appariscenti
+├── Contenuti: diretti, basati sui fatti
+└── Trust: competenza, risultati comprovati
 ```
 
-### Baby Boomers (Born 1946-1964)
+### Baby Boomer (nati nel 1946-1964)
 
 ```text
-CHARACTERISTICS:
-- Detail-oriented
-- Loyal when trusted
-- Value personal service
-- Less tech-confident
+CARATTERISTICHE:
+- Attenti ai dettagli
+- Fedeli quando si fidano
+- Apprezzano il servizio personale
+- Meno sicuri con la tecnologia
 
-DESIGN APPROACH:
-├── Colors: High contrast, simple palette
-├── Typography: Large (18px+), high contrast
-├── Layout: Simple, linear, spacious
-├── Interactions: Minimal, clear feedback
-├── Content: Comprehensive, detailed
-└── Trust: Phone numbers, real people
+APPROCCIO DI DESIGN:
+├── Colori: alto contrasto, palette semplice
+├── Tipografia: grande (18px+), alto contrasto
+├── Layout: semplice, lineare, arioso
+├── Interazioni: minime, feedback chiaro
+├── Contenuti: completi, dettagliati
+└── Trust: numeri di telefono, persone reali
 ```
 
 ---
 
-## 7. Emotion Color Mapping
+## 9. Mappa emozioni-colori
 
 ```text
 ┌────────────────────────────────────────────────────┐
-│  EMOTION          │  COLORS           │  USE       │
-├───────────────────┼───────────────────┼────────────┤
-│  Trust            │  Blue, Green      │  Finance   │
-│  Excitement       │  Red, Orange      │  Sales     │
-│  Calm             │  Blue, Soft green │  Wellness  │
-│  Luxury           │  Black, Gold      │  Premium   │
-│  Creativity       │  Teal, Pink       │  Art       │
-│  Energy           │  Yellow, Orange   │  Sports    │
-│  Nature           │  Green, Brown     │  Eco       │
-│  Happiness        │  Yellow, Orange   │  Kids      │
-│  Sophistication   │  Gray, Navy       │  Corporate │
-│  Urgency          │  Red              │  Errors    │
-└───────────────────┴───────────────────┴────────────┘
+│  EMOZIONE      │  COLORI             │  USO        │
+├────────────────┼─────────────────────┼─────────────┤
+│  Fiducia       │  Blu, verde         │  Finanza    │
+│  Eccitazione   │  Rosso, arancione   │  Saldi      │
+│  Calma         │  Blu, verde tenue   │  Benessere  │
+│  Lusso         │  Nero, oro          │  Premium    │
+│  Creatività    │  Verde acqua, rosa  │  Arte       │
+│  Energia       │  Giallo, arancione  │  Sport      │
+│  Natura        │  Verde, marrone     │  Eco        │
+│  Felicità      │  Giallo, arancione  │  Bambini    │
+│  Raffinatezza  │  Grigio, blu navy   │  Corporate  │
+│  Urgenza       │  Rosso              │  Errori     │
+└────────────────┴─────────────────────┴─────────────┘
 ```
 
 ---
 
-## 8. Psychology Checklist
+## 10. Checklist di psicologia
 
-### Before Launch
+### Prima del lancio
 
-- [ ] **Hick's Law:** No more than 7 choices in navigation. Have choices been narrowed to reduce decision fatigue?
-- [ ] **Fitts' Law:** Primary CTAs are large and reachable. Are the most important buttons easy to hit on mobile?
-- [ ] **Miller's Law:** Content is chunked appropriately. Is information grouped into digestible units of 5-7?
-- [ ] **Jakob's Law:** Does the site follow standard web conventions that users already understand?
-- [ ] **Doherty Threshold:** Does the system provide feedback within 400ms? Are skeleton screens in place?
-- [ ] **Tesler's Law:** Has complexity been moved from the user to the system where possible?
-- [ ] **Parkinson’s Law:** Are there features like "One-Click Checkout" to minimize task completion time?
-- [ ] **Von Restorff:** Does the primary CTA visually stand out from all other elements?
-- [ ] **Serial Position:** Is the most critical information at the very beginning or end of lists?
-- [ ] **Gestalt Laws:** Are related items physically grouped together (Proximity) or within a Card (Common Region)?
-- [ ] **Zeigarnik Effect:** Are there visual indicators (like progress bars) for incomplete tasks?
-- [ ] **Goal Gradient:** Is the user given a "head start" (e.g., 20% progress) to encourage completion?
-- [ ] **Peak-End Rule:** Does the final "Success" screen create a moment of delight?
-- [ ] **Occam’s Razor:** Have unnecessary visual or functional elements been removed?
-- [ ] **Aesthetic-Usability:** Is the UI high-fidelity enough to build initial user trust?
-- [ ] **Trust & Authority:** Are security badges, reviews, and expert certifications visible?
-- [ ] **Social Proof:** Are real user numbers or testimonials visible at decision points?
-- [ ] **Scarcity & Urgency:** If used, is the scarcity real and ethical (e.g., actual low stock)?
-- [ ] **Loss Aversion:** Does the copy emphasize what the user stands to keep rather than just gain?
-- [ ] **Anchoring:** Is the pricing presented in a way that frames the desired choice as a great value?
-- [ ] **Postel’s Law:** Is the system flexible enough to accept various input formats without errors?
-- [ ] **False-Consensus:** Has the design been tested with real users rather than just the internal team?
-- [ ] **Curse of Knowledge:** Is the copy free of technical jargon and easy for a beginner to understand?
-- [ ] **Stepping Stone:** Does the funnel start with low-friction tasks (e.g., email only)?
-- [ ] **Cognitive Load:** Is extraneous visual noise minimized to keep the interface clean?
-- [ ] **Emotional Design:** Does the color palette and imagery evoke the intended visceral reaction?
-- [ ] **Feedback:** Do all interactive elements have immediate hover, active, and success states?
-- [ ] **Accessibility:** Is the contrast ratio sufficient, and is the site navigable via keyboard/screen reader?
-- [ ] **Prägnanz:** Are icons and shapes simple enough to be recognized at a glance?
-- [ ] **Figure/Ground:** Is it clear which element is in focus (e.g., using shadows or scrims for modals)?
+- [ ] **Legge di Hick:** non più di 7 scelte nella navigazione. Hai ridotto le scelte per limitare l'affaticamento decisionale?
+- [ ] **Legge di Fitts:** le CTA primarie sono grandi e raggiungibili. I pulsanti più importanti sono facili da toccare su mobile?
+- [ ] **Legge di Miller:** i contenuti sono suddivisi in blocchi adeguati. Le informazioni sono raggruppate in unità digeribili da 5-7?
+- [ ] **Legge di Jakob:** il sito segue le convenzioni web standard che gli utenti già conoscono?
+- [ ] **Soglia di Doherty:** il sistema dà un feedback entro 400ms? Ci sono gli skeleton screen?
+- [ ] **Legge di Tesler:** dove possibile, la complessità è stata spostata dall'utente al sistema?
+- [ ] **Legge di Parkinson:** ci sono funzionalità come il "checkout con un clic" per ridurre al minimo il tempo di completamento?
+- [ ] **Von Restorff:** la CTA primaria risalta visivamente rispetto a tutti gli altri elementi?
+- [ ] **Posizione seriale:** le informazioni più critiche sono proprio all'inizio o alla fine delle liste?
+- [ ] **Leggi della Gestalt:** gli elementi correlati sono raggruppati fisicamente (prossimità) o dentro una card (regione comune)?
+- [ ] **Effetto Zeigarnik:** ci sono indicatori visivi (come le barre di avanzamento) per le attività incompiute?
+- [ ] **Gradiente dell'obiettivo:** l'utente riceve un "vantaggio iniziale" (per es. 20% di avanzamento) che lo incoraggi a completare?
+- [ ] **Regola del picco-fine:** la schermata finale di "successo" crea un momento di delight?
+- [ ] **Rasoio di Occam:** sono stati eliminati gli elementi visivi o funzionali non necessari?
+- [ ] **Estetica-usabilità:** la UI è abbastanza curata da conquistare la fiducia iniziale dell'utente?
+- [ ] **Fiducia e autorità:** badge di sicurezza, recensioni e certificazioni di esperti sono visibili?
+- [ ] **Riprova sociale:** numeri reali di utenti o testimonianze sono visibili nei punti di decisione?
+- [ ] **Scarsità e urgenza:** se le usi, la scarsità è reale ed etica (per es. scorte davvero basse)?
+- [ ] **Avversione alla perdita:** il copy mette in risalto ciò che l'utente può conservare, non solo ciò che può guadagnare?
+- [ ] **Ancoraggio:** i prezzi sono presentati in modo che la scelta desiderata sembri un ottimo affare?
+- [ ] **Legge di Postel:** il sistema è abbastanza flessibile da accettare vari formati di input senza dare errore?
+- [ ] **Falso consenso:** il design è stato testato con utenti reali e non solo con il team interno?
+- [ ] **Maledizione della conoscenza:** il copy è privo di gergo tecnico e facile da capire per un principiante?
+- [ ] **Effetto trampolino:** il funnel parte da attività con poco attrito (per es. solo l'email)?
+- [ ] **Carico cognitivo:** il rumore visivo estraneo è ridotto al minimo, così l'interfaccia resta pulita?
+- [ ] **Design emotivo:** palette e immagini suscitano la reazione viscerale voluta?
+- [ ] **Feedback:** tutti gli elementi interattivi hanno stati hover, active e di successo immediati?
+- [ ] **Accessibilità:** il rapporto di contrasto è sufficiente e il sito si naviga da tastiera e con lo screen reader?
+- [ ] **Prägnanz:** icone e forme sono abbastanza semplici da essere riconosciute a colpo d'occhio?
+- [ ] **Figura/sfondo:** è chiaro quale elemento è in primo piano (per es. con ombre o scrim per le modali)?

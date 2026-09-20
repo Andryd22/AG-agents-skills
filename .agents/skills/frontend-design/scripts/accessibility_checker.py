@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Accessibility Checker - WCAG compliance audit
-Checks HTML files for accessibility issues.
+Accessibility Checker - audit di conformità WCAG
+Cerca problemi di accessibilità nei file HTML/JSX/TSX.
 
-Usage:
-    python accessibility_checker.py <project_path>
+Uso:
+    python accessibility_checker.py <cartella_progetto>
 
-Checks:
-    - Form labels
-    - ARIA attributes
-    - Color contrast hints
-    - Keyboard navigation
-    - Semantic HTML
+Controlla:
+    - Label dei form e testo accessibile dei pulsanti (aria-label)
+    - Attributi ARIA e role="button"
+    - Attributo lang e skip link
+    - Navigazione da tastiera (onKeyDown, tabIndex)
+    - Media in autoplay
 """
 
 import sys
@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# Fix Windows console encoding
+# Codifica della console di Windows
 try:
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 except:
@@ -28,7 +28,7 @@ except:
 
 
 def find_html_files(project_path: Path) -> list:
-    """Find all HTML/JSX/TSX files."""
+    """Trova i file HTML/JSX/TSX (al massimo 50)."""
     patterns = ['**/*.html', '**/*.jsx', '**/*.tsx']
     skip_dirs = {'node_modules', '.next', 'dist', 'build', '.git', '.agent', '.agents'}
     
@@ -42,68 +42,67 @@ def find_html_files(project_path: Path) -> list:
 
 
 def check_accessibility(file_path: Path) -> list:
-    """Check a single file for accessibility issues."""
+    """Cerca problemi di accessibilità in un singolo file."""
     issues = []
     
     try:
         content = file_path.read_text(encoding='utf-8', errors='ignore')
         
-        # Check for form inputs without labels
+        # Input dei form senza label
         inputs = re.findall(r'<input[^>]*>', content, re.IGNORECASE)
         for inp in inputs:
             if 'type="hidden"' not in inp.lower():
                 if 'aria-label' not in inp.lower() and 'id=' not in inp.lower():
-                    issues.append("Input without label or aria-label")
+                    issues.append("Input senza label né aria-label")
                     break
         
-        # Check for buttons without accessible text
+        # Pulsanti senza testo accessibile
         buttons = re.findall(r'<button[^>]*>[^<]*</button>', content, re.IGNORECASE)
         for btn in buttons:
-            # Check if button has text content or aria-label
+            # Il pulsante ha un testo o un aria-label?
             if 'aria-label' not in btn.lower():
                 text = re.sub(r'<[^>]+>', '', btn)
                 if not text.strip():
-                    issues.append("Button without accessible text")
+                    issues.append("Pulsante senza testo accessibile")
                     break
         
-        # Check for missing lang attribute
+        # Attributo lang mancante
         if '<html' in content.lower() and 'lang=' not in content.lower():
-            issues.append("Missing lang attribute on <html>")
+            issues.append("Manca l'attributo lang su <html>")
         
-        # Check for missing skip link
+        # Skip link mancante
         if '<main' in content.lower() or '<body' in content.lower():
             if 'skip' not in content.lower() and '#main' not in content.lower():
-                issues.append("Consider adding skip-to-main-content link")
+                issues.append("Valuta un link per saltare al contenuto principale (skip link)")
         
-        # Check for click handlers without keyboard support
+        # Gestori di click senza supporto da tastiera
         onclick_count = content.lower().count('onclick=')
         onkeydown_count = content.lower().count('onkeydown=') + content.lower().count('onkeyup=')
         if onclick_count > 0 and onkeydown_count == 0:
-            issues.append("onClick without keyboard handler (onKeyDown)")
+            issues.append("onClick senza gestore da tastiera (onKeyDown)")
         
-        # Check for tabIndex misuse
+        # tabIndex positivi (alterano l'ordine naturale del focus), anche nella forma JSX tabIndex={1}
         if 'tabindex=' in content.lower():
-            if 'tabindex="-1"' not in content.lower() and 'tabindex="0"' not in content.lower():
-                positive_tabindex = re.findall(r'tabindex="([1-9]\d*)"', content, re.IGNORECASE)
-                if positive_tabindex:
-                    issues.append("Avoid positive tabIndex values")
+            positive_tabindex = re.findall(r'tabindex=["\'{]?([1-9]\d*)', content, re.IGNORECASE)
+            if positive_tabindex:
+                issues.append("Evita i valori positivi di tabIndex")
         
-        # Check for autoplay media
+        # Media in autoplay
         if 'autoplay' in content.lower():
             if 'muted' not in content.lower():
-                issues.append("Autoplay media should be muted")
+                issues.append("I media in autoplay devono partire senza audio (muted)")
         
-        # Check for role usage
+        # Uso di role
         if 'role="button"' in content.lower():
-            # Divs with role button should have tabindex
+            # I div con role="button" devono avere un tabindex
             div_buttons = re.findall(r'<div[^>]*role="button"[^>]*>', content, re.IGNORECASE)
             for div in div_buttons:
                 if 'tabindex' not in div.lower():
-                    issues.append("role='button' without tabindex")
+                    issues.append("role='button' senza tabindex")
                     break
         
     except Exception as e:
-        issues.append(f"Error reading file: {str(e)[:50]}")
+        issues.append(f"Errore nella lettura del file: {str(e)[:50]}")
     
     return issues
 
@@ -112,15 +111,15 @@ def main():
     project_path = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
     
     print(f"\n{'='*60}")
-    print(f"[ACCESSIBILITY CHECKER] WCAG Compliance Audit")
+    print(f"[CONTROLLO ACCESSIBILITÀ] Audit di conformità WCAG")
     print(f"{'='*60}")
-    print(f"Project: {project_path}")
-    print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Progetto: {project_path}")
+    print(f"Data e ora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("-"*60)
     
-    # Find HTML files
+    # Cerca i file HTML
     files = find_html_files(project_path)
-    print(f"Found {len(files)} HTML/JSX/TSX files")
+    print(f"Trovati {len(files)} file HTML/JSX/TSX")
     
     if not files:
         output = {
@@ -129,12 +128,12 @@ def main():
             "files_checked": 0,
             "issues_found": 0,
             "passed": True,
-            "message": "No HTML files found"
+            "message": "Nessun file HTML/JSX/TSX trovato"
         }
         print(json.dumps(output, indent=2))
         sys.exit(0)
     
-    # Check each file
+    # Controlla ogni file
     all_issues = []
     
     for f in files:
@@ -145,9 +144,9 @@ def main():
                 "issues": issues
             })
     
-    # Summary
+    # Riepilogo
     print("\n" + "="*60)
-    print("ACCESSIBILITY ISSUES")
+    print("PROBLEMI DI ACCESSIBILITÀ")
     print("="*60)
     
     if all_issues:
@@ -157,13 +156,13 @@ def main():
                 print(f"  - {issue}")
         
         if len(all_issues) > 10:
-            print(f"\n... and {len(all_issues) - 10} more files with issues")
+            print(f"\n... e altri {len(all_issues) - 10} file con problemi")
     else:
-        print("No accessibility issues found!")
+        print("Nessun problema di accessibilità trovato!")
     
     total_issues = sum(len(item["issues"]) for item in all_issues)
-    # Accessibility issues are important but not blocking
-    passed = total_issues < 5  # Allow minor issues
+    # I problemi di accessibilità sono importanti ma non bloccanti
+    passed = total_issues < 5  # Tollera fino a 4 problemi
     
     output = {
         "script": "accessibility_checker",

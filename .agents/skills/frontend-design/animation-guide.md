@@ -1,80 +1,80 @@
-# Animation Guidelines Reference
+# Riferimento linee guida per le animazioni
 
-> Animation principles and timing psychology - learn to decide, not copy.
-> **No fixed durations to memorize - understand what affects timing.**
-
----
-
-## 1. Duration Principles
-
-### What Affects Timing
-
-```text
-Factors that determine animation speed:
-├── DISTANCE: Further travel = longer duration
-├── SIZE: Larger elements = slower animations
-├── COMPLEXITY: Complex = slower to process
-├── IMPORTANCE: Critical actions = clear feedback
-└── CONTEXT: Urgent = fast, luxurious = slow
-```
-
-### Duration Ranges by Purpose
-
-| Purpose | Range | Why |
-| --------- | ------- | ----- |
-| Instant feedback | 50-100ms | Below perception threshold |
-| Micro-interactions | 100-200ms | Quick but noticeable |
-| Standard transitions | 200-300ms | Comfortable pace |
-| Complex animations | 300-500ms | Time to follow |
-| Page transitions | 400-600ms | Smooth handoff |
-| **Wow/Premium Effects** | 800ms+ | Dramatic, organic spring-based, layered |
-
-### Choosing Duration
-
-Ask yourself:
-
-1. How far is the element moving?
-2. How important is it to notice this change?
-3. Is the user waiting, or is this background?
+> Principi di animazione e psicologia dei tempi: impara a decidere, non a copiare.
+> **Nessuna durata fissa da memorizzare: capisci cosa influisce sui tempi.**
 
 ---
 
-## 2. Easing Principles
+## 1. Principi di durata
 
-### What Easing Does
+### Cosa influisce sui tempi
 
 ```text
-Easing = how speed changes over time
-├── Linear: constant speed (mechanical, robotic)
-├── Ease-out: fast start, slow end (natural entry)
-├── Ease-in: slow start, fast end (natural exit)
-└── Ease-in-out: slow both ends (smooth, deliberate)
+Fattori che determinano la velocità dell'animazione:
+├── DISTANZA: percorso più lungo = durata maggiore
+├── DIMENSIONE: elementi più grandi = animazioni più lente
+├── COMPLESSITÀ: più è complessa, più tempo serve per coglierla
+├── IMPORTANZA: azioni critiche = feedback chiaro
+└── CONTESTO: urgente = veloce, lussuoso = lento
 ```
 
-### When to Use Each
+### Durate per scopo
 
-| Easing | Best For | Feels Like |
-| -------- | ---------- | ------------ |
-| **Ease-out** | Elements entering | Arriving, settling |
-| **Ease-in** | Elements leaving | Departing, exiting |
-| **Ease-in-out** | Emphasis, loops | Deliberate, smooth |
-| **Linear** | Continuous motion | Mechanical, constant |
-| **Bounce/Elastic** | Playful UI | Fun, energetic |
+| Scopo | Intervallo | Perché |
+| --- | --- | --- |
+| Feedback istantaneo | 50-100ms | Sotto la soglia di percezione |
+| Micro-interazioni | 100-200ms | Rapide ma percepibili |
+| Transizioni standard | 200-300ms | Ritmo comodo |
+| Animazioni complesse | 300-500ms | Danno il tempo di seguirle |
+| Transizioni di pagina | 400-600ms | Passaggio fluido |
+| **Effetti wow/premium** | 800ms+ | Drammatici, organici (basati su spring), a più livelli |
 
-### The Pattern
+### Scegliere la durata
+
+Chiediti:
+
+1. Di quanto si sposta l'elemento?
+2. Quanto è importante che il cambiamento venga notato?
+3. L'utente sta aspettando o è un'animazione di sfondo?
+
+---
+
+## 2. Principi di easing
+
+### Cosa fa l'easing
+
+```text
+Easing = come cambia la velocità nel tempo
+├── Linear: velocità costante (meccanico, robotico)
+├── Ease-out: parte veloce, finisce lento (entrata naturale)
+├── Ease-in: parte lento, finisce veloce (uscita naturale)
+└── Ease-in-out: lento alle due estremità (fluido, intenzionale)
+```
+
+### Quando usare ciascuno
+
+| Easing | Ideale per | Sensazione |
+| --- | --- | --- |
+| **Ease-out** | Elementi in entrata | Arriva e si assesta |
+| **Ease-in** | Elementi in uscita | Parte, se ne va |
+| **Ease-in-out** | Enfasi, loop | Intenzionale, fluido |
+| **Linear** | Movimento continuo | Meccanico, costante |
+| **Bounce/Elastic** | UI giocose | Divertente, energico |
+
+### Il pattern
 
 ```css
-/* Entering view = ease-out (decelerate) */
+/* Entra nella vista = ease-out (decelera) */
 .enter {
   animation-timing-function: ease-out;
 }
 
-/* Leaving view = ease-in (accelerate) */
+/* Esce dalla vista = ease-in (accelera) */
 .exit {
   animation-timing-function: ease-in;
 }
 
-/* Continuous = ease-in-out */
+/* Continuo = ease-in-out */
 .continuous {
   animation-timing-function: ease-in-out;
 }
@@ -82,251 +82,251 @@ Easing = how speed changes over time
 
 ---
 
-## 3. Micro-Interaction Principles
+## 3. Principi delle micro-interazioni
 
-### What Makes Good Micro-Interactions
-
-```text
-Purpose of micro-interactions:
-├── FEEDBACK: Confirm the action happened
-├── GUIDANCE: Show what's possible
-├── STATUS: Indicate current state
-└── DELIGHT: Small moments of joy
-```
-
-### Button States
+### Cosa rende buona una micro-interazione
 
 ```text
-Hover → slight visual change (lift, color, scale)
-Active → pressed feeling (scale down, shadow change)
-Focus → clear indicator (outline, ring)
-Loading → progress indicator (spinner, skeleton)
-Success → confirmation (check, color)
+Scopo delle micro-interazioni:
+├── FEEDBACK: conferma che l'azione è avvenuta
+├── GUIDA: mostra cosa si può fare
+├── STATO: indica lo stato attuale
+└── PIACERE: piccoli momenti di gioia
 ```
 
-### Principles
+### Stati del pulsante
 
-1. **Respond immediately** (under 100ms perception)
-2. **Match the action** (press = `scale(0.95)`, hover = `translateY(-4px) + glow`)
-3. **Be bold but smooth** (it should feel crafted)
-4. **Be consistent** (same actions = same feedback)
+```text
+Hover → leggero cambiamento visivo (sollevamento, colore, scala)
+Active → sensazione di pressione (scala ridotta, ombra diversa)
+Focus → indicatore chiaro (outline, ring)
+Loading → indicatore di avanzamento (spinner, skeleton)
+Success → conferma (spunta, colore)
+```
+
+### Principi
+
+1. **Rispondi subito** (sotto i 100ms la risposta sembra immediata)
+2. **Adatta l'effetto all'azione** (pressione = `scale(0.95)`, hover = `translateY(-4px) + glow`)
+3. **Osa, ma con fluidità** (deve sembrare curato)
+4. **Sii coerente** (stesse azioni = stesso feedback)
 
 ---
 
-## 4. Loading States Principles
+## 4. Principi degli stati di caricamento
 
-### Types by Context
+### Tipi in base al contesto
 
-| Situation | Approach |
-| ----------- | ---------- |
-| Quick load (<1s) | No indicator needed |
-| Medium (1-3s) | Spinner or simple animation |
-| Long (3s+) | Progress bar or skeleton |
-| Unknown duration | Indeterminate indicator |
+| Situazione | Approccio |
+| --- | --- |
+| Caricamento rapido (<1s) | Nessun indicatore |
+| Medio (1-3s) | Spinner o animazione semplice |
+| Lungo (3s+) | Barra di avanzamento o skeleton |
+| Durata sconosciuta | Indicatore indeterminato |
 
-### Skeleton Screens
+### Skeleton screen
 
 ```text
-Purpose: Reduce perceived wait time
-├── Show layout shape immediately
-├── Animate subtly (shimmer, pulse)
-├── Replace with content when ready
-└── Feels faster than spinner
+Scopo: ridurre l'attesa percepita
+├── Mostra subito la forma del layout
+├── Anima con discrezione (shimmer, pulse)
+├── Sostituisci con il contenuto quando è pronto
+└── Sembra più veloce di uno spinner
 ```
 
-### Progress Indicators
+### Indicatori di avanzamento
 
 ```text
-When to show progress:
-├── User-initiated action
-├── File uploads/downloads
-├── Multi-step processes
-└── Long operations
+Quando mostrare l'avanzamento:
+├── Azioni avviate dall'utente
+├── Upload/download di file
+├── Processi in più passaggi
+└── Operazioni lunghe
 
-When NOT needed:
-├── Very quick operations
-├── Background tasks
-└── Initial page loads (skeleton better)
-```
-
----
-
-## 5. Page Transitions Principles
-
-### Transition Strategy
-
-```text
-Simple rule: exit fast, enter slower
-├── Outgoing content fades quickly
-├── Incoming content animates in
-└── Avoids "everything moving at once"
-```
-
-### Common Patterns
-
-| Pattern | When to Use |
-| --------- | ------------- |
-| **Fade** | Safe default, works everywhere |
-| **Slide** | Sequential navigation (prev/next) |
-| **Scale** | Opening/closing modals |
-| **Shared element** | Maintaining visual continuity |
-
-### Direction Matching
-
-```text
-Navigation direction = animation direction
-├── Forward → slide from right
-├── Backward → slide from left
-├── Deeper → scale up from center
-├── Back up → scale down
+Quando NON serve:
+├── Operazioni molto rapide
+├── Attività in background
+└── Primo caricamento della pagina (meglio lo skeleton)
 ```
 
 ---
 
-## 6. Scroll Animation Principles
+## 5. Principi delle transizioni di pagina
 
-### Progressive Reveal
+### Strategia di transizione
 
 ```text
-Content appears as user scrolls:
-├── Reduces initial cognitive load
-├── Rewards exploration
-├── Must not feel sluggish
-└── Option to disable (accessibility)
+Regola semplice: uscita veloce, entrata più lenta
+├── Il contenuto in uscita sfuma rapidamente
+├── Il contenuto in entrata si anima
+└── Eviti che "si muova tutto insieme"
 ```
 
-### Trigger Points
+### Pattern comuni
 
-| When to Trigger | Effect |
-| ----------------- | -------- |
-| Just entering viewport | Standard reveal |
-| Centered in viewport | For emphasis |
-| Partially visible | Earlier reveal |
-| Fully visible | Late trigger |
+| Pattern | Quando usarlo |
+| --- | --- |
+| **Fade** | Scelta sicura, funziona ovunque |
+| **Slide** | Navigazione sequenziale (precedente/successivo) |
+| **Scale** | Apertura/chiusura di modali |
+| **Shared element** | Mantenere la continuità visiva |
 
-### Animation Properties
+### Direzione coerente
+
+```text
+Direzione di navigazione = direzione dell'animazione
+├── Avanti → slide da destra
+├── Indietro → slide da sinistra
+├── Più in profondità → scale up dal centro
+├── Risalita → scale down
+```
+
+---
+
+## 6. Principi delle animazioni allo scroll
+
+### Rivelazione progressiva
+
+```text
+Il contenuto compare mentre l'utente scorre:
+├── Riduce il carico cognitivo iniziale
+├── Premia l'esplorazione
+├── Non deve sembrare lento
+└── Deve poter essere disattivato (accessibilità)
+```
+
+### Punti di attivazione
+
+| Quando attivarla | Effetto |
+| --- | --- |
+| Appena entra nel viewport | Rivelazione standard |
+| Al centro del viewport | Per dare enfasi |
+| Parzialmente visibile | Rivelazione anticipata |
+| Completamente visibile | Attivazione tardiva |
+
+### Proprietà da animare
 
 - Fade in (opacity)
 - Slide up (transform)
 - Scale (transform)
-- Combination of above
+- Una combinazione delle precedenti
 
-### Performance
+### Prestazioni
 
-- Use Intersection Observer
-- Animate only transform/opacity
-- Reduce on mobile if needed
-
----
-
-## 7. Hover Effects Principles
-
-### Matching Effect to Action
-
-| Element | Effect | Intent |
-| --------- | -------- | -------- |
-| **Clickable card** | Lift + shadow | "This is interactive" |
-| **Button** | Color/brightness change | "Press me" |
-| **Image** | Zoom/scale | "View closer" |
-| **Link** | Underline/color | "Navigate here" |
-
-### Principles
-
-1. **Signal interactivity** - hover shows it's clickable
-2. **Don't overdo it** - subtle changes work
-3. **Match importance** - bigger change = more important
-4. **Touch alternatives** - hover doesn't work on mobile
+- Usa Intersection Observer
+- Anima solo transform/opacity
+- Se serve, riduci le animazioni su mobile
 
 ---
 
-## 8. Feedback Animation Principles
+## 7. Principi degli effetti hover
 
-### Success States
+### Effetto adatto all'azione
+
+| Elemento | Effetto | Intento |
+| --- | --- | --- |
+| **Card cliccabile** | Sollevamento + ombra | "Questo è interattivo" |
+| **Pulsante** | Cambio di colore/luminosità | "Premimi" |
+| **Immagine** | Zoom/scale | "Guarda da vicino" |
+| **Link** | Sottolineatura/colore | "Vai qui" |
+
+### Principi
+
+1. **Segnala l'interattività**: l'hover mostra che l'elemento è cliccabile
+2. **Non esagerare**: bastano cambiamenti leggeri
+3. **Proporziona all'importanza**: cambiamento più grande = elemento più importante
+4. **Prevedi alternative touch**: su mobile l'hover non funziona
+
+---
+
+## 8. Principi delle animazioni di feedback
+
+### Stati di successo
 
 ```text
-Celebrate appropriately:
-├── Minor action → subtle check/color
-├── Major action → more pronounced animation
-├── Completion → satisfying animation
-└── Match brand personality
+Festeggia nella giusta misura:
+├── Azione minore → spunta o colore discreti
+├── Azione importante → animazione più marcata
+├── Completamento → animazione appagante
+└── In linea con la personalità del brand
 ```
 
-### Error States
+### Stati di errore
 
 ```text
-Draw attention without panic:
-├── Color change (semantic red)
-├── Shake animation (brief!)
-├── Focus on error field
-└── Clear messaging
+Attira l'attenzione senza allarmare:
+├── Cambio di colore (rosso semantico)
+├── Animazione shake (breve!)
+├── Focus sul campo con l'errore
+└── Messaggi chiari
 ```
 
-### Timing
+### Tempi
 
-- Success: slightly longer (enjoy the moment)
-- Error: quick (don't delay action)
-- Loading: continuous until complete
+- Successo: un po' più lungo (goditi il momento)
+- Errore: rapido (non rallentare l'azione)
+- Caricamento: continuo fino al completamento
 
 ---
 
-## 9. Performance Principles
+## 9. Principi di prestazioni
 
-### What's Cheap to Animate
+### Cosa costa poco animare
 
 ```text
-GPU-accelerated (FAST):
+Accelerato dalla GPU (VELOCE):
 ├── transform: translate, scale, rotate
-└── opacity: 0 to 1
+└── opacity: da 0 a 1
 
-CPU-intensive (SLOW):
+Pesante per la CPU (LENTO):
 ├── width, height
 ├── top, left, right, bottom
 ├── margin, padding
-├── border-radius changes
-└── box-shadow changes
+├── modifiche a border-radius
+└── modifiche a box-shadow
 ```
 
-### Optimization Strategies
+### Strategie di ottimizzazione
 
-1. **Animate transform/opacity** whenever possible
-2. **Avoid layout triggers** (size/position changes)
-3. **Use will-change sparingly** (hints to browser)
-4. **Test on low-end devices** (not just dev machine)
+1. **Anima transform/opacity** ogni volta che puoi
+2. **Evita di innescare il ricalcolo del layout** (cambi di dimensione/posizione)
+3. **Usa will-change con parsimonia** (è un suggerimento al browser)
+4. **Prova su dispositivi di fascia bassa** (non solo sulla tua macchina di sviluppo)
 
-### Respecting User Preferences
+### Rispettare le preferenze dell'utente
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  /* Honor this preference */
-  /* Essential animations only */
-  /* Reduce or remove decorative motion */
+  /* Rispetta questa preferenza */
+  /* Solo le animazioni essenziali */
+  /* Riduci o elimina il movimento decorativo */
 }
 ```
 
 ---
 
-## 10. Animation Decision Checklist
+## 10. Checklist per decidere le animazioni
 
-Before adding animation:
+Prima di aggiungere un'animazione:
 
-- [ ] **Is there a purpose?** (feedback/guidance/delight)
-- [ ] **Is timing appropriate?** (not too fast/slow)
-- [ ] **Did you pick correct easing?** (enter/exit/emphasis)
-- [ ] **Is it performant?** (transform/opacity only)
-- [ ] **Tested reduced motion?** (accessibility)
-- [ ] **Consistent with other animations?** (same timing feel)
-- [ ] **Not your default settings?** (variety check)
-- [ ] **Asked user about style if unclear?**
+- [ ] **Ha uno scopo?** (feedback/guida/piacere)
+- [ ] **I tempi sono adatti?** (né troppo veloce né troppo lenta)
+- [ ] **Hai scelto l'easing giusto?** (entrata/uscita/enfasi)
+- [ ] **È performante?** (solo transform/opacity)
+- [ ] **Hai provato con il movimento ridotto?** (accessibilità)
+- [ ] **È coerente con le altre animazioni?** (stessa sensazione di tempi)
+- [ ] **Non sono le tue impostazioni predefinite?** (controllo della varietà)
+- [ ] **Hai chiesto all'utente che stile vuole, se non era chiaro?**
 
-### Anti-Patterns
+### Anti-pattern
 
-- ❌ Same timing values every project
-- ❌ Animation for animation's sake
-- ❌ Ignoring reduced-motion preference
-- ❌ Animating expensive properties
-- ❌ Too many things animating at once
-- ❌ Delays that frustrate users
+- ❌ Gli stessi valori di tempo in ogni progetto
+- ❌ Animazioni fini a se stesse
+- ❌ Ignorare la preferenza `prefers-reduced-motion`
+- ❌ Animare proprietà costose
+- ❌ Troppe cose animate nello stesso momento
+- ❌ Ritardi che frustrano l'utente
 
 ---
 
-> **Remember**: Animation is communication. Every motion should have meaning and serve the user experience.
+> **Ricorda**: l'animazione è comunicazione. Ogni movimento deve avere un significato ed essere al servizio dell'esperienza utente.
