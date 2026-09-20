@@ -83,7 +83,11 @@ function fetchLatestFromGitHub() {
     execSync(`git clone --depth 1 "${repoUrl}" "${path.join(tmp, 'repo')}"`, { stdio: 'pipe' });
     const fetched = path.join(tmp, 'repo', KIT);
     if (!fs.existsSync(fetched)) throw new Error(`${KIT}/ non trovata nel repository clonato`);
-    return { dir: fetched, cleanup: () => fs.rmSync(tmp, { recursive: true, force: true }) };
+    let version = null; // la versione scaricata, che può essere più nuova di questo installer (cache di npx)
+    try {
+      version = JSON.parse(fs.readFileSync(path.join(tmp, 'repo', 'package.json'), 'utf8')).version;
+    } catch { /* package.json mancante o illeggibile: resta la versione dell'installer */ }
+    return { dir: fetched, version, cleanup: () => fs.rmSync(tmp, { recursive: true, force: true }) };
   } catch (err) {
     fs.rmSync(tmp, { recursive: true, force: true });
     throw err;
@@ -186,7 +190,8 @@ try {
     fs.mkdirSync(path.dirname(path.join(destDir, e)), { recursive: true });
     fs.renameSync(path.join(staging, e), path.join(destDir, e));
   }
-  fs.writeFileSync(path.join(destDir, MANIFEST), JSON.stringify({ version: pkg.version, entries }, null, 2) + '\n');
+  const kitVersion = (fetched && fetched.version) || pkg.version;
+  fs.writeFileSync(path.join(destDir, MANIFEST), JSON.stringify({ version: kitVersion, entries }, null, 2) + '\n');
 
   // Le versioni vecchie del kit stavano in .agent/: Antigravity ne legge ancora le regole, quindi la sposta da parte.
   const legacy = path.join(targetDir, '.agent');
@@ -197,7 +202,7 @@ try {
   }
 
   const { agents, skills } = getCounts(destDir);
-  console.log(`Kit installato in ${destDir}`);
+  console.log(`Kit v${kitVersion} installato in ${destDir}`);
   console.log(`  ${count} file — ${agents} agenti, ${skills} skill (compresi i tuoi)`);
   if (replaced.length) console.log(`  ${replaced.length} voci del kit sostituite (le modifiche locali a quelle voci non restano)`);
   if (stale.length) console.log(`  Tolte dalla versione precedente: ${stale.join(', ')}`);

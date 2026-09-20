@@ -23,7 +23,7 @@ Installa agenti, skill e regole del kit nella cartella `.agents/` del tuo proget
 </tbody>
 </table>
 
-Quando funziona, l'installer scrive sempre `Kit installato in …` con il numero di file, agenti e skill.
+Quando funziona, l'installer scrive sempre `Kit vX.Y.Z installato in …` con la versione installata e il numero di file, agenti e skill.
 
 **Windows con PowerShell:** se il comando torna al prompt senza scrivere niente, `npx` non ha avviato l'installer (succede con lo script `npx.ps1` che PowerShell usa al posto di `npx`). Lancia lo stesso comando con `npx.cmd`:
 
