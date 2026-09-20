@@ -122,7 +122,7 @@ class UXAuditor:
 
         # Flag comuni, calcolati una volta sola
         has_long_text = bool(re.search(r'<p|<div.*class=.*text|article|<span.*text', content, re.IGNORECASE))
-        has_form = bool(re.search(r'<form|<input|password|credit|card|payment', content, re.IGNORECASE))
+        has_form = bool(re.search(r'<form|<input|password|credit|card[-_ ]?number|payment', content, re.IGNORECASE))
         complex_elements = len(re.findall(r'<input|<select|<textarea|<option', content, re.IGNORECASE))
 
         # --- 1. LEGGI DI PSICOLOGIA ---
@@ -285,11 +285,12 @@ class UXAuditor:
 
         # Problemi di interlinea specifici dei titoli
         if re.search(r'<h[1-6]|text-(?:xl|2xl|3xl|4xl|5xl|6xl)', content, re.IGNORECASE):
-            # Valori di line-height
-            line_heights = re.findall(r'(?:leading-|line-height:\s*)([\d.]+)', content)
+            # Valori di line-height senza unità (line-height: 1.8, leading-[1.8]);
+            # leading-6 di Tailwind è 1.5rem, non un rapporto, quindi non conta
+            line_heights = re.findall(r'(?:leading-\[|line-height:\s*)(\d*\.?\d+)(?![\d.]|px|rem|em|%)', content)
             for lh in line_heights:
                 if float(lh) > 1.5:
-                    self.warnings.append(f"[Tipografia] {filename}: Titolo con line-height {lh} (>1.3). I titoli vanno più stretti (1.1-1.3).")
+                    self.warnings.append(f"[Tipografia] {filename}: Titolo con line-height {lh} (>1.5). I titoli vanno più stretti (1.1-1.3).")
 
         # 2.4 Spaziatura tra le lettere (tracking)
         # Maiuscolo senza tracking
