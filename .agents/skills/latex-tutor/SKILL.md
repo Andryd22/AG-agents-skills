@@ -210,7 +210,7 @@ Compila e segna dove l'utente inserirà l'immagine. Scrivi sempre il numero dell
 
 ## Fine del capitolo
 
-Chiudi ogni file di capitolo con `\cleardoublepage`, a meno che i capitoli esistenti non lo facciano (allora copiali). I salti di pagina prima dei capitoli spettano a `main.tex`.
+Chiudi ogni file di capitolo con `\cleardoublepage`; se i capitoli già scritti non lo usano, fai come loro. I salti di pagina prima dei capitoli spettano a `main.tex`.
 
 ---
 
