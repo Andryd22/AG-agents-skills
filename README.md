@@ -69,13 +69,11 @@ Ogni risposta che usa un agente o una skill del kit comincia con una riga così:
 - ✅ Nessuna curva di apprendimento: descrivi solo ciò di cui hai bisogno
 - ✅ Ottieni sempre risposte da esperti
 - ✅ Trasparenza: mostra quale agente viene utilizzato
-- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente, o sceglierlo come agente principale (selettore nell'app, `/agents` nella CLI: in agy 1.2.7 `agy --agent <nome>` non trova gli agenti del progetto e usa quello di default senza avvisare)
-
-L'IDE di Antigravity non supporta ancora i custom agent: lì il modello legge il file dell'agente e lo applica direttamente.
+- ✅ Puoi sempre forzare l'uso di un agente menzionandolo esplicitamente, o sceglierlo come agente principale (selettore nell'app, `/agents` nella CLI)
 
 ### Usare i comandi
 
-Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: i comandi del kit sono già skill e si richiamano con lo stesso `/nome`.
+I comandi del kit sono già skill e si richiamano con `/nome`.
 
 | Comando | Descrizione |
 | --- | --- |
@@ -107,18 +105,8 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 ### Controlli finali
 
 `python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E.
+
 Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`.
-
-## 🇮🇹 Lingua
-
-Il kit è scritto tutto in italiano. I nomi di agenti, skill e comandi restano in inglese.
-
-- Gli agenti rispondono in italiano.
-- Nel codice che scrivono, commenti e messaggi sono in italiano e i nomi (variabili, funzioni, file) in inglese.
-- Gli appunti LaTeX sono nella lingua del corso, che la skill ricava dal `babel` del preambolo: i corsi nuovi sono in italiano, un corso già scritto in inglese resta in inglese.
-- I prompt per i modelli di immagini e video di `scroll-world` e `scroll-film` restano in inglese.
-- Restano in inglese anche i dati su cui lavorano due skill: il database CSV di `ui-ux-pro-max` (si interroga con parole chiave inglesi) e le linee guida Vercel che `web-design-guidelines` scarica a ogni revisione. I report sono comunque in italiano.
-- Le sezioni di `nextjs-react-expert` sono la traduzione delle regole Vercel: se le rigeneri con `convert_rules.py` tornano in inglese e vanno ritradotte.
 
 ## 🪨 Caveman Mode
 
