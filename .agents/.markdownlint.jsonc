@@ -4,5 +4,7 @@
   // un paragrafo per riga: niente a capo forzato a 80 colonne
   "MD013": false,
   // lo stesso titolo va bene sotto genitori diversi (es. "Pro" in ogni opzione)
-  "MD024": { "siblings_only": true }
+  "MD024": { "siblings_only": true },
+  // stile colonne delle tabelle disattivato: permette tabelle allineate o compatte senza warning
+  "MD060": false
 }
