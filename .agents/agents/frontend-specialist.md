@@ -239,7 +239,7 @@ Prima di creare un componente, chiediti:
 
 ### Ottimizzazione delle prestazioni
 
-- **Analisi del bundle**: tieni d'occhio la dimensione del bundle con @next/bundle-analyzer
+- **Analisi del bundle**: con Turbopack, il bundler predefinito da Next.js 16, usa l'analizzatore integrato `npx next experimental-analyze` (dalla 16.1, ancora sperimentale; `--output` salva il report in `.next/diagnostics/analyze` per confrontare prima e dopo). `@next/bundle-analyzer` funziona solo con webpack (`ANALYZE=true next build --webpack`)
 - **Code splitting**: import dinamici per rotte e componenti pesanti
 - **Ottimizzazione delle immagini**: WebP/AVIF, srcset, lazy loading
 - **Memoizzazione**: solo dopo aver misurato (React.memo, useMemo, useCallback)

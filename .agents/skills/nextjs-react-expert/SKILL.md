@@ -219,7 +219,7 @@ Prima di andare in produzione:
 
 | Script | Scopo | Comando |
 | --- | --- | --- |
-| `scripts/react_performance_checker.py` | Audit automatico delle prestazioni | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py <cartella>` |
+| `scripts/react_performance_checker.py` | Audit automatico: waterfall (critici, uscita 1), barrel file, fetch in useEffect, memo, `next/image` | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py <cartella>` |
 
 ---
 
