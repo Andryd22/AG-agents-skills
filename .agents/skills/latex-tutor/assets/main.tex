@@ -1,7 +1,8 @@
 % !TeX root = main.tex
 \input{preamble}
 
-\hypersetup{pdftitle={TITOLO DEL CORSO}}
+% pdflang: it per un corso in italiano, en per uno in inglese.
+\hypersetup{pdftitle={TITOLO DEL CORSO}, pdfauthor={AUTORE}, pdflang={it}}
 
 % Ogni capitolo inizia su una pagina dispari (report a una facciata): aggiunge una pagina bianca se serve.
 \newcommand{\clearoddpage}{\clearpage\ifodd\value{page}\else\hbox{}\newpage\fi}
