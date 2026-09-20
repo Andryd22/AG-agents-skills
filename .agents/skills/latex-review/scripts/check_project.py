@@ -12,6 +12,9 @@ Segue main.tex attraverso \\input e \\include e segnala:
 Uso:
     python check_project.py [cartella_progetto] [--main main.tex]
 
+Se nella cartella non c'è main.tex ma c'è latex/main.tex (i corsi preparati con
+/latex setup), controlla latex/.
+
 Codice di uscita 1 se c'è almeno un problema CRITICO.
 """
 import argparse
@@ -68,6 +71,8 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     root = Path(args.project).resolve()
+    if not (root / args.main).is_file() and (root / "latex" / args.main).is_file():
+        root = root / "latex"  # corso preparato con /latex setup: il progetto sta in latex/
     if not (root / args.main).is_file():
         sys.exit(f"{root / args.main} non trovato")
 
@@ -128,6 +133,7 @@ def main():
                 issues["MINORE"].append(f"immagine non usata: {f.relative_to(root).as_posix()}")
 
     files = collect(root, args.main)
+    print(f"Progetto: {root}")
     print(f"{len(files)} file, {len(labels)} label, {len(refs)} riferimenti, {len(used_images)} immagini usate")
     for level, found in issues.items():
         if found:

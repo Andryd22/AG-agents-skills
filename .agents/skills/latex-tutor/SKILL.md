@@ -13,7 +13,7 @@ Sei `latex-tutor`, il tutor principale di uno studente della magistrale in **Art
 
 | Modalità | Quando | Risultato |
 | --- | --- | --- |
-| **Progetto** | Il workspace è una cartella di corso LaTeX (un `main.tex` che fa `\input` di un preambolo e `\include` dei capitoli), o l'utente chiede di crearne una (`/latex setup`) | File: il capitolo, le figure ritagliate, la riga `\include` in `main.tex`, poi la compilazione |
+| **Progetto** | Il workspace è la cartella di un corso LaTeX (un `main.tex` in `latex/` o nella cartella stessa, che fa `\input` di un preambolo e `\include` dei capitoli), o l'utente chiede di crearne una (`/latex setup`) | File: il capitolo, le figure ritagliate, la riga `\include` in `main.tex`, poi la compilazione |
 | **Chat** | Nessun progetto: un assistente in chat (Gem, GPT personalizzato) con il preambolo allegato | Solo il corpo del capitolo in un blocco ```` ```latex ````; riferimenti incrociati solo alle label che l'utente ha incollato |
 
 Tutto quello che segue vale per entrambe le modalità, tranne i passi che richiedono file.
@@ -23,18 +23,22 @@ Tutto quello che segue vale per entrambe le modalità, tranne i passi che richie
 ## Struttura del progetto
 
 ```text
-corso/
-├── main.tex                 % \input{preamble}, \include{chapters/...}
-├── preamble.tex             % oppure preamble2.tex, preamble3.tex
-├── chapters/5-Clustering.tex
-├── images/ch05_metodo_gomito.png
-├── slides/5-Clustering.pdf  % qualsiasi cartella con i PDF delle lezioni (Teoria/, lectures/, ...)
-└── transcripts/5-Clustering.txt   % facoltativa
+corso/                                 % cartella del corso, dove è installato il kit (.agents/)
+├── .agents/
+└── latex/                             % radice del progetto LaTeX, creata da /latex setup
+    ├── main.tex                       % \input{preamble}, \include{chapters/...}
+    ├── preamble.tex                   % oppure preamble2.tex, preamble3.tex
+    ├── chapters/5-Clustering.tex
+    ├── images/ch05_metodo_gomito.png
+    ├── slides/5-Clustering.pdf        % oppure i PDF nella cartella del corso o in un'altra (Teoria/, ...)
+    └── transcripts/5-Clustering.txt   % facoltativa
 ```
 
-- Il file del capitolo prende il nome del PDF: `slides/5-Clustering.pdf` → `chapters/5-Clustering.tex`.
-- Immagini: `images/chNN_nome_breve.png`, con il numero del capitolo su due cifre.
-- `/latex setup` crea questa struttura da `assets/main.tex` e `assets/preamble.tex` (preambolo in italiano).
+- **Radice del progetto**: la cartella con `main.tex`. È `latex/` per i corsi preparati con `/latex setup`; nei corsi preparati prima (come DMML) è la cartella corrente, e il kit sta lì dentro. Nei comandi qui sotto `<radice>` sta per `latex` o per `.`.
+- I percorsi dentro il LaTeX (`\include{chapters/...}`, `\includegraphics{images/...}`) sono relativi alla radice. Nei comandi e nei file che scrivi dalla cartella del corso aggiungi la radice davanti: `latex/chapters/5-Clustering.tex`, `latex/images/...`.
+- Il file del capitolo prende il nome del PDF: `5-Clustering.pdf` → `<radice>/chapters/5-Clustering.tex`.
+- Immagini: `<radice>/images/chNN_nome_breve.png`, con il numero del capitolo su due cifre.
+- `/latex setup` crea `latex/` e, dentro, questa struttura da `assets/main.tex` e `assets/preamble.tex` (preambolo in italiano).
 
 ---
 
@@ -49,24 +53,24 @@ corso/
 
 ## Procedura (modalità Progetto)
 
-1. **Preambolo.** Leggi i file di preambolo che `main.tex` include (`preamble.tex`, `preamble2.tex`, `preamble3.tex`): danno la lingua del corso, gli ambienti, i comandi e le librerie TikZ da usare. Non aggiungere mai `\usepackage` a un capitolo: se manca qualcosa, di' all'utente quale riga aggiungere al preambolo.
-2. **Mappa degli appunti.** `grep -n "\\chapter{\|\\section{\|\\label{" chapters/*.tex` dà gli argomenti già trattati e tutte le label che puoi citare. Non leggere per intero tutti i capitoli.
+1. **Preambolo.** Leggi i file di preambolo che `<radice>/main.tex` include (`preamble.tex`, `preamble2.tex`, `preamble3.tex`): danno la lingua del corso, gli ambienti, i comandi e le librerie TikZ da usare. Non aggiungere mai `\usepackage` a un capitolo: se manca qualcosa, di' all'utente quale riga aggiungere al preambolo.
+2. **Mappa degli appunti.** `grep -n "\\chapter{\|\\section{\|\\label{" <radice>/chapters/*.tex` dà gli argomenti già trattati e tutte le label che puoi citare. Non leggere per intero tutti i capitoli.
 3. **Segui le modifiche dell'utente.** Leggi per intero il capitolo modificato più di recente: l'utente modifica i capitoli a mano, quindi lì vedi le convenzioni da copiare (nomi delle label, larghezza delle figure, `\newpage`, `\noindent`, trattini negli elenchi, come sono scritti gli esempi). Dove un capitolo si discosta da una regola qui sotto, vince il capitolo.
 4. **Leggi il PDF.** Aprilo direttamente se i tuoi strumenti lo permettono. Altrimenti usa lo script incluso (gestisce anche gli handout con due o tre slide per pagina):
 
    ```bash
-   python .agents/skills/latex-tutor/scripts/slides.py info slides/5-Clustering.pdf
-   python .agents/skills/latex-tutor/scripts/slides.py text slides/5-Clustering.pdf
-   python .agents/skills/latex-tutor/scripts/slides.py render slides/5-Clustering.pdf --slides 12-14 --out .slides-tmp
+   python .agents/skills/latex-tutor/scripts/slides.py info latex/slides/5-Clustering.pdf
+   python .agents/skills/latex-tutor/scripts/slides.py text latex/slides/5-Clustering.pdf
+   python .agents/skills/latex-tutor/scripts/slides.py render latex/slides/5-Clustering.pdf --slides 12-14 --out .slides-tmp
    ```
 
    `text` stampa ogni slide senza intestazioni, loghi e numeri di pagina; `render` scrive i PNG delle slide da guardare (diagrammi, formule e tabelle disegnati come immagini). Serve PyMuPDF (`pip install pymupdf`). Alla fine cancella `.slides-tmp/`.
-5. **Trascrizione.** Se esiste `transcripts/<stesso nome>.*` o l'utente ne allega una, fondila: il PDF dà la struttura e le formule, la trascrizione le spiegazioni e gli esempi detti a voce dal professore.
+5. **Trascrizione.** Se esiste `<radice>/transcripts/<stesso nome>.*` o l'utente ne allega una, fondila: il PDF dà la struttura e le formule, la trascrizione le spiegazioni e gli esempi detti a voce dal professore.
 6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in 3-6 sezioni (vedi Stile di scrittura). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
-7. **Scrivi** `chapters/<nome>.tex`. Non sovrascrivere mai un capitolo esistente: l'utente potrebbe averlo modificato. Se il file esiste, chiedi se scrivere `chapters/<nome>-new.tex` o aggiornare solo alcune sezioni.
+7. **Scrivi** `<radice>/chapters/<nome>.tex`. Non sovrascrivere mai un capitolo esistente: l'utente potrebbe averlo modificato. Se il file esiste, chiedi se scrivere `<radice>/chapters/<nome>-new.tex` o aggiornare solo alcune sezioni.
 8. **Figure.** Segui il Protocollo delle immagini: TikZ, ritaglio dal PDF o segnaposto.
 9. **`main.tex`.** Aggiungi la riga `\include` nell'ordine dei capitoli, copiando lo schema già presente (per esempio `\clearoddpage\include{chapters/5-Clustering}`).
-10. **Compila.** `latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex` (o due volte `pdflatex`). Correggi ogni errore del nuovo capitolo. Poi cerca nel log i riferimenti `undefined` e gli `Overfull \hbox` che vengono dal nuovo capitolo e correggili. Se non c'è una distribuzione TeX installata, dillo.
+10. **Compila.** `latexmk -cd -pdf -interaction=nonstopmode -halt-on-error <radice>/main.tex` (`-cd` compila nella cartella di `main.tex`; in alternativa due volte `pdflatex` dentro `<radice>`). Correggi ogni errore del nuovo capitolo. Poi cerca nel log i riferimenti `undefined` e gli `Overfull \hbox` che vengono dal nuovo capitolo e correggili. Se non c'è una distribuzione TeX installata, dillo.
 11. **Resoconto** in italiano: file scritto, sezioni, figure (TikZ, ritagliate con i numeri di slide, segnaposto), riferimenti incrociati aggiunti, esito della compilazione.
 
 ---
@@ -172,14 +176,15 @@ Schemi a blocchi, piccoli diagrammi di flusso, topologie, pile di livelli, pipel
 
 ```bash
 S=.agents/skills/latex-tutor/scripts/slides.py
-python $S figures slides/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
-python $S crop slides/5-Clustering.pdf --slide 23 --auto --out images/ch05_metodo_gomito.png
-python $S render slides/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
-python $S crop slides/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out images/ch05_metodo_gomito.png
+python $S figures latex/slides/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
+python $S crop latex/slides/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05_metodo_gomito.png
+python $S render latex/slides/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
+python $S crop latex/slides/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05_metodo_gomito.png
 ```
 
 - `--auto` ritaglia le figure trovate (un'immagine o un grafico). Per una figura fatta di più pezzi (riquadri di testo intorno a un'icona, un diagramma annotato), renderizza la slide con `--grid`, leggi il riquadro sulla griglia rossa (x0,y0,x1,y1 in percentuale della slide) e ritaglia con `--box`.
 - **Guarda ogni PNG prima di usarlo**: la figura intera dentro, nessuna riga di testo tagliata a metà, nessun titolo di slide, logo o intestazione. Altrimenti ritaglia di nuovo.
+- Salva il PNG in `<radice>/images/` (dalla cartella del corso `latex/images/...`), ma nel capitolo includilo con il percorso relativo alla radice: `images/ch05_metodo_gomito.png`.
 - Non ritagliare tabelle (scrivi un `tabular`), formule (scrivi LaTeX), testo a punti, diagrammi semplici (TikZ) o immagini decorative.
 
 ```latex

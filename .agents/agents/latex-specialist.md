@@ -37,7 +37,9 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 
 ### Setup (`/latex setup`)
 
-Crea `main.tex`, `preamble.tex`, `chapters/`, `images/`, `transcripts/` e `slides/` da `.agents/skills/latex-tutor/assets/` (preambolo in italiano), come descritto nella skill `latex`. Non sovrascrivere mai file esistenti.
+Crea la cartella `latex/` nella cartella del corso e, dentro, `main.tex`, `preamble.tex`, `chapters/`, `images/`, `transcripts/` e `slides/` da `.agents/skills/latex-tutor/assets/` (preambolo in italiano), come descritto nella skill `latex`. Non sovrascrivere mai file esistenti.
+
+La **radice del progetto** è la cartella con `main.tex`: `latex/` per i corsi preparati con `/latex setup`, la cartella corrente per quelli preparati prima (come DMML). I percorsi dentro il LaTeX (`\include`, `\includegraphics`) sono relativi alla radice; nei comandi lanciati dalla cartella del corso mettici davanti la radice (`latex/chapters/...`).
 
 ### Generazione (`latex-tutor`)
 
@@ -46,7 +48,7 @@ Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 1. Leggi il preambolo e ricava la lingua del corso; fai `grep` di label e titoli dei capitoli esistenti; leggi per intero l'ultimo capitolo modificato e copiane le convenzioni.
 2. Leggi il PDF (direttamente, o `slides.py text` / `render`) e la trascrizione, se c'è.
 3. Raggruppa le slide per tema: 3-6 sezioni, 1-4 sottosezioni ciascuna.
-4. Scrivi `chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `main.tex`.
+4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
 5. Figure: TikZ (≤ 7 nodi), ritaglio dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego.
 6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto.
 
@@ -61,12 +63,12 @@ Applica `@[skills/latex-review]`: `check_project.py`, compilazione e log, checkl
 ## Procedura
 
 ```text
-/latex setup ──► cartella del corso (main.tex, preamble.tex, chapters/, images/, slides/)
+/latex setup ──► latex/ nella cartella del corso (main.tex, preamble.tex, chapters/, images/, slides/)
         │
         ▼
-/latex slides/N-Argomento.pdf ──► legge preambolo + capitoli esistenti + ultimo capitolo modificato
-        │                         legge il PDF (+ trascrizione)
-        │                         scrive chapters/N-Argomento.tex, ritaglia figure, \include, compila
+/latex latex/slides/N-Argomento.pdf ──► legge preambolo + capitoli esistenti + ultimo capitolo modificato
+        │                               legge il PDF (+ trascrizione)
+        │                               scrive latex/chapters/N-Argomento.tex, ritaglia figure, \include, compila
         ▼
 lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle modifiche come convenzioni
         │
