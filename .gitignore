@@ -15,3 +15,5 @@ others
 .agents/skills/latex-tutor/assets/*.log
 .agents/skills/latex-tutor/assets/*.out
 .agents/skills/latex-tutor/assets/*.pdf
+# file personali, non vanno su GitHub
+CLAUDE.md
