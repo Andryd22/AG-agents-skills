@@ -25,16 +25,12 @@ Installa agenti, skill e regole del kit nella cartella `.agents/` del tuo proget
 
 Quando funziona, l'installer scrive sempre `Kit vX.Y.Z installato in …` con la versione installata e il numero di file, agenti e skill.
 
-**Windows con PowerShell:** se il comando torna al prompt senza scrivere niente, `npx` non ha avviato l'installer (succede con lo script `npx.ps1` che PowerShell usa al posto di `npx`). Lancia lo stesso comando con `npx.cmd`:
+**Windows con PowerShell:** se il comando torna al prompt senza scrivere niente, `npx` non ha avviato l'installer. Lancia lo stesso comando con `npx.cmd`:
 
 ```powershell
 npx.cmd github:Andryd22/AG-agents-skills init -y
 npx.cmd github:Andryd22/AG-agents-skills update
 ```
-
-Al primo avvio `npx.cmd` chiede `Ok to proceed? (y)`: rispondi `y`. Dal Prompt dei comandi (cmd), da Git Bash, su macOS e su Linux basta `npx`.
-
-L'installer sostituisce solo agenti, skill, regole e script del kit (li annota in `.agents/.ag-kit.json`): le modifiche locali a quei file non vengono mantenute, mentre gli agenti, le skill e le regole tuoi restano. Se trova una vecchia installazione in `.agent/`, la sposta in `.agent.bak/`.
 
 ## Cosa è Incluso
 
