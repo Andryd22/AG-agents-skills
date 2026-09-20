@@ -1,26 +1,26 @@
-# 6. Rendering Performance
+# 6. Prestazioni del rendering
 
-> **Impact:** MEDIUM
-> **Focus:** Optimizing the rendering process reduces the work the browser needs to do.
-
----
-
-## Overview
-
-This section contains **9 rules** focused on rendering performance.
+> **Impatto:** MEDIO
+> **Obiettivo:** Ottimizzare il processo di rendering riduce il lavoro che il browser deve svolgere.
 
 ---
 
-## Rule 6.1: Animate SVG Wrapper Instead of SVG Element
+## Panoramica
 
-**Impact:** LOW  
-**Tags:** rendering, svg, css, animation, performance  
+Questa sezione contiene **9 regole** dedicate alle prestazioni del rendering.
 
-## Animate SVG Wrapper Instead of SVG Element
+---
 
-Many browsers don't have hardware acceleration for CSS3 animations on SVG elements. Wrap SVG in a `<div>` and animate the wrapper instead.
+## Regola 6.1: Anima il wrapper dell'SVG invece dell'elemento SVG
 
-**Incorrect (animating SVG directly - no hardware acceleration):**
+**Impatto:** BASSO  
+**Tag:** rendering, svg, css, animation, performance  
+
+## Anima il wrapper dell'SVG invece dell'elemento SVG
+
+Molti browser non applicano l'accelerazione hardware alle animazioni CSS3 sugli elementi SVG. Avvolgi l'SVG in un `<div>` e anima il wrapper.
+
+**Sbagliato (anima direttamente l'SVG, senza accelerazione hardware):**
 
 ```tsx
 function LoadingSpinner() {
@@ -37,7 +37,7 @@ function LoadingSpinner() {
 }
 ```
 
-**Correct (animating wrapper div - hardware accelerated):**
+**Corretto (anima il div wrapper, con accelerazione hardware):**
 
 ```tsx
 function LoadingSpinner() {
@@ -55,18 +55,18 @@ function LoadingSpinner() {
 }
 ```
 
-This applies to all CSS transforms and transitions (`transform`, `opacity`, `translate`, `scale`, `rotate`). The wrapper div allows browsers to use GPU acceleration for smoother animations.
+Vale per tutte le trasformazioni e le transizioni CSS (`transform`, `opacity`, `translate`, `scale`, `rotate`). Il div wrapper permette al browser di usare l'accelerazione GPU e rende le animazioni più fluide.
 
 ---
 
-## Rule 6.2: CSS content-visibility for Long Lists
+## Regola 6.2: CSS content-visibility per le liste lunghe
 
-**Impact:** HIGH  
-**Tags:** rendering, css, content-visibility, long-lists  
+**Impatto:** ALTO  
+**Tag:** rendering, css, content-visibility, long-lists  
 
-## CSS content-visibility for Long Lists
+## CSS content-visibility per le liste lunghe
 
-Apply `content-visibility: auto` to defer off-screen rendering.
+Applica `content-visibility: auto` per rimandare il rendering degli elementi fuori schermo.
 
 **CSS:**
 
@@ -77,7 +77,7 @@ Apply `content-visibility: auto` to defer off-screen rendering.
 }
 ```
 
-**Example:**
+**Esempio:**
 
 ```tsx
 function MessageList({ messages }: { messages: Message[] }) {
@@ -94,20 +94,20 @@ function MessageList({ messages }: { messages: Message[] }) {
 }
 ```
 
-For 1000 messages, browser skips layout/paint for ~990 off-screen items (10× faster initial render).
+Con 1000 messaggi il browser salta layout e paint di circa 990 elementi fuori schermo (rendering iniziale 10× più veloce).
 
 ---
 
-## Rule 6.3: Hoist Static JSX Elements
+## Regola 6.3: Fai l'hoisting degli elementi JSX statici
 
-**Impact:** LOW  
-**Tags:** rendering, jsx, static, optimization  
+**Impatto:** BASSO  
+**Tag:** rendering, jsx, static, optimization  
 
-## Hoist Static JSX Elements
+## Fai l'hoisting degli elementi JSX statici
 
-Extract static JSX outside components to avoid re-creation.
+Porta il JSX statico fuori dai componenti, così non viene ricreato.
 
-**Incorrect (recreates element every render):**
+**Sbagliato (ricrea l'elemento a ogni render):**
 
 ```tsx
 function LoadingSkeleton() {
@@ -123,7 +123,7 @@ function Container() {
 }
 ```
 
-**Correct (reuses same element):**
+**Corretto (riusa lo stesso elemento):**
 
 ```tsx
 const loadingSkeleton = (
@@ -139,34 +139,34 @@ function Container() {
 }
 ```
 
-This is especially helpful for large and static SVG nodes, which can be expensive to recreate on every render.
+È utile soprattutto con nodi SVG grandi e statici, costosi da ricreare a ogni render.
 
-**Note:** If your project has [React Compiler](https://react.dev/learn/react-compiler) enabled, the compiler automatically hoists static JSX elements and optimizes component re-renders, making manual hoisting unnecessary.
+**Nota:** se nel progetto è attivo il [React Compiler](https://react.dev/learn/react-compiler), il compilatore fa automaticamente l'hoisting degli elementi JSX statici e ottimizza i re-render dei componenti: l'hoisting manuale diventa superfluo.
 
 ---
 
-## Rule 6.4: Optimize SVG Precision
+## Regola 6.4: Ottimizza la precisione degli SVG
 
-**Impact:** LOW  
-**Tags:** rendering, svg, optimization, svgo  
+**Impatto:** BASSO  
+**Tag:** rendering, svg, optimization, svgo  
 
-## Optimize SVG Precision
+## Ottimizza la precisione degli SVG
 
-Reduce SVG coordinate precision to decrease file size. The optimal precision depends on the viewBox size, but in general reducing precision should be considered.
+Riduci la precisione delle coordinate SVG per alleggerire i file. La precisione ottimale dipende dalla dimensione del viewBox, ma in generale conviene valutare di ridurla.
 
-**Incorrect (excessive precision):**
+**Sbagliato (precisione eccessiva):**
 
 ```svg
 <path d="M 10.293847 20.847362 L 30.938472 40.192837" />
 ```
 
-**Correct (1 decimal place):**
+**Corretto (1 cifra decimale):**
 
 ```svg
 <path d="M 10.3 20.8 L 30.9 40.2" />
 ```
 
-**Automate with SVGO:**
+**Automatizza con SVGO:**
 
 ```bash
 npx svgo --precision=1 --multipass icon.svg
@@ -174,20 +174,20 @@ npx svgo --precision=1 --multipass icon.svg
 
 ---
 
-## Rule 6.5: Prevent Hydration Mismatch Without Flickering
+## Regola 6.5: Evita l'hydration mismatch senza sfarfallio
 
-**Impact:** MEDIUM  
-**Tags:** rendering, ssr, hydration, localStorage, flicker  
+**Impatto:** MEDIO  
+**Tag:** rendering, ssr, hydration, localStorage, flicker  
 
-## Prevent Hydration Mismatch Without Flickering
+## Evita l'hydration mismatch senza sfarfallio
 
-When rendering content that depends on client-side storage (localStorage, cookies), avoid both SSR breakage and post-hydration flickering by injecting a synchronous script that updates the DOM before React hydrates.
+Quando renderizzi contenuti che dipendono da uno storage lato client (localStorage, cookie), evita sia la rottura dell'SSR sia lo sfarfallio dopo l'idratazione: inietta uno script sincrono che aggiorna il DOM prima che React esegua l'idratazione.
 
-**Incorrect (breaks SSR):**
+**Sbagliato (rompe l'SSR):**
 
 ```tsx
 function ThemeWrapper({ children }: { children: ReactNode }) {
-  // localStorage is not available on server - throws error
+  // localStorage non esiste sul server: lancia un errore
   const theme = localStorage.getItem('theme') || 'light'
   
   return (
@@ -198,16 +198,16 @@ function ThemeWrapper({ children }: { children: ReactNode }) {
 }
 ```
 
-Server-side rendering will fail because `localStorage` is undefined.
+Il rendering lato server fallisce perché `localStorage` non è definito.
 
-**Incorrect (visual flickering):**
+**Sbagliato (sfarfallio visibile):**
 
 ```tsx
 function ThemeWrapper({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState('light')
   
   useEffect(() => {
-    // Runs after hydration - causes visible flash
+    // Gira dopo l'idratazione: causa un flash visibile
     const stored = localStorage.getItem('theme')
     if (stored) {
       setTheme(stored)
@@ -222,9 +222,9 @@ function ThemeWrapper({ children }: { children: ReactNode }) {
 }
 ```
 
-Component first renders with default value (`light`), then updates after hydration, causing a visible flash of incorrect content.
+Il componente renderizza prima il valore di default (`light`) e si aggiorna solo dopo l'idratazione: per un attimo si vede il contenuto sbagliato.
 
-**Correct (no flicker, no hydration mismatch):**
+**Corretto (niente sfarfallio né hydration mismatch):**
 
 ```tsx
 function ThemeWrapper({ children }: { children: ReactNode }) {
@@ -251,22 +251,22 @@ function ThemeWrapper({ children }: { children: ReactNode }) {
 }
 ```
 
-The inline script executes synchronously before showing the element, ensuring the DOM already has the correct value. No flickering, no hydration mismatch.
+Lo script inline viene eseguito in modo sincrono prima che l'elemento sia mostrato, quindi il DOM ha già il valore corretto. Niente sfarfallio, niente hydration mismatch.
 
-This pattern is especially useful for theme toggles, user preferences, authentication states, and any client-only data that should render immediately without flashing default values.
+Il pattern è utile soprattutto per switch del tema, preferenze utente, stato di autenticazione e qualunque dato solo client che deve comparire subito, senza mostrare prima i valori di default.
 
 ---
 
-## Rule 6.6: Suppress Expected Hydration Mismatches
+## Regola 6.6: Silenzia gli hydration mismatch previsti
 
-**Impact:** LOW-MEDIUM  
-**Tags:** rendering, hydration, ssr, nextjs  
+**Impatto:** MEDIO-BASSO  
+**Tag:** rendering, hydration, ssr, nextjs  
 
-## Suppress Expected Hydration Mismatches
+## Silenzia gli hydration mismatch previsti
 
-In SSR frameworks (e.g., Next.js), some values are intentionally different on server vs client (random IDs, dates, locale/timezone formatting). For these *expected* mismatches, wrap the dynamic text in an element with `suppressHydrationWarning` to prevent noisy warnings. Do not use this to hide real bugs. Don’t overuse it.
+Nei framework SSR (per es. Next.js) alcuni valori sono volutamente diversi tra server e client (ID casuali, date, formattazione per locale/fuso orario). Per questi mismatch *previsti*, avvolgi il testo dinamico in un elemento con `suppressHydrationWarning` ed elimini i warning superflui. Non usarlo per nascondere bug reali e non abusarne.
 
-**Incorrect (known mismatch warnings):**
+**Sbagliato (warning per mismatch noti):**
 
 ```tsx
 function Timestamp() {
@@ -274,7 +274,7 @@ function Timestamp() {
 }
 ```
 
-**Correct (suppress expected mismatch only):**
+**Corretto (silenzia solo il mismatch previsto):**
 
 ```tsx
 function Timestamp() {
@@ -288,16 +288,16 @@ function Timestamp() {
 
 ---
 
-## Rule 6.7: Use Activity Component for Show/Hide
+## Regola 6.7: Usa il componente Activity per mostrare e nascondere
 
-**Impact:** MEDIUM  
-**Tags:** rendering, activity, visibility, state-preservation  
+**Impatto:** MEDIO  
+**Tag:** rendering, activity, visibility, state-preservation  
 
-## Use Activity Component for Show/Hide
+## Usa il componente Activity per mostrare e nascondere
 
-Use React's `<Activity>` to preserve state/DOM for expensive components that frequently toggle visibility.
+Usa `<Activity>` di React per preservare stato e DOM dei componenti costosi che vengono mostrati e nascosti spesso.
 
-**Usage:**
+**Uso:**
 
 ```tsx
 import { Activity } from 'react'
@@ -311,20 +311,20 @@ function Dropdown({ isOpen }: Props) {
 }
 ```
 
-Avoids expensive re-renders and state loss.
+Eviti re-render costosi e la perdita dello stato.
 
 ---
 
-## Rule 6.8: Use Explicit Conditional Rendering
+## Regola 6.8: Usa un rendering condizionale esplicito
 
-**Impact:** LOW  
-**Tags:** rendering, conditional, jsx, falsy-values  
+**Impatto:** BASSO  
+**Tag:** rendering, conditional, jsx, falsy-values  
 
-## Use Explicit Conditional Rendering
+## Usa un rendering condizionale esplicito
 
-Use explicit ternary operators (`? :`) instead of `&&` for conditional rendering when the condition can be `0`, `NaN`, or other falsy values that render.
+Nel rendering condizionale usa l'operatore ternario esplicito (`? :`) invece di `&&` quando la condizione può valere `0`, `NaN` o altri valori falsy che vengono renderizzati.
 
-**Incorrect (renders "0" when count is 0):**
+**Sbagliato (renderizza "0" quando count è 0):**
 
 ```tsx
 function Badge({ count }: { count: number }) {
@@ -335,11 +335,11 @@ function Badge({ count }: { count: number }) {
   )
 }
 
-// When count = 0, renders: <div>0</div>
-// When count = 5, renders: <div><span class="badge">5</span></div>
+// Con count = 0 renderizza: <div>0</div>
+// Con count = 5 renderizza: <div><span class="badge">5</span></div>
 ```
 
-**Correct (renders nothing when count is 0):**
+**Corretto (non renderizza nulla quando count è 0):**
 
 ```tsx
 function Badge({ count }: { count: number }) {
@@ -350,22 +350,22 @@ function Badge({ count }: { count: number }) {
   )
 }
 
-// When count = 0, renders: <div></div>
-// When count = 5, renders: <div><span class="badge">5</span></div>
+// Con count = 0 renderizza: <div></div>
+// Con count = 5 renderizza: <div><span class="badge">5</span></div>
 ```
 
 ---
 
-## Rule 6.9: Use useTransition Over Manual Loading States
+## Regola 6.9: Preferisci useTransition agli stati di caricamento manuali
 
-**Impact:** LOW  
-**Tags:** rendering, transitions, useTransition, loading, state  
+**Impatto:** BASSO  
+**Tag:** rendering, transitions, useTransition, loading, state  
 
-## Use useTransition Over Manual Loading States
+## Preferisci useTransition agli stati di caricamento manuali
 
-Use `useTransition` instead of manual `useState` for loading states. This provides built-in `isPending` state and automatically manages transitions.
+Per gli stati di caricamento usa `useTransition` invece di gestirli a mano con `useState`: ottieni lo stato `isPending` già pronto e la gestione automatica delle transizioni.
 
-**Incorrect (manual loading state):**
+**Sbagliato (stato di caricamento manuale):**
 
 ```tsx
 function SearchResults() {
@@ -391,7 +391,7 @@ function SearchResults() {
 }
 ```
 
-**Correct (useTransition with built-in pending state):**
+**Corretto (useTransition con lo stato pending integrato):**
 
 ```tsx
 import { useTransition, useState } from 'react'
@@ -402,12 +402,15 @@ function SearchResults() {
   const [isPending, startTransition] = useTransition()
 
   const handleSearch = (value: string) => {
-    setQuery(value) // Update input immediately
+    setQuery(value) // Aggiorna subito l'input
     
     startTransition(async () => {
-      // Fetch and update results
+      // Recupera i risultati
       const data = await fetchResults(value)
-      setResults(data)
+      // Gli aggiornamenti dopo un await vanno riavvolti in startTransition
+      startTransition(() => {
+        setResults(data)
+      })
     })
   }
 
@@ -421,11 +424,11 @@ function SearchResults() {
 }
 ```
 
-**Benefits:**
+**Vantaggi:**
 
-- **Automatic pending state**: No need to manually manage `setIsLoading(true/false)`
-- **Error resilience**: Pending state correctly resets even if the transition throws
-- **Better responsiveness**: Keeps the UI responsive during updates
-- **Interrupt handling**: New transitions automatically cancel pending ones
+- **Stato pending automatico**: non devi gestire a mano `setIsLoading(true/false)`
+- **Resilienza agli errori**: lo stato pending si azzera correttamente anche se la transizione lancia un'eccezione
+- **Reattività migliore**: la UI resta reattiva durante gli aggiornamenti
+- **Gestione delle interruzioni**: gli aggiornamenti in transizione vengono interrotti da quelli urgenti (per es. la digitazione); le richieste già partite però non vengono annullate, quindi se serve gestisci le risposte che arrivano fuori ordine
 
-Reference: [useTransition](https://react.dev/reference/react/useTransition)
+Riferimento: [useTransition](https://react.dev/reference/react/useTransition)

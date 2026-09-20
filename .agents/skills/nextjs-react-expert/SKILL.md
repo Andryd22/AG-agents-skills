@@ -1,290 +1,293 @@
 ---
 name: nextjs-react-expert
-description: React and Next.js performance optimization from Vercel Engineering. Use when building React components, optimizing performance, eliminating waterfalls, reducing bundle size, reviewing code for performance issues, or implementing server/client-side optimizations.
+description: Ottimizzazione delle prestazioni di React e Next.js secondo Vercel Engineering. Usala quando crei componenti React, ottimizzi le prestazioni, elimini i waterfall, riduci la dimensione del bundle, revisioni il codice per problemi di prestazioni o implementi ottimizzazioni lato server e lato client.
 ---
 
-# Next.js & React Performance Expert
+# Esperto di prestazioni Next.js e React
 
-> **From Vercel Engineering** - 57 optimization rules prioritized by impact
-> **Philosophy:** Eliminate waterfalls first, optimize bundles second, then micro-optimize.
-
----
-
-## 🎯 Selective Reading Rule (MANDATORY)
-
-**Read ONLY sections relevant to your task!** Check the content map below and load what you need.
-
-> 🔴 **For performance reviews: Start with CRITICAL sections (1-2), then move to HIGH/MEDIUM.**
+> **Da Vercel Engineering**: 58 regole di ottimizzazione ordinate per impatto
+> **Filosofia:** prima elimina i waterfall, poi ottimizza i bundle, infine passa alle micro-ottimizzazioni.
 
 ---
 
-## 📑 Content Map
+## 🎯 Regola della lettura selettiva (OBBLIGATORIA)
 
-| File | Impact | Rules | When to Read |
+**Leggi SOLO le sezioni utili al tuo compito!** Guarda la mappa dei contenuti qui sotto e carica quello che ti serve.
+
+> 🔴 **Per le revisioni delle prestazioni: parti dalle sezioni CRITICHE (1-2), poi passa a quelle ALTE e MEDIE.**
+
+---
+
+## 📑 Mappa dei contenuti
+
+| File | Impatto | Regole | Quando leggerlo |
 | --- | --- | --- | --- |
-| `1-async-eliminating-waterfalls.md` | 🔴 **CRITICAL** | 5 rules | Slow page loads, sequential API calls, data fetching waterfalls |
-| `2-bundle-bundle-size-optimization.md` | 🔴 **CRITICAL** | 5 rules | Large bundle size, slow Time to Interactive, First Load issues |
-| `3-server-server-side-performance.md` | 🟠 **HIGH** | 7 rules | Slow SSR, API route optimization, server-side waterfalls |
-| `4-client-client-side-data-fetching.md` | 🟡 **MEDIUM-HIGH** | 4 rules | Client data management, SWR patterns, deduplication |
-| `5-rerender-re-render-optimization.md` | 🟡 **MEDIUM** | 12 rules | Excessive re-renders, React performance, memoization |
-| `6-rendering-rendering-performance.md` | 🟡 **MEDIUM** | 9 rules | Rendering bottlenecks, virtualization, image optimization |
-| `7-js-javascript-performance.md` | ⚪ **LOW-MEDIUM** | 12 rules | Micro-optimizations, caching, loop performance |
-| `8-advanced-advanced-patterns.md` | 🔵 **VARIABLE** | 3 rules | Advanced React patterns, useLatest, init-once |
-| `9-cache-components.md` | 🔴 **CRITICAL** | 4 sections | **Next.js 16+ Only**: `use cache`, `cacheLife`, PPR, `cacheTag` |
+| `1-async-eliminating-waterfalls.md` | 🔴 **CRITICO** | 6 regole | Pagine lente da caricare, chiamate API in sequenza, waterfall nel recupero dei dati |
+| `2-bundle-bundle-size-optimization.md` | 🔴 **CRITICO** | 5 regole | Bundle grande, Time to Interactive lento, problemi al primo caricamento |
+| `3-server-server-side-performance.md` | 🟠 **ALTO** | 7 regole | SSR lento, ottimizzazione delle API route, waterfall lato server |
+| `4-client-client-side-data-fetching.md` | 🟡 **MEDIO-ALTO** | 4 regole | Gestione dei dati sul client, pattern SWR, deduplicazione |
+| `5-rerender-re-render-optimization.md` | 🟡 **MEDIO** | 12 regole | Troppi re-render, prestazioni di React, memoizzazione |
+| `6-rendering-rendering-performance.md` | 🟡 **MEDIO** | 9 regole | Colli di bottiglia nel rendering, liste lunghe, SVG, hydration |
+| `7-js-javascript-performance.md` | ⚪ **MEDIO-BASSO** | 12 regole | Micro-ottimizzazioni, cache, prestazioni dei loop, layout thrashing |
+| `8-advanced-advanced-patterns.md` | 🔵 **VARIABILE** | 3 regole | Pattern React avanzati, `useEffectEvent`, inizializzazione una tantum |
+| `9-cache-components.md` | 🔴 **CRITICO** | 4 sezioni | **Solo Next.js 16+**: `use cache`, `cacheLife`, PPR, `cacheTag` |
 
-**Total:** 57 rules across 8 categories
+**Totale:** 58 regole in 8 categorie, più la guida alle Cache Components
+
+> ℹ️ I file di sezione 1-8 sono una traduzione italiana delle regole react-best-practices di Vercel. Se rilanci `scripts/convert_rules.py` li rigeneri in inglese: dopo vanno tradotti di nuovo.
 
 ---
 
-## 🚀 Quick Decision Tree
+## 🚀 Albero decisionale rapido
 
-**What's your performance issue?**
+**Qual è il tuo problema di prestazioni?**
 
 ```text
-🐌 Slow page loads / Long Time to Interactive
-  → Read Section 1: Eliminating Waterfalls
-  → Read Section 2: Bundle Size Optimization
+🐌 Pagine lente da caricare / Time to Interactive lungo
+  → Leggi la sezione 1: Eliminare i waterfall
+  → Leggi la sezione 2: Ottimizzare la dimensione del bundle
 
-📦 Large bundle size (> 200KB)
-  → Read Section 2: Bundle Size Optimization
-  → Check: Dynamic imports, barrel imports, tree-shaking
+📦 Bundle grande (> 200KB)
+  → Leggi la sezione 2: Ottimizzare la dimensione del bundle
+  → Controlla: import dinamici, import dai barrel file, tree-shaking
 
-🖥️ Slow Server-Side Rendering
-  → Read Section 3: Server-Side Performance
-  → Check: Parallel data fetching, streaming
+🖥️ Server-Side Rendering lento
+  → Leggi la sezione 3: Prestazioni lato server
+  → Controlla: fetch dei dati in parallelo, streaming
 
-🔄 Too many re-renders / UI lag
-  → Read Section 5: Re-render Optimization
-  → Check: React.memo, useMemo, useCallback
+🔄 Troppi re-render / UI che rallenta
+  → Leggi la sezione 5: Ottimizzare i re-render
+  → Controlla: React.memo, useMemo, useCallback
 
-🎨 Rendering performance issues
-  → Read Section 6: Rendering Performance
-  → Check: Virtualization, layout thrashing
+🎨 Problemi di prestazioni nel rendering
+  → Leggi la sezione 6: Prestazioni del rendering
+  → Controlla: content-visibility per le liste lunghe, layout thrashing (sezione 7)
 
-🌐 Client-side data fetching problems
-  → Read Section 4: Client-Side Data Fetching
-  → Check: SWR deduplication, localStorage
+🌐 Problemi nel recupero dei dati lato client
+  → Leggi la sezione 4: Recupero dei dati lato client
+  → Controlla: deduplicazione con SWR, localStorage
 
-✨ Need advanced patterns
-  → Read Section 8: Advanced Patterns
+✨ Ti servono pattern avanzati
+  → Leggi la sezione 8: Pattern avanzati
 
-🚀 **Next.js 16+ Performance (Caching & PPR)**
-  → Read Section 9: Cache Components
+🚀 **Prestazioni in Next.js 16+ (caching e PPR)**
+  → Leggi la sezione 9: Cache Components: `use cache` e `cacheLife`
 ```
 
 ---
 
-## 📊 Impact Priority Guide
+## 📊 Guida alle priorità per impatto
 
-**Use this order when doing comprehensive optimization:**
+**Segui questo ordine quando fai un'ottimizzazione completa:**
 
 ```text
-1️⃣ CRITICAL (Biggest Gains - Do First):
-   ├─ Section 1: Eliminating Waterfalls
-   │  └─ Each waterfall adds full network latency (100-500ms+)
-   └─ Section 2: Bundle Size Optimization
-      └─ Affects Time to Interactive and Largest Contentful Paint
+1️⃣ CRITICO (guadagni maggiori, da fare per primo):
+   ├─ Sezione 1: Eliminare i waterfall
+   │  └─ Ogni waterfall aggiunge un'intera latenza di rete (100-500ms+)
+   └─ Sezione 2: Ottimizzare la dimensione del bundle
+      └─ Incide su Time to Interactive e Largest Contentful Paint
 
-2️⃣ HIGH (Significant Impact - Do Second):
-   └─ Section 3: Server-Side Performance
-      └─ Eliminates server-side waterfalls, faster response times
+2️⃣ ALTO (impatto significativo, da fare per secondo):
+   └─ Sezione 3: Prestazioni lato server
+      └─ Elimina i waterfall lato server, tempi di risposta più rapidi
 
-3️⃣ MEDIUM (Moderate Gains - Do Third):
-   ├─ Section 4: Client-Side Data Fetching
-   ├─ Section 5: Re-render Optimization
-   └─ Section 6: Rendering Performance
+3️⃣ MEDIO (guadagni moderati, da fare per terzo):
+   ├─ Sezione 4: Recupero dei dati lato client
+   ├─ Sezione 5: Ottimizzare i re-render
+   └─ Sezione 6: Prestazioni del rendering
 
-4️⃣ LOW (Polish - Do Last):
-   ├─ Section 7: JavaScript Performance
-   └─ Section 8: Advanced Patterns
+4️⃣ BASSO (rifinitura, da fare per ultimo):
+   ├─ Sezione 7: Prestazioni di JavaScript
+   └─ Sezione 8: Pattern avanzati
 
-🔥 **MODERN (Next.js 16+):**
-   └─ Section 9: Cache Components (Replaces most traditional revalidation)
+🔥 **MODERNO (Next.js 16+):**
+   └─ Sezione 9: Cache Components: `use cache` e `cacheLife`
+      (sostituisce gran parte della revalidation tradizionale)
 ```
 
 ---
 
-## 🔗 Related Skills
+## 🔗 Skill collegate
 
-| Need                    | Skill                             |
-| ----------------------- | --------------------------------- |
-| API design patterns     | `@[skills/api-patterns]`          |
-| Database optimization   | `@[skills/database-design]`       |
-| Testing strategies      | `@[skills/test]`                  |
-| UI/UX design principles | `@[skills/frontend-design]`       |
-
----
-
-## ✅ Performance Review Checklist
-
-Before shipping to production:
-
-**Critical (Must Fix):**
-
-- [ ] No sequential data fetching (waterfalls eliminated)
-- [ ] Bundle size < 200KB for main bundle
-- [ ] No barrel imports in app code
-- [ ] Dynamic imports used for large components
-- [ ] Parallel data fetching where possible
-
-**High Priority:**
-
-- [ ] Server components used where appropriate
-- [ ] API routes optimized (no N+1 queries)
-- [ ] Suspense boundaries for data fetching
-- [ ] Static generation used where possible
-
-**Medium Priority:**
-
-- [ ] Expensive computations memoized
-- [ ] List rendering virtualized (if > 100 items)
-- [ ] Images optimized with next/image
-- [ ] No unnecessary re-renders
-
-**Low Priority (Polish):**
-
-- [ ] Hot path loops optimized
-- [ ] RegExp patterns hoisted
-- [ ] Property access cached in loops
+| Serve | Skill |
+| --- | --- |
+| Pattern di progettazione delle API | `@[skills/api-patterns]` |
+| Ottimizzazione del database | `@[skills/database-design]` |
+| Strategie di test | `@[skills/test]` |
+| Principi di design UI/UX | `@[skills/frontend-design]` |
 
 ---
 
-## ❌ Anti-Patterns (Common Mistakes)
+## ✅ Checklist per la revisione delle prestazioni
 
-**DON'T:**
+Prima di andare in produzione:
 
-- ❌ Use sequential `await` for independent operations
-- ❌ Import entire libraries when you need one function
-- ❌ Use barrel exports (`index.ts` re-exports) in app code
-- ❌ Skip dynamic imports for large components/libraries
-- ❌ Fetch data in useEffect without deduplication
-- ❌ Forget to memoize expensive computations
-- ❌ Use client components when server components work
+**Critico (da correggere per forza):**
 
-**DO:**
+- [ ] Nessun recupero dei dati in sequenza (waterfall eliminati)
+- [ ] Bundle principale < 200KB
+- [ ] Nessun import dai barrel file nel codice dell'app
+- [ ] Import dinamici per i componenti grandi
+- [ ] Recupero dei dati in parallelo dove possibile
 
-- ✅ Fetch data in parallel with `Promise.all()`
-- ✅ Use dynamic imports: `const Comp = dynamic(() => import('./Heavy'))`
-- ✅ Import directly: `import { specific } from 'library/specific'`
-- ✅ Use Suspense boundaries for better UX
-- ✅ Leverage React Server Components
-- ✅ Measure performance before optimizing
-- ✅ Use Next.js built-in optimizations (next/image, next/font)
+**Priorità alta:**
 
----
+- [ ] Server Component usati dove ha senso
+- [ ] API route ottimizzate (niente query N+1)
+- [ ] Boundary Suspense per il recupero dei dati
+- [ ] Generazione statica usata dove possibile
 
-## 🎯 How to Use This Skill
+**Priorità media:**
 
-### For New Features
+- [ ] Calcoli costosi memoizzati
+- [ ] Liste lunghe virtualizzate (oltre i 100 elementi)
+- [ ] Immagini ottimizzate con next/image
+- [ ] Nessun re-render superfluo
 
-1. Check **Section 1 & 2** while building (prevent waterfalls, keep bundle small)
-2. Use server components by default (Section 3)
-3. Apply memoization for expensive operations (Section 5)
+**Priorità bassa (rifinitura):**
 
-### For Performance Reviews
-
-1. Start with **Section 1** (waterfalls = biggest impact)
-2. Then **Section 2** (bundle size)
-3. Then **Section 3** (server-side)
-4. Finally other sections as needed
-
-### For Debugging Slow Performance
-
-1. Identify the symptom (slow load, lag, etc.)
-2. Use Quick Decision Tree above
-3. Read relevant section
-4. Apply fixes in priority order
+- [ ] Loop negli hot path ottimizzati
+- [ ] RegExp spostate fuori dal render
+- [ ] Accessi alle proprietà messi in cache nei loop
 
 ---
 
-## 📚 Learning Path
+## ❌ Anti-pattern (errori comuni)
 
-**Beginner (Focus on Critical):**
-→ Section 1: Eliminating Waterfalls
-→ Section 2: Bundle Size Optimization
+**NON:**
 
-**Intermediate (Add High Priority):**
-→ Section 3: Server-Side Performance
-→ Section 5: Re-render Optimization
+- ❌ Usare `await` in sequenza per operazioni indipendenti
+- ❌ Importare intere librerie quando ti serve una sola funzione
+- ❌ Usare i barrel export (re-export da `index.ts`) nel codice dell'app
+- ❌ Rinunciare agli import dinamici per componenti o librerie grandi
+- ❌ Recuperare i dati in useEffect senza deduplicazione
+- ❌ Dimenticare di memoizzare i calcoli costosi
+- ❌ Usare Client Component quando basta un Server Component
 
-**Advanced (Full Optimization):**
-→ All sections + Section 8: Advanced Patterns
+**SÌ:**
 
----
-
-## 🔍 Validation Script
-
-| Script                                 | Purpose                     | Command                                                      |
-| -------------------------------------- | --------------------------- | ------------------------------------------------------------ |
-| `scripts/react_performance_checker.py` | Automated performance audit | `python scripts/react_performance_checker.py <project_path>` |
-
----
-
-## 📖 Section Details
-
-### Section 1: Eliminating Waterfalls (CRITICAL)
-
-**Impact:** Each waterfall adds 100-500ms+ latency
-**Key Concepts:** Parallel fetching, Promise.all(), Suspense boundaries, preloading
-
-### Section 2: Bundle Size Optimization (CRITICAL)
-
-**Impact:** Directly affects Time to Interactive, Largest Contentful Paint
-**Key Concepts:** Dynamic imports, tree-shaking, barrel import avoidance
-
-### Section 3: Server-Side Performance (HIGH)
-
-**Impact:** Faster server responses, better SEO
-**Key Concepts:** Parallel server fetching, streaming, API route optimization
-
-### Section 4: Client-Side Data Fetching (MEDIUM-HIGH)
-
-**Impact:** Reduces redundant requests, better UX
-**Key Concepts:** SWR deduplication, localStorage caching, event listeners
-
-### Section 5: Re-render Optimization (MEDIUM)
-
-**Impact:** Smoother UI, less wasted computation
-**Key Concepts:** React.memo, useMemo, useCallback, component structure
-
-### Section 6: Rendering Performance (MEDIUM)
-
-**Impact:** Better rendering efficiency
-**Key Concepts:** Virtualization, image optimization, layout thrashing
-
-### Section 7: JavaScript Performance (LOW-MEDIUM)
-
-**Impact:** Incremental improvements in hot paths
-**Key Concepts:** Loop optimization, caching, RegExp hoisting
-
-### Section 8: Advanced Patterns (VARIABLE)
-
-**Impact:** Specific use cases
-**Key Concepts:** useLatest hook, init-once patterns, event handler refs
+- ✅ Recuperare i dati in parallelo con `Promise.all()`
+- ✅ Usare gli import dinamici: `const Comp = dynamic(() => import('./Heavy'))`
+- ✅ Importare direttamente: `import { specific } from 'library/specific'`
+- ✅ Usare i boundary Suspense per una UX migliore
+- ✅ Sfruttare i React Server Components
+- ✅ Misurare le prestazioni prima di ottimizzare
+- ✅ Usare le ottimizzazioni integrate di Next.js (next/image, next/font)
 
 ---
 
-## 🎓 Best Practices Summary
+## 🎯 Come usare questa skill
 
-**Golden Rules:**
+### Per le nuove funzionalità
 
-1. **Measure first** - Use React DevTools Profiler, Chrome DevTools
-2. **Biggest impact first** - Waterfalls → Bundle → Server → Micro
-3. **Don't over-optimize** - Focus on real bottlenecks
-4. **Use platform features** - Next.js has optimizations built-in
-5. **Think about users** - Real-world conditions matter
+1. Consulta le **sezioni 1 e 2** mentre sviluppi (previeni i waterfall, tieni piccolo il bundle)
+2. Usa i Server Component come default (sezione 3)
+3. Applica la memoizzazione alle operazioni costose (sezione 5)
 
-**Performance Mindset:**
+### Per le revisioni delle prestazioni
 
-- Every `await` in sequence = potential waterfall
-- Every `import` = potential bundle bloat
-- Every re-render = wasted computation (if unnecessary)
-- Server components = less JavaScript to ship
-- Measure, don't guess
+1. Parti dalla **sezione 1** (waterfall = impatto maggiore)
+2. Poi la **sezione 2** (dimensione del bundle)
+3. Poi la **sezione 3** (lato server)
+4. Infine le altre sezioni, se servono
+
+### Per il debug delle prestazioni lente
+
+1. Individua il sintomo (caricamento lento, lag, ecc.)
+2. Usa l'albero decisionale rapido qui sopra
+3. Leggi la sezione pertinente
+4. Applica le correzioni in ordine di priorità
 
 ---
 
-**Source:** Vercel Engineering
-**Date:** January 2026
-**Version:** 1.0.0
-**Total Rules:** 57 across 8 categories
+## 📚 Percorso di apprendimento
+
+**Principiante (concentrati sulle criticità):**
+→ Sezione 1: Eliminare i waterfall
+→ Sezione 2: Ottimizzare la dimensione del bundle
+
+**Intermedio (aggiungi la priorità alta):**
+→ Sezione 3: Prestazioni lato server
+→ Sezione 5: Ottimizzare i re-render
+
+**Avanzato (ottimizzazione completa):**
+→ Tutte le sezioni + sezione 8: Pattern avanzati
+
+---
+
+## 🔍 Script di verifica
+
+| Script | Scopo | Comando |
+| --- | --- | --- |
+| `scripts/react_performance_checker.py` | Audit automatico delle prestazioni | `python .agents/skills/nextjs-react-expert/scripts/react_performance_checker.py <cartella>` |
+
+---
+
+## 📖 Dettagli delle sezioni
+
+### Sezione 1: Eliminare i waterfall (CRITICO)
+
+**Impatto:** Ogni waterfall aggiunge 100-500ms+ di latenza
+**Concetti chiave:** Fetch in parallelo, Promise.all(), boundary Suspense, precaricamento, `after()` e `connection()`
+
+### Sezione 2: Ottimizzare la dimensione del bundle (CRITICO)
+
+**Impatto:** Incide direttamente su Time to Interactive e Largest Contentful Paint
+**Concetti chiave:** Import dinamici, tree-shaking, niente import dai barrel file
+
+### Sezione 3: Prestazioni lato server (ALTO)
+
+**Impatto:** Risposte del server più rapide, SEO migliore
+**Concetti chiave:** Fetch in parallelo sul server, streaming, ottimizzazione delle API route
+
+### Sezione 4: Recupero dei dati lato client (MEDIO-ALTO)
+
+**Impatto:** Meno richieste ridondanti, UX migliore
+**Concetti chiave:** Deduplicazione con SWR, cache in localStorage, event listener
+
+### Sezione 5: Ottimizzare i re-render (MEDIO)
+
+**Impatto:** UI più fluida, meno calcoli sprecati
+**Concetti chiave:** React.memo, useMemo, useCallback, struttura dei componenti
+
+### Sezione 6: Prestazioni del rendering (MEDIO)
+
+**Impatto:** Rendering più efficiente
+**Concetti chiave:** content-visibility per le liste lunghe, SVG, hydration mismatch, Activity, useTransition
+
+### Sezione 7: Prestazioni di JavaScript (MEDIO-BASSO)
+
+**Impatto:** Miglioramenti incrementali negli hot path
+**Concetti chiave:** Ottimizzazione dei loop, cache, RegExp fuori dal render, layout thrashing
+
+### Sezione 8: Pattern avanzati (VARIABILE)
+
+**Impatto:** Casi d'uso specifici
+**Concetti chiave:** `useEffectEvent`, inizializzazione una tantum, event handler nei ref
+
+---
+
+## 🎓 Riepilogo delle buone pratiche
+
+**Regole d'oro:**
+
+1. **Prima misura**: usa React DevTools Profiler e Chrome DevTools
+2. **Prima l'impatto maggiore**: waterfall → bundle → server → micro
+3. **Non ottimizzare troppo**: concentrati sui colli di bottiglia reali
+4. **Sfrutta la piattaforma**: Next.js ha ottimizzazioni integrate
+5. **Pensa agli utenti**: contano le condizioni d'uso reali
+
+**Mentalità orientata alle prestazioni:**
+
+- Ogni `await` in sequenza = potenziale waterfall
+- Ogni `import` = potenziale bundle gonfio
+- Ogni re-render = calcolo sprecato (se non serve)
+- Server Component = meno JavaScript da inviare al client
+- Misura, non tirare a indovinare
+
+---
+
+**Fonte:** Vercel Engineering
+**Data:** gennaio 2026
+**Versione:** 1.0.0
+**Regole totali:** 58 in 8 categorie

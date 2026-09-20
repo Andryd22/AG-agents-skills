@@ -1,30 +1,30 @@
-# 7. JavaScript Performance
+# 7. Prestazioni di JavaScript
 
-> **Impact:** LOW-MEDIUM
-> **Focus:** Micro-optimizations for hot paths can add up to meaningful improvements.
-
----
-
-## Overview
-
-This section contains **12 rules** focused on javascript performance.
+> **Impatto:** MEDIO-BASSO
+> **Obiettivo:** Le micro-ottimizzazioni negli hot path, sommate, possono portare a miglioramenti significativi.
 
 ---
 
-## Rule 7.1: Avoid Layout Thrashing
+## Panoramica
 
-**Impact:** MEDIUM  
-**Tags:** javascript, dom, css, performance, reflow, layout-thrashing  
+Questa sezione contiene **12 regole** dedicate alle prestazioni di JavaScript.
 
-## Avoid Layout Thrashing
+---
 
-Avoid interleaving style writes with layout reads. When you read a layout property (like `offsetWidth`, `getBoundingClientRect()`, or `getComputedStyle()`) between style changes, the browser is forced to trigger a synchronous reflow.
+## Regola 7.1: Evita il layout thrashing
 
-**This is OK (browser batches style changes):**
+**Impatto:** MEDIO  
+**Tag:** javascript, dom, css, performance, reflow, layout-thrashing  
+
+## Evita il layout thrashing
+
+Non alternare scritture di stile e letture di layout. Se leggi una proprietà di layout (come `offsetWidth`, `getBoundingClientRect()` o `getComputedStyle()`) tra una modifica di stile e l'altra, costringi il browser a un reflow sincrono.
+
+**Questo va bene (il browser raggruppa le modifiche di stile):**
 
 ```typescript
 function updateElementStyles(element: HTMLElement) {
-  // Each line invalidates style, but browser batches the recalculation
+  // Ogni riga invalida lo stile, ma il browser raggruppa il ricalcolo
   element.style.width = '100px'
   element.style.height = '200px'
   element.style.backgroundColor = 'blue'
@@ -32,48 +32,48 @@ function updateElementStyles(element: HTMLElement) {
 }
 ```
 
-**Incorrect (interleaved reads and writes force reflows):**
+**Sbagliato (letture e scritture alternate forzano i reflow):**
 
 ```typescript
 function layoutThrashing(element: HTMLElement) {
   element.style.width = '100px'
-  const width = element.offsetWidth  // Forces reflow
+  const width = element.offsetWidth  // Forza un reflow
   element.style.height = '200px'
-  const height = element.offsetHeight  // Forces another reflow
+  const height = element.offsetHeight  // Forza un altro reflow
 }
 ```
 
-**Correct (batch writes, then read once):**
+**Corretto (prima tutte le scritture, poi una sola lettura):**
 
 ```typescript
 function updateElementStyles(element: HTMLElement) {
-  // Batch all writes together
+  // Raggruppa tutte le scritture
   element.style.width = '100px'
   element.style.height = '200px'
   element.style.backgroundColor = 'blue'
   element.style.border = '1px solid black'
   
-  // Read after all writes are done (single reflow)
+  // Leggi dopo aver finito di scrivere (un solo reflow)
   const { width, height } = element.getBoundingClientRect()
 }
 ```
 
-**Correct (batch reads, then writes):**
+**Corretto (prima tutte le letture, poi le scritture):**
 
 ```typescript
 function avoidThrashing(element: HTMLElement) {
-  // Read phase - all layout queries first
+  // Fase di lettura: prima tutte le query di layout
   const rect1 = element.getBoundingClientRect()
   const offsetWidth = element.offsetWidth
   const offsetHeight = element.offsetHeight
   
-  // Write phase - all style changes after
+  // Fase di scrittura: poi tutte le modifiche di stile
   element.style.width = '100px'
   element.style.height = '200px'
 }
 ```
 
-**Better:** use CSS classes
+**Meglio ancora:** usa le classi CSS
 
 ```css
 .highlighted-box {
@@ -92,17 +92,17 @@ function updateElementStyles(element: HTMLElement) {
 }
 ```
 
-**React example:**
+**Esempio React:**
 
 ```tsx
-// Incorrect: interleaving style changes with layout queries
+// Sbagliato: alterna modifiche di stile e query di layout
 function Box({ isHighlighted }: { isHighlighted: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   
   useEffect(() => {
     if (ref.current && isHighlighted) {
       ref.current.style.width = '100px'
-      const width = ref.current.offsetWidth // Forces layout
+      const width = ref.current.offsetWidth // Forza il layout
       ref.current.style.height = '200px'
     }
   }, [isHighlighted])
@@ -110,7 +110,7 @@ function Box({ isHighlighted }: { isHighlighted: boolean }) {
   return <div ref={ref}>Content</div>
 }
 
-// Correct: toggle class
+// Corretto: attiva/disattiva una classe
 function Box({ isHighlighted }: { isHighlighted: boolean }) {
   return (
     <div className={isHighlighted ? 'highlighted-box' : ''}>
@@ -120,22 +120,22 @@ function Box({ isHighlighted }: { isHighlighted: boolean }) {
 }
 ```
 
-Prefer CSS classes over inline styles when possible. CSS files are cached by the browser, and classes provide better separation of concerns and are easier to maintain.
+Quando puoi, preferisci le classi CSS agli stili inline: i file CSS finiscono nella cache del browser e le classi separano meglio le responsabilità e sono più facili da mantenere.
 
-See [this gist](https://gist.github.com/paulirish/5d52fb081b3570c81e3a) and [CSS Triggers](https://csstriggers.com/) for more information on layout-forcing operations.
+Per approfondire le operazioni che forzano il layout, vedi [questo gist](https://gist.github.com/paulirish/5d52fb081b3570c81e3a) e [CSS Triggers](https://csstriggers.com/).
 
 ---
 
-## Rule 7.2: Build Index Maps for Repeated Lookups
+## Regola 7.2: Costruisci mappe indice per i lookup ripetuti
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, map, indexing, optimization, performance  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, map, indexing, optimization, performance  
 
-## Build Index Maps for Repeated Lookups
+## Costruisci mappe indice per i lookup ripetuti
 
-Multiple `.find()` calls by the same key should use a Map.
+Se fai più chiamate a `.find()` sulla stessa chiave, usa una Map.
 
-**Incorrect (O(n) per lookup):**
+**Sbagliato (O(n) per lookup):**
 
 ```typescript
 function processOrders(orders: Order[], users: User[]) {
@@ -146,7 +146,7 @@ function processOrders(orders: Order[], users: User[]) {
 }
 ```
 
-**Correct (O(1) per lookup):**
+**Corretto (O(1) per lookup):**
 
 ```typescript
 function processOrders(orders: Order[], users: User[]) {
@@ -159,21 +159,21 @@ function processOrders(orders: Order[], users: User[]) {
 }
 ```
 
-Build map once (O(n)), then all lookups are O(1).
-For 1000 orders × 1000 users: 1M ops → 2K ops.
+Costruisci la mappa una volta sola (O(n)), poi ogni lookup è O(1).
+Con 1000 ordini × 1000 utenti: da 1M di operazioni a 2K.
 
 ---
 
-## Rule 7.3: Cache Property Access in Loops
+## Regola 7.3: Metti in cache l'accesso alle proprietà nei loop
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, loops, optimization, caching  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, loops, optimization, caching  
 
-## Cache Property Access in Loops
+## Metti in cache l'accesso alle proprietà nei loop
 
-Cache object property lookups in hot paths.
+Negli hot path salva in cache i lookup delle proprietà degli oggetti.
 
-**Incorrect (3 lookups × N iterations):**
+**Sbagliato (3 lookup × N iterazioni):**
 
 ```typescript
 for (let i = 0; i < arr.length; i++) {
@@ -181,7 +181,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-**Correct (1 lookup total):**
+**Corretto (1 lookup in tutto):**
 
 ```typescript
 const value = obj.config.settings.value
@@ -193,23 +193,23 @@ for (let i = 0; i < len; i++) {
 
 ---
 
-## Rule 7.4: Cache Repeated Function Calls
+## Regola 7.4: Metti in cache le chiamate di funzione ripetute
 
-**Impact:** MEDIUM  
-**Tags:** javascript, cache, memoization, performance  
+**Impatto:** MEDIO  
+**Tag:** javascript, cache, memoization, performance  
 
-## Cache Repeated Function Calls
+## Metti in cache le chiamate di funzione ripetute
 
-Use a module-level Map to cache function results when the same function is called repeatedly with the same inputs during render.
+Usa una Map a livello di modulo per mettere in cache i risultati quando durante il render chiami più volte la stessa funzione con gli stessi input.
 
-**Incorrect (redundant computation):**
+**Sbagliato (calcoli ridondanti):**
 
 ```typescript
 function ProjectList({ projects }: { projects: Project[] }) {
   return (
     <div>
       {projects.map(project => {
-        // slugify() called 100+ times for same project names
+        // slugify() chiamata 100+ volte per gli stessi nomi di progetto
         const slug = slugify(project.name)
         
         return <ProjectCard key={project.id} slug={slug} />
@@ -219,10 +219,10 @@ function ProjectList({ projects }: { projects: Project[] }) {
 }
 ```
 
-**Correct (cached results):**
+**Corretto (risultati in cache):**
 
 ```typescript
-// Module-level cache
+// Cache a livello di modulo
 const slugifyCache = new Map<string, string>()
 
 function cachedSlugify(text: string): string {
@@ -238,7 +238,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
   return (
     <div>
       {projects.map(project => {
-        // Computed only once per unique project name
+        // Calcolato una sola volta per ogni nome di progetto distinto
         const slug = cachedSlugify(project.name)
         
         return <ProjectCard key={project.id} slug={slug} />
@@ -248,7 +248,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
 }
 ```
 
-**Simpler pattern for single-value functions:**
+**Pattern più semplice per le funzioni che restituiscono un solo valore:**
 
 ```typescript
 let isLoggedInCache: boolean | null = null
@@ -262,37 +262,37 @@ function isLoggedIn(): boolean {
   return isLoggedInCache
 }
 
-// Clear cache when auth changes
+// Svuota la cache quando cambia l'autenticazione
 function onAuthChange() {
   isLoggedInCache = null
 }
 ```
 
-Use a Map (not a hook) so it works everywhere: utilities, event handlers, not just React components.
+Usa una Map (non un hook), così funziona ovunque: nelle utility e negli event handler, non solo nei componenti React.
 
-Reference: [How we made the Vercel Dashboard twice as fast](https://vercel.com/blog/how-we-made-the-vercel-dashboard-twice-as-fast)
+Riferimento: [How we made the Vercel Dashboard twice as fast](https://vercel.com/blog/how-we-made-the-vercel-dashboard-twice-as-fast)
 
 ---
 
-## Rule 7.5: Cache Storage API Calls
+## Regola 7.5: Metti in cache le chiamate alle Storage API
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, localStorage, storage, caching, performance  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, localStorage, storage, caching, performance  
 
-## Cache Storage API Calls
+## Metti in cache le chiamate alle Storage API
 
-`localStorage`, `sessionStorage`, and `document.cookie` are synchronous and expensive. Cache reads in memory.
+`localStorage`, `sessionStorage` e `document.cookie` sono sincroni e costosi. Tieni in memoria i valori letti.
 
-**Incorrect (reads storage on every call):**
+**Sbagliato (legge lo storage a ogni chiamata):**
 
 ```typescript
 function getTheme() {
   return localStorage.getItem('theme') ?? 'light'
 }
-// Called 10 times = 10 storage reads
+// Chiamata 10 volte = 10 letture dello storage
 ```
 
-**Correct (Map cache):**
+**Corretto (cache con una Map):**
 
 ```typescript
 const storageCache = new Map<string, string | null>()
@@ -306,13 +306,13 @@ function getLocalStorage(key: string) {
 
 function setLocalStorage(key: string, value: string) {
   localStorage.setItem(key, value)
-  storageCache.set(key, value)  // keep cache in sync
+  storageCache.set(key, value)  // mantiene la cache allineata
 }
 ```
 
-Use a Map (not a hook) so it works everywhere: utilities, event handlers, not just React components.
+Usa una Map (non un hook), così funziona ovunque: nelle utility e negli event handler, non solo nei componenti React.
 
-**Cookie caching:**
+**Cache dei cookie:**
 
 ```typescript
 let cookieCache: Record<string, string> | null = null
@@ -327,9 +327,9 @@ function getCookie(name: string) {
 }
 ```
 
-**Important (invalidate on external changes):**
+**Importante (invalida la cache sui cambi esterni):**
 
-If storage can change externally (another tab, server-set cookies), invalidate cache:
+Se lo storage può cambiare dall'esterno (un'altra scheda, cookie impostati dal server), invalida la cache:
 
 ```typescript
 window.addEventListener('storage', (e) => {
@@ -345,16 +345,16 @@ document.addEventListener('visibilitychange', () => {
 
 ---
 
-## Rule 7.6: Combine Multiple Array Iterations
+## Regola 7.6: Unisci più iterazioni sullo stesso array
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, arrays, loops, performance  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, arrays, loops, performance  
 
-## Combine Multiple Array Iterations
+## Unisci più iterazioni sullo stesso array
 
-Multiple `.filter()` or `.map()` calls iterate the array multiple times. Combine into one loop.
+Più chiamate a `.filter()` o `.map()` scorrono l'array più volte. Uniscile in un solo loop.
 
-**Incorrect (3 iterations):**
+**Sbagliato (3 iterazioni):**
 
 ```typescript
 const admins = users.filter(u => u.isAdmin)
@@ -362,7 +362,7 @@ const testers = users.filter(u => u.isTester)
 const inactive = users.filter(u => !u.isActive)
 ```
 
-**Correct (1 iteration):**
+**Corretto (1 iterazione):**
 
 ```typescript
 const admins: User[] = []
@@ -378,37 +378,37 @@ for (const user of users) {
 
 ---
 
-## Rule 7.7: Early Length Check for Array Comparisons
+## Regola 7.7: Controlla subito la lunghezza quando confronti array
 
-**Impact:** MEDIUM-HIGH  
-**Tags:** javascript, arrays, performance, optimization, comparison  
+**Impatto:** MEDIO-ALTO  
+**Tag:** javascript, arrays, performance, optimization, comparison  
 
-## Early Length Check for Array Comparisons
+## Controlla subito la lunghezza quando confronti array
 
-When comparing arrays with expensive operations (sorting, deep equality, serialization), check lengths first. If lengths differ, the arrays cannot be equal.
+Quando confronti array con operazioni costose (ordinamento, uguaglianza profonda, serializzazione), controlla prima la lunghezza: se è diversa, gli array non possono essere uguali.
 
-In real-world applications, this optimization is especially valuable when the comparison runs in hot paths (event handlers, render loops).
+Nelle applicazioni reali questa ottimizzazione conta soprattutto quando il confronto gira in un hot path (event handler, loop di render).
 
-**Incorrect (always runs expensive comparison):**
+**Sbagliato (esegue sempre il confronto costoso):**
 
 ```typescript
 function hasChanges(current: string[], original: string[]) {
-  // Always sorts and joins, even when lengths differ
+  // Ordina e unisce sempre, anche quando le lunghezze sono diverse
   return current.sort().join() !== original.sort().join()
 }
 ```
 
-Two O(n log n) sorts run even when `current.length` is 5 and `original.length` is 100. There is also overhead of joining the arrays and comparing the strings.
+Vengono eseguiti due ordinamenti O(n log n) anche quando `current.length` vale 5 e `original.length` vale 100. In più c'è il costo di unire gli array e confrontare le stringhe.
 
-**Correct (O(1) length check first):**
+**Corretto (prima il controllo O(1) sulla lunghezza):**
 
 ```typescript
 function hasChanges(current: string[], original: string[]) {
-  // Early return if lengths differ
+  // Early return se le lunghezze sono diverse
   if (current.length !== original.length) {
     return true
   }
-  // Only sort when lengths match
+  // Ordina solo quando le lunghezze coincidono
   const currentSorted = current.toSorted()
   const originalSorted = original.toSorted()
   for (let i = 0; i < currentSorted.length; i++) {
@@ -420,25 +420,25 @@ function hasChanges(current: string[], original: string[]) {
 }
 ```
 
-This new approach is more efficient because:
+Questo approccio è più efficiente perché:
 
-- It avoids the overhead of sorting and joining the arrays when lengths differ
-- It avoids consuming memory for the joined strings (especially important for large arrays)
-- It avoids mutating the original arrays
-- It returns early when a difference is found
+- evita di ordinare e unire gli array quando le lunghezze sono diverse
+- non consuma memoria per le stringhe unite (importante soprattutto con array grandi)
+- non modifica gli array originali
+- esce appena trova una differenza
 
 ---
 
-## Rule 7.8: Early Return from Functions
+## Regola 7.8: Usa l'early return nelle funzioni
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, functions, optimization, early-return  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, functions, optimization, early-return  
 
-## Early Return from Functions
+## Usa l'early return nelle funzioni
 
-Return early when result is determined to skip unnecessary processing.
+Esci dalla funzione appena il risultato è noto, così salti le elaborazioni inutili.
 
-**Incorrect (processes all items even after finding answer):**
+**Sbagliato (elabora tutti gli elementi anche dopo aver trovato la risposta):**
 
 ```typescript
 function validateUsers(users: User[]) {
@@ -454,14 +454,14 @@ function validateUsers(users: User[]) {
       hasError = true
       errorMessage = 'Name required'
     }
-    // Continues checking all users even after error found
+    // Continua a controllare tutti gli utenti anche dopo aver trovato un errore
   }
   
   return hasError ? { valid: false, error: errorMessage } : { valid: true }
 }
 ```
 
-**Correct (returns immediately on first error):**
+**Corretto (esce subito al primo errore):**
 
 ```typescript
 function validateUsers(users: User[]) {
@@ -480,16 +480,16 @@ function validateUsers(users: User[]) {
 
 ---
 
-## Rule 7.9: Hoist RegExp Creation
+## Regola 7.9: Sposta fuori dal render la creazione delle RegExp
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, regexp, optimization, memoization  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, regexp, optimization, memoization  
 
-## Hoist RegExp Creation
+## Sposta fuori dal render la creazione delle RegExp
 
-Don't create RegExp inside render. Hoist to module scope or memoize with `useMemo()`.
+Non creare RegExp dentro il render. Spostale a livello di modulo o memoizzale con `useMemo()`.
 
-**Incorrect (new RegExp every render):**
+**Sbagliato (una nuova RegExp a ogni render):**
 
 ```tsx
 function Highlighter({ text, query }: Props) {
@@ -499,7 +499,7 @@ function Highlighter({ text, query }: Props) {
 }
 ```
 
-**Correct (memoize or hoist):**
+**Corretto (memoizza o sposta fuori):**
 
 ```tsx
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -514,9 +514,9 @@ function Highlighter({ text, query }: Props) {
 }
 ```
 
-**Warning (global regex has mutable state):**
+**Attenzione (le regex globali hanno uno stato mutabile):**
 
-Global regex (`/g`) has mutable `lastIndex` state:
+Una regex globale (`/g`) ha uno stato mutabile, `lastIndex`:
 
 ```typescript
 const regex = /foo/g
@@ -526,16 +526,16 @@ regex.test('foo')  // false, lastIndex = 0
 
 ---
 
-## Rule 7.10: Use Loop for Min/Max Instead of Sort
+## Regola 7.10: Usa un loop invece di sort per trovare min/max
 
-**Impact:** LOW  
-**Tags:** javascript, arrays, performance, sorting, algorithms  
+**Impatto:** BASSO  
+**Tag:** javascript, arrays, performance, sorting, algorithms  
 
-## Use Loop for Min/Max Instead of Sort
+## Usa un loop invece di sort per trovare min/max
 
-Finding the smallest or largest element only requires a single pass through the array. Sorting is wasteful and slower.
+Per trovare l'elemento più piccolo o più grande basta una sola passata sull'array. Ordinarlo è uno spreco ed è più lento.
 
-**Incorrect (O(n log n) - sort to find latest):**
+**Sbagliato (O(n log n): ordina per trovare il più recente):**
 
 ```typescript
 interface Project {
@@ -550,9 +550,9 @@ function getLatestProject(projects: Project[]) {
 }
 ```
 
-Sorts the entire array just to find the maximum value.
+Ordina l'intero array solo per trovare il valore massimo.
 
-**Incorrect (O(n log n) - sort for oldest and newest):**
+**Sbagliato (O(n log n): ordina per trovare il più vecchio e il più recente):**
 
 ```typescript
 function getOldestAndNewest(projects: Project[]) {
@@ -561,9 +561,9 @@ function getOldestAndNewest(projects: Project[]) {
 }
 ```
 
-Still sorts unnecessarily when only min/max are needed.
+Ordina comunque senza motivo, anche se servono solo il minimo e il massimo.
 
-**Correct (O(n) - single loop):**
+**Corretto (O(n): un solo loop):**
 
 ```typescript
 function getLatestProject(projects: Project[]) {
@@ -595,9 +595,9 @@ function getOldestAndNewest(projects: Project[]) {
 }
 ```
 
-Single pass through the array, no copying, no sorting.
+Una sola passata sull'array, senza copie e senza ordinamenti.
 
-**Alternative (Math.min/Math.max for small arrays):**
+**Alternativa (Math.min/Math.max per array piccoli):**
 
 ```typescript
 const numbers = [5, 2, 8, 1, 9]
@@ -605,27 +605,27 @@ const min = Math.min(...numbers)
 const max = Math.max(...numbers)
 ```
 
-This works for small arrays, but can be slower or just throw an error for very large arrays due to spread operator limitations. Maximal array length is approximately 124000 in Chrome 143 and 638000 in Safari 18; exact numbers may vary - see [the fiddle](https://jsfiddle.net/qw1jabsx/4/). Use the loop approach for reliability.
+Funziona con gli array piccoli, ma con array molto grandi può essere più lento o addirittura generare un errore, per i limiti dello spread operator. La lunghezza massima è di circa 124000 elementi in Chrome 143 e 638000 in Safari 18; i valori esatti possono variare, vedi [questo fiddle](https://jsfiddle.net/qw1jabsx/4/). Per andare sul sicuro usa il loop.
 
 ---
 
-## Rule 7.11: Use Set/Map for O(1) Lookups
+## Regola 7.11: Usa Set/Map per lookup O(1)
 
-**Impact:** LOW-MEDIUM  
-**Tags:** javascript, set, map, data-structures, performance  
+**Impatto:** MEDIO-BASSO  
+**Tag:** javascript, set, map, data-structures, performance  
 
-## Use Set/Map for O(1) Lookups
+## Usa Set/Map per lookup O(1)
 
-Convert arrays to Set/Map for repeated membership checks.
+Converti gli array in Set/Map quando devi verificare più volte se contengono un elemento.
 
-**Incorrect (O(n) per check):**
+**Sbagliato (O(n) per controllo):**
 
 ```typescript
 const allowedIds = ['a', 'b', 'c', ...]
 items.filter(item => allowedIds.includes(item.id))
 ```
 
-**Correct (O(1) per check):**
+**Corretto (O(1) per controllo):**
 
 ```typescript
 const allowedIds = new Set(['a', 'b', 'c', ...])
@@ -634,20 +634,20 @@ items.filter(item => allowedIds.has(item.id))
 
 ---
 
-## Rule 7.12: Use toSorted() Instead of sort() for Immutability
+## Regola 7.12: Usa toSorted() invece di sort() per l'immutabilità
 
-**Impact:** MEDIUM-HIGH  
-**Tags:** javascript, arrays, immutability, react, state, mutation  
+**Impatto:** MEDIO-ALTO  
+**Tag:** javascript, arrays, immutability, react, state, mutation  
 
-## Use toSorted() Instead of sort() for Immutability
+## Usa toSorted() invece di sort() per l'immutabilità
 
-`.sort()` mutates the array in place, which can cause bugs with React state and props. Use `.toSorted()` to create a new sorted array without mutation.
+`.sort()` modifica l'array sul posto e può causare bug con state e prop di React. Usa `.toSorted()` per creare un nuovo array ordinato senza mutazioni.
 
-**Incorrect (mutates original array):**
+**Sbagliato (modifica l'array originale):**
 
 ```typescript
 function UserList({ users }: { users: User[] }) {
-  // Mutates the users prop array!
+  // Modifica l'array della prop users!
   const sorted = useMemo(
     () => users.sort((a, b) => a.name.localeCompare(b.name)),
     [users]
@@ -656,11 +656,11 @@ function UserList({ users }: { users: User[] }) {
 }
 ```
 
-**Correct (creates new array):**
+**Corretto (crea un nuovo array):**
 
 ```typescript
 function UserList({ users }: { users: User[] }) {
-  // Creates new sorted array, original unchanged
+  // Crea un nuovo array ordinato, l'originale resta invariato
   const sorted = useMemo(
     () => users.toSorted((a, b) => a.name.localeCompare(b.name)),
     [users]
@@ -669,23 +669,23 @@ function UserList({ users }: { users: User[] }) {
 }
 ```
 
-**Why this matters in React:**
+**Perché conta in React:**
 
-1. Props/state mutations break React's immutability model - React expects props and state to be treated as read-only
-2. Causes stale closure bugs - Mutating arrays inside closures (callbacks, effects) can lead to unexpected behavior
+1. Mutare prop e state viola il modello di immutabilità di React: React si aspetta che prop e state vengano trattati in sola lettura
+2. Causa bug di stale closure: mutare gli array dentro le closure (callback, effect) può portare a comportamenti inattesi
 
-**Browser support (fallback for older browsers):**
+**Supporto dei browser (fallback per i browser più vecchi):**
 
-`.toSorted()` is available in all modern browsers (Chrome 110+, Safari 16+, Firefox 115+, Node.js 20+). For older environments, use spread operator:
+`.toSorted()` è disponibile in tutti i browser moderni (Chrome 110+, Safari 16+, Firefox 115+, Node.js 20+). Negli ambienti più vecchi usa lo spread operator:
 
 ```typescript
-// Fallback for older browsers
+// Fallback per i browser più vecchi
 const sorted = [...items].sort((a, b) => a.value - b.value)
 ```
 
-**Other immutable array methods:**
+**Altri metodi immutabili degli array:**
 
-- `.toSorted()` - immutable sort
-- `.toReversed()` - immutable reverse
-- `.toSpliced()` - immutable splice
-- `.with()` - immutable element replacement
+- `.toSorted()`: ordinamento immutabile
+- `.toReversed()`: inversione immutabile
+- `.toSpliced()`: splice immutabile
+- `.with()`: sostituzione immutabile di un elemento

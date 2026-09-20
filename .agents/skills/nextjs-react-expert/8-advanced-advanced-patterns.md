@@ -1,26 +1,26 @@
-# 8. Advanced Patterns
+# 8. Pattern avanzati
 
-> **Impact:** VARIABLE
-> **Focus:** Advanced patterns for specific cases that require careful implementation.
-
----
-
-## Overview
-
-This section contains **3 rules** focused on advanced patterns.
+> **Impatto:** VARIABILE
+> **Obiettivo:** Pattern avanzati per casi specifici che richiedono un'implementazione attenta.
 
 ---
 
-## Rule 8.1: Initialize App Once, Not Per Mount
+## Panoramica
 
-**Impact:** LOW-MEDIUM  
-**Tags:** initialization, useEffect, app-startup, side-effects  
+Questa sezione contiene **3 regole** dedicate ai pattern avanzati.
 
-## Initialize App Once, Not Per Mount
+---
 
-Do not put app-wide initialization that must run once per app load inside `useEffect([])` of a component. Components can remount and effects will re-run. Use a module-level guard or top-level init in the entry module instead.
+## Regola 8.1: Inizializza l'app una volta sola, non a ogni mount
 
-**Incorrect (runs twice in dev, re-runs on remount):**
+**Impatto:** MEDIO-BASSO  
+**Tag:** initialization, useEffect, app-startup, side-effects  
+
+## Inizializza l'app una volta sola, non a ogni mount
+
+Non mettere nello `useEffect([])` di un componente un'inizializzazione globale che deve girare una sola volta per caricamento dell'app. I componenti possono essere rimontati e gli effect vengono rieseguiti. Usa invece una guardia a livello di modulo o un'inizializzazione top-level nel modulo di ingresso.
+
+**Sbagliato (in dev gira due volte, si riesegue a ogni remount):**
 
 ```tsx
 function Comp() {
@@ -33,7 +33,7 @@ function Comp() {
 }
 ```
 
-**Correct (once per app load):**
+**Corretto (una volta per caricamento dell'app):**
 
 ```tsx
 let didInit = false
@@ -50,20 +50,20 @@ function Comp() {
 }
 ```
 
-Reference: [Initializing the application](https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application)
+Riferimento: [Initializing the application](https://react.dev/learn/you-might-not-need-an-effect#initializing-the-application)
 
 ---
 
-## Rule 8.2: Store Event Handlers in Refs
+## Regola 8.2: Salva gli event handler nei ref
 
-**Impact:** LOW  
-**Tags:** advanced, hooks, refs, event-handlers, optimization  
+**Impatto:** BASSO  
+**Tag:** advanced, hooks, refs, event-handlers, optimization  
 
-## Store Event Handlers in Refs
+## Salva gli event handler nei ref
 
-Store callbacks in refs when used in effects that shouldn't re-subscribe on callback changes.
+Salva le callback nei ref quando le usi in effect che non devono ripetere la sottoscrizione ogni volta che la callback cambia.
 
-**Incorrect (re-subscribes on every render):**
+**Sbagliato (ripete la sottoscrizione a ogni render):**
 
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
@@ -74,7 +74,7 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-**Correct (stable subscription):**
+**Corretto (sottoscrizione stabile):**
 
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
@@ -91,7 +91,7 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-**Alternative: use `useEffectEvent` if you're on latest React:**
+**Alternativa: usa `useEffectEvent` se sei su React 19.2 o successivo:**
 
 ```tsx
 import { useEffectEvent } from 'react'
@@ -106,20 +106,20 @@ function useWindowEvent(event: string, handler: (e) => void) {
 }
 ```
 
-`useEffectEvent` provides a cleaner API for the same pattern: it creates a stable function reference that always calls the latest version of the handler.
+`useEffectEvent` offre un'API più pulita per lo stesso pattern: crea un riferimento stabile a una funzione che chiama sempre la versione più recente dell'handler.
 
 ---
 
-## Rule 8.3: useEffectEvent for Stable Callback Refs
+## Regola 8.3: useEffectEvent per riferimenti stabili alle callback
 
-**Impact:** LOW  
-**Tags:** advanced, hooks, useEffectEvent, refs, optimization  
+**Impatto:** BASSO  
+**Tag:** advanced, hooks, useEffectEvent, refs, optimization  
 
-## useEffectEvent for Stable Callback Refs
+## useEffectEvent per riferimenti stabili alle callback
 
-Access latest values in callbacks without adding them to dependency arrays. Prevents effect re-runs while avoiding stale closures.
+Accedi ai valori più recenti nelle callback senza aggiungerli agli array di dipendenze. Eviti che gli effect si rieseguano senza cadere in closure obsolete (stale closure).
 
-**Incorrect (effect re-runs on every callback change):**
+**Sbagliato (l'effect si riesegue a ogni cambio della callback):**
 
 ```tsx
 function SearchInput({ onSearch }: { onSearch: (q: string) => void }) {
@@ -132,7 +132,7 @@ function SearchInput({ onSearch }: { onSearch: (q: string) => void }) {
 }
 ```
 
-**Correct (using React's useEffectEvent):**
+**Corretto (con useEffectEvent di React):**
 
 ```tsx
 import { useEffectEvent } from 'react';

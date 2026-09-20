@@ -1,86 +1,86 @@
-# 2. Bundle Size Optimization
+# 2. Ottimizzare la dimensione del bundle
 
-> **Impact:** CRITICAL
-> **Focus:** Reducing initial bundle size improves Time to Interactive and Largest Contentful Paint.
-
----
-
-## Overview
-
-This section contains **5 rules** focused on bundle size optimization.
+> **Impatto:** CRITICO
+> **Obiettivo:** Ridurre la dimensione del bundle iniziale migliora il Time to Interactive e il Largest Contentful Paint.
 
 ---
 
-## Rule 2.1: Avoid Barrel File Imports
+## Panoramica
 
-**Impact:** CRITICAL  
-**Tags:** bundle, imports, tree-shaking, barrel-files, performance  
+Questa sezione contiene **5 regole** per ottimizzare la dimensione del bundle.
 
-## Avoid Barrel File Imports
+---
 
-Import directly from source files instead of barrel files to avoid loading thousands of unused modules. **Barrel files** are entry points that re-export multiple modules (e.g., `index.js` that does `export * from './module'`).
+## Regola 2.1: Evita gli import dai barrel file
 
-Popular icon and component libraries can have **up to 10,000 re-exports** in their entry file. For many React packages, **it takes 200-800ms just to import them**, affecting both development speed and production cold starts.
+**Impatto:** CRITICO  
+**Tag:** bundle, imports, tree-shaking, barrel-files, performance  
 
-**Why tree-shaking doesn't help:** When a library is marked as external (not bundled), the bundler can't optimize it. If you bundle it to enable tree-shaking, builds become substantially slower analyzing the entire module graph.
+## Evita gli import dai barrel file
 
-**Incorrect (imports entire library):**
+Importa direttamente dai file sorgente invece che dai barrel file, per non caricare migliaia di moduli inutilizzati. I **barrel file** sono entry point che riesportano più moduli (ad es. un `index.js` che fa `export * from './module'`).
+
+Le librerie di icone e componenti più diffuse possono avere **fino a 10.000 riesportazioni** nel loro file di ingresso. Per molti pacchetti React **servono 200-800 ms solo per importarli**, con effetti sia sulla velocità in sviluppo sia sui cold start in produzione.
+
+**Perché il tree-shaking non aiuta:** quando una libreria è marcata come external (non inclusa nel bundle), il bundler non può ottimizzarla. Se la includi nel bundle per abilitare il tree-shaking, le build diventano molto più lente perché analizzano l'intero grafo dei moduli.
+
+**Sbagliato (importa l'intera libreria):**
 
 ```tsx
 import { Check, X, Menu } from 'lucide-react'
-// Loads 1,583 modules, takes ~2.8s extra in dev
-// Runtime cost: 200-800ms on every cold start
+// Carica 1.583 moduli, ~2,8 s in più in sviluppo
+// Costo a runtime: 200-800 ms a ogni cold start
 
 import { Button, TextField } from '@mui/material'
-// Loads 2,225 modules, takes ~4.2s extra in dev
+// Carica 2.225 moduli, ~4,2 s in più in sviluppo
 ```
 
-**Correct (imports only what you need):**
+**Corretto (importa solo ciò che serve):**
 
 ```tsx
 import Check from 'lucide-react/dist/esm/icons/check'
 import X from 'lucide-react/dist/esm/icons/x'
 import Menu from 'lucide-react/dist/esm/icons/menu'
-// Loads only 3 modules (~2KB vs ~1MB)
+// Carica solo 3 moduli (~2 KB invece di ~1 MB)
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-// Loads only what you use
+// Carica solo ciò che usi
 ```
 
-**Alternative (Next.js 13.5+):**
+**Alternativa (Next.js 13.5+):**
 
 ```js
-// next.config.js - use optimizePackageImports
+// next.config.js - usa optimizePackageImports
 module.exports = {
   experimental: {
     optimizePackageImports: ['lucide-react', '@mui/material']
   }
 }
 
-// Then you can keep the ergonomic barrel imports:
+// Poi puoi mantenere i comodi import dal barrel file:
 import { Check, X, Menu } from 'lucide-react'
-// Automatically transformed to direct imports at build time
+// Trasformati automaticamente in import diretti in fase di build
 ```
 
-Direct imports provide 15-70% faster dev boot, 28% faster builds, 40% faster cold starts, and significantly faster HMR.
+Gli import diretti rendono l'avvio in sviluppo più veloce del 15-70%, le build del 28%, i cold start del 40% e l'HMR sensibilmente più rapido.
 
-Libraries commonly affected: `lucide-react`, `@mui/material`, `@mui/icons-material`, `@tabler/icons-react`, `react-icons`, `@headlessui/react`, `@radix-ui/react-*`, `lodash`, `ramda`, `date-fns`, `rxjs`, `react-use`.
+Librerie spesso coinvolte: `lucide-react`, `@mui/material`, `@mui/icons-material`, `@tabler/icons-react`, `react-icons`, `@headlessui/react`, `@radix-ui/react-*`, `lodash`, `ramda`, `date-fns`, `rxjs`, `react-use`.
 
-Reference: [How we optimized package imports in Next.js](https://vercel.com/blog/how-we-optimized-package-imports-in-next-js)
+Riferimento: [How we optimized package imports in Next.js](https://vercel.com/blog/how-we-optimized-package-imports-in-next-js)
 
 ---
 
-## Rule 2.2: Conditional Module Loading
+## Regola 2.2: Caricamento condizionale dei moduli
 
-**Impact:** HIGH  
-**Tags:** bundle, conditional-loading, lazy-loading  
+**Impatto:** ALTO  
+**Tag:** bundle, conditional-loading, lazy-loading  
 
-## Conditional Module Loading
+## Caricamento condizionale dei moduli
 
-Load large data or modules only when a feature is activated.
+Carica dati o moduli pesanti solo quando una funzionalità viene attivata.
 
-**Example (lazy-load animation frames):**
+**Esempio (lazy loading dei frame di un'animazione):**
 
 ```tsx
 function AnimationPlayer({ enabled, setEnabled }: { enabled: boolean; setEnabled: React.Dispatch<React.SetStateAction<boolean>> }) {
@@ -99,20 +99,20 @@ function AnimationPlayer({ enabled, setEnabled }: { enabled: boolean; setEnabled
 }
 ```
 
-The `typeof window !== 'undefined'` check prevents bundling this module for SSR, optimizing server bundle size and build speed.
+Il controllo `typeof window !== 'undefined'` evita che questo modulo finisca nel bundle per l'SSR, riducendo il bundle del server e velocizzando la build.
 
 ---
 
-## Rule 2.3: Defer Non-Critical Third-Party Libraries
+## Regola 2.3: Rimanda le librerie di terze parti non critiche
 
-**Impact:** MEDIUM  
-**Tags:** bundle, third-party, analytics, defer  
+**Impatto:** MEDIO  
+**Tag:** bundle, third-party, analytics, defer  
 
-## Defer Non-Critical Third-Party Libraries
+## Rimanda le librerie di terze parti non critiche
 
-Analytics, logging, and error tracking don't block user interaction. Load them after hydration.
+Analytics, logging ed error tracking non bloccano l'interazione dell'utente. Caricali dopo l'idratazione.
 
-**Incorrect (blocks initial bundle):**
+**Sbagliato (blocca il bundle iniziale):**
 
 ```tsx
 import { Analytics } from '@vercel/analytics/react'
@@ -129,7 +129,7 @@ export default function RootLayout({ children }) {
 }
 ```
 
-**Correct (loads after hydration):**
+**Corretto (si carica dopo l'idratazione):**
 
 ```tsx
 import dynamic from 'next/dynamic'
@@ -151,18 +151,20 @@ export default function RootLayout({ children }) {
 }
 ```
 
+**Nota:** nell'App Router `ssr: false` non è ammesso nei Server Component (come il root layout di default): metti la chiamata a `dynamic()` in un Client Component (file con `'use client'`) e importa quello nel layout.
+
 ---
 
-## Rule 2.4: Dynamic Imports for Heavy Components
+## Regola 2.4: Import dinamici per i componenti pesanti
 
-**Impact:** CRITICAL  
-**Tags:** bundle, dynamic-import, code-splitting, next-dynamic  
+**Impatto:** CRITICO  
+**Tag:** bundle, dynamic-import, code-splitting, next-dynamic  
 
-## Dynamic Imports for Heavy Components
+## Import dinamici per i componenti pesanti
 
-Use `next/dynamic` to lazy-load large components not needed on initial render.
+Usa `next/dynamic` per il lazy loading dei componenti pesanti che non servono al primo render.
 
-**Incorrect (Monaco bundles with main chunk ~300KB):**
+**Sbagliato (Monaco finisce nel chunk principale, ~300 KB):**
 
 ```tsx
 import { MonacoEditor } from './monaco-editor'
@@ -172,7 +174,7 @@ function CodePanel({ code }: { code: string }) {
 }
 ```
 
-**Correct (Monaco loads on demand):**
+**Corretto (Monaco si carica su richiesta):**
 
 ```tsx
 import dynamic from 'next/dynamic'
@@ -189,16 +191,16 @@ function CodePanel({ code }: { code: string }) {
 
 ---
 
-## Rule 2.5: Preload Based on User Intent
+## Regola 2.5: Precarica in base all'intenzione dell'utente
 
-**Impact:** MEDIUM  
-**Tags:** bundle, preload, user-intent, hover  
+**Impatto:** MEDIO  
+**Tag:** bundle, preload, user-intent, hover  
 
-## Preload Based on User Intent
+## Precarica in base all'intenzione dell'utente
 
-Preload heavy bundles before they're needed to reduce perceived latency.
+Precarica i bundle pesanti prima che servano, per ridurre la latenza percepita.
 
-**Example (preload on hover/focus):**
+**Esempio (precaricamento su hover/focus):**
 
 ```tsx
 function EditorButton({ onClick }: { onClick: () => void }) {
@@ -220,7 +222,7 @@ function EditorButton({ onClick }: { onClick: () => void }) {
 }
 ```
 
-**Example (preload when feature flag is enabled):**
+**Esempio (precaricamento quando un feature flag è attivo):**
 
 ```tsx
 function FlagsProvider({ children, flags }: Props) {
@@ -236,4 +238,4 @@ function FlagsProvider({ children, flags }: Props) {
 }
 ```
 
-The `typeof window !== 'undefined'` check prevents bundling preloaded modules for SSR, optimizing server bundle size and build speed.
+Il controllo `typeof window !== 'undefined'` evita che i moduli precaricati finiscano nel bundle per l'SSR, riducendo il bundle del server e velocizzando la build.

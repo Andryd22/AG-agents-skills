@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
 """
 React Performance Checker
-Automated performance audit for React/Next.js projects
-Based on Vercel Engineering best practices
+Audit automatico delle prestazioni per progetti React/Next.js,
+basato sulle best practice di Vercel Engineering.
+
+Uso:
+    python react_performance_checker.py <cartella_progetto>
 """
 
 import os
 import re
+import sys
 import json
 from pathlib import Path
 from typing import List, Dict, Tuple
+
+# Codifica della console di Windows
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except AttributeError:
+    pass  # Python < 3.7
 
 class PerformanceChecker:
     def __init__(self, project_path: str):
@@ -21,14 +31,14 @@ class PerformanceChecker:
     SKIP_DIRS = {'node_modules', '.git', '.next', 'dist', 'build', '.agent', '.agents'}
 
     def _files(self, exts):
-        """Source files with the given extensions (pathlib has no {a,b} brace expansion)."""
+        """File sorgente con le estensioni indicate (pathlib non supporta l'espansione {a,b})."""
         for filepath in self.project_path.rglob('*'):
             if filepath.suffix in exts and filepath.is_file() and not self.SKIP_DIRS.intersection(filepath.parts):
                 yield filepath
 
     def check_waterfalls(self):
-        """Check for sequential await patterns (Section 1)"""
-        print("\n[*] Checking for waterfalls (sequential awaits)...")
+        """Cerca gli await in sequenza (sezione 1)"""
+        print("\n[*] Cerco i waterfall (await in sequenza)...")
 
         for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
@@ -37,23 +47,23 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Pattern: multiple awaits in sequence without Promise.all
+                # Pattern: più await in sequenza senza Promise.all
                 sequential_awaits = re.findall(r'await\s+\w+.*?\n\s*await\s+\w+', content)
 
                 if sequential_awaits:
                     self.issues.append({
                         'file': str(filepath.relative_to(self.project_path)),
                         'type': 'CRITICAL',
-                        'issue': 'Sequential awaits detected (waterfall)',
-                        'fix': 'Use Promise.all() for parallel fetching',
+                        'issue': 'Await in sequenza (waterfall)',
+                        'fix': 'Usa Promise.all() per eseguire i fetch in parallelo',
                         'section': '1-async-eliminating-waterfalls.md'
                     })
             except Exception as e:
                 continue
 
     def check_barrel_imports(self):
-        """Check for barrel imports (Section 2)"""
-        print("[*] Checking for barrel imports...")
+        """Cerca i barrel import (sezione 2)"""
+        print("[*] Cerco i barrel import...")
 
         for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
@@ -62,7 +72,7 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Pattern: import from index files or barrel exports
+                # Pattern: import da file index o da barrel export
                 barrel_imports = re.findall(r"import.*from\s+['\"](@/.*?)/index['\"]", content)
                 barrel_imports += re.findall(r"import.*from\s+['\"]\.\.?/.*?['\"](?!.*?\.tsx?)", content)
 
@@ -70,16 +80,16 @@ class PerformanceChecker:
                     self.warnings.append({
                         'file': str(filepath.relative_to(self.project_path)),
                         'type': 'CRITICAL',
-                        'issue': 'Potential barrel imports detected',
-                        'fix': 'Import directly from specific files',
+                        'issue': 'Possibili barrel import',
+                        'fix': 'Importa direttamente dai singoli file',
                         'section': '2-bundle-bundle-size-optimization.md'
                     })
             except Exception as e:
                 continue
 
     def check_dynamic_imports(self):
-        """Check if large components use dynamic imports (Section 2)"""
-        print("[*] Checking for missing dynamic imports...")
+        """Controlla che i componenti grandi usino import dinamici (sezione 2)"""
+        print("[*] Cerco gli import dinamici mancanti...")
 
         for filepath in self._files(('.ts', '.tsx')):
             if 'node_modules' in str(filepath):
@@ -88,12 +98,12 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Check file size - if > 10KB, should probably use dynamic import
+                # Dimensione del file: oltre i 10KB probabilmente conviene un import dinamico
                 if len(content) > 10000:
-                    # Check if it's imported statically somewhere
+                    # È importato staticamente da qualche parte?
                     filename = filepath.stem
 
-                    # Search for static imports of this component
+                    # Cerca gli import statici di questo componente
                     for check_file in self._files(('.ts', '.tsx')):
                         if check_file == filepath or 'node_modules' in str(check_file):
                             continue
@@ -104,8 +114,8 @@ class PerformanceChecker:
                                 self.warnings.append({
                                     'file': str(check_file.relative_to(self.project_path)),
                                     'type': 'CRITICAL',
-                                    'issue': f'Large component {filename} imported statically',
-                                    'fix': 'Use dynamic() for code splitting',
+                                    'issue': f'Componente grande {filename} importato staticamente',
+                                    'fix': 'Usa dynamic() per il code splitting',
                                     'section': '2-bundle-bundle-size-optimization.md'
                                 })
                                 break
@@ -113,8 +123,8 @@ class PerformanceChecker:
                 continue
 
     def check_useEffect_fetching(self):
-        """Check for data fetching in useEffect (Section 4)"""
-        print("[*] Checking for useEffect data fetching...")
+        """Cerca il data fetching dentro useEffect (sezione 4)"""
+        print("[*] Cerco il data fetching in useEffect...")
 
         for filepath in self._files(('.ts', '.tsx')):
             if 'node_modules' in str(filepath):
@@ -123,22 +133,22 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Pattern: fetch or axios in useEffect
+                # Pattern: fetch dentro useEffect
                 if 'useEffect' in content:
                     if re.search(r'useEffect.*?fetch\(', content, re.DOTALL):
                         self.warnings.append({
                             'file': str(filepath.relative_to(self.project_path)),
                             'type': 'MEDIUM-HIGH',
-                            'issue': 'Data fetching in useEffect',
-                            'fix': 'Consider using SWR or React Query for deduplication',
+                            'issue': 'Data fetching dentro useEffect',
+                            'fix': 'Valuta SWR o React Query per deduplicare le richieste',
                             'section': '4-client-client-side-data-fetching.md'
                         })
             except Exception as e:
                 continue
 
     def check_missing_memoization(self):
-        """Check for missing React.memo, useMemo, useCallback (Section 5)"""
-        print("[*] Checking for missing memoization...")
+        """Cerca React.memo, useMemo e useCallback mancanti (sezione 5)"""
+        print("[*] Cerco la memoizzazione mancante...")
 
         for filepath in self._files(('.tsx',)):
             if 'node_modules' in str(filepath):
@@ -147,25 +157,25 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Check for component definitions without memo
+                # Definizioni di componenti senza memo
                 components = re.findall(r'(?:export\s+)?(?:const|function)\s+([A-Z]\w+)', content)
 
                 if components and 'React.memo' not in content and 'memo(' not in content:
-                    # Check if component receives props
+                    # Il componente riceve props?
                     if 'props:' in content or 'Props>' in content:
                         self.warnings.append({
                             'file': str(filepath.relative_to(self.project_path)),
                             'type': 'MEDIUM',
-                            'issue': 'Component with props not memoized',
-                            'fix': 'Consider using React.memo if props are stable',
+                            'issue': 'Componente con props non memoizzato',
+                            'fix': 'Valuta React.memo se le props sono stabili',
                             'section': '5-rerender-re-render-optimization.md'
                         })
             except Exception as e:
                 continue
 
     def check_image_optimization(self):
-        """Check for unoptimized images (Section 6)"""
-        print("[*] Checking for image optimization...")
+        """Cerca le immagini non ottimizzate (sezione 6)"""
+        print("[*] Controllo l'ottimizzazione delle immagini...")
 
         for filepath in self._files(('.ts', '.tsx', '.js', '.jsx')):
             if 'node_modules' in str(filepath):
@@ -174,60 +184,60 @@ class PerformanceChecker:
             try:
                 content = filepath.read_text(encoding='utf-8')
 
-                # Check for <img> tags instead of next/image
+                # Tag <img> al posto di next/image
                 if '<img' in content and 'next/image' not in content:
                     self.warnings.append({
                         'file': str(filepath.relative_to(self.project_path)),
                         'type': 'MEDIUM',
-                        'issue': 'Using <img> instead of next/image',
-                        'fix': 'Use next/image for automatic optimization',
+                        'issue': 'Uso di <img> al posto di next/image',
+                        'fix': "Usa next/image per l'ottimizzazione automatica",
                         'section': '6-rendering-rendering-performance.md'
                     })
             except Exception as e:
                 continue
 
     def generate_report(self):
-        """Generate final report"""
+        """Genera il report finale"""
         print("\n" + "="*60)
-        print("REACT PERFORMANCE AUDIT REPORT")
+        print("REPORT SULLE PRESTAZIONI REACT")
         print("="*60)
 
-        print(f"\n[CRITICAL ISSUES] ({len([i for i in self.issues if i['type'] == 'CRITICAL'])})")
+        print(f"\n[PROBLEMI CRITICI] ({len([i for i in self.issues if i['type'] == 'CRITICAL'])})")
         for issue in self.issues:
             if issue['type'] == 'CRITICAL':
                 print(f"  - {issue['file']}")
-                print(f"    Issue: {issue['issue']}")
-                print(f"    Fix: {issue['fix']}")
-                print(f"    Reference: {issue['section']}\n")
+                print(f"    Problema: {issue['issue']}")
+                print(f"    Correzione: {issue['fix']}")
+                print(f"    Riferimento: {issue['section']}\n")
 
-        print(f"\n[WARNINGS] ({len(self.warnings)})")
-        for warning in self.warnings[:10]:  # Show first 10
+        print(f"\n[AVVISI] ({len(self.warnings)})")
+        for warning in self.warnings[:10]:  # Mostra i primi 10
             print(f"  - {warning['file']}")
-            print(f"    Issue: {warning['issue']}")
-            print(f"    Fix: {warning['fix']}")
-            print(f"    Reference: {warning['section']}\n")
+            print(f"    Problema: {warning['issue']}")
+            print(f"    Correzione: {warning['fix']}")
+            print(f"    Riferimento: {warning['section']}\n")
 
         if len(self.warnings) > 10:
-            print(f"  ... and {len(self.warnings) - 10} more warnings")
+            print(f"  ... e altri {len(self.warnings) - 10} avvisi")
 
         print("\n" + "="*60)
-        print(f"SUMMARY:")
-        print(f"  Critical Issues: {len([i for i in self.issues if i['type'] == 'CRITICAL'])}")
-        print(f"  Warnings: {len(self.warnings)}")
+        print(f"RIEPILOGO:")
+        print(f"  Problemi critici: {len([i for i in self.issues if i['type'] == 'CRITICAL'])}")
+        print(f"  Avvisi: {len(self.warnings)}")
         print("="*60)
 
         if len(self.issues) == 0 and len(self.warnings) == 0:
-            print("\n[SUCCESS] No major performance issues detected!")
+            print("\n[OK] Nessun problema di prestazioni rilevante!")
         else:
-            print("\n[ACTION REQUIRED] Review and fix issues above")
-            print("Priority: CRITICAL > HIGH > MEDIUM > LOW")
+            print("\n[AZIONE RICHIESTA] Controlla e correggi i problemi qui sopra")
+            print("Priorità: CRITICAL > HIGH > MEDIUM > LOW")
 
     def run(self):
-        """Run all checks"""
+        """Esegue tutti i controlli"""
         print("="*60)
         print("React Performance Checker (Vercel Engineering)")
         print("="*60)
-        print(f"Scanning: {self.project_path}")
+        print(f"Cartella analizzata: {self.project_path}")
 
         self.check_waterfalls()
         self.check_barrel_imports()
@@ -240,16 +250,14 @@ class PerformanceChecker:
 
 
 def main():
-    import sys
-
     if len(sys.argv) < 2:
-        print("Usage: python react_performance_checker.py <project_path>")
+        print("Uso: python react_performance_checker.py <cartella_progetto>")
         sys.exit(1)
 
     project_path = sys.argv[1]
 
     if not os.path.exists(project_path):
-        print(f"[ERROR] Path not found: {project_path}")
+        print(f"[ERRORE] Percorso non trovato: {project_path}")
         sys.exit(1)
 
     checker = PerformanceChecker(project_path)

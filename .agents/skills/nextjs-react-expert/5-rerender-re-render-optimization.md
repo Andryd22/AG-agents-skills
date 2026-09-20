@@ -1,26 +1,26 @@
-# 5. Re-render Optimization
+# 5. Ottimizzare i re-render
 
-> **Impact:** MEDIUM
-> **Focus:** Reducing unnecessary re-renders minimizes wasted computation and improves UI responsiveness.
-
----
-
-## Overview
-
-This section contains **12 rules** focused on re-render optimization.
+> **Impatto:** MEDIO
+> **Obiettivo:** Ridurre i re-render non necessari evita calcoli sprecati e rende la UI più reattiva.
 
 ---
 
-## Rule 5.1: Calculate Derived State During Rendering
+## Panoramica
 
-**Impact:** MEDIUM  
-**Tags:** rerender, derived-state, useEffect, state  
+Questa sezione contiene **12 regole** dedicate all'ottimizzazione dei re-render.
 
-## Calculate Derived State During Rendering
+---
 
-If a value can be computed from current props/state, do not store it in state or update it in an effect. Derive it during render to avoid extra renders and state drift. Do not set state in effects solely in response to prop changes; prefer derived values or keyed resets instead.
+## Regola 5.1: Calcola lo stato derivato durante il rendering
 
-**Incorrect (redundant state and effect):**
+**Impatto:** MEDIO  
+**Tag:** rerender, derived-state, useEffect, state  
+
+## Calcola lo stato derivato durante il rendering
+
+Se un valore si può calcolare dalle prop o dallo state correnti, non salvarlo nello state e non aggiornarlo in un effect. Derivalo durante il render per evitare render extra e disallineamenti dello state. Non impostare lo state negli effect solo per reagire al cambio di una prop: preferisci valori derivati o reset tramite `key`.
+
+**Sbagliato (state ed effect ridondanti):**
 
 ```tsx
 function Form() {
@@ -36,7 +36,7 @@ function Form() {
 }
 ```
 
-**Correct (derive during render):**
+**Corretto (derivato durante il render):**
 
 ```tsx
 function Form() {
@@ -48,20 +48,20 @@ function Form() {
 }
 ```
 
-References: [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
+Riferimenti: [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
 
 ---
 
-## Rule 5.2: Defer State Reads to Usage Point
+## Regola 5.2: Rimanda la lettura dello state al punto in cui serve
 
-**Impact:** MEDIUM  
-**Tags:** rerender, searchParams, localStorage, optimization  
+**Impatto:** MEDIO  
+**Tag:** rerender, searchParams, localStorage, optimization  
 
-## Defer State Reads to Usage Point
+## Rimanda la lettura dello state al punto in cui serve
 
-Don't subscribe to dynamic state (searchParams, localStorage) if you only read it inside callbacks.
+Non sottoscriverti a uno state dinamico (searchParams, localStorage) se lo leggi solo dentro le callback.
 
-**Incorrect (subscribes to all searchParams changes):**
+**Sbagliato (si sottoscrive a ogni cambio dei searchParams):**
 
 ```tsx
 function ShareButton({ chatId }: { chatId: string }) {
@@ -76,7 +76,7 @@ function ShareButton({ chatId }: { chatId: string }) {
 }
 ```
 
-**Correct (reads on demand, no subscription):**
+**Corretto (legge al bisogno, nessuna sottoscrizione):**
 
 ```tsx
 function ShareButton({ chatId }: { chatId: string }) {
@@ -92,17 +92,17 @@ function ShareButton({ chatId }: { chatId: string }) {
 
 ---
 
-## Rule 5.3: Do not wrap a simple expression with a primitive result type in useMemo
+## Regola 5.3: Non avvolgere in useMemo un'espressione semplice con risultato primitivo
 
-**Impact:** LOW-MEDIUM  
-**Tags:** rerender, useMemo, optimization  
+**Impatto:** MEDIO-BASSO  
+**Tag:** rerender, useMemo, optimization  
 
-## Do not wrap a simple expression with a primitive result type in useMemo
+## Non avvolgere in useMemo un'espressione semplice con risultato primitivo
 
-When an expression is simple (few logical or arithmetical operators) and has a primitive result type (boolean, number, string), do not wrap it in `useMemo`.
-Calling `useMemo` and comparing hook dependencies may consume more resources than the expression itself.
+Se un'espressione è semplice (pochi operatori logici o aritmetici) e restituisce un tipo primitivo (boolean, number, string), non avvolgerla in `useMemo`.
+Chiamare `useMemo` e confrontare le dipendenze dell'hook può costare più dell'espressione stessa.
 
-**Incorrect:**
+**Sbagliato:**
 
 ```tsx
 function Header({ user, notifications }: Props) {
@@ -111,46 +111,46 @@ function Header({ user, notifications }: Props) {
   }, [user.isLoading, notifications.isLoading])
 
   if (isLoading) return <Skeleton />
-  // return some markup
+  // restituisce del markup
 }
 ```
 
-**Correct:**
+**Corretto:**
 
 ```tsx
 function Header({ user, notifications }: Props) {
   const isLoading = user.isLoading || notifications.isLoading
 
   if (isLoading) return <Skeleton />
-  // return some markup
+  // restituisce del markup
 }
 ```
 
 ---
 
-## Rule 5.4: Extract Default Non-primitive Parameter Value from Memoized Component to Constant
+## Regola 5.4: Estrai in una costante il valore di default non primitivo di un componente memoizzato
 
-**Impact:** MEDIUM  
-**Tags:** rerender, memo, optimization  
+**Impatto:** MEDIO  
+**Tag:** rerender, memo, optimization  
 
-## Extract Default Non-primitive Parameter Value from Memoized Component to Constant
+## Estrai in una costante il valore di default non primitivo di un componente memoizzato
 
-When memoized component has a default value for some non-primitive optional parameter, such as an array, function, or object, calling the component without that parameter results in broken memoization. This is because new value instances are created on every rerender, and they do not pass strict equality comparison in `memo()`.
+Se un componente memoizzato ha un valore di default per una prop opzionale non primitiva (un array, una funzione o un oggetto), chiamarlo senza quella prop rompe la memoizzazione: a ogni re-render si crea una nuova istanza del valore, che non supera il confronto di uguaglianza stretta di `memo()`.
 
-To address this issue, extract the default value into a constant.
+Per risolvere, estrai il valore di default in una costante.
 
-**Incorrect (`onClick` has different values on every rerender):**
+**Sbagliato (`onClick` ha un valore diverso a ogni re-render):**
 
 ```tsx
 const UserAvatar = memo(function UserAvatar({ onClick = () => {} }: { onClick?: () => void }) {
   // ...
 })
 
-// Used without optional onClick
+// Usato senza la prop opzionale onClick
 <UserAvatar />
 ```
 
-**Correct (stable default value):**
+**Corretto (valore di default stabile):**
 
 ```tsx
 const NOOP = () => {};
@@ -159,22 +159,22 @@ const UserAvatar = memo(function UserAvatar({ onClick = NOOP }: { onClick?: () =
   // ...
 })
 
-// Used without optional onClick
+// Usato senza la prop opzionale onClick
 <UserAvatar />
 ```
 
 ---
 
-## Rule 5.5: Extract to Memoized Components
+## Regola 5.5: Estrai il lavoro in componenti memoizzati
 
-**Impact:** MEDIUM  
-**Tags:** rerender, memo, useMemo, optimization  
+**Impatto:** MEDIO  
+**Tag:** rerender, memo, useMemo, optimization  
 
-## Extract to Memoized Components
+## Estrai il lavoro in componenti memoizzati
 
-Extract expensive work into memoized components to enable early returns before computation.
+Sposta il lavoro costoso in componenti memoizzati, così puoi uscire in anticipo (early return) prima del calcolo.
 
-**Incorrect (computes avatar even when loading):**
+**Sbagliato (calcola l'avatar anche durante il caricamento):**
 
 ```tsx
 function Profile({ user, loading }: Props) {
@@ -188,7 +188,7 @@ function Profile({ user, loading }: Props) {
 }
 ```
 
-**Correct (skips computation when loading):**
+**Corretto (salta il calcolo durante il caricamento):**
 
 ```tsx
 const UserAvatar = memo(function UserAvatar({ user }: { user: User }) {
@@ -206,20 +206,20 @@ function Profile({ user, loading }: Props) {
 }
 ```
 
-**Note:** If your project has [React Compiler](https://react.dev/learn/react-compiler) enabled, manual memoization with `memo()` and `useMemo()` is not necessary. The compiler automatically optimizes re-renders.
+**Nota:** se nel progetto è attivo il [React Compiler](https://react.dev/learn/react-compiler) (stabile dalla v1.0; in Next.js 16 si abilita con `reactCompiler: true` in `next.config`), di solito la memoizzazione manuale con `memo()` e `useMemo()` non serve: il compiler ottimizza i re-render in automatico.
 
 ---
 
-## Rule 5.6: Narrow Effect Dependencies
+## Regola 5.6: Restringi le dipendenze degli effect
 
-**Impact:** LOW  
-**Tags:** rerender, useEffect, dependencies, optimization  
+**Impatto:** BASSO  
+**Tag:** rerender, useEffect, dependencies, optimization  
 
-## Narrow Effect Dependencies
+## Restringi le dipendenze degli effect
 
-Specify primitive dependencies instead of objects to minimize effect re-runs.
+Indica dipendenze primitive invece di oggetti, per ridurre al minimo le riesecuzioni degli effect.
 
-**Incorrect (re-runs on any user field change):**
+**Sbagliato (si riesegue a ogni cambio di un campo di user):**
 
 ```tsx
 useEffect(() => {
@@ -227,7 +227,7 @@ useEffect(() => {
 }, [user])
 ```
 
-**Correct (re-runs only when id changes):**
+**Corretto (si riesegue solo quando cambia id):**
 
 ```tsx
 useEffect(() => {
@@ -235,17 +235,17 @@ useEffect(() => {
 }, [user.id])
 ```
 
-**For derived state, compute outside effect:**
+**Per lo stato derivato, calcolalo fuori dall'effect:**
 
 ```tsx
-// Incorrect: runs on width=767, 766, 765...
+// Sbagliato: si esegue con width=767, 766, 765...
 useEffect(() => {
   if (width < 768) {
     enableMobileMode()
   }
 }, [width])
 
-// Correct: runs only on boolean transition
+// Corretto: si esegue solo quando il boolean cambia
 const isMobile = width < 768
 useEffect(() => {
   if (isMobile) {
@@ -256,16 +256,16 @@ useEffect(() => {
 
 ---
 
-## Rule 5.7: Put Interaction Logic in Event Handlers
+## Regola 5.7: Metti la logica delle interazioni negli event handler
 
-**Impact:** MEDIUM  
-**Tags:** rerender, useEffect, events, side-effects, dependencies  
+**Impatto:** MEDIO  
+**Tag:** rerender, useEffect, events, side-effects, dependencies  
 
-## Put Interaction Logic in Event Handlers
+## Metti la logica delle interazioni negli event handler
 
-If a side effect is triggered by a specific user action (submit, click, drag), run it in that event handler. Do not model the action as state + effect; it makes effects re-run on unrelated changes and can duplicate the action.
+Se un side effect è causato da un'azione specifica dell'utente (submit, click, drag), eseguilo nel relativo event handler. Non modellare l'azione come state + effect: l'effect si riesegue per cambiamenti non correlati e l'azione può essere duplicata.
 
-**Incorrect (event modeled as state + effect):**
+**Sbagliato (evento modellato come state + effect):**
 
 ```tsx
 function Form() {
@@ -283,7 +283,7 @@ function Form() {
 }
 ```
 
-**Correct (do it in the handler):**
+**Corretto (fallo nell'handler):**
 
 ```tsx
 function Form() {
@@ -298,30 +298,30 @@ function Form() {
 }
 ```
 
-Reference: [Should this code move to an event handler?](https://react.dev/learn/removing-effect-dependencies#should-this-code-move-to-an-event-handler)
+Riferimento: [Should this code move to an event handler?](https://react.dev/learn/removing-effect-dependencies#should-this-code-move-to-an-event-handler)
 
 ---
 
-## Rule 5.8: Subscribe to Derived State
+## Regola 5.8: Sottoscriviti allo stato derivato
 
-**Impact:** MEDIUM  
-**Tags:** rerender, derived-state, media-query, optimization  
+**Impatto:** MEDIO  
+**Tag:** rerender, derived-state, media-query, optimization  
 
-## Subscribe to Derived State
+## Sottoscriviti allo stato derivato
 
-Subscribe to derived boolean state instead of continuous values to reduce re-render frequency.
+Sottoscriviti a uno stato derivato booleano invece che a valori continui, per ridurre la frequenza dei re-render.
 
-**Incorrect (re-renders on every pixel change):**
+**Sbagliato (re-render a ogni pixel di differenza):**
 
 ```tsx
 function Sidebar() {
-  const width = useWindowWidth()  // updates continuously
+  const width = useWindowWidth()  // si aggiorna di continuo
   const isMobile = width < 768
   return <nav className={isMobile ? 'mobile' : 'desktop'} />
 }
 ```
 
-**Correct (re-renders only when boolean changes):**
+**Corretto (re-render solo quando cambia il boolean):**
 
 ```tsx
 function Sidebar() {
@@ -332,104 +332,104 @@ function Sidebar() {
 
 ---
 
-## Rule 5.9: Use Functional setState Updates
+## Regola 5.9: Usa gli aggiornamenti funzionali di setState
 
-**Impact:** MEDIUM  
-**Tags:** react, hooks, useState, useCallback, callbacks, closures  
+**Impatto:** MEDIO  
+**Tag:** react, hooks, useState, useCallback, callbacks, closures  
 
-## Use Functional setState Updates
+## Usa gli aggiornamenti funzionali di setState
 
-When updating state based on the current state value, use the functional update form of setState instead of directly referencing the state variable. This prevents stale closures, eliminates unnecessary dependencies, and creates stable callback references.
+Quando aggiorni lo state in base al suo valore corrente, usa la forma funzionale di setState invece di riferirti direttamente alla variabile di state. Eviti closure obsolete (stale closure), elimini dipendenze inutili e ottieni riferimenti stabili alle callback.
 
-**Incorrect (requires state as dependency):**
+**Sbagliato (richiede lo state come dipendenza):**
 
 ```tsx
 function TodoList() {
   const [items, setItems] = useState(initialItems)
   
-  // Callback must depend on items, recreated on every items change
+  // La callback dipende da items e viene ricreata a ogni cambio di items
   const addItems = useCallback((newItems: Item[]) => {
     setItems([...items, ...newItems])
-  }, [items])  // ❌ items dependency causes recreations
+  }, [items])  // ❌ la dipendenza da items causa ricreazioni
   
-  // Risk of stale closure if dependency is forgotten
+  // Rischio di stale closure se si dimentica la dipendenza
   const removeItem = useCallback((id: string) => {
     setItems(items.filter(item => item.id !== id))
-  }, [])  // ❌ Missing items dependency - will use stale items!
+  }, [])  // ❌ Manca la dipendenza da items: userà items obsoleti!
   
   return <ItemsEditor items={items} onAdd={addItems} onRemove={removeItem} />
 }
 ```
 
-The first callback is recreated every time `items` changes, which can cause child components to re-render unnecessarily. The second callback has a stale closure bug—it will always reference the initial `items` value.
+La prima callback viene ricreata ogni volta che `items` cambia, e questo può causare re-render inutili dei componenti figli. La seconda ha un bug di stale closure: farà sempre riferimento al valore iniziale di `items`.
 
-**Correct (stable callbacks, no stale closures):**
+**Corretto (callback stabili, nessuna stale closure):**
 
 ```tsx
 function TodoList() {
   const [items, setItems] = useState(initialItems)
   
-  // Stable callback, never recreated
+  // Callback stabile, mai ricreata
   const addItems = useCallback((newItems: Item[]) => {
     setItems(curr => [...curr, ...newItems])
-  }, [])  // ✅ No dependencies needed
+  }, [])  // ✅ Nessuna dipendenza necessaria
   
-  // Always uses latest state, no stale closure risk
+  // Usa sempre lo state più recente, nessun rischio di stale closure
   const removeItem = useCallback((id: string) => {
     setItems(curr => curr.filter(item => item.id !== id))
-  }, [])  // ✅ Safe and stable
+  }, [])  // ✅ Sicura e stabile
   
   return <ItemsEditor items={items} onAdd={addItems} onRemove={removeItem} />
 }
 ```
 
-**Benefits:**
+**Vantaggi:**
 
-1. **Stable callback references** - Callbacks don't need to be recreated when state changes
-2. **No stale closures** - Always operates on the latest state value
-3. **Fewer dependencies** - Simplifies dependency arrays and reduces memory leaks
-4. **Prevents bugs** - Eliminates the most common source of React closure bugs
+1. **Riferimenti stabili alle callback**: non serve ricreare le callback quando cambia lo state
+2. **Nessuna stale closure**: lavori sempre sul valore più recente dello state
+3. **Meno dipendenze**: array delle dipendenze più semplici e meno memory leak
+4. **Meno bug**: elimini la causa più comune dei bug di closure in React
 
-**When to use functional updates:**
+**Quando usare gli aggiornamenti funzionali:**
 
-- Any setState that depends on the current state value
-- Inside useCallback/useMemo when state is needed
-- Event handlers that reference state
-- Async operations that update state
+- Qualsiasi setState che dipende dal valore corrente dello state
+- Dentro useCallback/useMemo quando serve lo state
+- Event handler che fanno riferimento allo state
+- Operazioni asincrone che aggiornano lo state
 
-**When direct updates are fine:**
+**Quando gli aggiornamenti diretti vanno bene:**
 
-- Setting state to a static value: `setCount(0)`
-- Setting state from props/arguments only: `setName(newName)`
-- State doesn't depend on previous value
+- Impostare lo state su un valore statico: `setCount(0)`
+- Impostare lo state solo da prop/argomenti: `setName(newName)`
+- Lo state non dipende dal valore precedente
 
-**Note:** If your project has [React Compiler](https://react.dev/learn/react-compiler) enabled, the compiler can automatically optimize some cases, but functional updates are still recommended for correctness and to prevent stale closure bugs.
+**Nota:** se nel progetto è attivo il [React Compiler](https://react.dev/learn/react-compiler), il compiler può ottimizzare automaticamente alcuni casi, ma gli aggiornamenti funzionali restano consigliati per correttezza e per evitare bug di stale closure.
 
 ---
 
-## Rule 5.10: Use Lazy State Initialization
+## Regola 5.10: Usa l'inizializzazione lazy dello state
 
-**Impact:** MEDIUM  
-**Tags:** react, hooks, useState, performance, initialization  
+**Impatto:** MEDIO  
+**Tag:** react, hooks, useState, performance, initialization  
 
-## Use Lazy State Initialization
+## Usa l'inizializzazione lazy dello state
 
-Pass a function to `useState` for expensive initial values. Without the function form, the initializer runs on every render even though the value is only used once.
+Passa una funzione a `useState` per i valori iniziali costosi. Senza la forma funzionale, l'inizializzatore viene eseguito a ogni render anche se il valore serve una sola volta.
 
-**Incorrect (runs on every render):**
+**Sbagliato (eseguito a ogni render):**
 
 ```tsx
 function FilteredList({ items }: { items: Item[] }) {
-  // buildSearchIndex() runs on EVERY render, even after initialization
+  // buildSearchIndex() viene eseguito a OGNI render, anche dopo l'inizializzazione
   const [searchIndex, setSearchIndex] = useState(buildSearchIndex(items))
   const [query, setQuery] = useState('')
   
-  // When query changes, buildSearchIndex runs again unnecessarily
+  // Quando query cambia, buildSearchIndex viene rieseguito inutilmente
   return <SearchResults index={searchIndex} query={query} />
 }
 
 function UserProfile() {
-  // JSON.parse runs on every render
+  // JSON.parse viene eseguito a ogni render
   const [settings, setSettings] = useState(
     JSON.parse(localStorage.getItem('settings') || '{}')
   )
@@ -438,11 +438,11 @@ function UserProfile() {
 }
 ```
 
-**Correct (runs only once):**
+**Corretto (eseguito una sola volta):**
 
 ```tsx
 function FilteredList({ items }: { items: Item[] }) {
-  // buildSearchIndex() runs ONLY on initial render
+  // buildSearchIndex() viene eseguito SOLO al render iniziale
   const [searchIndex, setSearchIndex] = useState(() => buildSearchIndex(items))
   const [query, setQuery] = useState('')
   
@@ -450,7 +450,7 @@ function FilteredList({ items }: { items: Item[] }) {
 }
 
 function UserProfile() {
-  // JSON.parse runs only on initial render
+  // JSON.parse viene eseguito solo al render iniziale
   const [settings, setSettings] = useState(() => {
     const stored = localStorage.getItem('settings')
     return stored ? JSON.parse(stored) : {}
@@ -460,22 +460,22 @@ function UserProfile() {
 }
 ```
 
-Use lazy initialization when computing initial values from localStorage/sessionStorage, building data structures (indexes, maps), reading from the DOM, or performing heavy transformations.
+Usa l'inizializzazione lazy quando calcoli i valori iniziali da localStorage/sessionStorage, costruisci strutture dati (indici, map), leggi dal DOM o esegui trasformazioni pesanti.
 
-For simple primitives (`useState(0)`), direct references (`useState(props.value)`), or cheap literals (`useState({})`), the function form is unnecessary.
+Per primitivi semplici (`useState(0)`), riferimenti diretti (`useState(props.value)`) o literal economici (`useState({})`), la forma funzionale non serve.
 
 ---
 
-## Rule 5.11: Use Transitions for Non-Urgent Updates
+## Regola 5.11: Usa le transition per gli aggiornamenti non urgenti
 
-**Impact:** MEDIUM  
-**Tags:** rerender, transitions, startTransition, performance  
+**Impatto:** MEDIO  
+**Tag:** rerender, transitions, startTransition, performance  
 
-## Use Transitions for Non-Urgent Updates
+## Usa le transition per gli aggiornamenti non urgenti
 
-Mark frequent, non-urgent state updates as transitions to maintain UI responsiveness.
+Marca come transition gli aggiornamenti di state frequenti e non urgenti, per mantenere la UI reattiva.
 
-**Incorrect (blocks UI on every scroll):**
+**Sbagliato (blocca la UI a ogni scroll):**
 
 ```tsx
 function ScrollTracker() {
@@ -488,7 +488,7 @@ function ScrollTracker() {
 }
 ```
 
-**Correct (non-blocking updates):**
+**Corretto (aggiornamenti non bloccanti):**
 
 ```tsx
 import { startTransition } from 'react'
@@ -507,16 +507,16 @@ function ScrollTracker() {
 
 ---
 
-## Rule 5.12: Use useRef for Transient Values
+## Regola 5.12: Usa useRef per i valori transitori
 
-**Impact:** MEDIUM  
-**Tags:** rerender, useref, state, performance  
+**Impatto:** MEDIO  
+**Tag:** rerender, useref, state, performance  
 
-## Use useRef for Transient Values
+## Usa useRef per i valori transitori
 
-When a value changes frequently and you don't want a re-render on every update (e.g., mouse trackers, intervals, transient flags), store it in `useRef` instead of `useState`. Keep component state for UI; use refs for temporary DOM-adjacent values. Updating a ref does not trigger a re-render.
+Se un valore cambia spesso e non vuoi un re-render a ogni aggiornamento (per esempio tracker del mouse, intervalli, flag temporanei), salvalo in `useRef` invece che in `useState`. Tieni lo state del componente per la UI e usa le ref per valori temporanei legati al DOM. Aggiornare una ref non provoca un re-render.
 
-**Incorrect (renders every update):**
+**Sbagliato (render a ogni aggiornamento):**
 
 ```tsx
 function Tracker() {
@@ -543,7 +543,7 @@ function Tracker() {
 }
 ```
 
-**Correct (no re-render for tracking):**
+**Corretto (nessun re-render per il tracking):**
 
 ```tsx
 function Tracker() {

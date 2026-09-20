@@ -1,26 +1,26 @@
-# 4. Client-Side Data Fetching
+# 4. Recupero dei dati lato client
 
-> **Impact:** MEDIUM-HIGH
-> **Focus:** Automatic deduplication and efficient data fetching patterns reduce redundant network requests.
-
----
-
-## Overview
-
-This section contains **4 rules** focused on client-side data fetching.
+> **Impatto:** MEDIO-ALTO
+> **Obiettivo:** La deduplicazione automatica e pattern di fetch efficienti riducono le richieste di rete ridondanti.
 
 ---
 
-## Rule 4.1: Deduplicate Global Event Listeners
+## Panoramica
 
-**Impact:** LOW  
-**Tags:** client, swr, event-listeners, subscription  
+Questa sezione contiene **4 regole** dedicate al recupero dei dati lato client.
 
-## Deduplicate Global Event Listeners
+---
 
-Use `useSWRSubscription()` to share global event listeners across component instances.
+## Regola 4.1: Deduplica gli event listener globali
 
-**Incorrect (N instances = N listeners):**
+**Impatto:** BASSO  
+**Tag:** client, swr, event-listeners, subscription  
+
+## Deduplica gli event listener globali
+
+Usa `useSWRSubscription()` per condividere gli event listener globali tra le istanze di un componente.
+
+**Sbagliato (N istanze = N listener):**
 
 ```tsx
 function useKeyboardShortcut(key: string, callback: () => void) {
@@ -36,18 +36,18 @@ function useKeyboardShortcut(key: string, callback: () => void) {
 }
 ```
 
-When using the `useKeyboardShortcut` hook multiple times, each instance will register a new listener.
+Se usi l'hook `useKeyboardShortcut` più volte, ogni istanza registra un nuovo listener.
 
-**Correct (N instances = 1 listener):**
+**Corretto (N istanze = 1 listener):**
 
 ```tsx
 import useSWRSubscription from 'swr/subscription'
 
-// Module-level Map to track callbacks per key
+// Map a livello di modulo per tracciare le callback per ogni tasto
 const keyCallbacks = new Map<string, Set<() => void>>()
 
 function useKeyboardShortcut(key: string, callback: () => void) {
-  // Register this callback in the Map
+  // Registra questa callback nella Map
   useEffect(() => {
     if (!keyCallbacks.has(key)) {
       keyCallbacks.set(key, new Set())
@@ -77,7 +77,7 @@ function useKeyboardShortcut(key: string, callback: () => void) {
 }
 
 function Profile() {
-  // Multiple shortcuts will share the same listener
+  // Più scorciatoie condivideranno lo stesso listener
   useKeyboardShortcut('p', () => { /* ... */ }) 
   useKeyboardShortcut('k', () => { /* ... */ })
   // ...
@@ -86,16 +86,16 @@ function Profile() {
 
 ---
 
-## Rule 4.2: Use Passive Event Listeners for Scrolling Performance
+## Regola 4.2: Usa passive listener per le prestazioni dello scroll
 
-**Impact:** MEDIUM  
-**Tags:** client, event-listeners, scrolling, performance, touch, wheel  
+**Impatto:** MEDIO  
+**Tag:** client, event-listeners, scrolling, performance, touch, wheel  
 
-## Use Passive Event Listeners for Scrolling Performance
+## Usa passive listener per le prestazioni dello scroll
 
-Add `{ passive: true }` to touch and wheel event listeners to enable immediate scrolling. Browsers normally wait for listeners to finish to check if `preventDefault()` is called, causing scroll delay.
+Aggiungi `{ passive: true }` agli event listener di touch e wheel per uno scroll immediato. Di norma il browser attende che i listener terminino per verificare se viene chiamato `preventDefault()`, e questo ritarda lo scroll.
 
-**Incorrect:**
+**Sbagliato:**
 
 ```typescript
 useEffect(() => {
@@ -112,7 +112,7 @@ useEffect(() => {
 }, [])
 ```
 
-**Correct:**
+**Corretto:**
 
 ```typescript
 useEffect(() => {
@@ -129,22 +129,22 @@ useEffect(() => {
 }, [])
 ```
 
-**Use passive when:** tracking/analytics, logging, any listener that doesn't call `preventDefault()`.
+**Usa passive per:** tracking/analytics, logging e qualsiasi listener che non chiama `preventDefault()`.
 
-**Don't use passive when:** implementing custom swipe gestures, custom zoom controls, or any listener that needs `preventDefault()`.
+**Non usare passive per:** gesture di swipe personalizzate, controlli di zoom personalizzati o qualsiasi listener che deve chiamare `preventDefault()`.
 
 ---
 
-## Rule 4.3: Use SWR for Automatic Deduplication
+## Regola 4.3: Usa SWR per la deduplicazione automatica
 
-**Impact:** MEDIUM-HIGH  
-**Tags:** client, swr, deduplication, data-fetching  
+**Impatto:** MEDIO-ALTO  
+**Tag:** client, swr, deduplication, data-fetching  
 
-## Use SWR for Automatic Deduplication
+## Usa SWR per la deduplicazione automatica
 
-SWR enables request deduplication, caching, and revalidation across component instances.
+SWR offre deduplicazione delle richieste, cache e revalidation condivise tra le istanze dei componenti.
 
-**Incorrect (no deduplication, each instance fetches):**
+**Sbagliato (nessuna deduplicazione, ogni istanza fa il proprio fetch):**
 
 ```tsx
 function UserList() {
@@ -157,7 +157,7 @@ function UserList() {
 }
 ```
 
-**Correct (multiple instances share one request):**
+**Corretto (più istanze condividono un'unica richiesta):**
 
 ```tsx
 import useSWR from 'swr'
@@ -167,7 +167,7 @@ function UserList() {
 }
 ```
 
-**For immutable data:**
+**Per dati immutabili:**
 
 ```tsx
 import { useImmutableSWR } from '@/lib/swr'
@@ -177,10 +177,10 @@ function StaticContent() {
 }
 ```
 
-**For mutations:**
+**Per le mutation:**
 
 ```tsx
-import { useSWRMutation } from 'swr/mutation'
+import useSWRMutation from 'swr/mutation'
 
 function UpdateButton() {
   const { trigger } = useSWRMutation('/api/user', updateUser)
@@ -188,28 +188,28 @@ function UpdateButton() {
 }
 ```
 
-Reference: [https://swr.vercel.app](https://swr.vercel.app)
+Riferimento: [https://swr.vercel.app](https://swr.vercel.app)
 
 ---
 
-## Rule 4.4: Version and Minimize localStorage Data
+## Regola 4.4: Versiona e riduci al minimo i dati in localStorage
 
-**Impact:** MEDIUM  
-**Tags:** client, localStorage, storage, versioning, data-minimization  
+**Impatto:** MEDIO  
+**Tag:** client, localStorage, storage, versioning, data-minimization  
 
-## Version and Minimize localStorage Data
+## Versiona e riduci al minimo i dati in localStorage
 
-Add version prefix to keys and store only needed fields. Prevents schema conflicts and accidental storage of sensitive data.
+Aggiungi un prefisso di versione alle chiavi e salva solo i campi necessari. Eviti conflitti di schema e il salvataggio accidentale di dati sensibili.
 
-**Incorrect:**
+**Sbagliato:**
 
 ```typescript
-// No version, stores everything, no error handling
+// Nessuna versione, salva tutto, nessuna gestione degli errori
 localStorage.setItem('userConfig', JSON.stringify(fullUserObject))
 const data = localStorage.getItem('userConfig')
 ```
 
-**Correct:**
+**Corretto:**
 
 ```typescript
 const VERSION = 'v2'
@@ -218,7 +218,7 @@ function saveConfig(config: { theme: string; language: string }) {
   try {
     localStorage.setItem(`userConfig:${VERSION}`, JSON.stringify(config))
   } catch {
-    // Throws in incognito/private browsing, quota exceeded, or disabled
+    // Lancia un'eccezione in navigazione anonima/privata, a quota superata o se disabilitato
   }
 }
 
@@ -231,7 +231,7 @@ function loadConfig() {
   }
 }
 
-// Migration from v1 to v2
+// Migrazione da v1 a v2
 function migrate() {
   try {
     const v1 = localStorage.getItem('userConfig:v1')
@@ -244,10 +244,10 @@ function migrate() {
 }
 ```
 
-**Store minimal fields from server responses:**
+**Salva solo i campi minimi dalle risposte del server:**
 
 ```typescript
-// User object has 20+ fields, only store what UI needs
+// L'oggetto utente ha più di 20 campi: salva solo ciò che serve alla UI
 function cachePrefs(user: FullUser) {
   try {
     localStorage.setItem('prefs:v1', JSON.stringify({
@@ -258,6 +258,6 @@ function cachePrefs(user: FullUser) {
 }
 ```
 
-**Always wrap in try-catch:** `getItem()` and `setItem()` throw in incognito/private browsing (Safari, Firefox), when quota exceeded, or when disabled.
+**Racchiudi sempre in un try-catch:** `getItem()` e `setItem()` lanciano un'eccezione in navigazione anonima/privata (Safari, Firefox), quando la quota è superata o quando lo storage è disabilitato.
 
-**Benefits:** Schema evolution via versioning, reduced storage size, prevents storing tokens/PII/internal flags.
+**Vantaggi:** evoluzione dello schema tramite il versioning, meno spazio occupato, nessun token, dato personale (PII) o flag interno salvato per errore.
