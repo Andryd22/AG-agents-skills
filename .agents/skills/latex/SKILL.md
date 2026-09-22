@@ -24,15 +24,16 @@ Passa il lavoro a `latex-specialist` con la richiesta, la modalità e i file coi
 
 ## Setup
 
-Il progetto LaTeX sta nella sottocartella `latex/` della cartella del corso (quella in cui è installato il kit); i PDF delle lezioni e gli altri materiali del corso possono restare fuori.
+Il progetto LaTeX sta nella sottocartella `latex/` della cartella del corso (quella in cui è installato il kit); i PDF delle lezioni stanno in `Teoria/`, accanto a `latex/`.
 
 1. Chiedi il titolo del corso e il nome dell'autore (salta quello che la richiesta dice già). Il corso nuovo è in italiano; in inglese solo se l'utente lo chiede.
 2. Se esiste già `latex/main.tex`, o un `main.tex` nella cartella corrente, il corso è già pronto: dillo all'utente e non creare niente.
 3. Crea la cartella `latex/` e, dentro, senza sovrascrivere niente di quello che esiste:
    - `main.tex` e `preamble.tex` da `.agents/skills/latex-tutor/assets/`, con titolo, autore e `pdflang` compilati (per un corso in inglese segui anche il commento in cima a `preamble.tex`);
-   - `chapters/`, `images/`, `transcripts/`, e `slides/` a meno che i PDF delle lezioni non stiano già in un'altra cartella (per esempio nella cartella del corso, accanto a `latex/`).
-4. **Compila il documento vuoto** una volta: `latexmk -cd -pdf -interaction=nonstopmode latex/main.tex`. Serve a scoprire subito se manca un pacchetto del preambolo (`physics`, `algorithm2e`, `microtype`...): MiKTeX li installa da solo, TeX Live no. Se fallisce, di' all'utente quale pacchetto installare; se non c'è nessuna distribuzione TeX, dillo e vai avanti.
-5. Di' all'utente dove mettere i PDF delle lezioni e come generare il primo capitolo (`/latex latex/slides/1-Introduzione.pdf`, oppure il percorso del PDF dove sta già). Se i PDF restano fuori dalla cartella del corso, ricordagli di avviare la CLI con `agy --add-dir <cartella dei PDF>`, altrimenti non li puoi leggere.
+   - `chapters/`, `images/` e `transcripts/`.
+4. Crea `Teoria/` nella cartella del corso, accanto a `latex/`, se non c'è già: è la cartella dei PDF delle lezioni.
+5. **Compila il documento vuoto** una volta: `latexmk -cd -pdf -interaction=nonstopmode latex/main.tex`. Serve a scoprire subito se manca un pacchetto del preambolo (`physics`, `algorithm2e`, `microtype`...): MiKTeX li installa da solo, TeX Live no. Se fallisce, di' all'utente quale pacchetto installare; se non c'è nessuna distribuzione TeX, dillo e vai avanti.
+6. Di' all'utente di mettere i PDF delle lezioni in `Teoria/` e come generare il primo capitolo (`/latex Teoria/1-Introduzione.pdf`). Se preferisce tenerli fuori dalla cartella del corso, ricordagli di avviare la CLI con `agy --add-dir <cartella dei PDF>`, altrimenti non li puoi leggere.
 
 ---
 
@@ -60,8 +61,8 @@ Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazi
 
 ```text
 /latex setup
-/latex latex/slides/5-Clustering.pdf
-/latex latex/slides/5-Clustering.pdf con latex/transcripts/5-Clustering.txt
+/latex Teoria/5-Clustering.pdf
+/latex Teoria/5-Clustering.pdf con latex/transcripts/5-Clustering.txt
 /latex 5-Clustering.pdf
 /latex revisione
 /latex correggi i problemi critici del capitolo 7

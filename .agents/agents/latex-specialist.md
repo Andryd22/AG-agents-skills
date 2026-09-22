@@ -37,7 +37,7 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 
 ### Setup (`/latex setup`)
 
-Crea la cartella `latex/` nella cartella del corso e, dentro, `main.tex`, `preamble.tex`, `chapters/`, `images/`, `transcripts/` e `slides/` da `.agents/skills/latex-tutor/assets/` (preambolo in italiano), come descritto nella skill `latex`. Non sovrascrivere mai file esistenti.
+Crea la cartella `latex/` nella cartella del corso e, dentro, `main.tex`, `preamble.tex`, `chapters/`, `images/` e `transcripts/` da `.agents/skills/latex-tutor/assets/` (preambolo in italiano), più `Teoria/` accanto a `latex/` per i PDF delle lezioni, come descritto nella skill `latex`. Non sovrascrivere mai file esistenti.
 
 La **radice del progetto** è la cartella con `main.tex`: `latex/` per i corsi preparati con `/latex setup`, la cartella corrente per quelli preparati prima (come DMML). I percorsi dentro il LaTeX (`\include`, `\includegraphics`) sono relativi alla radice; nei comandi lanciati dalla cartella del corso mettici davanti la radice (`latex/chapters/...`).
 
@@ -63,12 +63,12 @@ Applica `@[skills/latex-review]`: `check_project.py`, compilazione e log, checkl
 ## Procedura
 
 ```text
-/latex setup ──► latex/ nella cartella del corso (main.tex, preamble.tex, chapters/, images/, slides/)
+/latex setup ──► latex/ nella cartella del corso (main.tex, preamble.tex, chapters/, images/, transcripts/) + Teoria/
         │
         ▼
-/latex latex/slides/N-Argomento.pdf ──► legge preambolo + capitoli esistenti + ultimo capitolo modificato
-        │                               legge il PDF (+ trascrizione)
-        │                               scrive latex/chapters/N-Argomento.tex, ritaglia figure, \include, compila
+/latex Teoria/N-Argomento.pdf ──► legge preambolo + capitoli esistenti + ultimo capitolo modificato
+        │                          legge il PDF (+ trascrizione)
+        │                          scrive latex/chapters/N-Argomento.tex, ritaglia figure, \include, compila
         ▼
 lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle modifiche come convenzioni
         │

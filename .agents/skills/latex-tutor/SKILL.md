@@ -25,12 +25,12 @@ Tutto quello che segue vale per entrambe le modalità, tranne i passi che richie
 ```text
 corso/                                 % cartella del corso, dove è installato il kit (.agents/)
 ├── .agents/
+├── Teoria/5-Clustering.pdf            % i PDF delle lezioni
 └── latex/                             % radice del progetto LaTeX, creata da /latex setup
     ├── main.tex                       % \input{preamble}, \include{chapters/...}
     ├── preamble.tex                   % oppure preamble2.tex, preamble3.tex
     ├── chapters/5-Clustering.tex
     ├── images/ch05_metodo_gomito.png
-    ├── slides/5-Clustering.pdf        % oppure i PDF nella cartella del corso o in un'altra (Teoria/, ...)
     └── transcripts/5-Clustering.txt   % facoltativa
 ```
 
@@ -38,7 +38,8 @@ corso/                                 % cartella del corso, dove è installato 
 - I percorsi dentro il LaTeX (`\include{chapters/...}`, `\includegraphics{images/...}`) sono relativi alla radice. Nei comandi e nei file che scrivi dalla cartella del corso aggiungi la radice davanti: `latex/chapters/5-Clustering.tex`, `latex/images/...`.
 - Il file del capitolo prende il nome del PDF: `5-Clustering.pdf` → `<radice>/chapters/5-Clustering.tex`.
 - Immagini: `<radice>/images/chNN_nome_breve.png`, con il numero del capitolo su due cifre.
-- `/latex setup` crea `latex/` e, dentro, questa struttura da `assets/main.tex` e `assets/preamble.tex` (preambolo in italiano).
+- **PDF delle lezioni:** stanno in `Teoria/`, nella cartella del corso accanto a `latex/`. Se l'utente li tiene altrove, usa il percorso che ti dà lui.
+- `/latex setup` crea `latex/` con questa struttura, da `assets/main.tex` e `assets/preamble.tex` (preambolo in italiano), e `Teoria/` nella cartella del corso.
 
 ---
 
@@ -59,9 +60,9 @@ corso/                                 % cartella del corso, dove è installato 
 4. **Leggi il PDF.** Aprilo direttamente se i tuoi strumenti lo permettono. Altrimenti usa lo script incluso (gestisce anche gli handout con due o tre slide per pagina):
 
    ```bash
-   python .agents/skills/latex-tutor/scripts/slides.py info latex/slides/5-Clustering.pdf
-   python .agents/skills/latex-tutor/scripts/slides.py text latex/slides/5-Clustering.pdf
-   python .agents/skills/latex-tutor/scripts/slides.py render latex/slides/5-Clustering.pdf --slides 12-14 --out .slides-tmp
+   python .agents/skills/latex-tutor/scripts/slides.py info Teoria/5-Clustering.pdf
+   python .agents/skills/latex-tutor/scripts/slides.py text Teoria/5-Clustering.pdf
+   python .agents/skills/latex-tutor/scripts/slides.py render Teoria/5-Clustering.pdf --slides 12-14 --out .slides-tmp
    ```
 
    `text` stampa ogni slide senza intestazioni, loghi e numeri di pagina; `render` scrive i PNG delle slide da guardare (diagrammi, formule e tabelle disegnati come immagini). Serve PyMuPDF (`pip install pymupdf`). Alla fine cancella `.slides-tmp/`.
@@ -176,10 +177,10 @@ Schemi a blocchi, piccoli diagrammi di flusso, topologie, pile di livelli, pipel
 
 ```bash
 S=.agents/skills/latex-tutor/scripts/slides.py
-python $S figures latex/slides/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
-python $S crop latex/slides/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05_metodo_gomito.png
-python $S render latex/slides/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
-python $S crop latex/slides/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05_metodo_gomito.png
+python $S figures Teoria/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
+python $S crop Teoria/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05_metodo_gomito.png
+python $S render Teoria/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
+python $S crop Teoria/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05_metodo_gomito.png
 ```
 
 - `--auto` ritaglia le figure trovate (un'immagine o un grafico). Per una figura fatta di più pezzi (riquadri di testo intorno a un'icona, un diagramma annotato), renderizza la slide con `--grid`, leggi il riquadro sulla griglia rossa (x0,y0,x1,y1 in percentuale della slide) e ritaglia con `--box`.
