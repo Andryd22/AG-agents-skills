@@ -30,14 +30,14 @@ corso/                                 % cartella del corso, dove è installato 
     ├── main.tex                       % \input{preamble}, \include{chapters/...}
     ├── preamble.tex                   % oppure preamble2.tex, preamble3.tex
     ├── chapters/5-Clustering.tex
-    ├── images/ch05_metodo_gomito.png
+    ├── images/ch05-metodo_gomito.png
     └── transcripts/5-Clustering.txt   % facoltativa
 ```
 
 - **Radice del progetto**: la cartella con `main.tex`. È `latex/` per i corsi preparati con `/latex setup`; nei corsi preparati prima (come DMML) è la cartella corrente, e il kit sta lì dentro. Nei comandi qui sotto `<radice>` sta per `latex` o per `.`.
 - I percorsi dentro il LaTeX (`\include{chapters/...}`, `\includegraphics{images/...}`) sono relativi alla radice. Nei comandi e nei file che scrivi dalla cartella del corso aggiungi la radice davanti: `latex/chapters/5-Clustering.tex`, `latex/images/...`.
 - Il file del capitolo prende il nome del PDF: `5-Clustering.pdf` → `<radice>/chapters/5-Clustering.tex`.
-- Immagini: `<radice>/images/chNN_nome_breve.png`, con il numero del capitolo su due cifre.
+- Immagini: ogni figura ritagliata si chiama `<radice>/images/chXY-nome_figura.png`, dove `XY` è il numero del capitolo su due cifre (`01`, `04`, `10`, `15`) e `nome_figura` è in minuscolo con le parole unite da `_` (`ch05-metodo_gomito.png`).
 - **PDF delle lezioni:** stanno in `Teoria/`, nella cartella del corso accanto a `latex/`. Se l'utente li tiene altrove, usa il percorso che ti dà lui.
 - `/latex setup` crea `latex/` con questa struttura, da `assets/main.tex` e `assets/preamble.tex` (preambolo in italiano), e `Teoria/` nella cartella del corso.
 
@@ -137,6 +137,7 @@ Minuscole, parole unite da trattini, uniche in tutto il progetto (controlla con 
 ### Formattazione
 
 - `\textbf{...}` per le parole chiave principali, i concetti centrali e i nomi dei framework alla prima occorrenza; `\textit{...}` per l'enfasi secondaria e i termini stranieri. Niente `\uline`. Nel dubbio, grassetto.
+- Elenchi (`itemize`, `enumerate`): tutte le voci finiscono con lo stesso segno, o tutte con `;` o tutte con `.`, ultima compresa. Usa `;` per voci brevi che proseguono la frase introduttiva, `.` per voci che sono frasi complete. Fa eccezione solo la voce che introduce un sottoelenco, che finisce con `:`.
 - Tabelle: `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), niente righe verticali, niente elenchi numerati dentro le celle.
 - Ogni `figure` e `table` ha una `\caption` (una frase che dice cosa mostra) e una `\label`: didascalie **sopra** le tabelle, **sotto** le figure.
 - `\noindent` sulla riga prima di ogni `\begin{table}`, e all'inizio del paragrafo di prosa che segue `\end{table}`, `\end{figure}`, `\end{itemize}` o `\end{enumerate}`.
@@ -178,20 +179,20 @@ Schemi a blocchi, piccoli diagrammi di flusso, topologie, pile di livelli, pipel
 ```bash
 S=.agents/skills/latex-tutor/scripts/slides.py
 python $S figures Teoria/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
-python $S crop Teoria/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05_metodo_gomito.png
+python $S crop Teoria/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05-metodo_gomito.png
 python $S render Teoria/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
-python $S crop Teoria/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05_metodo_gomito.png
+python $S crop Teoria/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05-metodo_gomito.png
 ```
 
 - `--auto` ritaglia le figure trovate (un'immagine o un grafico). Per una figura fatta di più pezzi (riquadri di testo intorno a un'icona, un diagramma annotato), renderizza la slide con `--grid`, leggi il riquadro sulla griglia rossa (x0,y0,x1,y1 in percentuale della slide) e ritaglia con `--box`.
 - **Guarda ogni PNG prima di usarlo**: la figura intera dentro, nessuna riga di testo tagliata a metà, nessun titolo di slide, logo o intestazione. Altrimenti ritaglia di nuovo.
-- Salva il PNG in `<radice>/images/` (dalla cartella del corso `latex/images/...`), ma nel capitolo includilo con il percorso relativo alla radice: `images/ch05_metodo_gomito.png`.
+- Salva il PNG in `<radice>/images/` (dalla cartella del corso `latex/images/...`), ma nel capitolo includilo con il percorso relativo alla radice: `images/ch05-metodo_gomito.png`.
 - Non ritagliare tabelle (scrivi un `tabular`), formule (scrivi LaTeX), testo a punti, diagrammi semplici (TikZ) o immagini decorative.
 
 ```latex
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/ch05_metodo_gomito.png}
+    \includegraphics[width=0.7\textwidth]{images/ch05-metodo_gomito.png}
     \caption{Il metodo del gomito: la somma dei quadrati entro i cluster si appiattisce dopo il $k$ ottimale.}
     \label{fig:metodo-gomito}
 \end{figure}

@@ -90,7 +90,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Tabella di confronto | `\noindent` + `table[H]` + didascalia SOPRA + `booktabs` |
 | Figura | `figure[H]` + didascalia SOTTO + `\label{fig:...}` + `\noindent` dopo |
 | Diagramma semplice (≤ 7 nodi) | TikZ, stili nelle opzioni della figura o in `\tikzset` |
-| Diagramma complesso, grafico, foto | PNG ritagliato in `images/chNN_nome.png` con `slides.py crop` |
+| Diagramma complesso, grafico, foto | PNG ritagliato in `images/chXY-nome_figura.png` (`XY` = capitolo su due cifre) con `slides.py crop` |
 | Ritaglio impossibile | `\fbox{\textbf{INSERISCI IMMAGINE DALLA SLIDE [N]}}` (`INSERT IMAGE FROM SLIDE [N]` in un corso inglese) |
 | Codice Python/Bash, JSON | `lstlisting[style=mystyle]`, `lstlisting[language=json]` |
 | Pseudocodice | `algorithm2e` |
@@ -126,7 +126,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] `\chapter` + `\label{ch:...}` + paragrafo di apertura; 3-6 sezioni, ≤ ~12 sottosezioni
 - [ ] Ogni `\ref` punta a una label esistente; nessun numero scritto a mano
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
-- [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide
+- [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
+- [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
 - [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure; `\noindent` dove serve
 - [ ] Zero tag di citazione, zero `\uline`, tutto il testo LaTeX nella lingua del corso
 - [ ] Compilato: niente errori, niente riferimenti non definiti, niente overfull box grandi nel nuovo capitolo

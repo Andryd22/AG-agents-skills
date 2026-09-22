@@ -6,7 +6,9 @@ Segue main.tex attraverso \\input e \\include e segnala:
               tag di citazione ([cite], <source>, ...) che rompono la compilazione
   IMPORTANTE  figure e tabelle senza \\caption o \\label, didascalie dal lato
               sbagliato (tabelle sopra, figure sotto), segnaposto di immagini
-              ancora da sostituire, numeri di capitolo/sezione scritti a mano
+              ancora da sostituire, numeri di capitolo/sezione scritti a mano,
+              elenchi le cui voci non finiscono tutte con ";" o tutte con ".",
+              immagini non chiamate chXY-nome_figura o con XY diverso dal capitolo
   MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases
 
 Uso:
@@ -34,6 +36,9 @@ BODY = {"figure": re.compile(r"\\includegraphics|\\begin\{tikzpicture\}|\\fbox|\
         "table": re.compile(r"\\begin\{(?:tabular|tabularx|longtable)\*?\}")}
 VERBATIM = re.compile(r"\\begin\{(lstlisting|verbatim|minted)\}.*?\\end\{\1\}", re.S)
 IMAGE_EXT = (".png", ".jpg", ".jpeg", ".pdf", ".eps")
+CHAPTER = re.compile(r"\\chapter(?:\[[^\]]*\])?\{")
+IMAGE_NAME = re.compile(r"ch(\d{2})-[a-z0-9]+(?:_[a-z0-9]+)*")
+LIST_TOKEN = re.compile(r"\\begin\{(itemize|enumerate)\}|\\end\{(itemize|enumerate)\}|\\item\b(?:\[[^\]]*\])?")
 
 
 def strip_comments(text):
@@ -63,6 +68,41 @@ def line_of(text, pos):
     return text.count("\n", 0, pos) + 1
 
 
+def item_ending(text):
+    """Ultimo segno della voce, senza graffe finali; None se finisce con matematica o un ambiente."""
+    text = text.rstrip()
+    if not text or text.endswith(("\\]", "$$")) or re.search(r"\\end\{[^}]*\}$", text):
+        return None
+    return text.rstrip("}").rstrip()[-1:] or None
+
+
+def list_issues(text):
+    """Elenchi itemize/enumerate le cui voci non finiscono tutte con ";" o tutte con ".".
+
+    Le voci che contengono un sottoelenco sono escluse (di solito finiscono con ":").
+    """
+    found, stack, last = [], [], 0
+    for m in LIST_TOKEN.finditer(text):
+        if stack and stack[-1]["items"]:
+            stack[-1]["items"][-1]["text"] += text[last:m.start()]
+        last = m.end()
+        if m.group(1):
+            if stack and stack[-1]["items"]:
+                stack[-1]["items"][-1]["nested"] = True
+            stack.append({"pos": m.start(), "items": []})
+        elif m.group(2):
+            if not stack:
+                continue
+            frame = stack.pop()
+            ends = [item_ending(i["text"]) for i in frame["items"] if not i["nested"]]
+            ends = [e for e in ends if e is not None]
+            if ends and (len(set(ends)) > 1 or ends[0] not in ";."):
+                found.append((frame["pos"], sorted({e if e in ";.:,!?" else "nessuno" for e in ends})))
+        elif stack:
+            stack[-1]["items"].append({"text": "", "nested": False})
+    return found
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("project", nargs="?", default=".")
@@ -78,6 +118,7 @@ def main():
 
     issues = {"CRITICO": [], "IMPORTANTE": [], "MINORE": []}
     labels, refs, used_images = {}, [], set()
+    chapter = 0  # capitoli numerati visti nei file precedenti, nell'ordine di main.tex
     for path in collect(root, args.main):
         rel = path.relative_to(root).as_posix()
         text = blank_verbatim(strip_comments(path.read_text(encoding="utf-8", errors="replace")))
@@ -92,6 +133,11 @@ def main():
             found = next((c for c in candidates if c.is_file()), None)
             if found:
                 used_images.add(found.resolve())
+                n = chapter + len(CHAPTER.findall(text, 0, m.start()))
+                prefix = IMAGE_NAME.fullmatch(found.stem)
+                if n and prefix and int(prefix.group(1)) != n:
+                    issues["IMPORTANTE"].append(f"{rel}:{line_of(text, m.start())} {found.name} usata nel capitolo {n}: "
+                                                f"il nome deve iniziare con ch{n:02d}-")
             else:
                 issues["CRITICO"].append(f"{rel}:{line_of(text, m.start())} file di immagine non trovato: {name}")
         for m in TAGS.finditer(text):
@@ -111,6 +157,10 @@ def main():
                     issues["IMPORTANTE"].append(f"{where}: didascalia sotto la tabella (va sopra)")
                 if kind == "figure" and caption_first:
                     issues["IMPORTANTE"].append(f"{where}: didascalia sopra la figura (va sotto)")
+        for pos, ends in list_issues(text):
+            issues["IMPORTANTE"].append(f"{rel}:{line_of(text, pos)} elenco: le voci devono finire tutte con ; "
+                                        f"o tutte con . (trovati: {' '.join(ends)})")
+        chapter += len(CHAPTER.findall(text))
         for m in PLACEHOLDER.finditer(text):
             issues["IMPORTANTE"].append(f"{rel}:{line_of(text, m.start())} segnaposto: {m.group(0).strip()}")
         for m in HAND_NUMBER.finditer(text):
@@ -129,7 +179,11 @@ def main():
     images_dir = root / "images"
     if images_dir.is_dir():
         for f in sorted(images_dir.rglob("*")):
-            if f.is_file() and f.suffix.lower() in IMAGE_EXT and f.resolve() not in used_images:
+            if not (f.is_file() and f.suffix.lower() in IMAGE_EXT):
+                continue
+            if not IMAGE_NAME.fullmatch(f.stem):
+                issues["IMPORTANTE"].append(f"nome fuori schema: {f.relative_to(root).as_posix()} (usa chXY-nome_figura, XY = capitolo su due cifre)")
+            if f.resolve() not in used_images:
                 issues["MINORE"].append(f"immagine non usata: {f.relative_to(root).as_posix()}")
 
     files = collect(root, args.main)

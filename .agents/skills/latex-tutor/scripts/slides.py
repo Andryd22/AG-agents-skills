@@ -10,8 +10,8 @@ Uso:
     python slides.py text   slides.pdf [--slides 3-7,10]
     python slides.py render slides.pdf --slides 5 [--out tmp] [--grid] [--dpi 150]
     python slides.py figures slides.pdf [--slides 5]
-    python slides.py crop   slides.pdf --slide 5 --box 10,30,90,95 --out images/ch05_name.png
-    python slides.py crop   slides.pdf --slide 5 --auto --out images/ch05_name.png
+    python slides.py crop   slides.pdf --slide 5 --box 10,30,90,95 --out images/ch05-nome_figura.png
+    python slides.py crop   slides.pdf --slide 5 --auto --out images/ch05-nome_figura.png
 
 Richiede PyMuPDF: pip install pymupdf
 """
