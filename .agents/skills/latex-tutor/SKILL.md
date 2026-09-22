@@ -127,6 +127,16 @@ Minuscole, parole unite da trattini, uniche in tutto il progetto (controlla con 
 
 - Usa i comandi di `amsmath`, `mathtools` e `physics`; `\argmin` (e `\argmax` se il preambolo lo definisce).
 - Sistemi di equazioni: `dcases`. Vettori: `\bm{v}`; matrici: `\mathbf{M}`. Derivate: `\dv{f}{x}`, `\pdv{f}{x}`.
+- Chiudi con i due punti la frase che introduce una formula in display: "la distanza euclidea è:", non "la distanza euclidea è".
+- Dopo una formula in display non va nessun segno, nemmeno se è fatta di più parti separate da virgole: niente virgola né punto dopo l'ultima parte.
+
+```latex
+Il gradiente si aggiorna così:
+\[
+    \bm{w}_{t+1} = \bm{w}_t - \eta \nabla L(\bm{w}_t), \qquad t = 0, 1, \dots, T
+\]
+```
+
 - Numera solo le equazioni che citi (`equation` + `\label{eq:...}`); le altre vanno in `\[ ... \]` o `align*`.
 
 ### Teoremi, definizioni ed esempi

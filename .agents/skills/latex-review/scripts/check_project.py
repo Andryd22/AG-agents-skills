@@ -9,7 +9,8 @@ Segue main.tex attraverso \\input e \\include e segnala:
               ancora da sostituire, numeri di capitolo/sezione scritti a mano,
               elenchi le cui voci non finiscono tutte con ";" o tutte con ".",
               immagini non chiamate chXY-nome_figura o con XY diverso dal capitolo
-  MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases
+  MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases,
+              formule in display chiuse da virgola o punto
 
 Uso:
     python check_project.py [cartella_progetto] [--main main.tex]
@@ -38,6 +39,8 @@ VERBATIM = re.compile(r"\\begin\{(lstlisting|verbatim|minted)\}.*?\\end\{\1\}", 
 IMAGE_EXT = (".png", ".jpg", ".jpeg", ".pdf", ".eps")
 CHAPTER = re.compile(r"\\chapter(?:\[[^\]]*\])?\{")
 IMAGE_NAME = re.compile(r"ch(\d{2})-[a-z0-9]+(?:_[a-z0-9]+)*")
+DISPLAY = re.compile(r"(?<!\\)\\\[(.*?)\\\]|\\begin\{(equation|align|gather|multline|flalign)(\*?)\}(.*?)\\end\{\2\3\}", re.S)
+DISPLAY_TAIL = re.compile(r"(?:\s|\\\\|\\label\{[^}]*\}|\\nonumber\b|\\notag\b)+$")
 LIST_TOKEN = re.compile(r"\\begin\{(itemize|enumerate)\}|\\end\{(itemize|enumerate)\}|\\item\b(?:\[[^\]]*\])?")
 
 
@@ -161,6 +164,10 @@ def main():
             issues["IMPORTANTE"].append(f"{rel}:{line_of(text, pos)} elenco: le voci devono finire tutte con ; "
                                         f"o tutte con . (trovati: {' '.join(ends)})")
         chapter += len(CHAPTER.findall(text))
+        for m in DISPLAY.finditer(text):
+            body = DISPLAY_TAIL.sub("", m.group(1) if m.group(1) is not None else m.group(4))
+            if body.endswith((",", ".", ";")) and not body.endswith(("\\,", "\\;")):
+                issues["MINORE"].append(f"{rel}:{line_of(text, m.start())} formula in display chiusa da {body[-1]!r}: dopo la formula non va nessun segno")
         for m in PLACEHOLDER.finditer(text):
             issues["IMPORTANTE"].append(f"{rel}:{line_of(text, m.start())} segnaposto: {m.group(0).strip()}")
         for m in HAND_NUMBER.finditer(text):

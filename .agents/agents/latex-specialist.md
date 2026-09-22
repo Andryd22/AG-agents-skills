@@ -128,6 +128,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
 - [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
+- [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula
 - [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure; `\noindent` dove serve
 - [ ] Zero tag di citazione, zero `\uline`, tutto il testo LaTeX nella lingua del corso
 - [ ] Compilato: niente errori, niente riferimenti non definiti, niente overfull box grandi nel nuovo capitolo
