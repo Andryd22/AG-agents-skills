@@ -94,9 +94,9 @@ corso/                                 % cartella del corso, dove è installato 
 Il risultato deve leggersi come **il capitolo di un libro**, non come una trascrizione slide per slide.
 
 - **Raggruppa le slide per tema.** Le sezioni seguono gli argomenti logici, non i titoli delle slide o i numeri di pagina. Tre slide di fila sullo stesso argomento diventano una sottosezione. Una sottosezione per slide è l'eccezione.
-- **Dimensioni.** Un capitolo ha di solito 3-6 sezioni con 1-4 sottosezioni ciascuna. Oltre ~12 sottosezioni: accorpa, o usa `\paragraph{}`.
+- **Dimensioni.** Un capitolo ha di solito 3-6 sezioni con 1-4 sottosezioni ciascuna. Se la lezione copre molti argomenti distinti, usa tutte le sottosezioni che servono: non accorpare argomenti diversi solo per restare nei numeri.
 - **Ritmo.** Alterna la prosa con `itemize`/`enumerate`, `definition`/`theorem`/`example`, `tabular`, TikZ e `minipage` quando il testo sta bene accanto a una piccola figura, tabella o blocco di codice. Oltre ~15 righe di prosa senza interruzioni: ristruttura.
-- **Prosa.** Rigore da magistrale con spiegazioni chiare: analogie e ragionamenti passo passo dove aiutano, senza perdere precisione matematica o architetturale. Frasi brevi o medie. Apri una sezione collegandola alla precedente quando viene naturale; chiudila senza riempitivi ("Questo è importante per...").
+- **Prosa.** Rigore da magistrale con spiegazioni chiare: analogie e ragionamenti passo passo dove aiutano, senza perdere precisione matematica o architetturale. Frasi brevi o medie; una frase più lunga va bene quando serve a tenere insieme un ragionamento. Apri una sezione collegandola alla precedente quando viene naturale; chiudila senza riempitivi ("Questo è importante per...").
 
 ### Integrazione dei contenuti
 

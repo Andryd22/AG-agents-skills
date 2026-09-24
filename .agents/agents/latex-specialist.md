@@ -47,7 +47,7 @@ Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 
 1. Leggi il preambolo e ricava la lingua del corso; fai `grep` di label e titoli dei capitoli esistenti; leggi per intero l'ultimo capitolo modificato e copiane le convenzioni.
 2. Leggi il PDF (direttamente, o `slides.py text` / `render`) e la trascrizione, se c'è.
-3. Raggruppa le slide per tema: 3-6 sezioni, 1-4 sottosezioni ciascuna.
+3. Raggruppa le slide per tema: 3-6 sezioni, 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
 4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
 5. Figure: TikZ (≤ 7 nodi), ritaglio dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego.
 6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto.
@@ -123,7 +123,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 ## Checklist (prima di consegnare un capitolo)
 
 - [ ] Nome del file = nome del PDF; `\include` aggiunto a `main.tex` nell'ordine giusto
-- [ ] `\chapter` + `\label{ch:...}` + paragrafo di apertura; 3-6 sezioni, ≤ ~12 sottosezioni
+- [ ] `\chapter` + `\label{ch:...}` + paragrafo di apertura; sezioni per tema, non una sottosezione per slide
 - [ ] Ogni `\ref` punta a una label esistente; nessun numero scritto a mano
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
 - [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`

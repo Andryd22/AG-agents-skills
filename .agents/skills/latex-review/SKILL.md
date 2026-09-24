@@ -45,7 +45,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Controllo | Cosa cercare |
 | --- | --- |
 | Capitoli | uno per PDF di lezione, tutti inclusi in `main.tex`, in ordine |
-| Dimensioni | 3-6 sezioni per capitolo, 1-4 sottosezioni ciascuna; più di ~12 sottosezioni, o una per slide, vuol dire poca sintesi |
+| Dimensioni | una sottosezione per slide vuol dire poca sintesi; tante sottosezioni vanno bene se gli argomenti sono davvero distinti |
 | Ridondanza | lo stesso concetto spiegato per intero in due capitoli: tienine uno e cita quello dall'altro |
 | Riferimenti incrociati | `Capitolo~\ref{ch:...}` (o `Chapter~\ref` in un corso inglese) a label esistenti, niente numeri scritti a mano |
 | Segnaposto | `INSERISCI IMMAGINE DALLA SLIDE N` o `INSERT IMAGE FROM SLIDE N` rimasti: elencali con i numeri di slide (`latex-tutor` può ritagliarli) |
@@ -63,7 +63,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Contenuto formale | definizioni, teoremi ed esempi fuori dagli ambienti `amsthm` |
 | Parole chiave | termini principali senza `\textbf` alla prima occorrenza |
 | TikZ | diagrammi semplici (≤ 7 nodi) lasciati come immagini o segnaposto |
-| Prosa | riempitivi ("È importante notare che..."), frasi oltre ~40 parole |
+| Prosa | riempitivi ("È importante notare che..."); le frasi lunghe vanno bene se restano chiare |
 | Lingua | testo LaTeX non nella lingua del corso (quella del `babel` del preambolo), o due lingue nello stesso corso |
 
 ### 4. Matematica (🟡 importante)
