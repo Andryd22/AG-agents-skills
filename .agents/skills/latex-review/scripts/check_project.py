@@ -82,7 +82,8 @@ def item_ending(text):
 def list_issues(text):
     """Elenchi itemize/enumerate le cui voci non finiscono tutte con ";" o tutte con ".".
 
-    Le voci che contengono un sottoelenco sono escluse (di solito finiscono con ":").
+    Le voci che contengono un sottoelenco sono escluse (di solito finiscono con ":");
+    un elenco di sole domande, tutte chiuse da "?", va bene.
     """
     found, stack, last = [], [], 0
     for m in LIST_TOKEN.finditer(text):
@@ -99,7 +100,7 @@ def list_issues(text):
             frame = stack.pop()
             ends = [item_ending(i["text"]) for i in frame["items"] if not i["nested"]]
             ends = [e for e in ends if e is not None]
-            if ends and (len(set(ends)) > 1 or ends[0] not in ";."):
+            if ends and (len(set(ends)) > 1 or ends[0] not in ";.?"):
                 found.append((frame["pos"], sorted({e if e in ";.:,!?" else "nessuno" for e in ends})))
         elif stack:
             stack[-1]["items"].append({"text": "", "nested": False})

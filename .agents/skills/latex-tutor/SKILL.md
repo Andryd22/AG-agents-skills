@@ -147,7 +147,7 @@ Il gradiente si aggiorna così:
 ### Formattazione
 
 - `\textbf{...}` per le parole chiave principali, i concetti centrali e i nomi dei framework alla prima occorrenza; `\textit{...}` per l'enfasi secondaria e i termini stranieri. Niente `\uline`. Nel dubbio, grassetto.
-- Elenchi (`itemize`, `enumerate`): tutte le voci finiscono con lo stesso segno, o tutte con `;` o tutte con `.`, ultima compresa. Usa `;` per voci brevi che proseguono la frase introduttiva, `.` per voci che sono frasi complete. Fa eccezione solo la voce che introduce un sottoelenco, che finisce con `:`.
+- Elenchi (`itemize`, `enumerate`): tutte le voci finiscono con lo stesso segno, o tutte con `;` o tutte con `.`, ultima compresa. Usa `;` per voci brevi che proseguono la frase introduttiva, `.` per voci che sono frasi complete. Fanno eccezione la voce che introduce un sottoelenco, che finisce con `:`, e gli elenchi di domande (esercizi), con tutte le voci chiuse da `?`.
 - Tabelle: `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), niente righe verticali, niente elenchi numerati dentro le celle.
 - Ogni `figure` e `table` ha una `\caption` (una frase che dice cosa mostra) e una `\label`: didascalie **sopra** le tabelle, **sotto** le figure.
 - `\noindent` sulla riga prima di ogni `\begin{table}`, e all'inizio del paragrafo di prosa che segue `\end{table}`, `\end{figure}`, `\end{itemize}` o `\end{enumerate}`.
