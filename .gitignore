@@ -3,7 +3,8 @@ node_modules/
 __pycache__/
 *.pyc
 .temp_ag_kit/
-tests
+.agents.backups/
+.agents.install.lock
 others
 .claude/
 # output di LaTeX (l'editor compila anche gli assets di latex-tutor)

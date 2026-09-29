@@ -1,216 +1,65 @@
 ---
 name: orchestrate
-description: 'Coordina almeno tre agenti specialisti su un compito complesso che tocca più domini: prima il piano con /plan, poi l''approvazione, poi il lavoro in parallelo e la verifica. Usala quando l''utente lancia /orchestrate o il compito attraversa più domini.'
+description: 'Coordina gli specialisti necessari per un compito con sottocompiti separabili: usa il piano già approvato o prepara /kit-plan quando serve, assegna il lavoro e verifica i risultati. Usala quando l''utente lancia /orchestrate o serve coordinare competenze diverse.'
 ---
 
-# Orchestrazione di più agenti
-
-Sei in **MODALITÀ ORCHESTRAZIONE**. Il tuo compito: coordinare agenti specializzati per risolvere questo problema complesso.
-
-## Compito da orchestrare
+# Orchestrazione proporzionata al lavoro
 
 La richiesta è il testo che segue `/orchestrate`.
 
----
+## Scelta e dimensionamento
 
-## 🔴 CRITICO: minimo di agenti
+1. Ricava risultato atteso, vincoli, decisioni e autorizzazioni dalla conversazione.
+2. Individua sottocompiti, dipendenze e file coinvolti.
+3. Scegli gli specialisti con `@[skills/intelligent-routing]`.
+4. Delega solo quando offre un beneficio concreto. **Non esiste un numero minimo
+   di agenti**: può bastare l'agente corrente con più skill, oppure uno o più specialisti.
+5. Esegui in parallelo soltanto attività indipendenti, senza modifiche concorrenti
+   agli stessi file. Esegui in sequenza ciò che dipende da un risultato precedente.
 
-> ⚠️ **ORCHESTRAZIONE = ALMENO 3 AGENTI DIVERSI**
->
-> Con meno di 3 agenti NON stai orchestrando: stai solo delegando.
->
-> **Controllo prima di chiudere:**
->
-> - Conta gli agenti chiamati
-> - Se `agent_count < 3` → FERMATI e chiamane altri
-> - Un solo agente = orchestrazione FALLITA
+Ogni agente può utilizzare tutte le skill e tutti gli script pertinenti del kit.
 
-### Scelta degli agenti
+## Piano e autorizzazione
 
-> 🔴 **OBBLIGATORIO:** la tabella completa di scelta degli agenti, gli agenti richiesti per tipo di compito e quelli disponibili sono in `@[skills/intelligent-routing]`.
+- Se esiste un piano approvato in `docs/PLAN-{slug}.md`, continualo senza richiedere
+  l'approvazione delle stesse decisioni.
+- Per un lavoro complesso ancora da definire, usa `@[skills/kit-plan]` e presenta
+  le scelte da approvare prima dell'implementazione.
+- Per un intervento circoscritto già autorizzato, procedi senza imporre un nuovo piano.
+- Chiedi solo informazioni che cambiano concretamente il risultato e che mancano
+  sia nella richiesta sia nei file. Le letture utili restano consentite.
+- Se l'utente chiede soltanto analisi o revisione, mantieni quel perimetro.
 
----
+## Delega
 
-## Controllo iniziale: modalità
+Prima di invocare un subagent scrivi `↪ @<agente>: <compito>`; al ritorno `↩ @<agente>`.
+Il prompt di ogni delega contiene:
 
-| Modalità attuale | Tipo di compito | Azione |
-| --- | --- | --- |
-| **plan** | Qualsiasi | ✅ Procedi partendo dal piano |
-| **edit** | Esecuzione semplice | ✅ Procedi direttamente |
-| **edit** | Complesso / più file | ⚠️ Chiedi: "Questo compito richiede un piano. Passo alla modalità plan?" |
-| **ask** | Qualsiasi | ⚠️ Chiedi: "Pronto a orchestrare. Passo alla modalità edit o plan?" |
+- richiesta dell'utente e risultato verificabile assegnato;
+- decisioni e autorizzazioni già date;
+- file pertinenti, responsabilità di modifica ed eventuale piano;
+- dipendenze e risultati già ottenuti dagli altri agenti;
+- verifiche necessarie e forma del risultato da restituire.
 
----
+Non delegare a un agente che non dispone degli strumenti necessari. Dove la
+piattaforma non espone subagent, applica direttamente lo specialista e le skill utili.
 
-## 🔴 ORCHESTRAZIONE IN 2 FASI
+## Verifica e consegna
 
-### FASE 1: PIANO (in sequenza, NIENTE agenti in parallelo)
-
-| Passo | Chi | Azione |
-| --- | --- | --- |
-| 1 | tu, con `/plan` | Crei `docs/PLAN-{slug}.md` |
-| 2 | (facoltativo) `explorer-agent` | Esplorazione del codice, se serve |
-
-> 🔴 **NESSUN ALTRO AGENTE durante il piano!** Solo explorer-agent, per esplorare il codice.
-
-### ⏸️ CHECKPOINT: approvazione dell'utente
-
-```text
-Quando il piano è pronto, CHIEDI:
-
-"✅ Piano creato: docs/PLAN-{slug}.md
-
-Lo approvi? (S/N)
-- S: inizio l'implementazione
-- N: rivedo il piano"
-```
-
-> 🔴 **NON passare alla Fase 2 senza l'approvazione esplicita dell'utente!**
-
-### FASE 2: IMPLEMENTAZIONE (agenti in parallelo dopo l'approvazione)
-
-| Gruppo in parallelo | Agenti |
-| --- | --- |
-| Fondamenta | `api-designer`, `backend-specialist` (schema) |
-| Nucleo | `backend-specialist`, `frontend-specialist` |
-| Rifinitura | `test-engineer`, `qa-automation-engineer` |
-
-> ✅ Dopo l'approvazione dell'utente, chiama più agenti IN PARALLELO.
-
----
-
-## Protocollo di orchestrazione
-
-### Passo 1: individua i domini
-
-Individua TUTTI i domini che il compito tocca:
-
-```text
-□ Backend/API   → backend-specialist (anche database, revisioni di sicurezza, deploy)
-□ Design di API → api-designer
-□ Frontend/UI   → frontend-specialist (anche prestazioni e SEO)
-□ Test          → test-engineer, qa-automation-engineer (E2E)
-□ AI / LLM / ML → ai-ml-engineer
-□ Scroll / 3D   → scroll-experience-architect
-□ LaTeX         → latex-specialist
-```
-
-### Passo 2: in che fase sei
-
-| Se il piano esiste | Azione |
-| --- | --- |
-| NIENTE `docs/PLAN-{slug}.md` | → FASE 1 (solo il piano) |
-| C'è `docs/PLAN-{slug}.md` + l'utente l'ha approvato | → FASE 2 (implementazione) |
-
-### Passo 3: esegui la fase
-
-**FASE 1 (piano):**
-
-```text
-Scrivi docs/PLAN-{slug}.md seguendo .agents/skills/plan/SKILL.md
-→ FERMATI quando il piano è scritto
-→ CHIEDI all'utente di approvarlo
-```
-
-**FASE 2 (implementazione, dopo l'approvazione):**
-
-```text
-Chiama gli agenti IN PARALLELO:
-Usa l'agente frontend-specialist per [compito]
-Usa l'agente backend-specialist per [compito]
-Usa l'agente test-engineer per [compito]
-```
-
-#### 🔴 CRITICO: passare il contesto (OBBLIGATORIO)
-
-Quando chiami QUALSIASI subagent, DEVI includere:
-
-1. **Richiesta originale:** il testo completo di quello che ha chiesto l'utente
-2. **Decisioni prese:** tutte le risposte dell'utente alle domande del Socratic Gate
-3. **Lavoro precedente:** riassunto di cosa hanno fatto gli agenti prima
-4. **Stato del piano:** se nel workspace ci sono file di piano, includili
-
-**Esempio con il contesto COMPLETO:**
-
-```text
-Usa l'agente frontend-specialist per costruire il feed descritto in docs/PLAN-social-studenti.md:
-
-**CONTESTO:**
-- Richiesta dell'utente: "Un social per studenti, con dati finti"
-- Decisioni: tecnologia = Vue 3, layout = widget a griglia, autenticazione = finta, design = giovane e dinamico
-- Lavoro precedente: l'orchestrator ha fatto 3 domande e l'utente ha risposto a tutte
-- Piano: docs/PLAN-social-studenti.md, approvato dall'utente
-
-**COMPITO:** costruisci i componenti del feed previsti dal piano, seguendo le decisioni QUI SOPRA. NON dedurre niente dal nome della cartella.
-```
-
-> ⚠️ **VIOLAZIONE:** chiamare un subagent senza il contesto completo = il subagent farà supposizioni sbagliate!
-
-### Passo 4: verifica (OBBLIGATORIA)
-
-L'ULTIMO agente deve lanciare gli script di verifica adatti:
+L'agente corrente integra i risultati e verifica i criteri del compito.
+Può eseguire direttamente qualunque controllo pertinente; non serve chiamare
+un agente aggiuntivo soltanto per raggiungere una quota o lanciare uno script.
 
 ```bash
 python .agents/scripts/checklist.py .
-# con l'app avviata, la suite completa:
-python .agents/scripts/verify_all.py . --url http://localhost:3000
+# Verifica estesa; --url solo quando esiste un'app web da controllare
+python .agents/scripts/verify_all.py .
 ```
 
-### Passo 5: sintesi dei risultati
+Distingui controlli superati, falliti, saltati e non applicabili. LaTeX richiede
+anche la compilazione; ML richiede controlli della pipeline, dei dati e del protocollo
+sperimentale. Gli audit statici non sostituiscono queste verifiche.
 
-Unisci i risultati di tutti gli agenti in un unico report.
-
----
-
-## Formato dell'output
-
-```markdown
-## 🎼 Report dell'orchestrazione
-
-### Compito
-[riassunto del compito originale]
-
-### Modalità
-[modalità attuale dell'agente di Antigravity: plan/edit/ask]
-
-### Agenti chiamati (ALMENO 3)
-| # | Agente | Ambito | Stato |
-|---|--------|--------|-------|
-| 1 | backend-specialist | API e dati | ✅ |
-| 2 | frontend-specialist | Interfaccia | ✅ |
-| 3 | test-engineer | Script di verifica | ✅ |
-
-### Script di verifica eseguiti
-- [x] checklist.py → superato/fallito
-- [x] verify_all.py → superato/fallito (se c'è un URL dell'app)
-
-### Risultati principali
-1. **[Agente 1]**: risultato
-2. **[Agente 2]**: risultato
-3. **[Agente 3]**: risultato
-
-### Consegne
-- [ ] docs/PLAN-{slug}.md creato
-- [ ] Codice implementato
-- [ ] Test che passano
-- [ ] Script verificati
-
-### Riepilogo
-[un paragrafo che riassume il lavoro di tutti gli agenti]
-```
-
----
-
-## 🔴 CONTROLLO DI USCITA
-
-Prima di chiudere l'orchestrazione, verifica:
-
-1. ✅ **Numero di agenti:** `invoked_agents >= 3`
-2. ✅ **Script eseguiti:** almeno `checklist.py`
-3. ✅ **Report generato:** report dell'orchestrazione con tutti gli agenti elencati
-
-> **Se un controllo fallisce → NON chiudere l'orchestrazione. Chiama altri agenti o lancia gli script.**
-
----
-
-**Inizia subito l'orchestrazione. Scegli 3+ agenti, esegui in sequenza, lancia gli script di verifica, sintetizza i risultati.**
+Consegna un resoconto unico: risultato, verifiche realmente eseguite, eventuali limiti
+ed elenco degli agenti effettivamente coinvolti. Correggi i problemi nel perimetro
+approvato; chiedi solo per estensioni del lavoro o decisioni ancora aperte.

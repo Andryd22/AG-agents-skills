@@ -195,7 +195,10 @@ for p in doc_files:
 
 # `/nome` tra backtick è un comando: deve essere una skill (alcuni percorsi tra backtick non sono comandi,
 # e /agents è un comando integrato della CLI di Antigravity)
-NOT_COMMANDS = {"g", "nome", "agents"}
+NOT_COMMANDS = {"g", "nome", "agents", "plan"}
+RESERVED_SKILLS = {"plan", "agents", "plugin", "plugins", "permissions", "resume", "boost"}
+for name in sorted(skill_names & RESERVED_SKILLS):
+    err(f"skill '{name}': nome riservato a un comando nativo di Antigravity")
 for p in doc_files:
     for m in re.finditer(r"`/([a-z][a-z0-9-]*)`", text(p)):
         if m.group(1) not in skill_names and m.group(1) not in NOT_COMMANDS:
@@ -279,7 +282,8 @@ def files_in(d):
 node = shutil.which("node")
 if node:
     installer = ROOT / "bin" / "install.js"
-    kit = [f for f in files_in(KIT) if "__pycache__" not in f and not f.endswith(".pyc")]
+    kit = [f for f in files_in(KIT) if "__pycache__" not in f and not f.endswith(".pyc")
+           and not re.match(r"skills/latex-tutor/assets/main\.(aux|fdb_latexmk|fls|log|out|pdf|synctex\.gz|toc)$", f)]
     with tempfile.TemporaryDirectory() as tmp:
         # 1. progetto vuoto: tutti i file del kit più il manifest
         proj = Path(tmp) / "empty"
@@ -301,10 +305,10 @@ if node:
             err(f"installer: init -y in un progetto esistente è fallito (uscita {r.returncode}) {r.stderr.strip()[:200]}")
         if not (proj / ".agents" / "skills" / "mine" / "SKILL.md").is_file():
             err("installer: ha tolto la skill del progetto")
-        if (proj / ".agents" / "skills" / "old-kit-skill").exists():
-            err("installer: non ha tolto una voce della versione precedente del kit")
-        if (proj / ".agent").exists() or not (proj / ".agent.bak" / "ARCHITECTURE.md").is_file():
-            err("installer: non ha spostato la vecchia cartella .agent/ in .agent.bak/")
+        if not (proj / ".agents" / "skills" / "old-kit-skill").exists():
+            err("installer: ha eliminato una voce legacy senza hash per verificarne la proprietà")
+        if not (proj / ".agent" / "ARCHITECTURE.md").is_file():
+            err("installer: ha modificato la vecchia cartella .agent/ senza una migrazione esplicita")
         # 3. lanciato dentro il kit stesso deve rifiutarsi e lasciare .agents/ intatta
         kit_copy = Path(tmp) / "kit"
         shutil.copytree(ROOT / "bin", kit_copy / "bin")

@@ -23,7 +23,7 @@ Installa agenti, skill e regole del kit nella cartella `.agents/` del tuo proget
 </tbody>
 </table>
 
-Quando funziona, l'installer scrive sempre `Kit vX.Y.Z installato in …` con la versione installata e il numero di file, agenti e skill.
+Quando funziona, l'installer scrive `Kit vX.Y.Z installato in …` con la versione installata e il numero di file gestiti.
 
 **Windows con PowerShell:** se il comando torna al prompt senza scrivere niente, `npx` non ha avviato l'installer. Lancia lo stesso comando con `npx.cmd`:
 
@@ -32,12 +32,52 @@ npx.cmd github:Andryd22/AG-agents-skills init -y
 npx.cmd github:Andryd22/AG-agents-skills update
 ```
 
+### Aggiornamenti e file personali
+
+L'installer gestisce **singoli file**, identificati da hash SHA-256 in
+`.agents/.ag-kit.json`. Conserva le aggiunte personali anche dentro `scripts/`
+o dentro una skill del kit. Se un file gestito è stato modificato, o un nuovo file
+del kit collide con un file personale, si ferma prima di scrivere.
+
+```powershell
+# Mostra modifiche e conflitti senza modificare il progetto
+npx.cmd github:Andryd22/AG-agents-skills update --dry-run
+
+# Dopo aver confrontato i conflitti: sostituisce e conserva gli originali
+npx.cmd github:Andryd22/AG-agents-skills update --force
+
+# Ripristina il backup indicato dall'installer (anteprima disponibile)
+npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id> --dry-run
+npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id>
+```
+
+Ogni transazione conserva un backup in `.agents.backups/`; il ripristino rileva
+anche le modifiche fatte dopo l'installazione e produce a sua volta un backup.
+Un errore di scrittura avvia il rollback; se non riesce, viene indicato il backup
+da recuperare. Un download fallito restituisce errore e lascia i file installati
+intatti. `--force` non scavalca la validazione dei percorsi o del manifest.
+
+Il manifest registra versione, repository e, quando disponibile, commit e stato
+locale della sorgente. Con un vecchio manifest senza hash, i file non identificabili
+restano e le collisioni richiedono `--force`: non si cancellano intere cartelle.
+La vecchia `.agent/` resta intatta e va controllata per evitare regole duplicate.
+Aggiungi `.agents.backups/` e `.agents.install.lock` al `.gitignore` del progetto.
+
+Requisiti: Node.js 20 o successivo; Git per `update`; Python 3.11 o successivo per
+i controlli. Per sviluppare il kit serve anche PyYAML. Le dipendenze delle singole
+skill (per esempio PyMuPDF e una distribuzione TeX) si installano solo quando servono.
+
+Un'interruzione forzata può lasciare `.agents.install.lock`: prima di rimuoverlo,
+verifica che l'installer non sia ancora in esecuzione. Il backup permette di
+recuperare una transazione interrotta. Non eliminare i backup prima di aver
+verificato l'aggiornamento.
+
 ## Cosa è Incluso
 
 | Componente | Quantità | Descrizione |
 | --- | --- | --- |
 | **Agenti** | 12 | Custom agent di Antigravity (frontend, backend, AI/ML, LaTeX, scroll 3D, ecc.) |
-| **Skill** | 32 | Moduli di conoscenza e slash command (`/plan`, `/debug`, `/test`, ...) |
+| **Skill** | 32 | Moduli di conoscenza e slash command (`/kit-plan`, `/debug`, `/test`, ...) |
 | **Regole** | 2 | `GEMINI.md` (sempre attiva) e `caveman-rules.md` |
 
 La mappa completa di agenti, skill e script è in [`.agents/ARCHITECTURE.md`](.agents/ARCHITECTURE.md).
@@ -61,7 +101,7 @@ AI:     🤖 @debugger · 📚 debug
         ↩ @explorer-agent
 ```
 
-Ogni risposta che usa un agente o una skill del kit comincia con una riga così: 🤖 indica l'agente, 📚 le skill lette per quella risposta (un comando `/nome` conta come skill). `↪` e `↩` segnano il passaggio del lavoro a un subagent e il suo ritorno; `📚 +` una skill caricata a metà risposta.
+Ogni risposta che usa un agente o una skill del kit comincia con una riga così: 🤖 indica l'agente, 📚 le skill lette per quella risposta (un comando `/nome` conta come skill). `↪` e `↩` segnano il passaggio del lavoro a un subagent e il suo ritorno; `📚 +` una skill caricata a metà risposta. La delega dipende dall'utilità e dai sottocompiti, senza un numero minimo di agenti; tutti possono usare tutte le skill e gli script pertinenti.
 
 **Come funziona:**
 
@@ -87,7 +127,7 @@ I comandi del kit sono già skill e si richiamano con `/nome`.
 | `/brainstorm` | Esplora le opzioni prima dell'implementazione |
 | `/debug` | Debugging sistematico |
 | `/orchestrate` | Coordinazione multi-agente |
-| `/plan` | Scrive il piano del lavoro in `docs/PLAN-{slug}.md`, senza codice |
+| `/kit-plan` | Scrive il piano del lavoro in `docs/PLAN-{slug}.md`, senza codice |
 | `/status` | Controlla lo stato del progetto |
 | `/test` | Genera ed esegue i test |
 | `/ui-ux-pro-max` | Progetta interfacce con 58 stili e 96 palette |
@@ -101,7 +141,7 @@ Esempio:
 
 ```text
 /brainstorm sistema di autenticazione
-/plan pagina di destinazione con varie sezioni
+/kit-plan pagina di destinazione con varie sezioni
 /debug perché il login fallisce
 ```
 
@@ -111,9 +151,41 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 
 ### Controlli finali
 
-`python .agents/scripts/checklist.py .` esegue i controlli di base (schema, test, UX); con `--url http://localhost:3000` aggiunge i test E2E.
+`python .agents/scripts/checklist.py .` esegue schema, test e UX, indicando i controlli
+non applicabili. Se trova `main.tex` in radice o `latex/main.tex`, esegue anche il
+controllo strutturale LaTeX. La compilazione resta una verifica separata.
 
-Per la suite completa prima di un rilascio: `python .agents/scripts/verify_all.py . --url <URL>`.
+`python .agents/scripts/verify_all.py .` aggiunge gli audit API e accessibilità;
+`--url http://localhost:3000` aggiunge uno **smoke test** browser, che non sostituisce
+i test dei flussi applicativi. L'URL non è necessario per progetti LaTeX o ML.
+
+Entrambi accettano `--json` e conservano nel report gli output dei controlli.
+
+| Stato | Significato |
+| --- | --- |
+| `passed` | Il controllo indicato è stato eseguito con successo |
+| `failed` | Errore rilevato o impossibilità di eseguire uno script richiesto |
+| `skipped` | Verifica mancante: per esempio test non configurati |
+| `not_applicable` | Nessun elemento pertinente: per esempio nessuno schema database |
+
+Codici di uscita delle suite: **0** controlli applicabili superati, **1** errori,
+**2** verifica incompleta (controlli saltati o nessun controllo eseguito).
+Gli audit euristici riportano anche avvisi: il loro successo non certifica l'intero
+progetto. I test e le verifiche ML del progetto restano necessari.
+
+Per contribuire al kit: `npm test`, `npm run validate` e il lint Markdown della CI.
+La CI esegue i test su Windows e Linux. Questi sono test del software del kit;
+le valutazioni comparative dei comportamenti degli agenti sono una fase separata.
+
+### Compatibilità Antigravity
+
+Il comando del kit è **`/kit-plan`**; `/plan` resta quello nativo di Antigravity.
+Se provieni da un manifest precedente senza hash, confronta e rimuovi la vecchia
+cartella `skills/plan/` dentro `.agents/`, dopo averne conservato eventuali personalizzazioni.
+
+La distribuzione corrente usa `.agents/` nel progetto. Le verifiche sul formato
+plugin, i limiti dei percorsi e le differenze tra app, CLI e IDE sono in
+[docs/ANTIGRAVITY-COMPATIBILITY.md](docs/ANTIGRAVITY-COMPATIBILITY.md).
 
 ## 🪨 Caveman Mode
 

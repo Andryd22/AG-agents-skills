@@ -30,7 +30,7 @@ except:
 def find_html_files(project_path: Path) -> list:
     """Trova i file HTML/JSX/TSX (al massimo 50)."""
     patterns = ['**/*.html', '**/*.jsx', '**/*.tsx']
-    skip_dirs = {'node_modules', '.next', 'dist', 'build', '.git', '.agent', '.agents'}
+    skip_dirs = {'node_modules', '.next', 'dist', 'build', '.git', '.agent', '.agents', '.agents.backups'}
     
     files = []
     for pattern in patterns:
@@ -127,7 +127,8 @@ def main():
             "project": str(project_path),
             "files_checked": 0,
             "issues_found": 0,
-            "passed": True,
+            "passed": None,
+            "status": "not_applicable",
             "message": "Nessun file HTML/JSX/TSX trovato"
         }
         print(json.dumps(output, indent=2))
@@ -161,8 +162,7 @@ def main():
         print("Nessun problema di accessibilità trovato!")
     
     total_issues = sum(len(item["issues"]) for item in all_issues)
-    # I problemi di accessibilità sono importanti ma non bloccanti
-    passed = total_issues < 5  # Tollera fino a 4 problemi
+    passed = total_issues == 0
     
     output = {
         "script": "accessibility_checker",
@@ -170,7 +170,8 @@ def main():
         "files_checked": len(files),
         "files_with_issues": len(all_issues),
         "issues_found": total_issues,
-        "passed": passed
+        "passed": passed,
+        "status": "passed" if passed else "failed"
     }
     
     print("\n" + json.dumps(output, indent=2))

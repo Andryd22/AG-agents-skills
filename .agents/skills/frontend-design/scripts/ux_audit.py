@@ -684,7 +684,7 @@ class UXAuditor:
     def audit_directory(self, directory: str) -> None:
         extensions = {'.tsx', '.jsx', '.html', '.vue', '.svelte', '.css'}
         for root, dirs, files in os.walk(directory):
-            dirs[:] = [d for d in dirs if d not in {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents'}]
+            dirs[:] = [d for d in dirs if d not in {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents', '.agents.backups'}]
             for file in files:
                 if Path(file).suffix in extensions:
                     self.audit_file(os.path.join(root, file))
@@ -711,6 +711,8 @@ def main():
     else: auditor.audit_directory(path)
     
     report = auditor.get_report()
+    report["status"] = "not_applicable" if not report["files_checked"] else ("failed" if report["issues"] else "passed")
+    report["message"] = "Nessun file UI trovato" if not report["files_checked"] else "Audit statico: controllare anche gli avvisi"
     
     if is_json:
         print(json.dumps(report))
@@ -725,7 +727,7 @@ def main():
             print(f"[*] AVVISI ({len(report['warnings'])}):")
             for w in report['warnings'][:15]: print(f"  - {w}")
         print(f"[+] CONTROLLI SUPERATI: {report['passed_checks']}")
-        status = "PASS" if report['compliant'] else "FAIL"
+        status = report['status']
         print(f"ESITO: {status}")
 
     sys.exit(0 if report['compliant'] else 1)

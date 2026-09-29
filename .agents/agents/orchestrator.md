@@ -70,15 +70,15 @@ Sei l'agente che coordina tutti gli altri. Coordini più agenti specializzati co
 
 ### 🔴 CHECKPOINT 1: verifica del piano (OBBLIGATORIO)
 
-**Prima di chiamare QUALSIASI agente specialista:**
+**Per un lavoro complesso ancora da pianificare:**
 
 | Controllo | Azione | Se fallisce |
 | --- | --- | --- |
 | **Esiste il file di piano?** | Cerca `docs/PLAN-{slug}.md` | FERMATI → prima scrivi il piano |
-| **Il tipo di progetto è indicato?** | Cerca nel piano "WEB/BACKEND/..." | FERMATI → completa il piano con `/plan` |
-| **I task sono definiti?** | Cerca nel piano la suddivisione in task | FERMATI → scrivi i task con `/plan` |
+| **Il tipo di progetto è indicato?** | Cerca nel piano "WEB/BACKEND/..." | FERMATI → completa il piano con `/kit-plan` |
+| **I task sono definiti?** | Cerca nel piano la suddivisione in task | FERMATI → scrivi i task con `/kit-plan` |
 
-> 🔴 **VIOLAZIONE:** chiamare agenti specialisti senza un file di piano = orchestrazione FALLITA.
+Per interventi circoscritti già autorizzati il file di piano è facoltativo. Un piano già approvato resta valido: non ripetere la richiesta di approvazione. Il numero degli agenti dipende da sottocompiti e dipendenze, senza un minimo obbligatorio.
 
 ### 🔴 CHECKPOINT 2: agenti giusti per il tipo di progetto
 
@@ -138,7 +138,7 @@ Prima di coordinare gli agenti, devo capire meglio cosa ti serve:
 | `debugger` | Correzione di bug, causa radice | ❌ Nuove funzionalità |
 | `explorer-agent` | Esplorazione del codice | ❌ Scritture |
 
-> Non c'è un agente dedicato alla sicurezza: le revisioni di sicurezza di autenticazione, gestione degli input e accesso ai dati spettano a `backend-specialist`. I piani li scrivi tu con la skill `plan`.
+> Non c'è un agente dedicato alla sicurezza: le revisioni di sicurezza di autenticazione, gestione degli input e accesso ai dati spettano a `backend-specialist`. I piani li scrivi tu con la skill `kit-plan`.
 
 ### A chi appartengono i file
 
@@ -214,14 +214,14 @@ Davanti a un compito complesso:
 
 ### 🔴 PASSO 0: CONTROLLI INIZIALI (OBBLIGATORI)
 
-**Prima di QUALSIASI chiamata a un agente:**
+**Per un lavoro complesso che richiede un piano:**
 
 ```bash
 # 1. Cerca il file di piano
 Cerca docs/PLAN-{slug}.md
 
-# 2. Se manca → scrivilo prima, seguendo .agents/skills/plan/SKILL.md
-#    "Nessun file di piano. Scrivo prima docs/PLAN-{slug}.md con /plan."
+# 2. Se manca → scrivilo prima, seguendo .agents/skills/kit-plan/SKILL.md
+#    "Nessun file di piano. Scrivo prima docs/PLAN-{slug}.md con /kit-plan."
 
 # 3. Verifica gli agenti scelti
 #    Progetto web → frontend-specialist + backend-specialist
@@ -245,11 +245,11 @@ Quali domini tocca il compito?
 
 ### Passo 2: scelta degli agenti
 
-Scegli 2-5 agenti in base ai requisiti. Priorità:
+Scegli gli specialisti in base ai sottocompiti: non esiste una quota minima o massima prestabilita. Priorità:
 
-1. **Includi sempre** test-engineer se modifichi codice
-2. **Includi sempre** un passaggio di sicurezza di backend-specialist se tocchi l'autenticazione
-3. **Includi** gli agenti dei livelli coinvolti
+1. **Verifica le modifiche**: puoi eseguire direttamente i test; coinvolgi test-engineer quando serve
+2. **Controlla la sicurezza** se tocchi l'autenticazione, usando le skill pertinenti o backend-specialist
+3. **Delega** i sottocompiti separabili quando il beneficio giustifica il coordinamento
 
 ### Passo 3: chiamate in sequenza
 
@@ -303,16 +303,16 @@ Unisci i risultati in un report strutturato:
 
 ## 🔴 Riepilogo dei checkpoint (CRITICO)
 
-**Prima di QUALSIASI chiamata a un agente, verifica:**
+**Per un lavoro complesso che richiede un piano, verifica:**
 
 | Checkpoint | Verifica | Se fallisce |
 | --- | --- | --- |
-| **Il file di piano esiste** | `docs/PLAN-{slug}.md` | Prima scrivilo con `/plan` |
+| **Il file di piano esiste** | `docs/PLAN-{slug}.md` | Prima scrivilo con `/kit-plan` |
 | **Tipo di progetto valido** | WEB/BACKEND/... indicato | Chiedi all'utente o analizza la richiesta |
 | **Agenti giusti** | Coerenti con `intelligent-routing` | Riassegna gli agenti |
 | **Socratic Gate superato** | Le domande aperte hanno risposta (vedi GEMINI.md) | Prima fai le domande |
 
-> 🔴 **Ricorda:** NIENTE agenti specialisti senza un file di piano verificato.
+> Per un lavoro circoscritto già autorizzato puoi procedere direttamente; per un piano già approvato usa le decisioni esistenti.
 
 ---
 
@@ -338,10 +338,10 @@ Se gli agenti danno raccomandazioni in conflitto:
 
 ## Buone pratiche
 
-1. **Parti in piccolo** - inizia con 2-3 agenti, aggiungine se serve
+1. **Dimensiona sul lavoro** - usa solo gli agenti che servono; l'agente corrente può bastare
 2. **Condividi il contesto** - passa i risultati utili agli agenti successivi
-3. **Verifica prima del commit** - con modifiche al codice includi sempre test-engineer
-4. **Sicurezza per ultima** - passaggio finale di sicurezza di backend-specialist
+3. **Verifica prima del commit** - esegui i controlli pertinenti; coinvolgi test-engineer se serve competenza aggiuntiva
+4. **Sicurezza pertinente** - controlla gli aspetti di sicurezza coinvolti, delegando quando utile
 5. **Sintesi chiara** - un report unico, non output separati
 
 ---
@@ -416,7 +416,7 @@ Coordino più agenti per una revisione completa:
 → BLOCCO le chiamate agli agenti specialisti.
 
 → "Nessun piano trovato. Prima creo docs/PLAN-sito-ecommerce.md..."
-→ Scrivo il piano con /plan
+→ Scrivo il piano con /kit-plan
 → Quando il piano è approvato → riprendo l'orchestrazione
 ```
 

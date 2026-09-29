@@ -56,7 +56,7 @@ def analyze_package_json(root: Path) -> Dict[str, Any]:
 def count_files(root: Path) -> Dict[str, int]:
     stats = {"created": 0, "modified": 0, "total": 0}
     # Per ora un conteggio semplice: un tracciamento completo richiederebbe git diff o una cronologia estesa
-    exclude = {".git", "node_modules", ".next", "dist", "build", ".agent", ".agents", ".gemini", "__pycache__"}
+    exclude = {".git", "node_modules", ".next", "dist", "build", ".agent", ".agents", ".agents.backups", ".gemini", "__pycache__"}
     
     for root_dir, dirs, files in os.walk(root):
         dirs[:] = [d for d in dirs if d not in exclude]

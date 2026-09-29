@@ -137,13 +137,13 @@ File da modificare: UserService.ts
 | ✅ **Nessun errore?** | Lint e TypeScript passano? |
 | ✅ **Niente di dimenticato?** | Ho saltato qualche caso limite? |
 
-> 🔴 **Regola:** se QUALSIASI controllo fallisce, correggilo prima di chiudere.
+> Correggi gli errori nel perimetro già autorizzato e verifica di nuovo. Per problemi estranei al lavoro, riporta l'impatto e chiedi solo se serve estendere il perimetro. Un controllo non eseguito non è superato.
 
 ---
 
 ## Script di verifica (OBBLIGATORI)
 
-> 🔴 **CRITICO:** ogni agente, finito il lavoro, esegue SOLO gli script delle proprie skill.
+> Ogni agente può usare **tutte le skill e tutti gli script pertinenti**, anche di altri specialisti. La tabella suggerisce gli abbinamenti comuni, senza imporre limiti. Scegli i controlli in base ai file e al comportamento modificati.
 
 ### Agente → script
 
@@ -159,12 +159,11 @@ File da modificare: UserService.ts
 | **latex-specialist** | Controllo del progetto | `python .agents/skills/latex-review/scripts/check_project.py .` |
 | **Qualsiasi agente** | Lint e tipi | gli strumenti del progetto: `npm run lint`, `npx tsc --noEmit`, `ruff check`, `mypy` |
 
-> ❌ **SBAGLIATO:** `test-engineer` che lancia `ux_audit.py`
-> ✅ **GIUSTO:** `frontend-specialist` che lancia `ux_audit.py`
+Un `test-engineer` può eseguire `ux_audit.py`, un `frontend-specialist` può eseguire i test: conta la pertinenza del controllo.
 
 ---
 
-### 🔴 Output degli script (LEGGI → RIASSUMI → CHIEDI)
+### Output degli script (LEGGI → VALUTA → VERIFICA)
 
 **Quando lanci uno script di validazione, DEVI:**
 
@@ -186,12 +185,11 @@ File da modificare: UserService.ts
 - Controllo 1 superato
 - Controllo 2 superato
 
-**Correggo gli X errori?**
+**Esito:** controlli superati, falliti, saltati o non applicabili; motivazione dei controlli mancanti.
 ```
 
-1. **Aspettare la conferma dell'utente** prima di correggere
-2. **Dopo la correzione** → rilanciare lo script per conferma
+1. **Correggere** gli errori pertinenti al lavoro già autorizzato. Chiedere solo se la correzione cambia il perimetro o richiede una decisione mancante.
+2. **Dopo la correzione** → rilanciare i controlli interessati.
 
 > 🔴 **VIOLAZIONE:** lanciare lo script e ignorarne l'output = task FALLITO.
-> 🔴 **VIOLAZIONE:** correggere da solo senza chiedere = non permesso.
-> 🔴 **Regola:** sempre LEGGI l'output → RIASSUMI → CHIEDI → poi correggi.
+> Non richiedere autorizzazioni già date. Una richiesta di sola analisi o revisione resta tale: segnala i problemi senza modificare i file.

@@ -9,7 +9,7 @@
 L'Antigravity Kit è un sistema modulare fatto di:
 
 - **12 agenti specialisti**: custom agent di Antigravity, eseguiti come subagent
-- **32 skill**: conoscenze di dominio e slash command (`/plan`, `/debug`, `/test`, ...)
+- **32 skill**: conoscenze di dominio e slash command (`/kit-plan`, `/debug`, `/test`, ...)
 - **2 regole**: `GEMINI.md` (sempre attiva) e `caveman-rules.md`
 
 Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: ogni vecchio workflow del kit ora è una skill con lo stesso slash command.
@@ -24,12 +24,16 @@ Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: ogni vecch
 ├── agents/                  # 12 agenti specialisti (custom agent)
 ├── skills/                  # 32 skill (anche slash command)
 ├── rules/                   # GEMINI.md (sempre attiva), caveman-rules.md
-├── scripts/                 # 3 script master
+├── scripts/                 # 3 comandi e un modulo comune
 ├── .markdownlint.jsonc      # Regole markdownlint per i file .md del kit
-└── .ag-kit.json             # Scritto dall'installer: cosa ha installato il kit
+└── .ag-kit.json             # Manifest v2: hash per file, versione e origine
 ```
 
-L'installer sostituisce solo i propri agenti, skill, regole e script: i file del progetto in `.agents/` restano.
+L'installer traccia ogni file con hash SHA-256: aggiorna o rimuove solo i file
+gestiti, conserva le aggiunte personali e si ferma sui conflitti. `--dry-run`
+mostra il piano; `--force` permette sostituzioni con backup in `.agents.backups/`;
+`restore <backup>` ripristina con controllo dei conflitti. Manifest legacy senza
+hash e vecchia `.agent/` non autorizzano cancellazioni per cartella.
 
 ---
 
@@ -52,7 +56,7 @@ Custom agent di Antigravity (`.agents/agents/<nome>.md`): il frontmatter fissa g
 | `latex-specialist` | LaTeX accademico, appunti, paper | clean-code, latex-tutor, latex-review |
 | `documentation-writer` | Documentazione (solo su richiesta) | clean-code |
 
-Non c'è un agente dedicato a sicurezza, prestazioni, SEO, database o DevOps: revisioni di sicurezza, schema e deploy spettano a `backend-specialist`, prestazioni web e SEO a `frontend-specialist`. Anche i piani non hanno un agente: li scrive la skill `plan`, lanciata dall'agente di turno o dall'`orchestrator`.
+Non c'è un agente dedicato a sicurezza, prestazioni, SEO, database o DevOps: revisioni di sicurezza, schema e deploy spettano a `backend-specialist`, prestazioni web e SEO a `frontend-specialist`. Anche i piani non hanno un agente: li scrive la skill `kit-plan`, lanciata dall'agente di turno o dall'`orchestrator`.
 
 ---
 
@@ -63,7 +67,7 @@ Skill scritte per essere chiamate per nome. Antigravity le carica anche da solo 
 | Comando | Descrizione |
 | --- | --- |
 | `/brainstorm` | Socratic Gate ed esplorazione delle opzioni |
-| `/plan` | Piano in `docs/PLAN-{slug}.md`, senza codice |
+| `/kit-plan` | Piano in `docs/PLAN-{slug}.md`, senza codice |
 | `/orchestrate` | Coordinamento di più agenti |
 | `/debug` | Indagine sistematica sui bug |
 | `/test` | Genera ed esegue i test |
@@ -171,13 +175,14 @@ nome-skill/
 
 ## 📊 Script
 
-### Script master (3)
+### Script master (3 comandi e un modulo comune)
 
 | Script | Scopo | Quando |
 | --- | --- | --- |
-| `checklist.py` | Controlli di base: schema, test, UX (+ E2E con `--url`) | Durante lo sviluppo, prima del commit |
-| `verify_all.py` | Suite completa: controlli di base + API, accessibilità, E2E | Prima del deploy, rilasci |
+| `checklist.py` | Schema, test, UX, struttura LaTeX se presente (+ smoke test con `--url`) | Durante lo sviluppo, prima del commit |
+| `verify_all.py` | Controlli di base + API, accessibilità, smoke test con URL | Prima di un rilascio |
 | `session_manager.py` | Stato del progetto: stack, file, statistiche (`/status`) | Quando serve |
+| `check_support.py` | Esecuzione, raccolta degli output e stati comuni alle suite | Importato dai due comandi di verifica |
 
 ```bash
 # Controllo rapido durante lo sviluppo
@@ -187,14 +192,18 @@ python .agents/scripts/checklist.py .
 python .agents/scripts/verify_all.py . --url http://localhost:3000
 ```
 
-Gli script di audit saltano `node_modules/`, le cartelle di build e la stessa `.agents/`.
+Gli script di audit saltano `node_modules/`, le cartelle di build, `.agents/` e i
+backup del kit. Le suite distinguono `passed`, `failed`, `skipped`, `not_applicable`;
+uscite 0 (successo), 1 (errore), 2 (incompleto). `--json` include output ed errori.
+Un progetto vuoto non supera la verifica. La struttura LaTeX non equivale alla
+compilazione e un audit statico non sostituisce test funzionali o verifiche ML.
 
 ### Script delle skill
 
 | Skill | Script | Scopo |
 | --- | --- | --- |
 | `api-patterns` | `api_validator.py` | Controlli sulle buone pratiche delle API |
-| `database-design` | `schema_validator.py` | Controlli sugli schema Prisma / Drizzle |
+| `database-design` | `schema_validator.py` | Audit euristico Prisma; Drizzle è rilevato ma segnalato come non verificato |
 | `frontend-design` | `ux_audit.py` | Audit di psicologia UX e accessibilità |
 | `frontend-design` | `accessibility_checker.py` | Controlli WCAG |
 | `nextjs-react-expert` | `react_performance_checker.py` | Suggerimenti statici sulle prestazioni React |
@@ -218,7 +227,7 @@ In `scroll-world/references/` ci sono anche `knockout.py` (rimozione dello sfond
 | **Agenti** | 12 |
 | **Skill** | 32 (11 comandi) |
 | **Regole** | 2 |
-| **Script** | 3 master + 16 nelle skill |
+| **Script** | 3 comandi master + 1 modulo comune + 16 nelle skill |
 
 I numeri li controlla `.github/scripts/validate_kit.py` nella CI.
 
@@ -234,7 +243,7 @@ I numeri li controlla `.github/scripts/validate_kit.py` nella CI.
 | Test | `test-engineer` | test, webapp-testing |
 | E2E | `qa-automation-engineer` | webapp-testing |
 | Debug | `debugger` | debug |
-| Piano | nessuno | plan, brainstorm |
+| Piano | nessuno | kit-plan, brainstorm |
 | AI / LLM | `ai-ml-engineer` | prompt-engineering |
 | ML / dati | `ai-ml-engineer` | classic-ml |
 | Scroll / 3D | `scroll-experience-architect` | three-js, scroll-film, scroll-world |

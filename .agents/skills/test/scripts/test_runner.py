@@ -8,14 +8,17 @@ Uso:
 
 Supporta:
     - Node.js: npm test, jest, vitest
-    - Python: pytest, unittest
+    - Python: pytest (unittest tramite lo script test del progetto)
 """
 
 import subprocess
 import sys
 import json
+import argparse
+import shutil
+import os
+import re
 from pathlib import Path
-from datetime import datetime
 
 # Codifica della console di Windows
 try:
@@ -63,12 +66,27 @@ def detect_test_framework(project_path: Path) -> dict:
                 result["cmd"] = ["npx", "jest"]
                 result["coverage_cmd"] = ["npx", "jest", "--coverage"]
                 
-        except:
-            pass
-    
-    # Progetto Python
-    if (project_path / "pyproject.toml").exists() or (project_path / "requirements.txt").exists():
+        except (OSError, ValueError) as error:
+            raise ValueError(f"package.json non leggibile: {error}") from error
+
+    if result["cmd"]:
+        return result
+    # Un requirements.txt con pandas/sklearn non configura automaticamente pytest.
+    has_tests = False
+    excluded = {'.git', '.agents', '.agent', '.agents.backups', '.venv', 'venv',
+                'node_modules', '__pycache__', 'build', 'dist'}
+    for _, directories, files in os.walk(project_path):
+        directories[:] = [name for name in directories if name not in excluded]
+        if any(name.endswith('.py') and (name.startswith('test_') or name.endswith('_test.py')) for name in files):
+            has_tests = True
+            break
+    configured = (project_path / 'pytest.ini').is_file()
+    pyproject = project_path / 'pyproject.toml'
+    if pyproject.is_file():
+        configured = configured or '[tool.pytest' in pyproject.read_text(encoding='utf-8')
+    if has_tests or configured or pyproject.exists() or (project_path / 'requirements.txt').exists():
         result["type"] = "python"
+    if has_tests or configured:
         result["framework"] = "pytest"
         result["cmd"] = [sys.executable, "-m", "pytest", "-v"]
         result["coverage_cmd"] = [sys.executable, "-m", "pytest", "--cov", "--cov-report=term-missing"]
@@ -82,12 +100,17 @@ def run_tests(cmd: list, cwd: Path) -> dict:
         "passed": False,
         "output": "",
         "error": "",
-        "tests_run": 0,
-        "tests_passed": 0,
-        "tests_failed": 0
+        "tests_run": None,
+        "tests_passed": None,
+        "tests_failed": None
     }
     
     try:
+        # CreateProcess su Windows non risolve npm/npx nei rispettivi file .cmd.
+        executable = shutil.which(cmd[0])
+        if not executable:
+            raise FileNotFoundError(cmd[0])
+        cmd = [executable, *cmd[1:]]
         proc = subprocess.run(
             cmd,
             cwd=str(cwd),
@@ -98,34 +121,19 @@ def run_tests(cmd: list, cwd: Path) -> dict:
             timeout=300  # 5 minuti al massimo per i test
         )
         
-        result["output"] = proc.stdout[:3000] if proc.stdout else ""
-        result["error"] = proc.stderr[:500] if proc.stderr else ""
+        result["output"] = proc.stdout or ""
+        result["error"] = proc.stderr or ""
+        result["returncode"] = proc.returncode
         result["passed"] = proc.returncode == 0
         
-        # Prova a leggere dall'output quanti test sono passati e falliti
-        output = proc.stdout or ""
-        
-        # Formato di Jest/Vitest: "Tests: X passed, Y failed, Z total"
-        if "passed" in output.lower() and "failed" in output.lower():
-            import re
-            match = re.search(r'(\d+)\s+passed', output, re.IGNORECASE)
-            if match:
-                result["tests_passed"] = int(match.group(1))
-            match = re.search(r'(\d+)\s+failed', output, re.IGNORECASE)
-            if match:
-                result["tests_failed"] = int(match.group(1))
-            result["tests_run"] = result["tests_passed"] + result["tests_failed"]
-        
-        # Formato di pytest: "X passed, Y failed"
-        if "pytest" in str(cmd):
-            import re
-            match = re.search(r'(\d+)\s+passed', output)
-            if match:
-                result["tests_passed"] = int(match.group(1))
-            match = re.search(r'(\d+)\s+failed', output)
-            if match:
-                result["tests_failed"] = int(match.group(1))
-            result["tests_run"] = result["tests_passed"] + result["tests_failed"]
+        # Il conteggio resta sconosciuto se il comando non espone una sintesi nota.
+        output = (proc.stdout or '') + '\n' + (proc.stderr or '')
+        passed_match = re.search(r'(\d+)\s+passed', output, re.IGNORECASE)
+        failed_match = re.search(r'(\d+)\s+failed', output, re.IGNORECASE)
+        if passed_match or failed_match:
+            result['tests_passed'] = int(passed_match.group(1)) if passed_match else 0
+            result['tests_failed'] = int(failed_match.group(1)) if failed_match else 0
+            result['tests_run'] = result['tests_passed'] + result['tests_failed']
         
     except FileNotFoundError:
         result["error"] = f"Comando non trovato: {cmd[0]}"
@@ -138,82 +146,39 @@ def run_tests(cmd: list, cwd: Path) -> dict:
 
 
 def main():
-    project_path = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
-    with_coverage = "--coverage" in sys.argv
-    
-    print(f"\n{'='*60}")
-    print("[TEST RUNNER] Esecuzione dei test")
-    print(f"{'='*60}")
-    print(f"Progetto: {project_path}")
-    print(f"Copertura: {'attiva' if with_coverage else 'disattivata'}")
-    print(f"Ora: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    # Riconosce il framework di test
-    test_info = detect_test_framework(project_path)
-    print(f"Tipo: {test_info['type']}")
-    print(f"Framework: {test_info['framework']}")
-    print("-"*60)
-    
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("project", nargs="?", default=".")
+    parser.add_argument("--coverage", action="store_true")
+    parser.add_argument("--json", action="store_true", help="solo risultato JSON")
+    args = parser.parse_args()
+    project_path = Path(args.project).resolve()
+    if not project_path.is_dir():
+        print(json.dumps({"status": "failed", "passed": False, "message": "Cartella del progetto inesistente"}))
+        return 1
+    try:
+        test_info = detect_test_framework(project_path)
+    except ValueError as error:
+        print(json.dumps({"status": "failed", "passed": False, "message": str(error)}))
+        return 1
+    output = {"script": "test_runner", "project": str(project_path),
+              "type": test_info["type"], "framework": test_info["framework"]}
     if not test_info["cmd"]:
-        print("Nessun framework di test trovato in questo progetto.")
-        output = {
-            "script": "test_runner",
-            "project": str(project_path),
-            "type": test_info["type"],
-            "framework": None,
-            "passed": True,
-            "message": "Nessun test configurato"
-        }
-        print(json.dumps(output, indent=2))
-        sys.exit(0)
-    
-    # Sceglie il comando
-    cmd = test_info["coverage_cmd"] if with_coverage and test_info["coverage_cmd"] else test_info["cmd"]
-    
-    print(f"Eseguo: {' '.join(cmd)}")
-    print("-"*60)
-    
-    # Esegue i test
-    result = run_tests(cmd, project_path)
-    
-    # Stampa l'output (troncato)
-    if result["output"]:
-        lines = result["output"].split("\n")
-        for line in lines[:30]:
-            print(line)
-        if len(lines) > 30:
-            print(f"... (altre {len(lines) - 30} righe)")
-    
-    # Riepilogo
-    print("\n" + "="*60)
-    print("RIEPILOGO")
-    print("="*60)
-    
-    if result["passed"]:
-        print("[OK] Tutti i test sono passati")
+        output.update(status="skipped", passed=None, message="Nessun test configurato")
     else:
-        print("[KO] Alcuni test sono falliti")
-        if result["error"]:
-            print(f"Errore: {result['error'][:200]}")
-    
-    if result["tests_run"] > 0:
-        print(f"Test: {result['tests_run']} in totale, {result['tests_passed']} passati, {result['tests_failed']} falliti")
-    
-    output = {
-        "script": "test_runner",
-        "project": str(project_path),
-        "type": test_info["type"],
-        "framework": test_info["framework"],
-        "tests_run": result["tests_run"],
-        "tests_passed": result["tests_passed"],
-        "tests_failed": result["tests_failed"],
-        "passed": result["passed"]
-    }
-    
-    print("\n" + json.dumps(output, indent=2))
-    
-    sys.exit(0 if result["passed"] else 1)
+        cmd = test_info["coverage_cmd"] if args.coverage and test_info["coverage_cmd"] else test_info["cmd"]
+        result = run_tests(cmd, project_path)
+        output.update(result)
+        output["status"] = "passed" if result["passed"] else "failed"
+        if test_info["framework"] == "pytest" and result.get("returncode") == 5:
+            output.update(status="skipped", passed=None, message="pytest non ha raccolto test")
+        if not args.json:
+            print(f"Eseguo: {' '.join(cmd)}")
+            print(result["output"])
+            if result["error"]:
+                print(result["error"])
+    print(json.dumps(output, indent=2, ensure_ascii=False))
+    return 1 if output["status"] == "failed" else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

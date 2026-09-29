@@ -35,7 +35,7 @@ def find_api_files(project_path: Path) -> list:
         files.extend(project_path.glob(pattern))
     
     # Esclude node_modules e simili
-    skip = {'node_modules', '.git', 'dist', 'build', '__pycache__', '.agent', '.agents'}
+    skip = {'node_modules', '.git', 'dist', 'build', '__pycache__', '.agent', '.agents', '.agents.backups'}
     return [f for f in files if not skip.intersection(f.parts)]
 
 def check_openapi_spec(file_path: Path) -> dict:
@@ -176,6 +176,7 @@ def main():
     if not api_files:
         print("[!] Nessun file di API trovato.")
         print("   Cerco: routes/, controllers/, api/, openapi.json/yaml")
+        print(json.dumps({"status": "not_applicable", "message": "Nessun file di API trovato"}))
         sys.exit(0)
     
     results = []
@@ -206,9 +207,11 @@ def main():
     
     if total_issues == 0:
         print("[OK] Validazione delle API superata")
+        print(json.dumps({"status": "passed", "files_checked": len(results), "message": "Audit statico dei file API rilevati"}))
         sys.exit(0)
     else:
         print("[X] Correggi i problemi critici prima del deploy")
+        print(json.dumps({"status": "failed", "issues_found": total_issues}))
         sys.exit(1)
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ def find_schema_files(project_path: Path) -> list:
         if 'schema' in f.name.lower() or 'table' in f.name.lower():
             schemas.append(('drizzle', f))
     
-    skip = {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents'}
+    skip = {'node_modules', '.git', 'dist', 'build', '.next', '.agent', '.agents', '.agents.backups'}
     schemas = [(kind, f) for kind, f in schemas if not skip.intersection(f.parts)]
     return schemas[:10]  # al massimo 10 file
 
@@ -114,7 +114,8 @@ def main():
             "project": str(project_path),
             "schemas_checked": 0,
             "issues_found": 0,
-            "passed": True,
+            "passed": None,
+            "status": "not_applicable",
             "message": "Nessun file di schema trovato"
         }
         print(json.dumps(output, indent=2))
@@ -157,12 +158,15 @@ def main():
     # I problemi degli schema sono avvisi, non errori
     passed = True
     
+    unsupported = any(kind != 'prisma' for kind, _ in schemas)
     output = {
         "script": "schema_validator",
         "project": str(project_path),
         "schemas_checked": len(schemas),
         "issues_found": total_issues,
-        "passed": passed,
+        "passed": None if unsupported else passed,
+        "status": "skipped" if unsupported else "passed",
+        "message": "Schema Drizzle rilevato ma non validato" if unsupported else "Audit euristico Prisma; i problemi elencati sono avvisi",
         "issues": all_issues
     }
     

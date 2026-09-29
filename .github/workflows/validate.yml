@@ -8,7 +8,13 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONUTF8: '1'
 
     steps:
       - name: Checkout del repository
@@ -30,8 +36,12 @@ jobs:
       - name: Controlla l'aiuto della CLI
         run: node bin/install.js help
 
+      - name: Test di regressione (installer e controlli)
+        run: python -m unittest discover -s tests -v
+
       - name: Controlla il kit (frontmatter, riferimenti, conteggi, script, installer)
         run: python .github/scripts/validate_kit.py
 
       - name: Lint del Markdown (regole in .markdownlint.jsonc)
+        if: runner.os == 'Linux'
         run: npx --yes markdownlint-cli2@0.23.2 "**/*.md"

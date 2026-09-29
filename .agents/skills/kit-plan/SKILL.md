@@ -1,19 +1,19 @@
 ---
-name: plan
-description: Scrive il piano di un lavoro in docs/PLAN-{slug}.md senza scrivere codice. Chiede solo quello che manca, divide il lavoro in task piccoli e verificabili con agente e skill, chiude con la verifica finale. Usala quando l'utente lancia /plan, chiede un piano prima di costruire o scrive requisiti, user story, backlog o MVP; /orchestrate e l'orchestrator la usano come prima fase.
+name: kit-plan
+description: Scrive il piano di un lavoro in docs/PLAN-{slug}.md senza scrivere codice. Chiede solo quello che manca, divide il lavoro in task piccoli e verificabili con agente e skill, chiude con la verifica finale. Usala quando l'utente lancia /kit-plan, chiede un piano prima di costruire o scrive requisiti, user story, backlog o MVP; /orchestrate e l'orchestrator la usano come prima fase.
 ---
 
-# /plan - Piano di lavoro
+# /kit-plan - Piano di lavoro
 
-La richiesta è il testo che segue `/plan`. Il risultato è un solo file, `docs/PLAN-{slug}.md`: niente codice.
+La richiesta è il testo che segue `/kit-plan`. Il risultato è un solo file, `docs/PLAN-{slug}.md`: niente codice.
 
 ---
 
 ## 🔴 Regole
 
 1. **Niente codice.** Scrivi solo `docs/PLAN-{slug}.md` (crea `docs/` se manca), nessun altro file.
-2. **Il piano lo scrivi tu**, con i tuoi strumenti: non serve un agente dedicato. Non usare la modalità Plan nativa di Antigravity.
-3. **Socratic Gate proporzionato** (vedi `GEMINI.md`): 1-2 domande se la richiesta è quasi chiara, fino a 3 per un progetto aperto. Non rifare domande a cui la conversazione ha già risposto.
+2. **Il piano lo scrivi tu**, con i tuoi strumenti: non serve un agente dedicato. `/kit-plan` scrive il file del kit; `/plan` resta il comando nativo di Antigravity e non va sostituito da una skill omonima.
+3. **Socratic Gate proporzionato** (vedi `GEMINI.md`): chiedi solo informazioni mancanti che cambiano il risultato, fino a 3 per un progetto aperto. Nessuna domanda se il contesto basta; non rifare domande già risolte.
 4. **Niente invenzioni:** stime, scadenze e decisioni che l'utente non ha preso non vanno nel piano. Quello che non sai diventa una domanda o un rischio.
 
 ---
@@ -49,10 +49,10 @@ Se una di queste cambia il piano e non la sai, chiedila. Se la richiesta chiede 
 
 | Richiesta | File |
 | --- | --- |
-| `/plan sito e-commerce con carrello` | `docs/PLAN-ecommerce-carrello.md` |
-| `/plan aggiungi la dark mode` | `docs/PLAN-dark-mode.md` |
-| `/plan correggi il bug del login` | `docs/PLAN-fix-login.md` |
-| `/plan pipeline di classificazione sul dataset` | `docs/PLAN-classificazione.md` |
+| `/kit-plan sito e-commerce con carrello` | `docs/PLAN-ecommerce-carrello.md` |
+| `/kit-plan aggiungi la dark mode` | `docs/PLAN-dark-mode.md` |
+| `/kit-plan correggi il bug del login` | `docs/PLAN-fix-login.md` |
+| `/kit-plan pipeline di classificazione sul dataset` | `docs/PLAN-classificazione.md` |
 
 1. Prendi 2-3 parole chiave dalla richiesta.
 2. Minuscole, separate da trattini, senza caratteri speciali.

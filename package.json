@@ -5,10 +5,19 @@
   "bin": {
     "ag-agents-skills": "./bin/install.js"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "python -m unittest discover -s tests -v",
+    "validate": "python .github/scripts/validate_kit.py"
+  },
   "files": [
     ".agents/",
     "bin/",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md",
+    "docs/ANTIGRAVITY-COMPATIBILITY.md"
   ],
   "repository": {
     "type": "git",

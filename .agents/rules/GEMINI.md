@@ -12,20 +12,21 @@ trigger: always_on
 
 > **OBBLIGATORIO:** prima di qualsiasi implementazione, assegna la richiesta all'agente giusto e carica le sue skill. È la regola con la priorità più alta.
 
-Gli agenti del kit sono custom agent di Antigravity in `.agents/agents/`. Le skill stanno in `.agents/skills/` e fanno anche da slash command (`/plan`, `/debug`, `/test`, `/orchestrate`, ...).
+Gli agenti del kit sono custom agent di Antigravity in `.agents/agents/`. Le skill stanno in `.agents/skills/` e fanno anche da slash command (`/kit-plan`, `/debug`, `/test`, `/orchestrate`, ...).
 
 ### 1. Delegare a un agente
 
 - **Scegli** l'agente con `@[skills/intelligent-routing]`.
 - **Delega** con `invoke_subagent`. Il subagent parte con un contesto pulito, ha gli strumenti del suo frontmatter e vede tutte le skill del workspace; il suo corpo nomina le skill da leggere per prime. Il prompt deve contenere la richiesta dell'utente, le decisioni già prese e i file o il piano che servono.
-- **Ripiego:** dove i custom agent non ci sono (l'IDE di Antigravity finché non li supporta), leggi `.agents/agents/<nome>.md` e lo `SKILL.md` di ogni skill nominata nella sua riga "Le tue skill", poi applicali tu.
+- **Ripiego:** dove i custom agent non ci sono, leggi `.agents/agents/<nome>.md` e solo le skill pertinenti tra quelle nominate nella riga "Le tue skill", poi applicali tu.
 - L'utente può anche scegliere un agente del kit come agente principale (selettore nell'app, `/agents` nella CLI).
 - **Strumenti:** un agente del kit ha solo gli strumenti del suo frontmatter (più `manage_task`); l'agente di default della CLI non ha `list_dir` e `grep_search`, e nella CLI nessun agente ha `multi_replace_file_content`. Senza `list_dir` o `grep_search`, elenca le cartelle e cerca con `run_command` (`Get-ChildItem`, `Select-String` su Windows; `ls`, `grep` altrove); non tirare mai a indovinare i nomi dei file. Modifica solo le righe che cambiano: una sostituzione per ogni punto separato, non un blocco che riscrive anche le righe in mezzo.
 
 ### 2. Caricare le skill
 
 - **Lettura selettiva:** NON leggere TUTTI i file di una skill. Leggi prima `SKILL.md`, poi solo le sezioni e i file di riferimento che servono alla richiesta.
-- **Priorità delle regole:** P0 (GEMINI.md) > P1 (file .md dell'agente) > P2 (SKILL.md). Tutte le regole sono vincolanti.
+- **Priorità interne al kit:** GEMINI.md > file dell'agente > SKILL.md. Le istruzioni dell'host e la richiesta esplicita dell'utente prevalgono sulle convenzioni del kit.
+- **Accesso condiviso:** ogni agente può usare tutte le skill e tutti gli script pertinenti. Le liste degli specialisti orientano la scelta e non limitano l'accesso.
 - **Vietato:** saltare le regole dell'agente o le istruzioni della skill. "Leggi → Capisci → Applica" è obbligatorio.
 
 ### 3. Annuncia agenti e skill
@@ -37,7 +38,7 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 ```
 
 - **🤖** l'agente di cui stai applicando le regole: quello con cui stai girando o quello a cui hai assegnato la richiesta (`@frontend-specialist + @backend-specialist` quando ne combini due). Girare come agente del kit (`--agent`, subagent, file di un agente applicato nell'IDE) conta sempre: la riga c'è anche per una risposta di una riga.
-- **📚** ogni skill di cui hai letto lo `SKILL.md` per questa risposta; uno slash command è una skill (`/plan` → `📚 plan`). Nessuna skill: togli `· 📚 …`.
+- **📚** ogni skill di cui hai letto lo `SKILL.md` per questa risposta; uno slash command è una skill (`/kit-plan` → `📚 kit-plan`). Nessuna skill: togli `· 📚 …`.
 - **Delega:** scrivi `↪ @explorer-agent: <compito in poche parole>` prima di chiamare `invoke_subagent`, e `↩ @explorer-agent` quando torna il risultato.
 - **Skill caricata a metà:** scrivi `📚 + <skill>` nel punto in cui inizi a usarla.
 - **Niente di usato** (l'agente di default che risponde a una domanda semplice, senza routing e senza skill): nessuna riga.
@@ -118,7 +119,7 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 2. **Richieste già dettagliate:** quando l'utente dà risposte precise (Risposta 1, 2, 3...), non richiederle. Nomina un **compromesso** o un **caso limite** solo quando cambia ciò che costruirai (es. "LocalStorage confermato: i dati vecchi vanno migrati quando cambia il formato?").
 3. **Aspetta:** NON invocare subagent e non scrivere codice finché c'è una domanda bloccante aperta.
 4. **Riferimento:** il protocollo completo è in `@[skills/brainstorm]`.
-5. **Proporzione:** l'orchestrator e `/plan` seguono la stessa regola: 1-2 domande veloci quando la richiesta è quasi chiara, di più solo per costruzioni aperte.
+5. **Proporzione:** l'orchestrator e `/kit-plan` chiedono solo informazioni mancanti che cambiano il risultato; zero domande quando il contesto basta. Un'autorizzazione già data resta valida nel suo perimetro.
 
 ### 🏁 Controlli finali
 
@@ -135,7 +136,7 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 
 **Regole:**
 
-- **Completamento:** un task NON è finito finché `checklist.py` non passa.
+- **Completamento:** esegui i controlli pertinenti alla modifica. `checklist.py` distingue `passed`, `failed`, `skipped`, `not_applicable`; un risultato `incomplete` richiede di spiegare cosa manca, non di inventare un successo. Per LaTeX serve anche la compilazione prevista dalla sua skill; per ML servono le verifiche della pipeline e dei dati.
 - **Report:** se fallisce, correggi prima i problemi bloccanti (test, schema).
 
 > 🔴 **Agenti e skill possono lanciare QUALSIASI script** con `python .agents/skills/<skill>/scripts/<script>.py` (gli script disponibili sono in `ARCHITECTURE.md` o nel file `.md` dell'agente).
@@ -144,7 +145,7 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 
 | Modalità | Agente | Comportamento |
 | --- | --- | --- |
-| **plan** | skill `/plan` | Piano in `docs/PLAN-{slug}.md`. NIENTE CODICE finché il piano non è approvato. |
+| **plan** | skill `/kit-plan` | Piano in `docs/PLAN-{slug}.md`. NIENTE CODICE finché il piano non è approvato. |
 | **ask** | - | Punta a capire. Fai domande. |
 | **edit** | agente scelto dal routing | Esegui. Il lavoro su più domini va all'`orchestrator`, che prima controlla `docs/PLAN-{slug}.md`. |
 
@@ -155,8 +156,8 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 ### Agenti e skill
 
 - **Principali**: `orchestrator`, `backend-specialist` (API/DB/sicurezza/deploy), `frontend-specialist` (UI/UX/prestazioni/SEO), `debugger`
-- **Skill chiave**: `clean-code`, `intelligent-routing`, `brainstorm`, `plan`, `frontend-design`
-- **Comandi**: `/brainstorm`, `/plan`, `/orchestrate`, `/debug`, `/test`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
+- **Skill chiave**: `clean-code`, `intelligent-routing`, `brainstorm`, `kit-plan`, `frontend-design`
+- **Comandi**: `/brainstorm`, `/kit-plan`, `/orchestrate`, `/debug`, `/test`, `/status`, `/caveman`, `/ui-ux-pro-max`, `/latex`, `/scroll-film`, `/scroll-experience`, `/classic-ml`
 
 ### Script principali
 

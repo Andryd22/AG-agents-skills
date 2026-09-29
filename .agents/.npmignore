@@ -1,0 +1,10 @@
+**/__pycache__/
+**/*.pyc
+skills/latex-tutor/assets/main.aux
+skills/latex-tutor/assets/main.fdb_latexmk
+skills/latex-tutor/assets/main.fls
+skills/latex-tutor/assets/main.log
+skills/latex-tutor/assets/main.out
+skills/latex-tutor/assets/main.pdf
+skills/latex-tutor/assets/main.synctex.gz
+skills/latex-tutor/assets/main.toc

@@ -22,13 +22,13 @@ metadata:
 | **CODICE SEMPLICE** | "correggi", "aggiungi", "cambia" (un solo file) | LIVELLO 0 + LIVELLO 1 (leggero) | Modifica diretta |
 | **CODICE COMPLESSO** | "costruisci", "crea", "implementa", "refactoring" | LIVELLO 0 + LIVELLO 1 (completo) + agente | **Serve `docs/PLAN-{slug}.md`** |
 | **DESIGN/UI** | "design", "UI", "pagina", "dashboard" | LIVELLO 0 + LIVELLO 1 + agente | **Serve `docs/PLAN-{slug}.md`** |
-| **SLASH COMMAND** | /plan, /orchestrate, /debug, ... | La skill con quel nome | Variabile |
+| **SLASH COMMAND** | /kit-plan, /orchestrate, /debug, ... | La skill con quel nome | Variabile |
 
 ## 2. Tabella di scelta degli agenti
 
 **Usa questa tabella per scegliere gli agenti.** Elenca tutti gli agenti di `.agents/agents/`; tienila completa quando se ne aggiungono o se ne tolgono.
 
-| Intento dell'utente | Parole chiave / dominio | Agenti scelti (minimo) | Automatico? |
+| Intento dell'utente | Parole chiave / dominio | Specialisti suggeriti | Automatico? |
 | --- | --- | --- | --- |
 | **Autenticazione** | "login", "auth", "registrazione", "password", "jwt" | `backend-specialist` + `test-engineer` | ✅ SÌ |
 | **Componente UI** | "pulsante", "card", "layout", "stile" | `frontend-specialist` | ✅ SÌ |
@@ -49,26 +49,26 @@ metadata:
 | **LaTeX / università** | "latex", "appunti", "dalle slide al capitolo", "tesi", "paper", "tikz" | `latex-specialist` | ✅ SÌ |
 | **Documentazione** | "README", "documentazione delle API", "changelog" | `documentation-writer` | ❌ SOLO SE RICHIESTO |
 | **Analisi del codice** | "analizza il repo", "spiega il codice", "mappa la struttura" | `explorer-agent` | ✅ SÌ |
-| **Requisiti** | "user story", "criteri di accettazione", "specifiche", "backlog", "roadmap", "MVP", "PRD" | Nessun agente: la skill `plan` | ✅ SÌ |
-| **Piano** | "piano", "pianifica", "suddividi", "lista dei task" | Nessun agente: la skill `plan` | ✅ SÌ |
-| **Full stack** | "costruisci un'app", "fullstack", "piattaforma" | `orchestrator` (piano con `/plan`, poi `frontend-specialist` + `backend-specialist`) | ⚠️ PRIMA CHIEDI |
+| **Requisiti** | "user story", "criteri di accettazione", "specifiche", "backlog", "roadmap", "MVP", "PRD" | Nessun agente: la skill `kit-plan` | ✅ SÌ |
+| **Piano** | "piano", "pianifica", "suddividi", "lista dei task" | Nessun agente: la skill `kit-plan` | ✅ SÌ |
+| **Full stack** | "costruisci un'app", "fullstack", "piattaforma" | `orchestrator` (piano con `/kit-plan`, poi `frontend-specialist` + `backend-specialist`) | ⚠️ PRIMA CHIEDI |
 | **Nuova funzionalità** | "costruisci", "crea", "implementa", "nuova app" | `orchestrator` → più agenti | ⚠️ PRIMA CHIEDI |
 | **Compito complesso** | Più domini riconosciuti | `orchestrator` → più agenti | ⚠️ PRIMA CHIEDI |
 
-**Regola dei più domini:** se la richiesta corrisponde a 2 o più domini di righe diverse (es. "login sicuro con UI in dark mode" = backend + frontend), affidala all'`orchestrator`, che prima pianifica e poi coordina gli specialisti.
+**Regola dei più domini:** valuta se esistono sottocompiti separabili e se la delega offre un beneficio concreto. Più parole chiave non impongono più agenti. Per un lavoro piccolo può bastare un agente che carica più skill; per attività indipendenti usa l'`orchestrator`.
 
 ## 3. Passare il lavoro
 
 - **Nativo (app e CLI di Antigravity):** chiama `invoke_subagent` con il nome dell'agente. Il subagent parte con un contesto pulito, quindi il prompt deve contenere la richiesta completa dell'utente, le decisioni già prese (risposte al Socratic Gate), i file che servono e, se esiste, il piano in `docs/PLAN-{slug}.md`.
-- **Ripiego (senza custom agent, es. l'IDE di Antigravity finché non li supporta):** leggi `.agents/agents/<nome>.md` e lo `SKILL.md` di ogni skill nominata nella sua riga "Le tue skill", poi rispondi applicandoli.
+- **Ripiego (senza custom agent):** leggi `.agents/agents/<nome>.md` e solo le skill pertinenti al compito, poi rispondi applicandoli.
 - **Domande e modifiche banali** non hanno bisogno di un agente: rispondi direttamente.
 
 ## 4. Complessità
 
 | Livello | Segnali | Azione |
 | --- | --- | --- |
-| **SEMPLICE** | Un file, un dominio, compito chiaro ("sistema lo stile del pulsante di login") | Un agente |
-| **MEDIA** | 2-3 file, 2 domini, requisiti chiari ("aggiungi un endpoint per il profilo") | Gli agenti coinvolti, uno dopo l'altro |
+| **SEMPLICE** | Modifica circoscritta e chiara | Esecuzione diretta; specialista solo se utile |
+| **MEDIA** | Pochi file e requisiti chiari | Un agente con le skill necessarie; delega solo per sottocompiti distinti |
 | **COMPLESSA** | Molti file o domini, scelte di architettura, requisiti poco chiari ("costruisci un social") | `orchestrator`, che prima fa le domande del Socratic Gate |
 
 ## 5. Regole
