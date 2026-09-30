@@ -108,6 +108,21 @@ class InstallerTests(unittest.TestCase):
         self.install()
         self.assertTrue(personal.exists())
 
+    def test_legacy_leftovers_are_reported_not_removed(self):
+        old = self.project / ".agents/skills/old-kit-skill/SKILL.md"
+        self.write(old, "old\n")
+        self.write(self.project / ".agents/.ag-kit.json", json.dumps({"entries": ["skills/old-kit-skill", "scripts"]}))
+        result = self.run_cli("init", "-y")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(".agents/skills/old-kit-skill", result.stdout)
+        self.assertNotIn(".agents/scripts\n", result.stdout)
+        self.assertTrue(old.exists())
+
+    def test_npmignore_is_not_installed(self):
+        self.write(self.source / ".agents/.npmignore", "**/__pycache__/\n")
+        self.install()
+        self.assertFalse((self.project / ".agents/.npmignore").exists())
+
     def test_rejects_manifest_paths_outside_project(self):
         self.write(self.project / ".agents/.ag-kit.json", json.dumps({
             "schemaVersion": 2, "files": {"../../outside": "0" * 64}

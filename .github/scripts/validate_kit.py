@@ -282,7 +282,7 @@ def files_in(d):
 node = shutil.which("node")
 if node:
     installer = ROOT / "bin" / "install.js"
-    kit = [f for f in files_in(KIT) if "__pycache__" not in f and not f.endswith(".pyc")
+    kit = [f for f in files_in(KIT) if "__pycache__" not in f and not f.endswith(".pyc") and f != ".npmignore"
            and not re.match(r"skills/latex-tutor/assets/main\.(aux|fdb_latexmk|fls|log|out|pdf|synctex\.gz|toc)$", f)]
     with tempfile.TemporaryDirectory() as tmp:
         # 1. progetto vuoto: tutti i file del kit più il manifest

@@ -44,7 +44,7 @@ function readFile(root, relative) {
 function sourceFiles(root, prefix = '') {
   const files = {};
   for (const entry of fs.readdirSync(path.join(root, prefix), { withFileTypes: true })) {
-    if (['__pycache__', '.DS_Store', MANIFEST].includes(entry.name) || entry.name.endsWith('.pyc')) continue;
+    if (['__pycache__', '.DS_Store', '.npmignore', MANIFEST].includes(entry.name) || entry.name.endsWith('.pyc')) continue;
     const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
     if (/^skills\/latex-tutor\/assets\/main\.(aux|fdb_latexmk|fls|log|out|pdf|synctex\.gz|toc)$/.test(relative)) continue;
     safePath(root, relative);
@@ -60,7 +60,7 @@ function readManifest(root) {
   const data = JSON.parse(content.toString('utf8'));
   if (data.schemaVersion === undefined && Array.isArray(data.entries)) {
     console.log('Manifest precedente senza hash: i file non identificabili restano; le collisioni richiedono --force.');
-    return { version: data.version, files: {} };
+    return { version: data.version, files: {}, legacy: data.entries };
   }
   if (data.schemaVersion !== 2 || !data.files || Array.isArray(data.files) || typeof data.files !== 'object') {
     throw new Error('Manifest non valido o versione non supportata: installazione invariata.');
@@ -106,13 +106,20 @@ function planInstall(project, source, metadata) {
     const current = readFile(destination, relative);
     const next = incoming[relative] ?? null;
     if (hash(current) === hash(next)) continue;
-    if (hash(current) !== (previous.files[relative] ?? null)) conflicts.push(relative);
+    if (hash(current) !== (previous.files[relative] ?? null)) conflicts.push(`${KIT}/${relative}`);
     changes[`${KIT}/${relative}`] = next;
   }
   const files = Object.fromEntries(Object.entries(incoming).sort().map(([name, content]) => [name, hash(content)]));
   const manifest = Buffer.from(JSON.stringify({ schemaVersion: 2, ...metadata, files }, null, 2) + '\n');
   if (hash(readFile(destination, MANIFEST)) !== hash(manifest)) changes[`${KIT}/${MANIFEST}`] = manifest;
-  return { changes, conflicts, files };
+  // Le voci del vecchio manifest che il kit non ha più restano su disco: vanno segnalate.
+  const stale = (previous.legacy || []).filter(entry => {
+    try {
+      return !Object.keys(incoming).some(name => name === entry || name.startsWith(`${entry}/`)) &&
+        fs.existsSync(safePath(destination, entry));
+    } catch { return false; }
+  });
+  return { changes, conflicts, files, stale };
 }
 
 function writeFile(root, relative, content) {
@@ -189,6 +196,7 @@ function planRestore(project, input) {
 function executePlan(project, plan, options) {
   for (const [name, content] of Object.entries(plan.changes)) console.log(`  ${content === null ? 'rimuovi' : 'scrivi'} ${name}`);
   if (plan.conflicts.length) console.log(`Conflitti locali:\n${plan.conflicts.map(name => `  ${name}`).join('\n')}`);
+  if (plan.stale?.length) console.log(`Voci della versione precedente non più nel kit, da controllare e togliere a mano:\n${plan.stale.map(name => `  ${KIT}/${name}`).join('\n')}`);
   if (options.dryRun) {
     console.log('Anteprima: nessun file del progetto modificato.');
     if (plan.conflicts.length && !options.force) process.exitCode = 1;
