@@ -102,6 +102,18 @@ class CheckTests(unittest.TestCase):
         tests = next(item for item in report['results'] if item['name'] == 'Test del progetto')
         self.assertEqual(tests['status'], 'not_applicable')
 
+    def test_latex_subprojects_are_all_checked(self):
+        for teacher in ('Alfa', 'Beta'):
+            (self.project / 'latex' / teacher).mkdir(parents=True)
+            (self.project / 'latex' / teacher / 'main.tex').write_text('\\documentclass{book}\n\\begin{document}\nTest\n\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/scripts/checklist.py', '--json')
+        report = last_json(result.stdout)
+        latex = [item for item in report['results'] if item['name'].startswith('LaTeX')]
+        self.assertEqual([item['name'] for item in latex],
+                         ['LaTeX latex/Alfa (struttura; non compilazione)', 'LaTeX latex/Beta (struttura; non compilazione)'])
+        self.assertTrue(all(item['status'] == 'passed' for item in latex), latex)
+        self.assertEqual(report['status'], 'passed')
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)

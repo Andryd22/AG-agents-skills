@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1 (30/09/2026)
+
+- `checklist.py` e `verify_all.py` trovano anche i progetti LaTeX in `latex/<nome>/main.tex` (per esempio un progetto per docente) e li controllano tutti: prima il controllo LaTeX risultava non applicabile e la verifica incompleta.
+
 ## 5.0.0 (30/09/2026)
 
 ### Incompatibili

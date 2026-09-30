@@ -135,7 +135,7 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 
 ### Controlli finali
 
-`python .agents/scripts/checklist.py .` esegue schema, test e UX, indicando i controlli non applicabili. Se trova `main.tex` in radice o `latex/main.tex`, esegue anche il controllo strutturale LaTeX. La compilazione resta una verifica separata.
+`python .agents/scripts/checklist.py .` esegue schema, test e UX, indicando i controlli non applicabili. Se trova `main.tex` in radice o `latex/main.tex`, esegue anche il controllo strutturale LaTeX; senza questi, controlla ogni `latex/<nome>/main.tex` (per esempio un progetto per docente). La compilazione resta una verifica separata.
 
 `python .agents/scripts/verify_all.py .` aggiunge gli audit API e accessibilità; `--url http://localhost:3000` aggiunge uno **smoke test** browser, che non sostituisce i test dei flussi applicativi. L'URL non è necessario per progetti LaTeX o ML.
 

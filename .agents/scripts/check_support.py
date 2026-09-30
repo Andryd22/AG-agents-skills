@@ -35,6 +35,15 @@ def final_json(output):
     return None
 
 
+def latex_roots(project):
+    """main.tex in latex/ o in radice; se mancano, un progetto per ogni sottocartella di latex/ (es. uno per docente)."""
+    for candidate in (project / "latex", project):
+        if (candidate / "main.tex").is_file():
+            return [candidate]
+    latex = project / "latex"
+    return sorted(sub for sub in latex.iterdir() if (sub / "main.tex").is_file()) if latex.is_dir() else []
+
+
 def run_script(name, script, target, extra=(), timeout=300, structured=True):
     start = time.monotonic()
     if not script.is_file():
@@ -99,24 +108,25 @@ def main(full=False):
     if not project.is_dir():
         print_report(summarize([{"name": "Progetto", "status": "failed", "message": "Cartella inesistente"}]), args.json)
         return 1
-    latex_root = next((candidate for candidate in (project / "latex", project)
-                       if (candidate / "main.tex").is_file()), None)
+    roots = latex_roots(project)
     results = []
     for name, relative, extra in CHECKS + (EXTRA_CHECKS if full else []):
         result = run_script(name, KIT_ROOT / relative, project, extra)
-        if relative.endswith("test_runner.py") and result["status"] == "skipped" and latex_root:
+        if relative.endswith("test_runner.py") and result["status"] == "skipped" and roots:
             if not any((project / name).exists() for name in ("package.json", "pyproject.toml", "requirements.txt")):
                 result.update(status="not_applicable", message="Progetto LaTeX senza una suite software configurata")
         results.append(result)
         if args.stop_on_fail and result["status"] == "failed":
             break
     if not (args.stop_on_fail and any(result["status"] == "failed" for result in results)):
-        if latex_root:
-            results.append(run_script("LaTeX (struttura; non compilazione)",
+        for root in roots:
+            where = "" if len(roots) == 1 else f" {root.relative_to(project).as_posix()}"
+            results.append(run_script(f"LaTeX{where} (struttura; non compilazione)",
                                       KIT_ROOT / ".agents/skills/latex-review/scripts/check_project.py",
-                                      latex_root, structured=False))
-        else:
-            results.append({"name": "LaTeX", "status": "not_applicable", "message": "Nessun main.tex in radice o latex/"})
+                                      root, structured=False))
+        if not roots:
+            results.append({"name": "LaTeX", "status": "not_applicable",
+                            "message": "Nessun main.tex in radice, in latex/ o nelle sue sottocartelle"})
         if full or args.url:
             if args.url and not args.no_e2e:
                 result = run_script("Browser (smoke test)", KIT_ROOT / ".agents/skills/webapp-testing/scripts/playwright_runner.py", args.url)
