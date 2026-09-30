@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.2 (30/09/2026)
+
+- `check_project.py` riconosce le label date nelle opzioni dei listati (`\begin{lstlisting}[label={lst:...}]`, `\lstinputlisting[label=...]`): prima i riferimenti a quelle label risultavano non definiti (CRITICO) anche se la compilazione li risolve.
+
 ## 5.0.1 (30/09/2026)
 
 - `checklist.py` e `verify_all.py` trovano anche i progetti LaTeX in `latex/<nome>/main.tex` (per esempio un progetto per docente) e li controllano tutti: prima il controllo LaTeX risultava non applicabile e la verifica incompleta.

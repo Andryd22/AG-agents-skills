@@ -41,6 +41,8 @@ CHAPTER = re.compile(r"\\chapter(?:\[[^\]]*\])?\{")
 IMAGE_NAME = re.compile(r"ch(\d{2})-[a-z0-9]+(?:_[a-z0-9]+)*")
 DISPLAY = re.compile(r"(?<!\\)\\\[(.*?)\\\]|\\begin\{(equation|align|gather|multline|flalign)(\*?)\}(.*?)\\end\{\2\3\}", re.S)
 DISPLAY_TAIL = re.compile(r"(?:\s|\\\\|\\label\{[^}]*\}|\\nonumber\b|\\notag\b)+$")
+LISTING_START = re.compile(r"\\begin\{lstlisting\}\s*\[|\\lstinputlisting\s*\[")
+OPTION_LABEL = re.compile(r"(?:^|,)\s*label\s*=\s*\{?\s*([^,{}\s]+)")
 LIST_TOKEN = re.compile(r"\\begin\{(itemize|enumerate)\}|\\end\{(itemize|enumerate)\}|\\item\b(?:\[[^\]]*\])?")
 
 
@@ -51,6 +53,17 @@ def strip_comments(text):
 def blank_verbatim(text):
     """Tiene i numeri di riga, toglie i listati di codice (il loro contenuto non è LaTeX)."""
     return VERBATIM.sub(lambda m: "\n" * m.group(0).count("\n"), text)
+
+
+def listing_labels(text):
+    """Label date nelle opzioni dei listati (label={lst:...}), che blank_verbatim toglie insieme al codice."""
+    for m in LISTING_START.finditer(text):
+        depth, end = 0, m.end()
+        while end < len(text) and not (text[end] == "]" and depth == 0):
+            depth += {"{": 1, "}": -1}.get(text[end], 0)
+            end += 1
+        for label in OPTION_LABEL.finditer(text[m.end():end]):
+            yield label.group(1), m.start()
 
 
 def collect(root, main):
@@ -125,9 +138,12 @@ def main():
     chapter = 0  # capitoli numerati visti nei file precedenti, nell'ordine di main.tex
     for path in collect(root, args.main):
         rel = path.relative_to(root).as_posix()
-        text = blank_verbatim(strip_comments(path.read_text(encoding="utf-8", errors="replace")))
+        source = strip_comments(path.read_text(encoding="utf-8", errors="replace"))
+        text = blank_verbatim(source)
         for m in LABEL.finditer(text):
             labels.setdefault(m.group(1), []).append(f"{rel}:{line_of(text, m.start())}")
+        for name, start in listing_labels(source):
+            labels.setdefault(name, []).append(f"{rel}:{line_of(source, start)}")
         for m in REF.finditer(text):
             for name in m.group(1).split(","):
                 refs.append((name.strip(), f"{rel}:{line_of(text, m.start())}"))

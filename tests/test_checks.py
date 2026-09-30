@@ -114,6 +114,17 @@ class CheckTests(unittest.TestCase):
         self.assertTrue(all(item['status'] == 'passed' for item in latex), latex)
         self.assertEqual(report['status'], 'passed')
 
+    def test_listing_labels_are_defined(self):
+        (self.project / 'main.tex').write_text(
+            '\\documentclass{book}\n\\begin{document}\nVedi il Listato~\\ref{lst:uno} e~\\ref{lst:due}.\n'
+            '\\begin{lstlisting}[style=mystyle, caption={Codice [slide 3]},\n  label={lst:uno}]\nx = 1\n\\end{lstlisting}\n'
+            '\\lstinputlisting[label=lst:due]{codice.py}\nE~\\ref{lst:tre}.\n\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/skills/latex-review/scripts/check_project.py')
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn('lst:tre', result.stdout)
+        self.assertNotIn("'lst:uno'", result.stdout)
+        self.assertNotIn("'lst:due'", result.stdout)
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)
