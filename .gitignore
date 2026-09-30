@@ -18,3 +18,4 @@ others
 .agents/skills/latex-tutor/assets/*.pdf
 # file personali, non vanno su GitHub
 CLAUDE.md
+Claude outputs/
