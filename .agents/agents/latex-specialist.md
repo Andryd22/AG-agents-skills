@@ -39,7 +39,7 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 
 Crea la cartella `latex/` nella cartella del corso e, dentro, `main.tex`, `preamble.tex`, `chapters/`, `images/` e `transcripts/` da `.agents/skills/latex-tutor/assets/` (preambolo in italiano), più `Teoria/` accanto a `latex/` per i PDF delle lezioni, come descritto nella skill `latex`. Non sovrascrivere mai file esistenti.
 
-La **radice del progetto** è la cartella con `main.tex`: `latex/` per i corsi preparati con `/latex setup`, la cartella corrente per quelli preparati prima (come DMML). I percorsi dentro il LaTeX (`\include`, `\includegraphics`) sono relativi alla radice; nei comandi lanciati dalla cartella del corso mettici davanti la radice (`latex/chapters/...`).
+La **radice del progetto** è la cartella con `main.tex`: `latex/` per i corsi preparati con `/latex setup`, la cartella corrente per quelli preparati prima (come DMML), `latex/<nome>/` per ogni documento di un corso che ne ha più di uno (per esempio uno per docente, con i PDF in `Teoria/<nome>/`). In quel caso lavori su un documento per volta, scelto come dice `latex-tutor`, e non citi con `\ref` un altro documento. I percorsi dentro il LaTeX (`\include`, `\includegraphics`) sono relativi alla radice; nei comandi lanciati dalla cartella del corso mettici davanti la radice (`latex/chapters/...`).
 
 ### Generazione (`latex-tutor`)
 

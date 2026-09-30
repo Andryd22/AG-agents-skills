@@ -15,8 +15,9 @@ Segue main.tex attraverso \\input e \\include e segnala:
 Uso:
     python check_project.py [cartella_progetto] [--main main.tex]
 
-Se nella cartella non c'è main.tex ma c'è latex/main.tex (i corsi preparati con
-/latex setup), controlla latex/.
+Cerca main.tex in latex/ (i corsi preparati con /latex setup) e poi nella cartella;
+se mancano entrambi, controlla ogni latex/<nome>/main.tex: un corso con più
+documenti indipendenti, per esempio uno per docente.
 
 Codice di uscita 1 se c'è almeno un problema CRITICO.
 """
@@ -120,6 +121,15 @@ def list_issues(text):
     return found
 
 
+def project_roots(folder, main_file):
+    """Le radici con main.tex: latex/, la cartella, oppure ogni latex/<nome>/ (corsi con più documenti)."""
+    for candidate in (folder / "latex", folder):
+        if (candidate / main_file).is_file():
+            return [candidate]
+    latex = folder / "latex"
+    return sorted(sub for sub in latex.iterdir() if (sub / main_file).is_file()) if latex.is_dir() else []
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("project", nargs="?", default=".")
@@ -127,16 +137,24 @@ def main():
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    root = Path(args.project).resolve()
-    if not (root / args.main).is_file() and (root / "latex" / args.main).is_file():
-        root = root / "latex"  # corso preparato con /latex setup: il progetto sta in latex/
-    if not (root / args.main).is_file():
-        sys.exit(f"{root / args.main} non trovato")
+    folder = Path(args.project).resolve()
+    roots = project_roots(folder, args.main)
+    if not roots:
+        sys.exit(f"{args.main} non trovato in {folder / 'latex'}, in {folder} o in una sottocartella di latex/")
+    critical = []
+    for index, root in enumerate(roots):
+        if index:
+            print()
+        critical.append(check(root, args.main))
+    sys.exit(1 if any(critical) else 0)
 
+
+def check(root, main_file):
+    """Controlla un progetto e stampa il resoconto; True se ci sono problemi critici."""
     issues = {"CRITICO": [], "IMPORTANTE": [], "MINORE": []}
     labels, refs, used_images = {}, [], set()
     chapter = 0  # capitoli numerati visti nei file precedenti, nell'ordine di main.tex
-    for path in collect(root, args.main):
+    for path in collect(root, main_file):
         rel = path.relative_to(root).as_posix()
         source = strip_comments(path.read_text(encoding="utf-8", errors="replace"))
         text = blank_verbatim(source)
@@ -210,7 +228,7 @@ def main():
             if f.resolve() not in used_images:
                 issues["MINORE"].append(f"immagine non usata: {f.relative_to(root).as_posix()}")
 
-    files = collect(root, args.main)
+    files = collect(root, main_file)
     print(f"Progetto: {root}")
     print(f"{len(files)} file, {len(labels)} label, {len(refs)} riferimenti, {len(used_images)} immagini usate")
     for level, found in issues.items():
@@ -220,7 +238,7 @@ def main():
                 print(f"  {item}")
     total = sum(len(v) for v in issues.values())
     print(f"\ncritici {len(issues['CRITICO'])}, importanti {len(issues['IMPORTANTE'])}, minori {len(issues['MINORE'])}" if total else "\nnessun problema")
-    sys.exit(1 if issues["CRITICO"] else 0)
+    return bool(issues["CRITICO"])
 
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ La richiesta è il testo che segue `/latex`.
 
 | Segnale nella richiesta | Modalità | Skill |
 | --- | --- | --- |
-| "setup", "nuovo corso", "new course", cartella del corso senza `latex/main.tex` né `main.tex` | **Setup** | `@[skills/latex-tutor]` (assets) |
+| "setup", "nuovo corso", "new course", cartella del corso senza progetto LaTeX (nessun `main.tex` in `latex/`, in `latex/<nome>/` o nella cartella corrente) | **Setup** | `@[skills/latex-tutor]` (assets) |
 | il nome o il percorso di un PDF, "capitolo", "genera", "da queste slide", un PDF o una trascrizione allegati | **Generazione** | `@[skills/latex-tutor]` |
 | "revisiona", "controlla", "review", "correggi", "compila?" | **Revisione** | `@[skills/latex-review]` |
 | non chiaro | una domanda: nuovo corso, nuovo capitolo o revisione? | |
@@ -27,19 +27,19 @@ Passa il lavoro a `latex-specialist` con la richiesta, la modalità e i file coi
 Il progetto LaTeX sta nella sottocartella `latex/` della cartella del corso (quella in cui è installato il kit); i PDF delle lezioni stanno in `Teoria/`, accanto a `latex/`.
 
 1. Chiedi il titolo del corso e il nome dell'autore (salta quello che la richiesta dice già). Il corso nuovo è in italiano; in inglese solo se l'utente lo chiede.
-2. Se esiste già `latex/main.tex`, o un `main.tex` nella cartella corrente, il corso è già pronto: dillo all'utente e non creare niente.
+2. Se esiste già un progetto (`latex/main.tex`, `latex/<nome>/main.tex` o un `main.tex` nella cartella corrente), il corso è già pronto: dillo all'utente e non creare niente. Unica eccezione: in un corso con più documenti in `latex/<nome>/` l'utente può chiederne uno nuovo (`/latex setup <nome>`, per esempio per un altro docente). Allora crea `latex/<nome>/` con la struttura del punto 3, copiando `preamble.tex` da un documento esistente perché i preamboli restino uguali, e `Teoria/<nome>/` per i suoi PDF.
 3. Crea la cartella `latex/` e, dentro, senza sovrascrivere niente di quello che esiste:
    - `main.tex` e `preamble.tex` da `.agents/skills/latex-tutor/assets/`, con titolo, autore e `pdflang` compilati (per un corso in inglese segui anche il commento in cima a `preamble.tex`);
    - `chapters/`, `images/` e `transcripts/`.
 4. Crea `Teoria/` nella cartella del corso, accanto a `latex/`, se non c'è già: è la cartella dei PDF delle lezioni.
-5. **Compila il documento vuoto** una volta: `latexmk -cd -pdf -interaction=nonstopmode latex/main.tex`. Serve a scoprire subito se manca un pacchetto del preambolo (`physics`, `algorithm2e`, `microtype`...): MiKTeX li installa da solo, TeX Live no. Se fallisce, di' all'utente quale pacchetto installare; se non c'è nessuna distribuzione TeX, dillo e vai avanti.
+5. **Compila il documento vuoto** una volta: `latexmk -cd -pdf -interaction=nonstopmode latex/main.tex` (`latex/<nome>/main.tex` per un documento in più). Serve a scoprire subito se manca un pacchetto del preambolo (`physics`, `algorithm2e`, `microtype`...): MiKTeX li installa da solo, TeX Live no. Se fallisce, di' all'utente quale pacchetto installare; se non c'è nessuna distribuzione TeX, dillo e vai avanti.
 6. Di' all'utente di mettere i PDF delle lezioni in `Teoria/` e come generare il primo capitolo (`/latex Teoria/1-Introduzione.pdf`). Se preferisce tenerli fuori dalla cartella del corso, ricordagli di avviare la CLI con `agy --add-dir <cartella dei PDF>`, altrimenti non li puoi leggere.
 
 ---
 
 ## Generazione
 
-Segui la Procedura di `latex-tutor` (modalità Progetto) sulla radice del progetto: `latex/` se esiste `latex/main.tex`, altrimenti la cartella corrente (i corsi preparati prima, come DMML, hanno `main.tex` lì).
+Segui la Procedura di `latex-tutor` (modalità Progetto) sulla radice del progetto, scelta come dice la sua sezione Struttura del progetto: `latex/` se esiste `latex/main.tex`, altrimenti la cartella corrente (i corsi preparati prima, come DMML, hanno `main.tex` lì). In un corso con più documenti in `latex/<nome>/` la radice è quella del documento che l'utente nomina o della sottocartella di `Teoria/` del PDF; se non si capisce, chiedi.
 
 1. Leggi il preambolo (e la lingua del corso dal suo `babel`), mappa i capitoli esistenti con `grep`, leggi l'ultimo capitolo modificato per copiarne le convenzioni.
 2. Leggi il PDF (direttamente o con `slides.py text` e `render`) e la trascrizione, se c'è.
@@ -53,7 +53,7 @@ Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modal
 
 ## Revisione
 
-Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazione e log, checklist di stile, resoconto per gravità. Correggi solo dopo che l'utente ha detto quali problemi correggere.
+Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazione e log, checklist di stile, resoconto per gravità. In un corso con più documenti rivedi quello che l'utente nomina; se non ne nomina nessuno, tutti, con un resoconto per documento. Correggi solo dopo che l'utente ha detto quali problemi correggere.
 
 ---
 
@@ -64,7 +64,9 @@ Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazi
 /latex Teoria/5-Clustering.pdf
 /latex Teoria/5-Clustering.pdf con latex/transcripts/5-Clustering.txt
 /latex 5-Clustering.pdf
+/latex Teoria/Uricchio/03 - Local Features.pdf     # corso con più documenti: va in latex/Uricchio/
 /latex revisione
+/latex revisione Uricchio
 /latex correggi i problemi critici del capitolo 7
 ```
 

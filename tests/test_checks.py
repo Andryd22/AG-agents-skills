@@ -125,6 +125,16 @@ class CheckTests(unittest.TestCase):
         self.assertNotIn("'lst:uno'", result.stdout)
         self.assertNotIn("'lst:due'", result.stdout)
 
+    def test_check_project_finds_every_document_in_latex(self):
+        for teacher, body in (('Alfa', 'Test'), ('Beta', 'Vedi~\\ref{sec:manca}.')):
+            (self.project / 'latex' / teacher).mkdir(parents=True)
+            (self.project / 'latex' / teacher / 'main.tex').write_text(
+                '\\documentclass{book}\n\\begin{document}\n' + body + '\n\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/skills/latex-review/scripts/check_project.py')
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertEqual(result.stdout.count('Progetto: '), 2, result.stdout)
+        self.assertIn('sec:manca', result.stdout)
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)

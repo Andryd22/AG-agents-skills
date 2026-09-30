@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.1.0 (30/09/2026)
+
+- Corsi con più documenti LaTeX indipendenti in `latex/<nome>/` (per esempio uno per docente, con i PDF in `Teoria/<nome>/`): `/latex` sceglie il documento dal nome dato dall'utente o dalla sottocartella di `Teoria/` del PDF, altrimenti chiede; la revisione li controlla tutti o quello nominato; `/latex setup` non li scambia più per un corso da preparare e con `/latex setup <nome>` aggiunge un documento.
+- `check_project.py` lanciato sulla cartella del corso controlla ogni `latex/<nome>/main.tex`, uno dopo l'altro. Con `main.tex` sia in `latex/` sia nella cartella, sceglie `latex/`, come le skill e `checklist.py`.
+- Un PDF che raccoglie più capitoli (tutte le slide di un docente) si divide per parti e intervalli di slide indicati dall'utente.
+
 ## 5.0.2 (30/09/2026)
 
 - `check_project.py` riconosce le label date nelle opzioni dei listati (`\begin{lstlisting}[label={lst:...}]`, `\lstinputlisting[label=...]`): prima i riferimenti a quelle label risultavano non definiti (CRITICO) anche se la compilazione li risolve.
