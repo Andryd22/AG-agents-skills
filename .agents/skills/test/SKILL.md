@@ -17,7 +17,7 @@ Questo comando genera test, esegue quelli esistenti o controlla la copertura.
 
 ## Eseguire la suite
 
-`python .agents/skills/test/scripts/test_runner.py . [--coverage]` riconosce il framework (Jest, Vitest, pytest, ...), esegue la suite ed esce con un codice diverso da zero se qualcosa fallisce. Lo usano anche `checklist.py` e `verify_all.py`.
+`python .agents/skills/test/scripts/test_runner.py . [--coverage]` riconosce il framework (Jest, Vitest, pytest, ...), esegue la suite ed esce con un codice diverso da zero se qualcosa fallisce. Senza test configurati il risultato è `skipped`: un controllo saltato non è un controllo superato. Con `--json` stampa solo il risultato JSON. Lo usano anche `checklist.py` e `verify_all.py`.
 
 ---
 

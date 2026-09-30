@@ -34,10 +34,7 @@ npx.cmd github:Andryd22/AG-agents-skills update
 
 ### Aggiornamenti e file personali
 
-L'installer gestisce **singoli file**, identificati da hash SHA-256 in
-`.agents/.ag-kit.json`. Conserva le aggiunte personali anche dentro `scripts/`
-o dentro una skill del kit. Se un file gestito è stato modificato, o un nuovo file
-del kit collide con un file personale, si ferma prima di scrivere.
+L'installer gestisce **singoli file**, identificati da hash SHA-256 in `.agents/.ag-kit.json`. Conserva le aggiunte personali anche dentro `scripts/` o dentro una skill del kit. Se un file gestito è stato modificato, o un nuovo file del kit collide con un file personale, si ferma prima di scrivere.
 
 ```powershell
 # Mostra modifiche e conflitti senza modificare il progetto
@@ -51,26 +48,13 @@ npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id> --dry-run
 npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id>
 ```
 
-Ogni transazione conserva un backup in `.agents.backups/`; il ripristino rileva
-anche le modifiche fatte dopo l'installazione e produce a sua volta un backup.
-Un errore di scrittura avvia il rollback; se non riesce, viene indicato il backup
-da recuperare. Un download fallito restituisce errore e lascia i file installati
-intatti. `--force` non scavalca la validazione dei percorsi o del manifest.
+Ogni transazione conserva un backup in `.agents.backups/`; il ripristino rileva anche le modifiche fatte dopo l'installazione e produce a sua volta un backup. Un errore di scrittura avvia il rollback; se non riesce, viene indicato il backup da recuperare. Un download fallito restituisce errore e lascia i file installati intatti. `--force` non scavalca la validazione dei percorsi o del manifest.
 
-Il manifest registra versione, repository e, quando disponibile, commit e stato
-locale della sorgente. Con un vecchio manifest senza hash, i file non identificabili
-restano e le collisioni richiedono `--force`: non si cancellano intere cartelle.
-La vecchia `.agent/` resta intatta e va controllata per evitare regole duplicate.
-Aggiungi `.agents.backups/` e `.agents.install.lock` al `.gitignore` del progetto.
+Il manifest registra versione, repository e, quando disponibile, commit e stato locale della sorgente. Con un vecchio manifest senza hash, i file non identificabili restano e le collisioni richiedono `--force`: non si cancellano intere cartelle. Le voci del vecchio kit che non esistono più (per esempio `skills/plan/`) vengono elencate, da togliere a mano. La vecchia `.agent/` resta intatta e va controllata per evitare regole duplicate. Aggiungi `.agents.backups/` e `.agents.install.lock` al `.gitignore` del progetto.
 
-Requisiti: Node.js 20 o successivo; Git per `update`; Python 3.11 o successivo per
-i controlli. Per sviluppare il kit serve anche PyYAML. Le dipendenze delle singole
-skill (per esempio PyMuPDF e una distribuzione TeX) si installano solo quando servono.
+Requisiti: Node.js 20 o successivo; Git per `update`; Python 3.11 o successivo per i controlli. Per sviluppare il kit serve anche PyYAML. Le dipendenze delle singole skill (per esempio PyMuPDF e una distribuzione TeX) si installano solo quando servono.
 
-Un'interruzione forzata può lasciare `.agents.install.lock`: prima di rimuoverlo,
-verifica che l'installer non sia ancora in esecuzione. Il backup permette di
-recuperare una transazione interrotta. Non eliminare i backup prima di aver
-verificato l'aggiornamento.
+Un'interruzione forzata può lasciare `.agents.install.lock`: prima di rimuoverlo, verifica che l'installer non sia ancora in esecuzione. Il backup permette di recuperare una transazione interrotta. Non eliminare i backup prima di aver verificato l'aggiornamento.
 
 ## Cosa è Incluso
 
@@ -151,13 +135,9 @@ Le skill vengono caricate automaticamente in base al contesto della task: ogni a
 
 ### Controlli finali
 
-`python .agents/scripts/checklist.py .` esegue schema, test e UX, indicando i controlli
-non applicabili. Se trova `main.tex` in radice o `latex/main.tex`, esegue anche il
-controllo strutturale LaTeX. La compilazione resta una verifica separata.
+`python .agents/scripts/checklist.py .` esegue schema, test e UX, indicando i controlli non applicabili. Se trova `main.tex` in radice o `latex/main.tex`, esegue anche il controllo strutturale LaTeX. La compilazione resta una verifica separata.
 
-`python .agents/scripts/verify_all.py .` aggiunge gli audit API e accessibilità;
-`--url http://localhost:3000` aggiunge uno **smoke test** browser, che non sostituisce
-i test dei flussi applicativi. L'URL non è necessario per progetti LaTeX o ML.
+`python .agents/scripts/verify_all.py .` aggiunge gli audit API e accessibilità; `--url http://localhost:3000` aggiunge uno **smoke test** browser, che non sostituisce i test dei flussi applicativi. L'URL non è necessario per progetti LaTeX o ML.
 
 Entrambi accettano `--json` e conservano nel report gli output dei controlli.
 
@@ -168,24 +148,15 @@ Entrambi accettano `--json` e conservano nel report gli output dei controlli.
 | `skipped` | Verifica mancante: per esempio test non configurati |
 | `not_applicable` | Nessun elemento pertinente: per esempio nessuno schema database |
 
-Codici di uscita delle suite: **0** controlli applicabili superati, **1** errori,
-**2** verifica incompleta (controlli saltati o nessun controllo eseguito).
-Gli audit euristici riportano anche avvisi: il loro successo non certifica l'intero
-progetto. I test e le verifiche ML del progetto restano necessari.
+Codici di uscita delle suite: **0** controlli applicabili superati, **1** errori, **2** verifica incompleta (controlli saltati o nessun controllo eseguito). Gli audit euristici riportano anche avvisi: il loro successo non certifica l'intero progetto. I test e le verifiche ML del progetto restano necessari.
 
-Per contribuire al kit: `npm test`, `npm run validate` e il lint Markdown della CI.
-La CI esegue i test su Windows e Linux. Questi sono test del software del kit;
-le valutazioni comparative dei comportamenti degli agenti sono una fase separata.
+Per contribuire al kit: `npm test`, `npm run validate` e il lint Markdown della CI. La CI esegue i test su Windows e Linux. Questi sono test del software del kit; le valutazioni comparative dei comportamenti degli agenti sono una fase separata.
 
 ### Compatibilità Antigravity
 
-Il comando del kit è **`/kit-plan`**; `/plan` resta quello nativo di Antigravity.
-Se provieni da un manifest precedente senza hash, confronta e rimuovi la vecchia
-cartella `skills/plan/` dentro `.agents/`, dopo averne conservato eventuali personalizzazioni.
+Il comando del kit è **`/kit-plan`**; `/plan` resta quello nativo di Antigravity. Se provieni da un manifest precedente senza hash, confronta e rimuovi la vecchia cartella `skills/plan/` dentro `.agents/`, dopo averne conservato eventuali personalizzazioni.
 
-La distribuzione corrente usa `.agents/` nel progetto. Le verifiche sul formato
-plugin, i limiti dei percorsi e le differenze tra app, CLI e IDE sono in
-[docs/ANTIGRAVITY-COMPATIBILITY.md](docs/ANTIGRAVITY-COMPATIBILITY.md).
+La distribuzione corrente usa `.agents/` nel progetto. Le verifiche sul formato plugin, i limiti dei percorsi e le differenze tra app, CLI e IDE sono in [docs/ANTIGRAVITY-COMPATIBILITY.md](docs/ANTIGRAVITY-COMPATIBILITY.md).
 
 ## 🪨 Caveman Mode
 

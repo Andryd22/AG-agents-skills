@@ -29,11 +29,7 @@ Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: ogni vecch
 └── .ag-kit.json             # Manifest v2: hash per file, versione e origine
 ```
 
-L'installer traccia ogni file con hash SHA-256: aggiorna o rimuove solo i file
-gestiti, conserva le aggiunte personali e si ferma sui conflitti. `--dry-run`
-mostra il piano; `--force` permette sostituzioni con backup in `.agents.backups/`;
-`restore <backup>` ripristina con controllo dei conflitti. Manifest legacy senza
-hash e vecchia `.agent/` non autorizzano cancellazioni per cartella.
+L'installer traccia ogni file con hash SHA-256: aggiorna o rimuove solo i file gestiti, conserva le aggiunte personali e si ferma sui conflitti. `--dry-run` mostra il piano; `--force` permette sostituzioni con backup in `.agents.backups/`; `restore <backup>` ripristina con controllo dei conflitti. Manifest legacy senza hash e vecchia `.agent/` non autorizzano cancellazioni per cartella.
 
 ---
 
@@ -192,11 +188,7 @@ python .agents/scripts/checklist.py .
 python .agents/scripts/verify_all.py . --url http://localhost:3000
 ```
 
-Gli script di audit saltano `node_modules/`, le cartelle di build, `.agents/` e i
-backup del kit. Le suite distinguono `passed`, `failed`, `skipped`, `not_applicable`;
-uscite 0 (successo), 1 (errore), 2 (incompleto). `--json` include output ed errori.
-Un progetto vuoto non supera la verifica. La struttura LaTeX non equivale alla
-compilazione e un audit statico non sostituisce test funzionali o verifiche ML.
+Gli script di audit saltano `node_modules/`, le cartelle di build, `.agents/` e i backup del kit. Le suite distinguono `passed`, `failed`, `skipped`, `not_applicable`; uscite 0 (successo), 1 (errore), 2 (incompleto). `--json` include output ed errori. Un progetto vuoto non supera la verifica. La struttura LaTeX non equivale alla compilazione e un audit statico non sostituisce test funzionali o verifiche ML.
 
 ### Script delle skill
 

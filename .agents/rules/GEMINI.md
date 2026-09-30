@@ -127,12 +127,12 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 
 | Fase | Comando | Scopo |
 | --- | --- | --- |
-| **Controllo manuale** | `python .agents/scripts/checklist.py .` | Controlli di base: schema, test, UX |
-| **Prima del deploy** | `python .agents/scripts/verify_all.py . --url <URL>` | Suite completa + E2E |
+| **Controllo manuale** | `python .agents/scripts/checklist.py .` | Controlli di base: schema, test, UX, struttura LaTeX se c'è `main.tex` |
+| **Prima di un rilascio** | `python .agents/scripts/verify_all.py .` (`--url <URL>` per un'app web) | Controlli di base + API, accessibilità, smoke test nel browser |
 
 **Ordine di esecuzione:**
 
-1. **Lint e tipi** (strumenti del progetto: `npm run lint`, `tsc --noEmit`, `ruff`...) → 2. **Schema** → 3. **Test** → 4. **UX** → 5. **E2E** (con `--url`)
+1. **Lint e tipi** (strumenti del progetto: `npm run lint`, `tsc --noEmit`, `ruff`...) → 2. **Schema** → 3. **Test** → 4. **UX** → 5. **Struttura LaTeX** (se c'è `main.tex`) → 6. **Smoke test nel browser** (con `--url`)
 
 **Regole:**
 
