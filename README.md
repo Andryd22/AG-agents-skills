@@ -40,21 +40,24 @@ L'installer gestisce **singoli file**, identificati da hash SHA-256 in `.agents/
 # Mostra modifiche e conflitti senza modificare il progetto
 npx.cmd github:Andryd22/AG-agents-skills update --dry-run
 
-# Dopo aver confrontato i conflitti: sostituisce e conserva gli originali
+# Dopo aver confrontato i conflitti: sostituisce e conserva gli originali in un backup
 npx.cmd github:Andryd22/AG-agents-skills update --force
+
+# Aggiorna e conserva comunque un backup dei file sostituiti
+npx.cmd github:Andryd22/AG-agents-skills update --backup
 
 # Ripristina il backup indicato dall'installer (anteprima disponibile)
 npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id> --dry-run
 npx.cmd github:Andryd22/AG-agents-skills restore .agents.backups/<id>
 ```
 
-Ogni transazione conserva un backup in `.agents.backups/`; il ripristino rileva anche le modifiche fatte dopo l'installazione e produce a sua volta un backup. Un errore di scrittura avvia il rollback; se non riesce, viene indicato il backup da recuperare. Un download fallito restituisce errore e lascia i file installati intatti. `--force` non scavalca la validazione dei percorsi o del manifest.
+Di norma l'installer non lascia backup: i file del kit si riscaricano quando servono. Li salva in `.agents.backups/` solo con `--backup`, oppure quando `--force` sostituisce file cambiati a mano; `restore` li rimette a posto e rileva le modifiche fatte dopo l'installazione. Un errore di scrittura avvia comunque il rollback dei file già scritti. Un download fallito restituisce errore e lascia i file installati intatti. `--force` non scavalca la validazione dei percorsi o del manifest.
 
-Il manifest registra versione, repository e, quando disponibile, commit e stato locale della sorgente. Con un vecchio manifest senza hash, i file non identificabili restano e le collisioni richiedono `--force`: non si cancellano intere cartelle. Le voci del vecchio kit che non esistono più (per esempio `skills/plan/`) vengono elencate, da togliere a mano. La vecchia `.agent/` resta intatta e va controllata per evitare regole duplicate. Aggiungi `.agents.backups/` e `.agents.install.lock` al `.gitignore` del progetto.
+Il manifest registra versione, repository e, quando disponibile, commit e stato locale della sorgente. Con un vecchio manifest senza hash, i file non identificabili restano e le collisioni richiedono `--force`: non si cancellano intere cartelle. Le voci del vecchio kit che non esistono più (per esempio `skills/plan/`) vengono elencate, da togliere a mano. La vecchia `.agent/` resta intatta e va controllata per evitare regole duplicate. Se il progetto è un repository git, aggiungi `.agents.install.lock` (e `.agents.backups/`, se usi i backup) al suo `.gitignore`.
 
 Requisiti: Node.js 20 o successivo; Git per `update`; Python 3.11 o successivo per i controlli. Per sviluppare il kit serve anche PyYAML. Le dipendenze delle singole skill (per esempio PyMuPDF e una distribuzione TeX) si installano solo quando servono.
 
-Un'interruzione forzata può lasciare `.agents.install.lock`: prima di rimuoverlo, verifica che l'installer non sia ancora in esecuzione. Il backup permette di recuperare una transazione interrotta. Non eliminare i backup prima di aver verificato l'aggiornamento.
+Un'interruzione forzata può lasciare `.agents.install.lock`: prima di rimuoverlo, verifica che l'installer non sia ancora in esecuzione. I backup in `.agents.backups/` si possono cancellare quando l'aggiornamento è verificato.
 
 ## Cosa è Incluso
 

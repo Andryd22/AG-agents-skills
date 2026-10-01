@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.4.0 (01/10/2026)
+
+- L'installer non crea più `.agents.backups/` a ogni aggiornamento: salva i file sostituiti solo con la nuova opzione `--backup`, oppure quando `--force` sostituisce file cambiati a mano. Il rollback dopo un errore di scrittura resta, con gli originali in memoria.
+
 ## 5.3.0 (01/10/2026)
 
 - `GEMINI.md`: nuova regola "Formule matematiche nelle spiegazioni", nata nel corso di Quantum. Nelle risposte all'utente niente LaTeX grezzo: le formule vanno in blocchi `text`, con notazione Unicode o ASCII.

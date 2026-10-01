@@ -166,8 +166,26 @@ try { installer.main(['init', '-y']); } catch (error) { console.error(error.mess
         after = {p.relative_to(self.project): p.read_bytes() for p in (self.project / '.agents').rglob('*') if p.is_file()}
         self.assertEqual(after, before)
 
-    def test_restore_refuses_changes_made_after_install(self):
+    def test_no_backup_by_default(self):
         self.install()
+        self.write(self.source / ".agents/skills/example/SKILL.md", "new version\n")
+        self.install()
+        self.assertFalse((self.project / ".agents.backups").exists())
+        self.assertEqual((self.project / ".agents/skills/example/SKILL.md").read_text(), "new version\n")
+
+    def test_backup_option_creates_restorable_backup(self):
+        self.install()
+        self.write(self.source / ".agents/skills/example/SKILL.md", "new version\n")
+        result = self.run_cli("init", "-y", "--backup")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        backup = next((self.project / ".agents.backups").glob("*/transaction.json")).parent
+        result = self.run_cli("restore", str(backup))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.project / ".agents/skills/example/SKILL.md").read_text(), "example\n")
+
+    def test_restore_refuses_changes_made_after_install(self):
+        result = self.run_cli('init', '-y', '--backup')
+        self.assertEqual(result.returncode, 0, result.stderr)
         backup = next((self.project / '.agents.backups').glob('*/transaction.json')).parent
         self.write(self.project / '.agents/scripts/check.py', 'later change\n')
         before = self.snapshot()

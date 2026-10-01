@@ -138,19 +138,23 @@ function writeFile(root, relative, content) {
   }
 }
 
-function applyChanges(project, changes) {
+function applyChanges(project, changes, keepBackup) {
   const names = Object.keys(changes);
   if (!names.length) return null;
-  const backupName = `${BACKUPS}/${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomBytes(3).toString('hex')}`;
-  const backup = safePath(project, backupName);
+  // Gli originali restano in memoria per il rollback; su disco solo se serve un backup da ripristinare.
   const originals = Object.fromEntries(names.map(name => [name, readFile(project, name)]));
-  fs.mkdirSync(backup, { recursive: true });
-  const records = names.map(name => ({ path: name, before: hash(originals[name]), after: hash(changes[name]) }));
-  for (const name of names) {
-    if (originals[name] !== null) writeFile(backup, `files/${name}`, originals[name]);
+  let backup = null;
+  if (keepBackup) {
+    const backupName = `${BACKUPS}/${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomBytes(3).toString('hex')}`;
+    backup = safePath(project, backupName);
+    fs.mkdirSync(backup, { recursive: true });
+    const records = names.map(name => ({ path: name, before: hash(originals[name]), after: hash(changes[name]) }));
+    for (const name of names) {
+      if (originals[name] !== null) writeFile(backup, `files/${name}`, originals[name]);
+    }
+    const transaction = { schemaVersion: 1, project: fs.realpathSync(project), records };
+    writeFile(backup, 'transaction.json', Buffer.from(JSON.stringify(transaction, null, 2) + '\n'));
   }
-  const transaction = { schemaVersion: 1, project: fs.realpathSync(project), records };
-  writeFile(backup, 'transaction.json', Buffer.from(JSON.stringify(transaction, null, 2) + '\n'));
   const attempted = [];
   try {
     for (const name of names) {
@@ -162,7 +166,7 @@ function applyChanges(project, changes) {
     for (const name of attempted.reverse()) {
       try { writeFile(project, name, originals[name]); } catch (rollbackError) { failures.push(rollbackError.message); }
     }
-    throw new Error(`${error.message}\n${failures.length ? `Ripristino incompleto: ${failures.join('; ')}` : 'File originali ripristinati.'}\nBackup: ${backup}`);
+    throw new Error(`${error.message}\n${failures.length ? `Ripristino incompleto: ${failures.join('; ')}` : 'File originali ripristinati.'}${backup ? `\nBackup: ${backup}` : ''}`);
   }
   return backup;
 }
@@ -202,21 +206,23 @@ function executePlan(project, plan, options) {
     if (plan.conflicts.length && !options.force) process.exitCode = 1;
     return;
   }
-  if (plan.conflicts.length && !options.force) throw new Error('Modifiche locali o file non gestiti: confrontali e usa --force solo per sostituirli con backup.');
-  const backup = applyChanges(project, plan.changes);
-  console.log(backup ? `Backup ripristinabile: ${backup}` : 'Nessuna modifica necessaria.');
+  if (plan.conflicts.length && !options.force) throw new Error('Modifiche locali o file non gestiti: confrontali e usa --force solo per sostituirli (gli originali finiscono in un backup).');
+  // Il backup si fa solo con --backup, oppure quando --force sostituisce file cambiati a mano.
+  const backup = applyChanges(project, plan.changes, options.backup || plan.conflicts.length > 0);
+  if (backup) console.log(`Backup ripristinabile: ${backup}`);
+  else if (!Object.keys(plan.changes).length) console.log('Nessuna modifica necessaria.');
 }
 
 function main(args = process.argv.slice(2)) {
-  const options = { dryRun: args.includes('--dry-run'), force: args.includes('--force') };
+  const options = { dryRun: args.includes('--dry-run'), force: args.includes('--force'), backup: args.includes('--backup') };
   const positional = args.filter(arg => !arg.startsWith('-'));
   const yes = args.includes('-y') || args.includes('--yes');
   const command = positional[0] || (yes ? 'init' : 'help');
   if (command === 'help' || args.includes('--help') || args.includes('-h')) {
-    console.log(`Antigravity Kit v${pkg.version}\n\nComandi:\n  init -y                 Installa i file del kit\n  update                  Scarica da GitHub (un errore lascia tutto invariato)\n  restore <backup>        Ripristina un backup di questo progetto\n\nOpzioni:\n  --dry-run               Mostra modifiche e conflitti senza applicarli\n  --force                 Sostituisce i file in conflitto, conservandoli nel backup\n  -y, --yes               Conferma init (non scavalca i conflitti)\n`);
+    console.log(`Antigravity Kit v${pkg.version}\n\nComandi:\n  init -y                 Installa i file del kit\n  update                  Scarica da GitHub (un errore lascia tutto invariato)\n  restore <backup>        Ripristina un backup creato con --backup o --force\n\nOpzioni:\n  --dry-run               Mostra modifiche e conflitti senza applicarli\n  --force                 Sostituisce i file in conflitto, salvandoli in un backup\n  --backup                Conserva in .agents.backups/ i file sostituiti, per restore\n  -y, --yes               Conferma init (non scavalca i conflitti)\n`);
     return;
   }
-  const known = new Set(['--dry-run', '--force', '-y', '--yes']);
+  const known = new Set(['--dry-run', '--force', '--backup', '-y', '--yes']);
   if (args.some(arg => arg.startsWith('-') && !known.has(arg))) throw new Error('Opzione sconosciuta. Usa help.');
   if (!['init', 'update', 'restore'].includes(command)) throw new Error(`Comando sconosciuto: ${command}`);
   if (positional.length !== (command === 'restore' ? 2 : 1) && !(command === 'init' && positional.length === 0)) throw new Error('Argomenti non validi. Usa help.');

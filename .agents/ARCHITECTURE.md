@@ -29,7 +29,7 @@ Antigravity ha deprecato i workflow e li ritira il 1° novembre 2026: ogni vecch
 └── .ag-kit.json             # Manifest v2: hash per file, versione e origine
 ```
 
-L'installer traccia ogni file con hash SHA-256: aggiorna o rimuove solo i file gestiti, conserva le aggiunte personali e si ferma sui conflitti. `--dry-run` mostra il piano; `--force` permette sostituzioni con backup in `.agents.backups/`; `restore <backup>` ripristina con controllo dei conflitti. Manifest legacy senza hash e vecchia `.agent/` non autorizzano cancellazioni per cartella.
+L'installer traccia ogni file con hash SHA-256: aggiorna o rimuove solo i file gestiti, conserva le aggiunte personali e si ferma sui conflitti. `--dry-run` mostra il piano; `--force` sostituisce i file in conflitto salvandoli in `.agents.backups/`; `--backup` conserva lì i file sostituiti anche senza conflitti (di norma non c'è backup); `restore <backup>` ripristina con controllo dei conflitti. Manifest legacy senza hash e vecchia `.agent/` non autorizzano cancellazioni per cartella.
 
 ---
 
