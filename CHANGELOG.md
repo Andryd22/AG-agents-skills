@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.2.0 (01/10/2026)
+
+- Nuova convenzione LaTeX: una formula nel titolo di un capitolo o di una sezione va dentro `\texorpdfstring{<formula>}{<testo>}`, così `hyperref` scrive i segnalibri del PDF senza avvisi (`latex-tutor`, `latex-review`, `latex-specialist`).
+- `check_project.py` segnala (IMPORTANTE) le formule nei titoli fuori da `\texorpdfstring`; i titoli con asterisco non vanno nei segnalibri e non vengono controllati, e se c'è un titolo breve tra `[]` controlla quello.
+
 ## 5.1.0 (30/09/2026)
 
 - Corsi con più documenti LaTeX indipendenti in `latex/<nome>/` (per esempio uno per docente, con i PDF in `Teoria/<nome>/`): `/latex` sceglie il documento dal nome dato dall'utente o dalla sottocartella di `Teoria/` del PDF, altrimenti chiede; la revisione li controlla tutti o quello nominato; `/latex setup` non li scambia più per un corso da preparare e con `/latex setup <nome>` aggiunge un documento.

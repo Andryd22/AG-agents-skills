@@ -8,7 +8,8 @@ Segue main.tex attraverso \\input e \\include e segnala:
               sbagliato (tabelle sopra, figure sotto), segnaposto di immagini
               ancora da sostituire, numeri di capitolo/sezione scritti a mano,
               elenchi le cui voci non finiscono tutte con ";" o tutte con ".",
-              immagini non chiamate chXY-nome_figura o con XY diverso dal capitolo
+              immagini non chiamate chXY-nome_figura o con XY diverso dal capitolo,
+              formule nei titoli fuori da \\texorpdfstring (segnalibri del PDF sbagliati)
   MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases,
               formule in display chiuse da virgola o punto
 
@@ -44,6 +45,9 @@ DISPLAY = re.compile(r"(?<!\\)\\\[(.*?)\\\]|\\begin\{(equation|align|gather|mult
 DISPLAY_TAIL = re.compile(r"(?:\s|\\\\|\\label\{[^}]*\}|\\nonumber\b|\\notag\b)+$")
 LISTING_START = re.compile(r"\\begin\{lstlisting\}\s*\[|\\lstinputlisting\s*\[")
 OPTION_LABEL = re.compile(r"(?:^|,)\s*label\s*=\s*\{?\s*([^,{}\s]+)")
+HEADING = re.compile(r"\\(?:part|chapter|section|subsection|subsubsection)(?![A-Za-z*])\s*")
+TEXORPDF = re.compile(r"\\texorpdfstring\s*")
+MATH = re.compile(r"(?<!\\)\$|\\\(")
 LIST_TOKEN = re.compile(r"\\begin\{(itemize|enumerate)\}|\\end\{(itemize|enumerate)\}|\\item\b(?:\[[^\]]*\])?")
 
 
@@ -65,6 +69,58 @@ def listing_labels(text):
             end += 1
         for label in OPTION_LABEL.finditer(text[m.end():end]):
             yield label.group(1), m.start()
+
+
+def braced(text, start):
+    """Contenuto della graffa che si apre in text[start] e posizione dopo quella che la chiude; None se non c'è."""
+    if start >= len(text) or text[start] != "{":
+        return None
+    depth, i = 0, start
+    while i < len(text):
+        if text[i] == "\\":
+            i += 2
+            continue
+        depth += {"{": 1, "}": -1}.get(text[i], 0)
+        if depth == 0:
+            return text[start + 1:i], i + 1
+        i += 1
+    return None
+
+
+def title_without_texorpdf(title):
+    """Il titolo senza i \\texorpdfstring{...}{...}, per cercare la matematica rimasta fuori."""
+    out, pos = [], 0
+    for m in TEXORPDF.finditer(title):
+        if m.start() < pos:
+            continue
+        first = braced(title, m.end())
+        if not first:
+            continue
+        rest = first[1]
+        while rest < len(title) and title[rest].isspace():
+            rest += 1
+        second = braced(title, rest)
+        if second:
+            out.append(title[pos:m.start()])
+            pos = second[1]
+    return "".join(out) + title[pos:]
+
+
+def heading_titles(text):
+    """(posizione, titolo) dei titoli che vanno nei segnalibri: quello breve tra [] se c'è."""
+    for m in HEADING.finditer(text):
+        i, short = m.end(), None
+        if text[i:i + 1] == "[":
+            depth, j = 0, i + 1
+            while j < len(text) and not (text[j] == "]" and depth == 0):
+                depth += {"{": 1, "}": -1}.get(text[j], 0)
+                j += 1
+            short, i = text[i + 1:j], j + 1
+            while i < len(text) and text[i].isspace():
+                i += 1
+        full = braced(text, i)
+        if full:
+            yield m.start(), short if short is not None else full[0]
 
 
 def collect(root, main):
@@ -203,6 +259,10 @@ def check(root, main_file):
             body = DISPLAY_TAIL.sub("", m.group(1) if m.group(1) is not None else m.group(4))
             if body.endswith((",", ".", ";")) and not body.endswith(("\\,", "\\;")):
                 issues["MINORE"].append(f"{rel}:{line_of(text, m.start())} formula in display chiusa da {body[-1]!r}: dopo la formula non va nessun segno")
+        for pos, title in heading_titles(text):
+            if MATH.search(title_without_texorpdf(title)):
+                issues["IMPORTANTE"].append(f"{rel}:{line_of(text, pos)} formula nel titolo fuori da \\texorpdfstring: "
+                                            f"{' '.join(title.split())[:70]}")
         for m in PLACEHOLDER.finditer(text):
             issues["IMPORTANTE"].append(f"{rel}:{line_of(text, m.start())} segnaposto: {m.group(0).strip()}")
         for m in HAND_NUMBER.finditer(text):

@@ -84,6 +84,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | --- | --- |
 | Capitolo | `\chapter{...}` + `\label{ch:<slug>}` + paragrafo di apertura |
 | Argomento principale / sotto-argomento / distinzione leggera | `\section`, `\subsection`, `\paragraph{}` |
+| Formula in un titolo | `\section{Il coefficiente \texorpdfstring{$R^2$}{R2}}`: testo semplice nel secondo argomento, per i segnalibri del PDF |
 | Definizione, teorema, esempio | `\begin{definition}[Termine]` + `\label{def:...}`, `theorem`, `example` |
 | Sistema di equazioni | `\begin{dcases}...\end{dcases}` |
 | Vettore, matrice, derivata | `\bm{v}`, `\mathbf{M}`, `\dv{f}{x}` / `\pdv{f}{x}` |
@@ -115,6 +116,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Tag `[cite]`, `<source>`, `[ref]` | Toglierli: rompono la compilazione |
 | `\uline{...}`, `\tikzstyle` | `\textbf{...}`, `\tikzset` |
 | `\usepackage` dentro un capitolo | Dire all'utente quale riga aggiungere al preambolo |
+| `\section{Il coefficiente $R^2$}` | `\section{Il coefficiente \texorpdfstring{$R^2$}{R2}}` |
 | Mescolare italiano e inglese nello stesso corso | Scrivere tutto nella lingua del corso |
 | Dichiarare finito senza compilare | `latexmk`, poi correggere errori e riferimenti non definiti |
 
@@ -128,6 +130,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
 - [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
+- [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula
 - [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure; `\noindent` dove serve
 - [ ] Zero tag di citazione, zero `\uline`, tutto il testo LaTeX nella lingua del corso

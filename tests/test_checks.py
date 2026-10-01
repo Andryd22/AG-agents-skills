@@ -135,6 +135,22 @@ class CheckTests(unittest.TestCase):
         self.assertEqual(result.stdout.count('Progetto: '), 2, result.stdout)
         self.assertIn('sec:manca', result.stdout)
 
+    def test_math_in_titles_needs_texorpdfstring(self):
+        (self.project / 'main.tex').write_text(
+            '\\documentclass{book}\n\\begin{document}\n'
+            '\\section{Il coefficiente $R^2$}\n'
+            '\\subsection{L\'algoritmo \\texorpdfstring{$k$}{k}-means}\n'
+            '\\section*{Senza numero $x$}\n'
+            '\\section[Titolo breve]{Titolo lungo $y$}\n'
+            '\\subsubsection{Costo di \\$5}\n'
+            '\\chapter{Spazio \\texorpdfstring{$\\mathbb{C}^{n}$}{C^n} e \\(\\alpha\\)}\n'
+            '\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/skills/latex-review/scripts/check_project.py')
+        flagged = [line for line in result.stdout.splitlines() if 'texorpdfstring' in line]
+        self.assertEqual(len(flagged), 2, result.stdout)
+        self.assertIn('main.tex:3 ', flagged[0])
+        self.assertIn('main.tex:8 ', flagged[1])
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)

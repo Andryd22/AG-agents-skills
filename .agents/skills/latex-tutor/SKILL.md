@@ -139,6 +139,7 @@ Il gradiente si aggiorna così:
 ```
 
 - Numera solo le equazioni che citi (`equation` + `\label{eq:...}`); le altre vanno in `\[ ... \]` o `align*`.
+- **Formule nei titoli** di `\chapter`, `\section`, `\subsection` e `\subsubsection`: sempre dentro `\texorpdfstring{<formula>}{<testo>}`. Il primo argomento va nel documento, il secondo nei segnalibri del PDF, che `hyperref` scrive senza matematica: lì metti solo testo semplice, senza comandi. Per esempio `\section{Il coefficiente \texorpdfstring{$R^2$}{R2}}` e `\subsection{L'algoritmo \texorpdfstring{$k$}{k}-means}`.
 
 ### Teoremi, definizioni ed esempi
 

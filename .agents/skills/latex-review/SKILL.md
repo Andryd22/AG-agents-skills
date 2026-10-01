@@ -20,7 +20,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
    python .agents/skills/latex-review/scripts/check_project.py .
    ```
 
-   Se il progetto sta in `latex/`, lo script lo trova da solo; se ci sono più documenti in `latex/<nome>/`, li controlla tutti, uno dopo l'altro. Per un solo documento passagli la sua radice (`check_project.py latex/Uricchio`). I percorsi nel suo elenco sono relativi alla radice. Se ti trovi dentro `latex/`, il percorso dello script diventa `../.agents/skills/latex-review/scripts/check_project.py`. Se il file principale non si chiama `main.tex`, aggiungi `--main <nome del file>`. Segue `\input`/`\include` ed elenca riferimenti non definiti, label duplicate, file di immagine mancanti, tag di citazione, figure e tabelle senza didascalia o label o con la didascalia dal lato sbagliato, segnaposto da sostituire, numeri di capitolo o di sezione scritti a mano, elenchi con voci chiuse da segni diversi, immagini non usate o con un nome diverso da `chXY-nome_figura`, `\uline`, `\tikzstyle`, `cases` e formule in display chiuse da virgola o punto.
+   Se il progetto sta in `latex/`, lo script lo trova da solo; se ci sono più documenti in `latex/<nome>/`, li controlla tutti, uno dopo l'altro. Per un solo documento passagli la sua radice (`check_project.py latex/Uricchio`). I percorsi nel suo elenco sono relativi alla radice. Se ti trovi dentro `latex/`, il percorso dello script diventa `../.agents/skills/latex-review/scripts/check_project.py`. Se il file principale non si chiama `main.tex`, aggiungi `--main <nome del file>`. Segue `\input`/`\include` ed elenca riferimenti non definiti, label duplicate, file di immagine mancanti, tag di citazione, figure e tabelle senza didascalia o label o con la didascalia dal lato sbagliato, segnaposto da sostituire, numeri di capitolo o di sezione scritti a mano, elenchi con voci chiuse da segni diversi, formule nei titoli senza `\texorpdfstring`, immagini non usate o con un nome diverso da `chXY-nome_figura`, `\uline`, `\tikzstyle`, `cases` e formule in display chiuse da virgola o punto.
 3. **Compilazione.** `latexmk -cd -pdf -interaction=nonstopmode <radice>/main.tex`, poi leggi `<radice>/main.log`: errori (righe con `!`), riferimenti `undefined`, label `multiply defined`, `Overfull \hbox` più larghi di 10pt, file mancanti. Per ciascuno indica file e riga. Se non c'è una distribuzione TeX installata, dillo e vai avanti.
 4. **Stile.** Leggi i capitoli da rivedere (tutti, o quelli che l'utente nomina) confrontandoli con la checklist qui sotto.
 5. **Resoconto** in italiano, nel formato qui sotto.
@@ -75,6 +75,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Derivate | `\frac{df}{dx}` invece di `\dv{f}{x}`, `\pdv{f}{x}` |
 | Norme, valori assoluti | `\norm{}`, `\abs{}` di `physics` |
 | Punteggiatura | frase che introduce una formula in display senza `:` finale; virgola o punto dopo l'ultima parte della formula |
+| Titoli | formule nei titoli di capitoli e sezioni fuori da `\texorpdfstring{<formula>}{<testo>}`: `hyperref` dà avvisi e i segnalibri del PDF vengono sbagliati |
 
 ### 5. Formattazione (🔵 minore)
 
