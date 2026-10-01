@@ -62,6 +62,12 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 3. **Documenti** (piani, README, appunti): in italiano. Gli appunti di un corso già scritto in un'altra lingua seguono quella lingua (vedi `latex-tutor`).
 4. **Nomi del kit** (agenti, skill, comandi, percorsi) restano in inglese.
 
+### 📦 Formule matematiche nelle spiegazioni
+
+- **MAI codice LaTeX grezzo** (`$...$`, `$$...$$`, `\frac`, `\ket`, `\begin`, ecc.) nelle risposte e spiegazioni testuali all'utente.
+- **SEMPRE formattate in box** (blocchi di codice ` ```text ... ``` `).
+- Usa caratteri chiari, leggibili e notazione Unicode/ASCII (`|0>`, `|1>`, `|+>`, `|->`, `√2`, `α`, `β`, `1/2`, `P_tot`, `²`).
+
 ### 🧹 Clean Code (obbligatorio ovunque)
 
 **TUTTO il codice DEVE seguire le regole di `@[skills/clean-code]`. Nessuna eccezione.**

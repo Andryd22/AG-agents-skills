@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.0 (01/10/2026)
+
+- `GEMINI.md`: nuova regola "Formule matematiche nelle spiegazioni", nata nel corso di Quantum. Nelle risposte all'utente niente LaTeX grezzo: le formule vanno in blocchi `text`, con notazione Unicode o ASCII.
+
 ## 5.2.0 (01/10/2026)
 
 - Nuova convenzione LaTeX: una formula nel titolo di un capitolo o di una sezione va dentro `\texorpdfstring{<formula>}{<testo>}`, così `hyperref` scrive i segnalibri del PDF senza avvisi (`latex-tutor`, `latex-review`, `latex-specialist`).
