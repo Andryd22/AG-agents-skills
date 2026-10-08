@@ -45,7 +45,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Controllo | Cosa cercare |
 | --- | --- |
 | Capitoli | uno per PDF di lezione, tutti inclusi in `main.tex`, in ordine |
-| Dimensioni | una sottosezione per slide vuol dire poca sintesi; tante sottosezioni vanno bene se gli argomenti sono davvero distinti |
+| Dimensioni | una sottosezione per slide vuol dire poca sintesi; tante sezioni o sottosezioni vanno bene se gli argomenti sono davvero distinti |
 | Ridondanza | lo stesso concetto spiegato per intero in due capitoli: tienine uno e cita quello dall'altro |
 | Riferimenti incrociati | `Capitolo~\ref{ch:...}` (o `Chapter~\ref` in un corso inglese) a label esistenti, niente numeri scritti a mano |
 | Segnaposto | `INSERISCI IMMAGINE DALLA SLIDE N` o `INSERT IMAGE FROM SLIDE N` rimasti: elencali con i numeri di slide (`latex-tutor` può ritagliarli) |

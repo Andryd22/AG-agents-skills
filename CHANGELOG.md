@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.4.1 (08/10/2026)
+
+- LaTeX: tolto il tetto implicito di 3-6 sezioni per capitolo (`latex-tutor`, `latex-specialist`, `latex-review`). Se il capitolo è lungo e si legge meglio spezzettato, 8, 10 o 12 sezioni vanno bene.
+
 ## 5.4.0 (01/10/2026)
 
 - L'installer non crea più `.agents.backups/` a ogni aggiornamento: salva i file sostituiti solo con la nuova opzione `--backup`, oppure quando `--force` sostituisce file cambiati a mano. Il rollback dopo un errore di scrittura resta, con gli originali in memoria.

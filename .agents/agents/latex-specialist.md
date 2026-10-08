@@ -47,7 +47,7 @@ Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 
 1. Leggi il preambolo e ricava la lingua del corso; fai `grep` di label e titoli dei capitoli esistenti; leggi per intero l'ultimo capitolo modificato e copiane le convenzioni.
 2. Leggi il PDF (direttamente, o `slides.py text` / `render`) e la trascrizione, se c'è.
-3. Raggruppa le slide per tema: 3-6 sezioni, 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
+3. Raggruppa le slide per tema: di solito 3-6 sezioni, ma anche 8-12 se il capitolo è lungo e si legge meglio spezzettato; 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
 4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
 5. Figure: TikZ (≤ 7 nodi), ritaglio dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego.
 6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto.

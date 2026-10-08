@@ -68,7 +68,7 @@ corso/                                 % cartella del corso, dove è installato 
 
    `text` stampa ogni slide senza intestazioni, loghi e numeri di pagina; `render` scrive i PNG delle slide da guardare (diagrammi, formule e tabelle disegnati come immagini). Serve PyMuPDF (`pip install pymupdf`). Alla fine cancella `.slides-tmp/`.
 5. **Trascrizione.** Se esiste `<radice>/transcripts/<stesso nome>.*` o l'utente ne allega una, fondila: il PDF dà la struttura e le formule, la trascrizione le spiegazioni e gli esempi detti a voce dal professore.
-6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in 3-6 sezioni (vedi Stile di scrittura). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
+6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in sezioni (quante ne servono, vedi Stile di scrittura). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
 7. **Scrivi** `<radice>/chapters/<nome>.tex`. Non sovrascrivere mai un capitolo esistente: l'utente potrebbe averlo modificato. Se il file esiste, chiedi se scrivere `<radice>/chapters/<nome>-new.tex` o aggiornare solo alcune sezioni.
 8. **Figure.** Segui il Protocollo delle immagini: TikZ, ritaglio dal PDF o segnaposto.
 9. **`main.tex`.** Aggiungi la riga `\include` nell'ordine dei capitoli, copiando lo schema già presente (per esempio `\clearoddpage\include{chapters/5-Clustering}`).
@@ -95,7 +95,7 @@ corso/                                 % cartella del corso, dove è installato 
 Il risultato deve leggersi come **il capitolo di un libro**, non come una trascrizione slide per slide.
 
 - **Raggruppa le slide per tema.** Le sezioni seguono gli argomenti logici, non i titoli delle slide o i numeri di pagina. Tre slide di fila sullo stesso argomento diventano una sottosezione. Una sottosezione per slide è l'eccezione.
-- **Dimensioni.** Un capitolo ha di solito 3-6 sezioni con 1-4 sottosezioni ciascuna. Se la lezione copre molti argomenti distinti, usa tutte le sottosezioni che servono: non accorpare argomenti diversi solo per restare nei numeri.
+- **Dimensioni.** Non c'è un numero fisso di sezioni: di solito sono 3-6, ma se il capitolo è lungo e si legge meglio spezzettato vanno bene anche 8, 10 o 12, ciascuna con di solito 1-4 sottosezioni. Se la lezione copre molti argomenti distinti, usa tutte le sezioni e le sottosezioni che servono: non accorpare argomenti diversi solo per restare nei numeri.
 - **Ritmo.** Alterna la prosa con `itemize`/`enumerate`, `definition`/`theorem`/`example`, `tabular`, TikZ e `minipage` quando il testo sta bene accanto a una piccola figura, tabella o blocco di codice. Oltre ~15 righe di prosa senza interruzioni: ristruttura.
 - **Prosa.** Rigore da magistrale con spiegazioni chiare: analogie e ragionamenti passo passo dove aiutano, senza perdere precisione matematica o architetturale. Frasi brevi o medie; una frase più lunga va bene quando serve a tenere insieme un ragionamento. Apri una sezione collegandola alla precedente quando viene naturale; chiudila senza riempitivi ("Questo è importante per...").
 
