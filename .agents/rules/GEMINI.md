@@ -68,6 +68,11 @@ L'utente deve sempre vedere quale agente e quali skill sono al lavoro. Ogni risp
 - **SEMPRE formattate in box** (blocchi di codice ` ```text ... ``` `).
 - Usa caratteri chiari, leggibili e notazione Unicode/ASCII (`|0>`, `|1>`, `|+>`, `|->`, `√2`, `α`, `β`, `1/2`, `P_tot`, `²`).
 
+### 🖼️ Schemi nelle spiegazioni
+
+- Quando spieghi un concetto con una struttura (i passi di un processo o di un algoritmo, un'architettura, una gerarchia, un flusso di dati, un confronto), aggiungi uno schema: per l'utente le figure sono il modo migliore di capire.
+- Lo schema va in un blocco ` ```text ... ``` `, con caratteri semplici e allineati (`→`, `↓`, `┌─┐`, `│`, `└─┘` o `+--+`), scritte brevi e la stessa notazione del testo.
+
 ### 🧹 Clean Code (obbligatorio ovunque)
 
 **TUTTO il codice DEVE seguire le regole di `@[skills/clean-code]`. Nessuna eccezione.**

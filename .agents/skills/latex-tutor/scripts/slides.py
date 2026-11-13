@@ -5,10 +5,15 @@ Funziona con una slide per pagina e con gli handout (più slide incorniciate per
 pagina). Le slide sono numerate 1..N in ordine di lettura. Le coordinate sono
 percentuali della slide (0-100), x da sinistra, y dall'alto.
 
+Con --labels, render lavora invece sul PDF compilato degli appunti: trova le
+pagine delle label date (dai file .aux accanto al PDF e dalle destinazioni di
+hyperref) e le salva come PNG, per guardare le figure appena disegnate.
+
 Uso:
     python slides.py info   slides.pdf
     python slides.py text   slides.pdf [--slides 3-7,10]
     python slides.py render slides.pdf --slides 5 [--out tmp] [--grid] [--dpi 150]
+    python slides.py render main.pdf --labels fig:kmeans-passi,fig:sigmoide [--out tmp]
     python slides.py figures slides.pdf [--slides 5]
     python slides.py crop   slides.pdf --slide 5 --box 10,30,90,95 --out images/ch05-nome_figura.png
     python slides.py crop   slides.pdf --slide 5 --auto --out images/ch05-nome_figura.png
@@ -177,9 +182,59 @@ def render_slide(page, frame, dpi, grid):
     return target.get_pixmap(dpi=dpi, alpha=False)
 
 
+def braced_groups(text, start, count):
+    """I primi count gruppi tra graffe consecutivi da text[start]; le graffe precedute da \\ non contano."""
+    out = []
+    while len(out) < count and text[start:start + 1] == "{":
+        depth, i = 0, start
+        while i < len(text):
+            if text[i] == "\\":
+                i += 2
+                continue
+            depth += {"{": 1, "}": -1}.get(text[i], 0)
+            if depth == 0:
+                break
+            i += 1
+        out.append(text[start + 1:i])
+        start = i + 1
+    return out
+
+
+def label_anchors(folder):
+    """{label: ancora di hyperref} letta dai file .aux sotto folder, compresi quelli dei capitoli."""
+    anchors = {}
+    for aux in folder.rglob("*.aux"):
+        text = aux.read_text(encoding="utf-8", errors="replace")
+        for m in re.finditer(r"\\newlabel\{([^}]*)\}", text):
+            outer = braced_groups(text, m.end(), 1)
+            fields = braced_groups(outer[0], 0, 4) if outer else []
+            if len(fields) == 4 and fields[3]:
+                anchors[m.group(1)] = fields[3]
+    return anchors
+
+
+def render_labels(doc, args, out_dir):
+    """Salva le pagine del PDF compilato in cui stanno le label date."""
+    if not hasattr(doc, "resolve_names"):
+        sys.exit("--labels richiede PyMuPDF 1.23.6 o successivo: pip install -U pymupdf")
+    anchors = label_anchors(Path(args.pdf).resolve().parent)
+    pages = {name: dest.get("page", -1) for name, dest in doc.resolve_names().items()}
+    for label in (part.strip() for part in args.labels.split(",") if part.strip()):
+        n = pages.get(anchors.get(label), -1)
+        if n < 0:
+            print(f"{label}: non trovata (serve il PDF appena compilato, con hyperref, e i suoi .aux)")
+            continue
+        path = out_dir / f"pagina-{n + 1:03d}.png"
+        doc[n].get_pixmap(dpi=args.dpi, alpha=False).save(path)
+        print(f"{label}: pagina {n + 1} -> {path}")
+
+
 def cmd_render(doc, slides, args):
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
+    if args.labels:
+        render_labels(doc, args, out_dir)
+        return
     for n in parse_range(args.slides, len(slides)):
         _, page, frame = slides[n - 1]
         path = out_dir / f"slide-{n:03d}{'-grid' if args.grid else ''}.png"
@@ -238,6 +293,7 @@ def main():
             p.add_argument("--out", default="slides-render")
             p.add_argument("--grid", action="store_true", help="sovrappone una griglia al 10%% per leggere le coordinate")
             p.add_argument("--dpi", type=int, default=150)
+            p.add_argument("--labels", help="PDF compilato degli appunti: pagine di queste label, es. fig:a,fig:b")
         if name == "crop":
             p.add_argument("--slide", type=int, required=True)
             p.add_argument("--box", help="x0,y0,x1,y1 in percentuale della slide")
@@ -250,7 +306,7 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     doc = pymupdf.open(args.pdf)
-    slides = all_slides(doc)
+    slides = [] if getattr(args, "labels", None) else all_slides(doc)
     {"info": cmd_info, "text": cmd_text, "render": cmd_render, "figures": cmd_figures, "crop": cmd_crop}[args.cmd](doc, slides, args)
 
 

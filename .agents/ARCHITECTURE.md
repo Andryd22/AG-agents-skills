@@ -70,7 +70,7 @@ Skill scritte per essere chiamate per nome. Antigravity le carica anche da solo 
 | `/status` | Stato del progetto e degli agenti |
 | `/caveman` | Risposte asciutte (on, off, lite, full, ultra) |
 | `/ui-ux-pro-max` | Design con il database di stili cercabile |
-| `/latex` | Appunti LaTeX: prepara il corso, capitolo da un PDF, revisione |
+| `/latex` | Appunti LaTeX: prepara il corso, capitolo da un PDF, figure in un capitolo, revisione |
 | `/scroll-film` | Siti animati a scorrimento (scroll film) |
 | `/scroll-experience` | Unisce three-js, scroll-film e scroll-world |
 
@@ -201,7 +201,7 @@ Gli script di audit saltano `node_modules/`, le cartelle di build, `.agents/` e 
 | `nextjs-react-expert` | `react_performance_checker.py` | Suggerimenti statici sulle prestazioni React |
 | `nextjs-react-expert` | `convert_rules.py` | Ricostruisce i file delle regole |
 | `test` | `test_runner.py` | Esegue la suite di test del progetto |
-| `latex-tutor` | `slides.py` | Testo e immagini delle slide e ritagli delle figure dai PDF delle lezioni |
+| `latex-tutor` | `slides.py` | Testo e immagini delle slide e ritagli delle figure dai PDF delle lezioni; pagine delle figure nel PDF compilato |
 | `latex-review` | `check_project.py` | Label, riferimenti, immagini, segnaposto e convenzioni di un progetto LaTeX |
 | `webapp-testing` | `playwright_runner.py` | Smoke test E2E di un URL in esecuzione |
 | `ui-ux-pro-max` | `search.py`, `core.py`, `design_system.py` | Cercano nel database di design in `data/` |

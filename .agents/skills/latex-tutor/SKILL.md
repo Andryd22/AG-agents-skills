@@ -73,7 +73,20 @@ corso/                                 % cartella del corso, dove è installato 
 8. **Figure.** Segui la sezione Figure: ogni figura utile delle slide (TikZ, ritaglio dal PDF o segnaposto) e i diagrammi TikZ che aggiungi tu.
 9. **`main.tex`.** Aggiungi la riga `\include` nell'ordine dei capitoli, copiando lo schema già presente (per esempio `\clearoddpage\include{chapters/5-Clustering}`).
 10. **Compila.** `latexmk -cd -pdf -interaction=nonstopmode -halt-on-error <radice>/main.tex` (`-cd` compila nella cartella di `main.tex`; in alternativa due volte `pdflatex` dentro `<radice>`). Correggi ogni errore del nuovo capitolo. Poi cerca nel log i riferimenti `undefined` e gli `Overfull \hbox` che vengono dal nuovo capitolo e correggili. Se non c'è una distribuzione TeX installata, dillo.
-11. **Resoconto** in italiano: file scritto, sezioni, figure (ritagliate con i numeri di slide, ridisegnate in TikZ, segnaposto, e a parte quelle aggiunte da te, con la label, perché l'utente le guardi e tolga quelle che non gli servono), riferimenti incrociati aggiunti, esito della compilazione.
+11. **Guarda le figure TikZ.** Compilare non basta: un diagramma può avere scritte sovrapposte o tagliate, frecce che passano sopra il testo, parti fuori dai margini. Salva le loro pagine con `python .agents/skills/latex-tutor/scripts/slides.py render <radice>/main.pdf --labels fig:kmeans-passi,fig:sigmoide --out .slides-tmp`, apri i PNG, correggi e ricompila.
+12. **Resoconto** in italiano: file scritto, sezioni, figure (ritagliate con i numeri di slide, ridisegnate in TikZ, segnaposto, e a parte quelle aggiunte da te, con la label, perché l'utente le guardi e tolga quelle che non gli servono), riferimenti incrociati aggiunti, esito della compilazione.
+
+---
+
+## Figure in un capitolo già scritto (`/latex figure`)
+
+L'utente chiede più figure per un capitolo che esiste già: aggiungile senza toccare la prosa. Lavora su un capitolo per volta; se ne nomina più d'uno, uno dopo l'altro, con un resoconto per capitolo.
+
+1. Leggi il preambolo (pacchetti e librerie TikZ disponibili) e il capitolo per intero.
+2. Apri il PDF della lezione da cui viene il capitolo (stesso nome, in `Teoria/` o `Teoria/<nome>/`) e guarda le slide con figure (`slides.py figures`, `render`). Se il PDF non c'è, aggiungi solo i diagrammi TikZ e dillo nel resoconto.
+3. Decidi le figure seguendo la sezione Figure: quelle utili delle slide che mancano nel capitolo, i segnaposto `INSERISCI IMMAGINE DALLA SLIDE [N]` (`INSERT IMAGE FROM SLIDE [N]` nei corsi inglesi) ancora da sostituire e quello che il capitolo spiega solo a parole, da disegnare in TikZ.
+4. Inserisci ogni `figure` dopo il paragrafo che spiega il suo concetto, con didascalia e label, e metti `\noindent` sul paragrafo che segue; in un segnaposto sostituisci solo il `\fbox` con l'`\includegraphics`. Per il resto non cambiare, spostare o togliere il testo esistente, e non citare le figure nuove.
+5. Compila, guarda le figure nuove (passi 10 e 11 della Procedura) e fai il resoconto: figure aggiunte con label e sezione, segnaposto sostituiti, esito della compilazione.
 
 ---
 

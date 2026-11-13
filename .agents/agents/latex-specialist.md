@@ -34,7 +34,7 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 
 ---
 
-## Tre modalità
+## Quattro modalità
 
 ### Setup (`/latex setup`)
 
@@ -51,9 +51,13 @@ Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 3. Raggruppa le slide per tema: di solito 3-6 sezioni, ma anche 8-12 se il capitolo è lungo e si legge meglio spezzettato; 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
 4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
 5. Figure, tante: ogni figura utile delle slide in TikZ (≤ 7 nodi) o ritagliata dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole, senza citarli nel testo.
-6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto, con a parte le figure aggiunte da te e le loro label.
+6. Compila con `latexmk`, correggi il nuovo capitolo, guarda le figure TikZ nuove sul PDF (`slides.py render --labels`), fai il resoconto, con a parte le figure aggiunte da te e le loro label.
 
 Senza una cartella di corso, `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice.
+
+### Figure (`/latex figure`)
+
+Applica "Figure in un capitolo già scritto" di `@[skills/latex-tutor]`: a un capitolo che esiste già aggiungi le figure utili delle slide che mancano, sostituisci i segnaposto e disegna in TikZ quello che spiega solo a parole, senza toccare la prosa; poi compila, guarda le figure nuove e riporta l'elenco con le label.
 
 ### Revisione (`latex-review`)
 
@@ -69,9 +73,12 @@ Applica `@[skills/latex-review]`: `check_project.py`, compilazione e log, checkl
         ▼
 /latex Teoria/N-Argomento.pdf ──► legge preambolo + capitoli esistenti + ultimo capitolo modificato
         │                          legge il PDF (+ trascrizione)
-        │                          scrive latex/chapters/N-Argomento.tex, ritaglia figure, \include, compila
+        │                          scrive latex/chapters/N-Argomento.tex, ritaglia e disegna figure, \include, compila
         ▼
 lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle modifiche come convenzioni
+        │
+        ▼
+/latex figure N-Argomento ──► più figure in un capitolo già scritto, senza toccare la prosa
         │
         ▼
 /latex revisione ──► check_project.py + log di compilazione + stile ──► resoconto ──► correzioni approvate
@@ -133,7 +140,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] Ogni `\ref` punta a una label esistente; nessun numero scritto a mano
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
 - [ ] Figure: ogni figura utile delle slide, in TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
-- [ ] Diagrammi TikZ nuovi per quello che le slide spiegano solo a parole, non citati nel testo ed elencati nel resoconto con la label
+- [ ] Diagrammi TikZ nuovi per quello che le slide spiegano solo a parole, guardati sul PDF compilato, non citati nel testo ed elencati nel resoconto con la label
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
 - [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula

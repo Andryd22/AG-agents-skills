@@ -1,6 +1,6 @@
 ---
 name: latex
-description: 'Appunti universitari in LaTeX: prepara la cartella di un corso, trasforma il PDF di una lezione (e la sua trascrizione) in un capitolo con figure, riferimenti e compilazione, oppure revisiona tutto il progetto. Passa il lavoro all''agente latex-specialist con le skill latex-tutor e latex-review. Usala quando l''utente lancia /latex o chiede appunti LaTeX dalle slide.'
+description: 'Appunti universitari in LaTeX: prepara la cartella di un corso, trasforma il PDF di una lezione (e la sua trascrizione) in un capitolo con figure, riferimenti e compilazione, aggiunge figure a un capitolo già scritto, oppure revisiona tutto il progetto. Passa il lavoro all''agente latex-specialist con le skill latex-tutor e latex-review. Usala quando l''utente lancia /latex o chiede appunti LaTeX dalle slide.'
 ---
 
 # /latex — Appunti universitari in LaTeX
@@ -15,8 +15,9 @@ La richiesta è il testo che segue `/latex`.
 | --- | --- | --- |
 | "setup", "nuovo corso", "new course", cartella del corso senza progetto LaTeX (nessun `main.tex` in `latex/`, in `latex/<nome>/` o nella cartella corrente) | **Setup** | `@[skills/latex-tutor]` (assets) |
 | il nome o il percorso di un PDF, "capitolo", "genera", "da queste slide", un PDF o una trascrizione allegati | **Generazione** | `@[skills/latex-tutor]` |
+| "figure", "più figure", "aggiungi figure", "TikZ" per un capitolo che esiste già | **Figure** | `@[skills/latex-tutor]` |
 | "revisiona", "controlla", "review", "correggi", "compila?" | **Revisione** | `@[skills/latex-review]` |
-| non chiaro | una domanda: nuovo corso, nuovo capitolo o revisione? | |
+| non chiaro | una domanda: nuovo corso, nuovo capitolo, figure o revisione? | |
 
 Passa il lavoro a `latex-specialist` con la richiesta, la modalità e i file coinvolti (↪ `@latex-specialist: <modalità> <file>`).
 
@@ -45,9 +46,15 @@ Segui la Procedura di `latex-tutor` (modalità Progetto) sulla radice del proget
 2. Leggi il PDF (direttamente o con `slides.py text` e `render`) e la trascrizione, se c'è.
 3. Scrivi `<radice>/chapters/<nome del PDF>.tex` senza sovrascrivere un file esistente; aggiungi l'`\include` a `<radice>/main.tex`.
 4. Figure, tante (sezione Figure di `latex-tutor`): ogni figura utile delle slide, in TikZ se è un diagramma semplice, ritagliata con `slides.py crop` se è complessa, segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole.
-5. Compila, correggi gli errori del nuovo capitolo, riporta sezioni, figure (a parte quelle aggiunte da te), riferimenti e avvisi.
+5. Compila, correggi gli errori del nuovo capitolo, guarda le figure TikZ nuove sul PDF (`slides.py render --labels`), riporta sezioni, figure (a parte quelle aggiunte da te), riferimenti e avvisi.
 
 Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice `latex`.
+
+---
+
+## Figure
+
+Segui "Figure in un capitolo già scritto" di `latex-tutor` sul capitolo che l'utente nomina, nella radice scelta come per la Generazione: aggiungi le figure utili delle slide che mancano, sostituisci i segnaposto e disegna in TikZ quello che il capitolo spiega solo a parole, senza toccare la prosa. Poi compila, guarda le figure nuove e riporta l'elenco con le label. Se l'utente non nomina un capitolo, chiedi quale.
 
 ---
 
@@ -65,6 +72,7 @@ Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazi
 /latex Teoria/5-Clustering.pdf con latex/transcripts/5-Clustering.txt
 /latex 5-Clustering.pdf
 /latex Teoria/Uricchio/03 - Local Features.pdf     # corso con più documenti: va in latex/Uricchio/
+/latex figure 5-Clustering                         # più figure in un capitolo già scritto
 /latex revisione
 /latex revisione Uricchio
 /latex correggi i problemi critici del capitolo 7

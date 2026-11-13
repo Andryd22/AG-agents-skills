@@ -162,6 +162,19 @@ class CheckTests(unittest.TestCase):
         flagged = [line for line in result.stdout.splitlines() if 'numero scritto a mano' in line]
         self.assertEqual(len(flagged), 4, result.stdout)
 
+    @unittest.skipUnless(importlib.util.find_spec('pymupdf') or importlib.util.find_spec('fitz'), 'PyMuPDF necessario')
+    def test_slides_reads_label_anchors_from_aux(self):
+        spec = importlib.util.spec_from_file_location('slides', ROOT / '.agents/skills/latex-tutor/scripts/slides.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        (self.project / 'chapters').mkdir()
+        (self.project / 'main.aux').write_text('\\relax\n\\newlabel{ch:uno}{{1}{3}{Uno}{chapter.1}{}}\n')
+        (self.project / 'chapters/1-Uno.aux').write_text(
+            '\\newlabel{fig:passo}{{1.1}{3}{Il passo $\\bm {w}_{t+1}$ con \\{graffe\\}}{figure.caption.2}{}}\n'
+            '\\newlabel{fig:senza-hyperref}{{1.2}{4}}\n')
+        anchors = module.label_anchors(self.project)
+        self.assertEqual(anchors, {'ch:uno': 'chapter.1', 'fig:passo': 'figure.caption.2'})
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)

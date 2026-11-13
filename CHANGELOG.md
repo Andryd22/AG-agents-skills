@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.6.0 (13/11/2026)
+
+- Nuova modalità `/latex figure <capitolo>`: aggiunge figure a un capitolo già scritto senza toccare la prosa, cioè le figure utili delle slide che mancano, i segnaposto sostituiti con i ritagli e i diagrammi TikZ per quello che il capitolo spiega solo a parole (`latex`, `latex-tutor`, `latex-specialist`).
+- `slides.py render <radice>/main.pdf --labels fig:a,fig:b` salva le pagine del PDF compilato in cui stanno quelle label (le trova dai file `.aux` e dalle destinazioni di hyperref). Dopo la compilazione l'agente guarda così ogni figura TikZ nuova e corregge scritte sovrapposte, frecce sopra il testo e parti fuori dai margini.
+- `GEMINI.md`: nuova regola "Schemi nelle spiegazioni". Quando l'agente spiega in chat un processo, un'architettura o un flusso di dati, aggiunge uno schema in un blocco `text`.
+
 ## 5.5.0 (13/11/2026)
 
 - LaTeX: le figure diventano una priorità, perché aiutano l'utente a capire i concetti. Ogni figura utile delle slide entra nel capitolo e quello che le slide spiegano solo a parole (processi, architetture, strutture, idee geometriche, andamenti di funzioni) riceve un diagramma TikZ; nel dubbio la figura si aggiunge e l'utente toglie a mano quelle che non gli servono. Le figure aggiunte non si citano nel testo, così si tolgono cancellando solo il loro ambiente, e il resoconto le elenca con la label (`latex-tutor`, `latex`, `latex-specialist`, `latex-review`).
