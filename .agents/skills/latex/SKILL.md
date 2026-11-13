@@ -41,11 +41,11 @@ Il progetto LaTeX sta nella sottocartella `latex/` della cartella del corso (que
 
 Segui la Procedura di `latex-tutor` (modalità Progetto) sulla radice del progetto, scelta come dice la sua sezione Struttura del progetto: `latex/` se esiste `latex/main.tex`, altrimenti la cartella corrente (i corsi preparati prima, come DMML, hanno `main.tex` lì). In un corso con più documenti in `latex/<nome>/` la radice è quella del documento che l'utente nomina o della sottocartella di `Teoria/` del PDF; se non si capisce, chiedi.
 
-1. Leggi il preambolo (e la lingua del corso dal suo `babel`), mappa i capitoli esistenti con `grep`, leggi l'ultimo capitolo modificato per copiarne le convenzioni.
+1. Leggi il preambolo (e la lingua del corso dal suo `babel`), cerca titoli e label dei capitoli esistenti, leggi l'ultimo capitolo modificato per copiarne le convenzioni.
 2. Leggi il PDF (direttamente o con `slides.py text` e `render`) e la trascrizione, se c'è.
 3. Scrivi `<radice>/chapters/<nome del PDF>.tex` senza sovrascrivere un file esistente; aggiungi l'`\include` a `<radice>/main.tex`.
-4. Figure: TikZ per i diagrammi semplici, ritagli con `slides.py crop` per quelli complessi, segnaposto solo come ripiego.
-5. Compila, correggi gli errori del nuovo capitolo, riporta sezioni, figure, riferimenti e avvisi.
+4. Figure, tante (sezione Figure di `latex-tutor`): ogni figura utile delle slide, in TikZ se è un diagramma semplice, ritagliata con `slides.py crop` se è complessa, segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole.
+5. Compila, correggi gli errori del nuovo capitolo, riporta sezioni, figure (a parte quelle aggiunte da te), riferimenti e avvisi.
 
 Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice `latex`.
 
@@ -77,5 +77,6 @@ Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazi
 - **I capitoli sono dell'utente**: mai sovrascriverne uno, mai ristrutturare la prosa senza approvazione.
 - **Deve compilare**: ogni generazione finisce con una compilazione.
 - **Sintetizza, non trascrivere**: struttura per argomento, non per slide.
+- **Tante figure**: aiutano l'utente a capire; nel dubbio aggiungine una, quelle che non gli servono le toglie lui.
 - **LaTeX nella lingua del corso** (italiano per i corsi nuovi, quella dei capitoli già scritti per i corsi esistenti), conversazione in italiano.
 - Convenzioni e checklist completa in `@[agents/latex-specialist]`.

@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.5.0 (13/11/2026)
+
+- LaTeX: le figure diventano una priorità, perché aiutano l'utente a capire i concetti. Ogni figura utile delle slide entra nel capitolo e quello che le slide spiegano solo a parole (processi, architetture, strutture, idee geometriche, andamenti di funzioni) riceve un diagramma TikZ; nel dubbio la figura si aggiunge e l'utente toglie a mano quelle che non gli servono. Le figure aggiunte non si citano nel testo, così si tolgono cancellando solo il loro ambiente, e il resoconto le elenca con la label (`latex-tutor`, `latex`, `latex-specialist`, `latex-review`).
+- `latex-tutor` ha un esempio di diagramma TikZ e le regole per disegnarli; per i corsi esistenti l'agente propone le righe da aggiungere al preambolo (`pgfplots`, `petri`, `automata`, `quantikz`). Il preambolo dei corsi nuovi carica `pgfplots` e la libreria TikZ `backgrounds`.
+- `check_project.py` segnala anche i numeri di figura e di tabella scritti a mano (`Figura 3.2` invece di `Figura~\ref{...}`): diventano sbagliati quando si toglie una figura.
+- Comandi delle skill LaTeX validi anche in PowerShell: niente variabili Bash negli esempi di `slides.py`, e la mappa di titoli e label si fa con `grep_search` o `Select-String`.
+
 ## 5.4.1 (08/10/2026)
 
 - LaTeX: tolto il tetto implicito di 3-6 sezioni per capitolo (`latex-tutor`, `latex-specialist`, `latex-review`). Se il capitolo è lungo e si legge meglio spezzettato, 8, 10 o 12 sezioni vanno bene.

@@ -6,10 +6,11 @@ Segue main.tex attraverso \\input e \\include e segnala:
               tag di citazione ([cite], <source>, ...) che rompono la compilazione
   IMPORTANTE  figure e tabelle senza \\caption o \\label, didascalie dal lato
               sbagliato (tabelle sopra, figure sotto), segnaposto di immagini
-              ancora da sostituire, numeri di capitolo/sezione scritti a mano,
-              elenchi le cui voci non finiscono tutte con ";" o tutte con ".",
-              immagini non chiamate chXY-nome_figura o con XY diverso dal capitolo,
-              formule nei titoli fuori da \\texorpdfstring (segnalibri del PDF sbagliati)
+              ancora da sostituire, numeri di capitolo, sezione, figura o tabella
+              scritti a mano, elenchi le cui voci non finiscono tutte con ";" o
+              tutte con ".", immagini non chiamate chXY-nome_figura o con XY
+              diverso dal capitolo, formule nei titoli fuori da \\texorpdfstring
+              (segnalibri del PDF sbagliati)
   MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases,
               formule in display chiuse da virgola o punto
 
@@ -32,7 +33,8 @@ LABEL = re.compile(r"\\label\{([^}]+)\}")
 REF = re.compile(r"\\(?:ref|eqref|pageref|autoref|cref|Cref|nameref)\{([^}]+)\}")
 GRAPHIC = re.compile(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}")
 TAGS = re.compile(r"\[cite[^\]]*\]|<source>|\[source\]|<ref>|\[citation\]|<citation>|:contentReference\[")
-HAND_NUMBER = re.compile(r"\b(?:Chapter|Section|Sec\.|Chap\.|Capitolo|Sezione|Cap\.|Sez\.)~?\s?\d+(?:\.\d+)*")
+HAND_NUMBER = re.compile(r"\b(?:Chapter|Section|Sec\.|Chap\.|Capitolo|Sezione|Cap\.|Sez\."
+                         r"|Figure|Figura|Fig\.|Table|Tabella|Tab\.)~?\s?\d+(?:\.\d+)*")
 PLACEHOLDER = re.compile(r"(?:INSERT IMAGE|INSERISCI IMMAGINE)[^}]*")
 FLOAT = re.compile(r"\\begin\{(figure|table)\*?\}(.*?)\\end\{\1\*?\}", re.S)
 BODY = {"figure": re.compile(r"\\includegraphics|\\begin\{tikzpicture\}|\\fbox|\\begin\{subfigure\}"),

@@ -29,6 +29,7 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 - **Il progetto è la memoria**: prima di scrivere un capitolo nuovo leggi il preambolo e i capitoli già scritti; cita quelli invece di ripeterli.
 - **La compilazione è sacra**: un capitolo è finito quando `main.tex` compila.
 - **Varietà visiva**: alterna prosa, elenchi, tabelle, definizioni, esempi, TikZ e figure ritagliate.
+- **Figure in abbondanza**: per l'utente sono il modo migliore di capire un concetto. Ogni figura utile delle slide entra nel capitolo e quello che le slide spiegano solo a parole riceve un diagramma TikZ; nel dubbio aggiungilo, quelli che non gli servono li toglie lui a mano.
 - **Una lingua per corso**: la lingua del corso la dà il `babel` del preambolo (o i capitoli già scritti). I corsi nuovi sono in italiano; un corso già scritto in inglese resta in inglese.
 
 ---
@@ -45,12 +46,12 @@ La **radice del progetto** è la cartella con `main.tex`: `latex/` per i corsi p
 
 Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 
-1. Leggi il preambolo e ricava la lingua del corso; fai `grep` di label e titoli dei capitoli esistenti; leggi per intero l'ultimo capitolo modificato e copiane le convenzioni.
+1. Leggi il preambolo e ricava la lingua del corso; cerca label e titoli dei capitoli esistenti; leggi per intero l'ultimo capitolo modificato e copiane le convenzioni.
 2. Leggi il PDF (direttamente, o `slides.py text` / `render`) e la trascrizione, se c'è.
 3. Raggruppa le slide per tema: di solito 3-6 sezioni, ma anche 8-12 se il capitolo è lungo e si legge meglio spezzettato; 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
 4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
-5. Figure: TikZ (≤ 7 nodi), ritaglio dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego.
-6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto.
+5. Figure, tante: ogni figura utile delle slide in TikZ (≤ 7 nodi) o ritagliata dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole, senza citarli nel testo.
+6. Compila con `latexmk`, correggi il nuovo capitolo, fai il resoconto, con a parte le figure aggiunte da te e le loro label.
 
 Senza una cartella di corso, `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice.
 
@@ -91,6 +92,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Tabella di confronto | `\noindent` + `table[H]` + didascalia SOPRA + `booktabs` |
 | Figura | `figure[H]` + didascalia SOTTO + `\label{fig:...}` + `\noindent` dopo |
 | Diagramma semplice (≤ 7 nodi) | TikZ, stili nelle opzioni della figura o in `\tikzset` |
+| Processo, architettura, struttura, geometria spiegati solo a parole | figura TikZ nuova, non citata nel testo |
+| Grafico di una funzione | `pgfplots` se il preambolo lo carica, altrimenti `\draw plot` |
 | Diagramma complesso, grafico, foto | PNG ritagliato in `images/chXY-nome_figura.png` (`XY` = capitolo su due cifre) con `slides.py crop` |
 | Ritaglio impossibile | `\fbox{\textbf{INSERISCI IMMAGINE DALLA SLIDE [N]}}` (`INSERT IMAGE FROM SLIDE [N]` in un corso inglese) |
 | Codice Python/Bash, JSON | `lstlisting[style=mystyle]`, `lstlisting[language=json]` |
@@ -108,8 +111,9 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Copiare le slide una per una | Raggruppare le slide per tema logico |
 | Sovrascrivere un capitolo modificato dall'utente | Scrivere `<nome>-new.tex` o aggiornare solo le sezioni richieste |
 | Rispiegare un concetto di un capitolo precedente | 1-2 frasi + `Capitolo~\ref{ch:...}` |
-| Scrivere a mano "Capitolo 3" o "Sezione 2.1" | `\ref` a una label che esiste |
+| Scrivere a mano "Capitolo 3", "Sezione 2.1" o "Figura 4.2" | `\ref` a una label che esiste |
 | Lasciare segnaposto quando il PDF c'è | Ritagliare la figura con `slides.py`, controllare il PNG |
+| Saltare una figura delle slide o spiegare solo a parole un processo, una struttura o un andamento | Metterla nel capitolo, o disegnare un diagramma TikZ: nel dubbio, aggiungerlo |
 | Ritagliare una tabella, una formula o un testo a punti | `tabular`, matematica LaTeX, `itemize` |
 | Muro di prosa (> 15 righe) | Alternare con elenchi, tabelle, definizioni, esempi |
 | `\begin{cases}`, `\frac{df}{dx}`, `\vec{v}` | `dcases`, `\dv{f}{x}`, `\bm{v}` |
@@ -128,7 +132,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] `\chapter` + `\label{ch:...}` + paragrafo di apertura; sezioni per tema, non una sottosezione per slide
 - [ ] Ogni `\ref` punta a una label esistente; nessun numero scritto a mano
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
-- [ ] Figure: TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
+- [ ] Figure: ogni figura utile delle slide, in TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
+- [ ] Diagrammi TikZ nuovi per quello che le slide spiegano solo a parole, non citati nel testo ed elencati nel resoconto con la label
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
 - [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula
@@ -141,7 +146,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 
 - Mai inventare pacchetti, comandi, ambienti o librerie TikZ: usa quelli del preambolo.
 - Mai dire "compila" senza aver compilato; se non c'è una distribuzione TeX installata, dillo.
-- Mai aggiungere contenuti che non sono nelle slide o nella trascrizione, tranne i chiarimenti da manuale che rendono un concetto più facile da capire.
+- Mai aggiungere contenuti che non sono nelle slide o nella trascrizione, tranne i chiarimenti da manuale e le figure che rendono un concetto più facile da capire. Una figura nuova mostra solo quello che dice il testo.
 
 ---
 

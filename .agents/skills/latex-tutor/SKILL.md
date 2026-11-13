@@ -1,6 +1,6 @@
 ---
 name: latex-tutor
-description: Trasforma slide delle lezioni (PDF), appunti e trascrizioni audio in capitoli LaTeX in stile libro per i corsi universitari. In una cartella di corso LaTeX legge il preambolo e i capitoli già scritti, scrive chapters/NN-Nome.tex nella lingua del corso (italiano per i corsi nuovi), ritaglia le figure dal PDF, aggiunge i riferimenti incrociati e compila; in chat restituisce il corpo del capitolo in un blocco di codice. Usala per appunti in LaTeX/PDF.
+description: Trasforma slide delle lezioni (PDF), appunti e trascrizioni audio in capitoli LaTeX in stile libro per i corsi universitari. In una cartella di corso LaTeX legge il preambolo e i capitoli già scritti, scrive il capitolo in chapters/ con il nome del PDF e nella lingua del corso (italiano per i corsi nuovi), ritaglia le figure dal PDF, disegna diagrammi e grafici TikZ, aggiunge i riferimenti incrociati e compila; in chat restituisce il corpo del capitolo in un blocco di codice. Usala per appunti in LaTeX/PDF.
 ---
 
 # latex-tutor
@@ -56,7 +56,7 @@ corso/                                 % cartella del corso, dove è installato 
 ## Procedura (modalità Progetto)
 
 1. **Preambolo.** Leggi i file di preambolo che `<radice>/main.tex` include (`preamble.tex`, `preamble2.tex`, `preamble3.tex`): danno la lingua del corso, gli ambienti, i comandi e le librerie TikZ da usare. Non aggiungere mai `\usepackage` a un capitolo: se manca qualcosa, di' all'utente quale riga aggiungere al preambolo.
-2. **Mappa degli appunti.** `grep -n "\\chapter{\|\\section{\|\\label{" <radice>/chapters/*.tex` dà gli argomenti già trattati e tutte le label che puoi citare. Non leggere per intero tutti i capitoli.
+2. **Mappa degli appunti.** Cerca `\chapter{`, `\section{` e `\label{` in `<radice>/chapters/*.tex` (con `grep_search`, oppure `Select-String` su Windows e `grep -n` altrove): ottieni gli argomenti già trattati e tutte le label che puoi citare. Non leggere per intero tutti i capitoli.
 3. **Segui le modifiche dell'utente.** Leggi per intero il capitolo modificato più di recente: l'utente modifica i capitoli a mano, quindi lì vedi le convenzioni da copiare (nomi delle label, larghezza delle figure, `\newpage`, `\noindent`, trattini negli elenchi, come sono scritti gli esempi). Dove un capitolo si discosta da una regola qui sotto, vince il capitolo.
 4. **Leggi il PDF.** Aprilo direttamente se i tuoi strumenti lo permettono. Altrimenti usa lo script incluso (gestisce anche gli handout con due o tre slide per pagina):
 
@@ -68,12 +68,12 @@ corso/                                 % cartella del corso, dove è installato 
 
    `text` stampa ogni slide senza intestazioni, loghi e numeri di pagina; `render` scrive i PNG delle slide da guardare (diagrammi, formule e tabelle disegnati come immagini). Serve PyMuPDF (`pip install pymupdf`). Alla fine cancella `.slides-tmp/`.
 5. **Trascrizione.** Se esiste `<radice>/transcripts/<stesso nome>.*` o l'utente ne allega una, fondila: il PDF dà la struttura e le formule, la trascrizione le spiegazioni e gli esempi detti a voce dal professore.
-6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in sezioni (quante ne servono, vedi Stile di scrittura). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
+6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in sezioni (quante ne servono, vedi Stile di scrittura) e decidi le figure di ogni sezione: quelle delle slide e quelle da disegnare tu in TikZ (vedi Figure). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
 7. **Scrivi** `<radice>/chapters/<nome>.tex`. Non sovrascrivere mai un capitolo esistente: l'utente potrebbe averlo modificato. Se il file esiste, chiedi se scrivere `<radice>/chapters/<nome>-new.tex` o aggiornare solo alcune sezioni.
-8. **Figure.** Segui il Protocollo delle immagini: TikZ, ritaglio dal PDF o segnaposto.
+8. **Figure.** Segui la sezione Figure: ogni figura utile delle slide (TikZ, ritaglio dal PDF o segnaposto) e i diagrammi TikZ che aggiungi tu.
 9. **`main.tex`.** Aggiungi la riga `\include` nell'ordine dei capitoli, copiando lo schema già presente (per esempio `\clearoddpage\include{chapters/5-Clustering}`).
 10. **Compila.** `latexmk -cd -pdf -interaction=nonstopmode -halt-on-error <radice>/main.tex` (`-cd` compila nella cartella di `main.tex`; in alternativa due volte `pdflatex` dentro `<radice>`). Correggi ogni errore del nuovo capitolo. Poi cerca nel log i riferimenti `undefined` e gli `Overfull \hbox` che vengono dal nuovo capitolo e correggili. Se non c'è una distribuzione TeX installata, dillo.
-11. **Resoconto** in italiano: file scritto, sezioni, figure (TikZ, ritagliate con i numeri di slide, segnaposto), riferimenti incrociati aggiunti, esito della compilazione.
+11. **Resoconto** in italiano: file scritto, sezioni, figure (ritagliate con i numeri di slide, ridisegnate in TikZ, segnaposto, e a parte quelle aggiunte da te, con la label, perché l'utente le guardi e tolga quelle che non gli servono), riferimenti incrociati aggiunti, esito della compilazione.
 
 ---
 
@@ -81,7 +81,7 @@ corso/                                 % cartella del corso, dove è installato 
 
 ### Sintesi
 
-- **Sintetizza, non trascrivere.** Tieni l'80-95% del contenuto tecnico delle slide: ogni definizione, formula, algoritmo, proprietà, confronto ed esempio resta; la forma si comprime e si fonde.
+- **Sintetizza, non trascrivere.** Tieni l'80-95% del contenuto tecnico delle slide: ogni definizione, formula, algoritmo, proprietà, confronto, esempio e figura utile resta; la forma si comprime e si fonde.
 - Togli solo riempitivi, ripetizioni, logistica del corso (date, regole d'esame, slide "domande?") e bibliografie. Nomina autori e anni nel testo quando le slide citano una fonte ("introdotto da McCarthy nel 1958").
 - L'obiettivo sono **appunti densi, pronti per l'esame**: si studiano senza riaprire le slide.
 
@@ -106,11 +106,12 @@ Il risultato deve leggersi come **il capitolo di un libro**, non come una trascr
 - Un procedimento → `enumerate`.
 - Una definizione o un enunciato formale → l'ambiente `amsthm`.
 - Uno scenario, un caso d'uso o un esempio svolto dalle slide o dalla trascrizione → `\begin{example}`.
+- Un processo, un'architettura, una struttura (albero, grafo, rete), un'idea geometrica o l'andamento di una funzione → una figura, anche quando le slide lo spiegano solo a parole (vedi Figure).
 
 ### Riferimenti incrociati
 
 - Un concetto già spiegato in un capitolo precedente riceve 1-2 frasi di riassunto e un riferimento, mai una seconda spiegazione completa.
-- Cita solo label che esistono (dal passo 2), con il nome davanti: `Capitolo~\ref{ch:clustering}`, `Sezione~\ref{sec:clustering-dbscan}`, `Definizione~\ref{def:silhouette}`, `Figura~\ref{fig:metodo-gomito}` (in un corso inglese `Chapter~\ref`, `Section~\ref`, ...). Mai numeri di capitolo o di sezione scritti a mano. (Niente `cleveref`: con il kernel LaTeX 2025-11 chiama "Teorema" ogni ambiente che condivide il contatore dei teoremi.)
+- Cita solo label che esistono (dal passo 2), con il nome davanti: `Capitolo~\ref{ch:clustering}`, `Sezione~\ref{sec:clustering-dbscan}`, `Definizione~\ref{def:silhouette}`, `Figura~\ref{fig:metodo-gomito}` (in un corso inglese `Chapter~\ref`, `Section~\ref`, ...). Mai numeri di capitolo, sezione, figura o tabella scritti a mano. (Niente `cleveref`: con il kernel LaTeX 2025-11 chiama "Teorema" ogni ambiente che condivide il contatore dei teoremi.)
 - In chat, senza le label degli altri capitoli, scrivi "(vedi il capitolo sul clustering)" invece di un `\ref`.
 
 ### Label
@@ -122,7 +123,7 @@ Il risultato deve leggersi come **il capitolo di un libro**, non come una trascr
 | Definizione, teorema, esempio | `def:`, `thm:`, `ex:` + argomento |
 | Figura, tabella, equazione, algoritmo | `fig:`, `tab:`, `eq:`, `alg:` + argomento |
 
-Minuscole, parole unite da trattini, uniche in tutto il progetto (controlla con il grep del passo 2). I prefissi restano quelli della tabella in ogni lingua.
+Minuscole, parole unite da trattini, uniche in tutto il progetto (controlla con la ricerca del passo 2). I prefissi restano quelli della tabella in ogni lingua.
 
 ### Matematica
 
@@ -178,22 +179,47 @@ Qui inizia il paragrafo successivo.
 
 ---
 
-## Protocollo delle immagini
+## Figure
 
-Per ogni figura delle slide, scegli la prima opzione che va bene.
+Per l'utente le figure sono ciò che aiuta di più a capire un concetto, e sono sempre ben accette: mettine tante. Nel dubbio aggiungi la figura: quelle che non gli servono le toglie lui a mano.
 
-### A. Diagrammi semplici (≤ 7 nodi) → TikZ
+- **Figure delle slide:** ogni figura che porta contenuto entra nel capitolo, con la prima opzione che va bene tra A, B e C. Le slide che costruiscono lo stesso diagramma un pezzo alla volta valgono una figura sola, quella completa. Restano fuori solo le immagini decorative (loghi, foto di contorno).
+- **Figure nuove:** quando le slide spiegano solo a parole qualcosa che si capisce meglio vedendolo, disegnalo in TikZ: i passi di un processo o di un algoritmo, un'architettura, un albero o un grafo, un'idea geometrica (vettori, proiezioni, margini, regioni di decisione), l'andamento di una funzione, due approcci messi a confronto. Una figura nuova mostra solo quello che dice il testo, senza aggiungere contenuti.
+- **Il testo regge da solo:** la figura illustra la spiegazione, non la sostituisce. Non citare nel testo le figure nuove: se l'utente ne toglie una, basta cancellare il suo ambiente `figure`.
 
-Schemi a blocchi, piccoli diagrammi di flusso, topologie, pile di livelli, pipeline di 3-5 passi, architetture affiancate: ridisegnali come `tikzpicture` dentro una `figure` con didascalia e label. Definisci gli stili nelle opzioni della figura o con `\tikzset` (`\tikzstyle` è deprecato) e usa solo le librerie TikZ caricate dal preambolo. Non forzare TikZ dove non aggiunge niente, ma un corso con zero diagrammi TikZ è troppo prudente.
+### A. TikZ: diagrammi semplici delle slide (≤ 7 nodi) e figure nuove
 
-### B. Diagrammi complessi, grafici, foto → ritaglio dal PDF (modalità Progetto)
+Schemi a blocchi, piccoli diagrammi di flusso, topologie, pile di livelli, pipeline di 3-5 passi, architetture affiancate, grafici di funzioni note (sigmoide, ReLU, una gaussiana): disegnali come `tikzpicture` dentro una `figure` con didascalia e label.
+
+- Usa solo i pacchetti e le librerie TikZ caricati dal preambolo: i grafici di funzioni con `pgfplots` se c'è, altrimenti con `\draw plot`. Se un tipo di diagramma ricorre nel corso e manca la libreria adatta, di' all'utente quale riga aggiungere al preambolo: `\usepackage{pgfplots}` e `\pgfplotsset{compat=1.18}` per i grafici, `\usetikzlibrary{petri}` per le reti di Petri, `\usetikzlibrary{automata}` per automi e catene di Markov, `\usepackage{quantikz}` per i circuiti quantistici.
+- Definisci gli stili nelle opzioni della figura o con `\tikzset` (`\tikzstyle` è deprecato).
+- Scritte brevi, nella lingua del corso e con la notazione del capitolo; pochi colori, ciascuno con un significato (una classe, il passo in evidenza).
+- La figura deve stare nella larghezza del testo senza rimpicciolire le scritte: regola distanze e dimensioni dei nodi invece di usare `\resizebox`.
+
+```latex
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=1.2cm,
+            passo/.style={draw, rounded corners, fill=blue!8, align=center, font=\small, minimum height=8mm}]
+        \node[passo] (init) {Scegli $k$\\centroidi};
+        \node[passo, right=of init] (assegna) {Assegna ogni punto\\al centroide più vicino};
+        \node[passo, right=of assegna] (aggiorna) {Ricalcola\\i centroidi};
+        \draw[-Latex] (init) -- (assegna);
+        \draw[-Latex] (assegna) -- (aggiorna);
+        \draw[-Latex] (aggiorna.south) -- ++(0,-0.6) -| node[pos=0.25, below, font=\small] {finché i centroidi cambiano} (assegna.south);
+    \end{tikzpicture}
+    \caption{I passi di $k$-means: assegnazione e aggiornamento si alternano fino alla convergenza.}
+    \label{fig:kmeans-passi}
+\end{figure}
+```
+
+### B. Diagrammi complessi, grafici di dati, foto → ritaglio dal PDF (modalità Progetto)
 
 ```bash
-S=.agents/skills/latex-tutor/scripts/slides.py
-python $S figures Teoria/5-Clustering.pdf --slides 23          # figure trovate, riquadri in % della slide
-python $S crop Teoria/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05-metodo_gomito.png
-python $S render Teoria/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
-python $S crop Teoria/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05-metodo_gomito.png
+python .agents/skills/latex-tutor/scripts/slides.py figures Teoria/5-Clustering.pdf --slides 23   # figure trovate, riquadri in % della slide
+python .agents/skills/latex-tutor/scripts/slides.py crop Teoria/5-Clustering.pdf --slide 23 --auto --out latex/images/ch05-metodo_gomito.png
+python .agents/skills/latex-tutor/scripts/slides.py render Teoria/5-Clustering.pdf --slides 23 --grid --out .slides-tmp
+python .agents/skills/latex-tutor/scripts/slides.py crop Teoria/5-Clustering.pdf --slide 23 --box 8,25,90,98 --out latex/images/ch05-metodo_gomito.png
 ```
 
 - `--auto` ritaglia le figure trovate (un'immagine o un grafico). Per una figura fatta di più pezzi (riquadri di testo intorno a un'icona, un diagramma annotato), renderizza la slide con `--grid`, leggi il riquadro sulla griglia rossa (x0,y0,x1,y1 in percentuale della slide) e ritaglia con `--box`.

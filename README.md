@@ -120,7 +120,7 @@ I comandi del kit sono già skill e si richiamano con `/nome`.
 | `/ui-ux-pro-max` | Progetta interfacce con 58 stili e 96 palette |
 | `/caveman` | Attiva la modalità di risposta per risparmiare token |
 | `/scroll-film` | Costruisce siti animati cinematici a scorrimento continuo (scrollytelling) |
-| `/latex` | Appunti LaTeX: prepara un corso, scrive un capitolo da un PDF (con figure ritagliate e compilazione), revisiona il progetto |
+| `/latex` | Appunti LaTeX: prepara un corso, scrive un capitolo da un PDF (con figure ritagliate o disegnate in TikZ e compilazione), revisiona il progetto |
 | `/scroll-experience` | Esperienze scroll immersive unificate: 3D (three-js) + cinematico (scroll-film) + video (scroll-world) |
 | `/classic-ml` | Data mining e machine learning classico con pandas e scikit-learn |
 

@@ -151,6 +151,17 @@ class CheckTests(unittest.TestCase):
         self.assertIn('main.tex:3 ', flagged[0])
         self.assertIn('main.tex:8 ', flagged[1])
 
+    def test_hand_written_numbers_are_flagged(self):
+        (self.project / 'main.tex').write_text(
+            '\\documentclass{book}\n\\begin{document}\n'
+            'Come nella Figura 3.2 e nella Tabella~4.\n'
+            'Vedi la Figura~\\ref{fig:uno}, il Capitolo 2 e la Table 1.\n'
+            '\\begin{figure}\\caption{Uno}\\label{fig:uno}\\end{figure}\n'
+            '\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/skills/latex-review/scripts/check_project.py')
+        flagged = [line for line in result.stdout.splitlines() if 'numero scritto a mano' in line]
+        self.assertEqual(len(flagged), 4, result.stdout)
+
     def test_nonzero_exit_cannot_be_overridden_by_child_json(self):
         spec = importlib.util.spec_from_file_location('checks', ROOT / '.agents/scripts/check_support.py')
         module = importlib.util.module_from_spec(spec)

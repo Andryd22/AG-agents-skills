@@ -134,7 +134,7 @@ Gli 11 comandi qui sopra più 21 moduli di conoscenza, che gli agenti leggono qu
 
 | Skill | Descrizione |
 | --- | --- |
-| `latex-tutor` | Capitoli LaTeX in stile libro dalle slide |
+| `latex-tutor` | Capitoli LaTeX in stile libro dalle slide, con figure ritagliate e diagrammi TikZ |
 | `latex-review` | Controllo e revisione di un progetto LaTeX |
 
 ### Architettura
@@ -202,7 +202,7 @@ Gli script di audit saltano `node_modules/`, le cartelle di build, `.agents/` e 
 | `nextjs-react-expert` | `convert_rules.py` | Ricostruisce i file delle regole |
 | `test` | `test_runner.py` | Esegue la suite di test del progetto |
 | `latex-tutor` | `slides.py` | Testo e immagini delle slide e ritagli delle figure dai PDF delle lezioni |
-| `latex-review` | `check_project.py` | Label, riferimenti, immagini e segnaposto di un progetto LaTeX |
+| `latex-review` | `check_project.py` | Label, riferimenti, immagini, segnaposto e convenzioni di un progetto LaTeX |
 | `webapp-testing` | `playwright_runner.py` | Smoke test E2E di un URL in esecuzione |
 | `ui-ux-pro-max` | `search.py`, `core.py`, `design_system.py` | Cercano nel database di design in `data/` |
 | `scroll-film` | `assemble.sh`, `chain-step.sh` | Montaggio della catena di video (bash, ffmpeg ≥ 5.1) |
