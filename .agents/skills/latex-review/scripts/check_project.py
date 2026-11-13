@@ -10,7 +10,8 @@ Segue main.tex attraverso \\input e \\include e segnala:
               scritti a mano, elenchi le cui voci non finiscono tutte con ";" o
               tutte con ".", immagini non chiamate chXY-nome_figura o con XY
               diverso dal capitolo, formule nei titoli fuori da \\texorpdfstring
-              (segnalibri del PDF sbagliati)
+              (segnalibri del PDF sbagliati), riquadri \\fbox con un elenco
+              numerato (lo pseudocodice va scritto con algorithm2e)
   MINORE      file non usati in images/, \\uline, \\tikzstyle, cases invece di dcases,
               formule in display chiuse da virgola o punto
 
@@ -51,6 +52,7 @@ HEADING = re.compile(r"\\(?:part|chapter|section|subsection|subsubsection)(?![A-
 TEXORPDF = re.compile(r"\\texorpdfstring\s*")
 MATH = re.compile(r"(?<!\\)\$|\\\(")
 LIST_TOKEN = re.compile(r"\\begin\{(itemize|enumerate)\}|\\end\{(itemize|enumerate)\}|\\item\b(?:\[[^\]]*\])?")
+FRAMED = re.compile(r"\\(?:fbox|framebox)\s*(?:\[[^\]]*\]\s*){0,2}(?=\{)")
 
 
 def strip_comments(text):
@@ -179,6 +181,14 @@ def list_issues(text):
     return found
 
 
+def boxed_lists(text):
+    """Riquadri \\fbox o \\framebox con dentro un enumerate: di solito pseudocodice scritto a mano."""
+    for m in FRAMED.finditer(text):
+        content = braced(text, m.end())
+        if content and "\\begin{enumerate}" in content[0]:
+            yield m.start()
+
+
 def project_roots(folder, main_file):
     """Le radici con main.tex: latex/, la cartella, oppure ogni latex/<nome>/ (corsi con più documenti)."""
     for candidate in (folder / "latex", folder):
@@ -256,6 +266,9 @@ def check(root, main_file):
         for pos, ends in list_issues(text):
             issues["IMPORTANTE"].append(f"{rel}:{line_of(text, pos)} elenco: le voci devono finire tutte con ; "
                                         f"o tutte con . (trovati: {' '.join(ends)})")
+        for pos in boxed_lists(text):
+            issues["IMPORTANTE"].append(f"{rel}:{line_of(text, pos)} riquadro con un elenco numerato: "
+                                        "se è pseudocodice, scrivilo con algorithm2e")
         chapter += len(CHAPTER.findall(text))
         for m in DISPLAY.finditer(text):
             body = DISPLAY_TAIL.sub("", m.group(1) if m.group(1) is not None else m.group(4))

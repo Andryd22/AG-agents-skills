@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.7.0 (13/11/2026)
+
+- LaTeX: lo pseudocodice si scrive sempre in `\begin{algorithm}[H]` di `algorithm2e`, mai in un riquadro `\fbox` con un `enumerate`. `latex-tutor` ha le regole e un esempio (`\KwData` e `\KwResult`, `\Repeat`, `\ForEach`, `\eIf`, commenti a lato con `\tcp*`), che `latex-specialist` e `latex-review` riprendono.
+- `check_project.py` segnala i riquadri `\fbox` o `\framebox` con dentro un elenco numerato: di solito sono pseudocodice scritto a mano.
+- Il preambolo dei corsi nuovi numera gli algoritmi per capitolo, come figure e teoremi (`algochapter`: Algoritmo 3.1, numeri giusti anche con `\includeonly`), e li stacca dal testo con `\SetAlgoSkip{bigskip}`.
+
 ## 5.6.0 (13/11/2026)
 
 - Nuova modalità `/latex figure <capitolo>`: aggiunge figure a un capitolo già scritto senza toccare la prosa, cioè le figure utili delle slide che mancano, i segnaposto sostituiti con i ritagli e i diagrammi TikZ per quello che il capitolo spiega solo a parole (`latex`, `latex-tutor`, `latex-specialist`).

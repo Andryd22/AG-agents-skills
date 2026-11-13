@@ -162,6 +162,21 @@ class CheckTests(unittest.TestCase):
         flagged = [line for line in result.stdout.splitlines() if 'numero scritto a mano' in line]
         self.assertEqual(len(flagged), 4, result.stdout)
 
+    def test_pseudocode_boxes_are_flagged(self):
+        (self.project / 'main.tex').write_text(
+            '\\documentclass{book}\n\\begin{document}\n'
+            '\\begin{center}\n\\fbox{\\begin{minipage}{0.9\\textwidth}\n\\textbf{Algoritmo: $k$-means}\n'
+            '\\begin{enumerate}\n\\item scegli $k$ centri;\n\\item ripeti fino a convergenza;\n\\end{enumerate}\n'
+            '\\end{minipage}}\n\\end{center}\n'
+            '\\fbox{\\textbf{INSERISCI IMMAGINE DALLA SLIDE [3]}}\n'
+            '\\framebox[\\linewidth]{Un riquadro {con graffe} senza elenco}\n'
+            '\\begin{enumerate}\n\\item un elenco fuori dai riquadri.\n\\end{enumerate}\n'
+            '\\end{document}\n')
+        result = self.run_script(ROOT / '.agents/skills/latex-review/scripts/check_project.py')
+        flagged = [line for line in result.stdout.splitlines() if 'algorithm2e' in line]
+        self.assertEqual(len(flagged), 1, result.stdout)
+        self.assertIn('main.tex:4 ', flagged[0])
+
     @unittest.skipUnless(importlib.util.find_spec('pymupdf') or importlib.util.find_spec('fitz'), 'PyMuPDF necessario')
     def test_slides_reads_label_anchors_from_aux(self):
         spec = importlib.util.spec_from_file_location('slides', ROOT / '.agents/skills/latex-tutor/scripts/slides.py')

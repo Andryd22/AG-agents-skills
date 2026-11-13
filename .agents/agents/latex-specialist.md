@@ -104,7 +104,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Diagramma complesso, grafico, foto | PNG ritagliato in `images/chXY-nome_figura.png` (`XY` = capitolo su due cifre) con `slides.py crop` |
 | Ritaglio impossibile | `\fbox{\textbf{INSERISCI IMMAGINE DALLA SLIDE [N]}}` (`INSERT IMAGE FROM SLIDE [N]` in un corso inglese) |
 | Codice Python/Bash, JSON | `lstlisting[style=mystyle]`, `lstlisting[language=json]` |
-| Pseudocodice | `algorithm2e` |
+| Pseudocodice | `\begin{algorithm}[H]` di `algorithm2e` con `\caption`, `\label{alg:...}`, `\KwData` e `\KwResult` |
 | Parola chiave / termine secondario o straniero | `\textbf{...}` alla prima occorrenza / `\textit{...}` |
 | Riferimento incrociato | `Capitolo~\ref{ch:...}`, `Sezione~\ref{sec:...}` a label esistenti (`Chapter~`, `Section~` in un corso inglese) |
 | Fine capitolo | `\cleardoublepage` |
@@ -122,6 +122,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Lasciare segnaposto quando il PDF c'è | Ritagliare la figura con `slides.py`, controllare il PNG |
 | Saltare una figura delle slide o spiegare solo a parole un processo, una struttura o un andamento | Metterla nel capitolo, o disegnare un diagramma TikZ: nel dubbio, aggiungerlo |
 | Ritagliare una tabella, una formula o un testo a punti | `tabular`, matematica LaTeX, `itemize` |
+| Pseudocodice in un riquadro `\fbox` con un `enumerate` | `\begin{algorithm}[H]` di `algorithm2e` |
 | Muro di prosa (> 15 righe) | Alternare con elenchi, tabelle, definizioni, esempi |
 | `\begin{cases}`, `\frac{df}{dx}`, `\vec{v}` | `dcases`, `\dv{f}{x}`, `\bm{v}` |
 | Tag `[cite]`, `<source>`, `[ref]` | Toglierli: rompono la compilazione |

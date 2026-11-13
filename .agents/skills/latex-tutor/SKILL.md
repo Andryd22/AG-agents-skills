@@ -188,7 +188,23 @@ Qui inizia il paragrafo successivo.
 ### Codice e algoritmi
 
 - Python, Bash, YAML e altro codice: `\begin{lstlisting}[style=mystyle]`; JSON: `\begin{lstlisting}[language=json]`. I commenti nel codice seguono la lingua del corso.
-- Pseudocodice: `algorithm2e` (`\begin{algorithm}[H]` con `\caption` e `\label{alg:...}`).
+- Pseudocodice: sempre `\begin{algorithm}[H]` di `algorithm2e`, con `\caption` e `\label{alg:...}`; mai un riquadro `\fbox` con un `enumerate` (`check_project.py` lo segnala). Ingressi e risultato vanno in `\KwData` e `\KwResult` (se il corso usa già `\KwIn` e `\KwOut`, continua con quelli). Per cicli e condizioni usa `\ForEach`, `\While`, `\Repeat`, `\If`, `\eIf` e `\Return`, chiudi ogni istruzione con `\;` e metti i commenti a lato con `\tcp*{...}`. I passi sono frasi brevi o formule, nella lingua del corso.
+- La numerazione per capitolo (Algoritmo 3.1) e lo spazio tra il testo e l'algoritmo vengono dal preambolo: `algochapter` tra le opzioni di `algorithm2e` e `\SetAlgoSkip{bigskip}`. Se in un corso mancano, di' all'utente quali righe aggiungere.
+
+```latex
+\begin{algorithm}[H]
+    \caption{$k$-means}
+    \label{alg:kmeans}
+    \KwData{un insieme $D$ di $n$ oggetti, il numero di cluster $k$}
+    \KwResult{$k$ cluster}
+    scegli $k$ oggetti di $D$ come centri iniziali\;
+    \Repeat{nessun oggetto cambia cluster}{
+        assegna ogni oggetto al cluster del centro più vicino\tcp*{assegnamento}
+        sposta ogni centro nella media degli oggetti del suo cluster\tcp*{aggiornamento}
+    }
+    \Return{i $k$ cluster}\;
+\end{algorithm}
+```
 
 ---
 
