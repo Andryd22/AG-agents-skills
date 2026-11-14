@@ -45,7 +45,7 @@ Segui la Procedura di `latex-tutor` (modalità Progetto) sulla radice del proget
 1. Leggi il preambolo (e la lingua del corso dal suo `babel`), cerca titoli e label dei capitoli esistenti, leggi l'ultimo capitolo modificato per copiarne le convenzioni.
 2. Leggi il PDF (direttamente o con `slides.py text` e `render`) e la trascrizione, se c'è.
 3. Scrivi `<radice>/chapters/<nome del PDF>.tex` senza sovrascrivere un file esistente; aggiungi l'`\include` a `<radice>/main.tex`.
-4. Figure, tante (sezione Figure di `latex-tutor`): ogni figura utile delle slide, in TikZ se è un diagramma semplice, ritagliata con `slides.py crop` se è complessa, segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole.
+4. Figure (sezione Figure di `latex-tutor`): le figure delle slide che aiutano a capire, in TikZ se sono diagrammi semplici, ritagliate con `slides.py crop` se sono complesse, segnaposto solo come ripiego; in più, se serve, un diagramma TikZ per un meccanismo che le slide spiegano solo a parole.
 5. Compila, correggi gli errori del nuovo capitolo, guarda le figure TikZ nuove sul PDF (`slides.py render --labels`), riporta sezioni, figure (a parte quelle aggiunte da te), riferimenti e avvisi.
 
 Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice `latex`.
@@ -54,7 +54,7 @@ Senza una cartella di corso (un solo PDF in chat), `latex-tutor` lavora in modal
 
 ## Figure
 
-Segui "Figure in un capitolo già scritto" di `latex-tutor` sul capitolo che l'utente nomina, nella radice scelta come per la Generazione: aggiungi le figure utili delle slide che mancano, sostituisci i segnaposto e disegna in TikZ quello che il capitolo spiega solo a parole, senza toccare la prosa. Poi compila, guarda le figure nuove e riporta l'elenco con le label. Se l'utente non nomina un capitolo, chiedi quale.
+Segui "Figure in un capitolo già scritto" di `latex-tutor` sui capitoli che l'utente nomina, nella radice scelta come per la Generazione: proponi le figure candidate (quelle utili delle slide che mancano e i meccanismi spiegati solo a parole), una riga di motivo ciascuna, e aggiungi solo quelle che l'utente sceglie, senza toccare la prosa; i segnaposto sostituiscili sempre. Poi compila, guarda le figure nuove e riporta l'elenco con le label. Se l'utente non nomina un capitolo, chiedi quale.
 
 ---
 
@@ -85,6 +85,6 @@ Segui la Procedura di revisione di `latex-review`: `check_project.py`, compilazi
 - **I capitoli sono dell'utente**: mai sovrascriverne uno, mai ristrutturare la prosa senza approvazione.
 - **Deve compilare**: ogni generazione finisce con una compilazione.
 - **Sintetizza, non trascrivere**: struttura per argomento, non per slide.
-- **Tante figure**: aiutano l'utente a capire; nel dubbio aggiungine una, quelle che non gli servono le toglie lui.
+- **Figure mirate**: aiutano l'utente a capire quando mostrano un passo che dal testo non è ovvio; meglio poche e utili che tante.
 - **LaTeX nella lingua del corso** (italiano per i corsi nuovi, quella dei capitoli già scritti per i corsi esistenti), conversazione in italiano.
 - Convenzioni e checklist completa in `@[agents/latex-specialist]`.

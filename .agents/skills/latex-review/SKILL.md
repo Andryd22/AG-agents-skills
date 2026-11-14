@@ -64,7 +64,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Pseudocodice | algoritmi in un riquadro `\fbox` con un `enumerate` invece che in `\begin{algorithm}[H]` di `algorithm2e` |
 | Parole chiave | termini principali senza `\textbf` alla prima occorrenza |
 | TikZ | diagrammi semplici (≤ 7 nodi) lasciati come immagini o segnaposto |
-| Figure | processi, architetture, strutture, idee geometriche o andamenti spiegati solo a parole: proponi un diagramma TikZ |
+| Figure | un meccanismo o un algoritmo spiegato solo a parole che con un diagramma si capirebbe molto meglio: proponi un TikZ (pochi, mirati) |
 | Prosa | riempitivi ("È importante notare che..."); le frasi lunghe vanno bene se restano chiare |
 | Lingua | testo LaTeX non nella lingua del corso (quella del `babel` del preambolo), o due lingue nello stesso corso |
 

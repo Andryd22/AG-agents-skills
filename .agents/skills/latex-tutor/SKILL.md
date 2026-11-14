@@ -70,22 +70,22 @@ corso/                                 % cartella del corso, dove è installato 
 5. **Trascrizione.** Se esiste `<radice>/transcripts/<stesso nome>.*` o l'utente ne allega una, fondila: il PDF dà la struttura e le formule, la trascrizione le spiegazioni e gli esempi detti a voce dal professore.
 6. **Scaletta.** Prima di scrivere raggruppa le slide per tema in sezioni (quante ne servono, vedi Stile di scrittura) e decidi le figure di ogni sezione: quelle delle slide e quelle da disegnare tu in TikZ (vedi Figure). Se l'utente ha chiesto di vedere prima la scaletta, fermati e mostragliela.
 7. **Scrivi** `<radice>/chapters/<nome>.tex`. Non sovrascrivere mai un capitolo esistente: l'utente potrebbe averlo modificato. Se il file esiste, chiedi se scrivere `<radice>/chapters/<nome>-new.tex` o aggiornare solo alcune sezioni.
-8. **Figure.** Segui la sezione Figure: ogni figura utile delle slide (TikZ, ritaglio dal PDF o segnaposto) e i diagrammi TikZ che aggiungi tu.
+8. **Figure.** Segui la sezione Figure: le figure utili delle slide (TikZ, ritaglio dal PDF o segnaposto) e i pochi diagrammi TikZ che aggiungi tu.
 9. **`main.tex`.** Aggiungi la riga `\include` nell'ordine dei capitoli, copiando lo schema già presente (per esempio `\clearoddpage\include{chapters/5-Clustering}`).
 10. **Compila.** `latexmk -cd -pdf -interaction=nonstopmode -halt-on-error <radice>/main.tex` (`-cd` compila nella cartella di `main.tex`; in alternativa due volte `pdflatex` dentro `<radice>`). Correggi ogni errore del nuovo capitolo. Poi cerca nel log i riferimenti `undefined` e gli `Overfull \hbox` che vengono dal nuovo capitolo e correggili. Se non c'è una distribuzione TeX installata, dillo.
 11. **Guarda le figure TikZ.** Compilare non basta: un diagramma può avere scritte sovrapposte o tagliate, frecce che passano sopra il testo, parti fuori dai margini. Salva le loro pagine con `python .agents/skills/latex-tutor/scripts/slides.py render <radice>/main.pdf --labels fig:kmeans-passi,fig:sigmoide --out .slides-tmp`, apri i PNG, correggi e ricompila.
-12. **Resoconto** in italiano: file scritto, sezioni, figure (ritagliate con i numeri di slide, ridisegnate in TikZ, segnaposto, e a parte quelle aggiunte da te, con la label, perché l'utente le guardi e tolga quelle che non gli servono), riferimenti incrociati aggiunti, esito della compilazione.
+12. **Resoconto** in italiano: file scritto, sezioni, figure (ritagliate con i numeri di slide, ridisegnate in TikZ, segnaposto, e a parte i diagrammi nuovi disegnati da te, con la label), riferimenti incrociati aggiunti, esito della compilazione.
 
 ---
 
 ## Figure in un capitolo già scritto (`/latex figure`)
 
-L'utente chiede più figure per un capitolo che esiste già: aggiungile senza toccare la prosa. Lavora su un capitolo per volta; se ne nomina più d'uno, uno dopo l'altro, con un resoconto per capitolo.
+L'utente chiede più figure per un capitolo che esiste già: prima proponile, poi aggiungi solo quelle che sceglie, senza toccare la prosa. Se nomina più capitoli, fai le proposte di tutti insieme, un elenco per capitolo.
 
 1. Leggi il preambolo (pacchetti e librerie TikZ disponibili) e il capitolo per intero.
-2. Apri il PDF della lezione da cui viene il capitolo (stesso nome, in `Teoria/` o `Teoria/<nome>/`) e guarda le slide con figure (`slides.py figures`, `render`). Se il PDF non c'è, aggiungi solo i diagrammi TikZ e dillo nel resoconto.
-3. Decidi le figure seguendo la sezione Figure: quelle utili delle slide che mancano nel capitolo, i segnaposto `INSERISCI IMMAGINE DALLA SLIDE [N]` (`INSERT IMAGE FROM SLIDE [N]` nei corsi inglesi) ancora da sostituire e quello che il capitolo spiega solo a parole, da disegnare in TikZ.
-4. Inserisci ogni `figure` dopo il paragrafo che spiega il suo concetto, con didascalia e label, e metti `\noindent` sul paragrafo che segue; in un segnaposto sostituisci solo il `\fbox` con l'`\includegraphics`. Per il resto non cambiare, spostare o togliere il testo esistente, e non citare le figure nuove.
+2. Apri il PDF della lezione da cui viene il capitolo (stesso nome, in `Teoria/` o `Teoria/<nome>/`) e guarda le slide con figure (`slides.py figures`, `render`). Se il PDF non c'è, cerca solo i diagrammi TikZ e dillo.
+3. Fai l'elenco delle figure candidate seguendo la sezione Figure: quelle utili delle slide che mancano nel capitolo e i meccanismi che il capitolo spiega solo a parole, da disegnare in TikZ. Per ognuna una riga: cosa mostra, dopo quale paragrafo andrebbe e quale passo aiuta a capire. Mostra l'elenco e aspetta la scelta dell'utente; se non c'è niente che valga la pena, dillo. I segnaposto `INSERISCI IMMAGINE DALLA SLIDE [N]` (`INSERT IMAGE FROM SLIDE [N]` nei corsi inglesi) ancora da sostituire non serve proporli: sostituiscili sempre.
+4. Inserisci ogni figura scelta dopo il paragrafo che spiega il suo concetto, con didascalia e label, e metti `\noindent` sul paragrafo che segue; in un segnaposto sostituisci solo il `\fbox` con l'`\includegraphics`. Per il resto non cambiare, spostare o togliere il testo esistente, e non citare le figure nuove.
 5. Compila, guarda le figure nuove (passi 10 e 11 della Procedura) e fai il resoconto: figure aggiunte con label e sezione, segnaposto sostituiti, esito della compilazione.
 
 ---
@@ -119,7 +119,7 @@ Il risultato deve leggersi come **il capitolo di un libro**, non come una trascr
 - Un procedimento → `enumerate`.
 - Una definizione o un enunciato formale → l'ambiente `amsthm`.
 - Uno scenario, un caso d'uso o un esempio svolto dalle slide o dalla trascrizione → `\begin{example}`.
-- Un processo, un'architettura, una struttura (albero, grafo, rete), un'idea geometrica o l'andamento di una funzione → una figura, anche quando le slide lo spiegano solo a parole (vedi Figure).
+- Un meccanismo o un algoritmo che vedendolo si capisce molto meglio che a parole → una figura, anche quando le slide lo spiegano solo a parole (vedi Figure).
 
 ### Riferimenti incrociati
 
@@ -210,10 +210,10 @@ Qui inizia il paragrafo successivo.
 
 ## Figure
 
-Per l'utente le figure sono ciò che aiuta di più a capire un concetto, e sono sempre ben accette: mettine tante. Nel dubbio aggiungi la figura: quelle che non gli servono le toglie lui a mano.
+Le figure aiutano molto l'utente a capire, ma solo quando mostrano qualcosa che dal testo non è ovvio: meglio poche figure mirate che tante. Prima di aggiungerne una chiediti se fa capire un passo che il testo da solo non rende chiaro; se no, lasciala fuori.
 
-- **Figure delle slide:** ogni figura che porta contenuto entra nel capitolo, con la prima opzione che va bene tra A, B e C. Le slide che costruiscono lo stesso diagramma un pezzo alla volta valgono una figura sola, quella completa. Restano fuori solo le immagini decorative (loghi, foto di contorno).
-- **Figure nuove:** quando le slide spiegano solo a parole qualcosa che si capisce meglio vedendolo, disegnalo in TikZ: i passi di un processo o di un algoritmo, un'architettura, un albero o un grafo, un'idea geometrica (vettori, proiezioni, margini, regioni di decisione), l'andamento di una funzione, due approcci messi a confronto. Una figura nuova mostra solo quello che dice il testo, senza aggiungere contenuti.
+- **Figure delle slide:** entrano quelle che mostrano come funziona qualcosa (un diagramma, una struttura, un esempio passo passo, un grafico su cui si regge un ragionamento), con la prima opzione che va bene tra A, B e C. Le slide che costruiscono lo stesso diagramma un pezzo alla volta valgono una figura sola, quella completa. Restano fuori le immagini decorative (loghi, foto di contorno), le illustrazioni di definizioni già chiare dal testo (un diagramma di Venn per supporto e confidenza), i grafici di risultati sperimentali che il testo riassume in una frase (i tempi di due algoritmi a confronto) e le tabelle di esempi numerici che non servono al ragionamento.
+- **Figure nuove:** disegna in TikZ un meccanismo o un algoritmo che il capitolo spiega solo a parole quando vederlo fa capire un passo non ovvio: cosa viene generato e cosa scartato, i rami di una ricorsione, un albero o un grafo, i passi di un processo, un'idea geometrica (proiezioni, margini, regioni di decisione). Di solito bastano una o due per capitolo, e spesso nessuna. Una figura nuova mostra solo quello che dice il testo, senza aggiungere contenuti.
 - **Il testo regge da solo:** la figura illustra la spiegazione, non la sostituisce. Non citare nel testo le figure nuove: se l'utente ne toglie una, basta cancellare il suo ambiente `figure`.
 
 ### A. TikZ: diagrammi semplici delle slide (≤ 7 nodi) e figure nuove

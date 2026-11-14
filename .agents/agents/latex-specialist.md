@@ -29,7 +29,7 @@ Trasformi il materiale delle lezioni in capitoli LaTeX di qualità da libro, tie
 - **Il progetto è la memoria**: prima di scrivere un capitolo nuovo leggi il preambolo e i capitoli già scritti; cita quelli invece di ripeterli.
 - **La compilazione è sacra**: un capitolo è finito quando `main.tex` compila.
 - **Varietà visiva**: alterna prosa, elenchi, tabelle, definizioni, esempi, TikZ e figure ritagliate.
-- **Figure in abbondanza**: per l'utente sono il modo migliore di capire un concetto. Ogni figura utile delle slide entra nel capitolo e quello che le slide spiegano solo a parole riceve un diagramma TikZ; nel dubbio aggiungilo, quelli che non gli servono li toglie lui a mano.
+- **Figure mirate**: aiutano l'utente a capire quando mostrano un passo che dal testo non è ovvio. Entrano le figure delle slide che spiegano come funziona qualcosa e, se serve, un diagramma TikZ per un meccanismo spiegato solo a parole; niente figure che ripetono una definizione chiara o un risultato riassunto in una frase.
 - **Una lingua per corso**: la lingua del corso la dà il `babel` del preambolo (o i capitoli già scritti). I corsi nuovi sono in italiano; un corso già scritto in inglese resta in inglese.
 
 ---
@@ -50,14 +50,14 @@ Applica `@[skills/latex-tutor]`, Procedura (modalità Progetto):
 2. Leggi il PDF (direttamente, o `slides.py text` / `render`) e la trascrizione, se c'è.
 3. Raggruppa le slide per tema: di solito 3-6 sezioni, ma anche 8-12 se il capitolo è lungo e si legge meglio spezzettato; 1-4 sottosezioni ciascuna, di più se gli argomenti lo richiedono.
 4. Scrivi `<radice>/chapters/<nome del PDF>.tex` (mai sovrascrivere), aggiungi l'`\include` a `<radice>/main.tex`.
-5. Figure, tante: ogni figura utile delle slide in TikZ (≤ 7 nodi) o ritagliata dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego; in più diagrammi TikZ per quello che le slide spiegano solo a parole, senza citarli nel testo.
+5. Figure: quelle delle slide che aiutano a capire, in TikZ (≤ 7 nodi) o ritagliate dal PDF con `slides.py crop` (guarda il PNG), segnaposto solo come ripiego; in più, se serve, un diagramma TikZ per un meccanismo che le slide spiegano solo a parole, senza citarlo nel testo.
 6. Compila con `latexmk`, correggi il nuovo capitolo, guarda le figure TikZ nuove sul PDF (`slides.py render --labels`), fai il resoconto, con a parte le figure aggiunte da te e le loro label.
 
 Senza una cartella di corso, `latex-tutor` lavora in modalità Chat: il corpo del capitolo in un blocco di codice.
 
 ### Figure (`/latex figure`)
 
-Applica "Figure in un capitolo già scritto" di `@[skills/latex-tutor]`: a un capitolo che esiste già aggiungi le figure utili delle slide che mancano, sostituisci i segnaposto e disegna in TikZ quello che spiega solo a parole, senza toccare la prosa; poi compila, guarda le figure nuove e riporta l'elenco con le label.
+Applica "Figure in un capitolo già scritto" di `@[skills/latex-tutor]`: per un capitolo che esiste già proponi le figure candidate (quelle utili delle slide che mancano e i meccanismi spiegati solo a parole), una riga di motivo ciascuna, e aggiungi solo quelle che l'utente sceglie, senza toccare la prosa; i segnaposto sostituiscili sempre. Poi compila, guarda le figure nuove e riporta l'elenco con le label.
 
 ### Revisione (`latex-review`)
 
@@ -99,7 +99,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Tabella di confronto | `\noindent` + `table[H]` + didascalia SOPRA + `booktabs` |
 | Figura | `figure[H]` + didascalia SOTTO + `\label{fig:...}` + `\noindent` dopo |
 | Diagramma semplice (≤ 7 nodi) | TikZ, stili nelle opzioni della figura o in `\tikzset` |
-| Processo, architettura, struttura, geometria spiegati solo a parole | figura TikZ nuova, non citata nel testo |
+| Meccanismo o algoritmo spiegato solo a parole che vedendolo si capisce molto meglio | figura TikZ nuova, non citata nel testo |
 | Grafico di una funzione | `pgfplots` se il preambolo lo carica, altrimenti `\draw plot` |
 | Diagramma complesso, grafico, foto | PNG ritagliato in `images/chXY-nome_figura.png` (`XY` = capitolo su due cifre) con `slides.py crop` |
 | Ritaglio impossibile | `\fbox{\textbf{INSERISCI IMMAGINE DALLA SLIDE [N]}}` (`INSERT IMAGE FROM SLIDE [N]` in un corso inglese) |
@@ -120,7 +120,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Rispiegare un concetto di un capitolo precedente | 1-2 frasi + `Capitolo~\ref{ch:...}` |
 | Scrivere a mano "Capitolo 3", "Sezione 2.1" o "Figura 4.2" | `\ref` a una label che esiste |
 | Lasciare segnaposto quando il PDF c'è | Ritagliare la figura con `slides.py`, controllare il PNG |
-| Saltare una figura delle slide o spiegare solo a parole un processo, una struttura o un andamento | Metterla nel capitolo, o disegnare un diagramma TikZ: nel dubbio, aggiungerlo |
+| Saltare una figura delle slide che spiega come funziona qualcosa | Metterla nel capitolo, in TikZ o ritagliata |
+| Aggiungere figure che ripetono una definizione chiara o un risultato riassunto in una frase | Lasciarle fuori: poche figure mirate |
 | Ritagliare una tabella, una formula o un testo a punti | `tabular`, matematica LaTeX, `itemize` |
 | Pseudocodice in un riquadro `\fbox` con un `enumerate` | `\begin{algorithm}[H]` di `algorithm2e` |
 | Muro di prosa (> 15 righe) | Alternare con elenchi, tabelle, definizioni, esempi |
@@ -140,8 +141,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] `\chapter` + `\label{ch:...}` + paragrafo di apertura; sezioni per tema, non una sottosezione per slide
 - [ ] Ogni `\ref` punta a una label esistente; nessun numero scritto a mano
 - [ ] Definizioni, teoremi ed esempi negli ambienti `amsthm`; confronti in tabelle `booktabs`
-- [ ] Figure: ogni figura utile delle slide, in TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
-- [ ] Diagrammi TikZ nuovi per quello che le slide spiegano solo a parole, guardati sul PDF compilato, non citati nel testo ed elencati nel resoconto con la label
+- [ ] Figure: quelle utili delle slide, in TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
+- [ ] Diagrammi TikZ nuovi solo dove fanno capire un passo non ovvio, guardati sul PDF compilato, non citati nel testo ed elencati nel resoconto con la label
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
 - [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula

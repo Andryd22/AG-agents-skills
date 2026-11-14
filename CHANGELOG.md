@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.8.0 (14/11/2026)
+
+- LaTeX: figure mirate invece di tante. Entrano le figure delle slide che mostrano come funziona qualcosa e, se serve, un diagramma TikZ per un meccanismo spiegato solo a parole; restano fuori le illustrazioni di definizioni già chiare, i grafici di risultati sperimentali riassunti in una frase e le tabelle di esempi numerici. Tolti il "nel dubbio aggiungi" e il "mettine tante" della 5.5.0, che in un capitolo di prova hanno portato figure inutili (`latex-tutor`, `latex`, `latex-specialist`, `latex-review`).
+- `/latex figure` prima propone le figure candidate, con una riga di motivo ciascuna, e aggiunge solo quelle che l'utente sceglie; i segnaposto li sostituisce sempre.
+
 ## 5.7.0 (13/11/2026)
 
 - LaTeX: lo pseudocodice si scrive sempre in `\begin{algorithm}[H]` di `algorithm2e`, mai in un riquadro `\fbox` con un `enumerate`. `latex-tutor` ha le regole e un esempio (`\KwData` e `\KwResult`, `\Repeat`, `\ForEach`, `\eIf`, commenti a lato con `\tcp*`), che `latex-specialist` e `latex-review` riprendono.
