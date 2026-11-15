@@ -76,7 +76,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Vettori | `\vec{v}` invece di `\bm{v}` (e la scelta usata nel resto del capitolo) |
 | Derivate | `\frac{df}{dx}` invece di `\dv{f}{x}`, `\pdv{f}{x}` |
 | Norme, valori assoluti | `\norm{}`, `\abs{}` di `physics` |
-| Punteggiatura | frase che introduce una formula in display senza `:` finale; virgola o punto dopo l'ultima parte della formula |
+| Punteggiatura | frase che introduce una formula in display senza `:` finale; virgola o punto dopo l'ultima parte della formula; virgola prima dell'ultima voce di un elenco nella prosa ("A, B, e C") o, in italiano, prima di "e" o "o" fra due frasi, salvo quando chiude un inciso |
 | Titoli | formule nei titoli di capitoli e sezioni fuori da `\texorpdfstring{<formula>}{<testo>}`: `hyperref` dà avvisi e i segnalibri del PDF vengono sbagliati |
 
 ### 5. Formattazione (🔵 minore)

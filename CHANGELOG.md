@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.9.0 (15/11/2026)
+
+- LaTeX: niente virgola prima dell'ultima voce di un elenco nella prosa ("A, B e C", in inglese "A, B and C") e, in italiano, nemmeno prima di "e" o "o" che uniscono due frasi; la virgola resta solo quando chiude un inciso. La regola è in `latex-tutor` (Stile di scrittura), nella checklist di `latex-specialist` e fra i controlli di punteggiatura di `latex-review`.
+
 ## 5.8.0 (14/11/2026)
 
 - LaTeX: figure mirate invece di tante. Entrano le figure delle slide che mostrano come funziona qualcosa e, se serve, un diagramma TikZ per un meccanismo spiegato solo a parole; restano fuori le illustrazioni di definizioni già chiare, i grafici di risultati sperimentali riassunti in una frase e le tabelle di esempi numerici. Tolti il "nel dubbio aggiungi" e il "mettine tante" della 5.5.0, che in un capitolo di prova hanno portato figure inutili (`latex-tutor`, `latex`, `latex-specialist`, `latex-review`).

@@ -144,6 +144,7 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] Figure: quelle utili delle slide, in TikZ o PNG ritagliati e controllati a occhio; segnaposto solo dove il ritaglio non è riuscito, con i numeri di slide; PNG chiamati `chXY-nome_figura.png`
 - [ ] Diagrammi TikZ nuovi solo dove fanno capire un passo non ovvio, guardati sul PDF compilato, non citati nel testo ed elencati nel resoconto con la label
 - [ ] In ogni elenco le voci finiscono tutte con `;` o tutte con `.`
+- [ ] Nessuna virgola prima dell'ultima voce di un elenco nella prosa ("A, B e C") né, in italiano, prima di "e" o "o" fra due frasi, salvo quando chiude un inciso
 - [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula
 - [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure; `\noindent` dove serve
