@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.11.0 (19/11/2026)
+
+- LaTeX: nel preambolo dei corsi nuovi le definizioni usano lo stile `definizioneacapo`: l'intestazione (Definizione 3.2 (Termine).) sta su una riga e il testo, in corsivo, comincia sotto. Esempi e teoremi non cambiano.
+
 ## 5.10.0 (19/11/2026)
 
 - LaTeX: tutti i paragrafi con `parskip`, cioè senza rientro e separati da uno spazio verticale. Il preambolo dei corsi nuovi carica `\usepackage{parskip}`; `latex-tutor`, `latex-specialist` e `latex-review` tolgono la regola del `\noindent` dopo figure, tabelle ed elenchi, che con `parskip` non serve più.
