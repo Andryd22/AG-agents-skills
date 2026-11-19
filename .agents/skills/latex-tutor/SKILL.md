@@ -57,7 +57,7 @@ corso/                                 % cartella del corso, dove è installato 
 
 1. **Preambolo.** Leggi i file di preambolo che `<radice>/main.tex` include (`preamble.tex`, `preamble2.tex`, `preamble3.tex`): danno la lingua del corso, gli ambienti, i comandi e le librerie TikZ da usare. Non aggiungere mai `\usepackage` a un capitolo: se manca qualcosa, di' all'utente quale riga aggiungere al preambolo.
 2. **Mappa degli appunti.** Cerca `\chapter{`, `\section{` e `\label{` in `<radice>/chapters/*.tex` (con `grep_search`, oppure `Select-String` su Windows e `grep -n` altrove): ottieni gli argomenti già trattati e tutte le label che puoi citare. Non leggere per intero tutti i capitoli.
-3. **Segui le modifiche dell'utente.** Leggi per intero il capitolo modificato più di recente: l'utente modifica i capitoli a mano, quindi lì vedi le convenzioni da copiare (nomi delle label, larghezza delle figure, `\newpage`, `\noindent`, trattini negli elenchi, come sono scritti gli esempi). Dove un capitolo si discosta da una regola qui sotto, vince il capitolo.
+3. **Segui le modifiche dell'utente.** Leggi per intero il capitolo modificato più di recente: l'utente modifica i capitoli a mano, quindi lì vedi le convenzioni da copiare (nomi delle label, larghezza delle figure, `\newpage`, trattini negli elenchi, come sono scritti gli esempi). Dove un capitolo si discosta da una regola qui sotto, vince il capitolo.
 4. **Leggi il PDF.** Aprilo direttamente se i tuoi strumenti lo permettono. Altrimenti usa lo script incluso (gestisce anche gli handout con due o tre slide per pagina):
 
    ```bash
@@ -85,7 +85,7 @@ L'utente chiede più figure per un capitolo che esiste già: prima proponile, po
 1. Leggi il preambolo (pacchetti e librerie TikZ disponibili) e il capitolo per intero.
 2. Apri il PDF della lezione da cui viene il capitolo (stesso nome, in `Teoria/` o `Teoria/<nome>/`) e guarda le slide con figure (`slides.py figures`, `render`). Se il PDF non c'è, cerca solo i diagrammi TikZ e dillo.
 3. Fai l'elenco delle figure candidate seguendo la sezione Figure: quelle utili delle slide che mancano nel capitolo e i meccanismi che il capitolo spiega solo a parole, da disegnare in TikZ. Per ognuna una riga: cosa mostra, dopo quale paragrafo andrebbe e quale passo aiuta a capire. Mostra l'elenco e aspetta la scelta dell'utente; se non c'è niente che valga la pena, dillo. I segnaposto `INSERISCI IMMAGINE DALLA SLIDE [N]` (`INSERT IMAGE FROM SLIDE [N]` nei corsi inglesi) ancora da sostituire non serve proporli: sostituiscili sempre.
-4. Inserisci ogni figura scelta dopo il paragrafo che spiega il suo concetto, con didascalia e label, e metti `\noindent` sul paragrafo che segue; in un segnaposto sostituisci solo il `\fbox` con l'`\includegraphics`. Per il resto non cambiare, spostare o togliere il testo esistente, e non citare le figure nuove.
+4. Inserisci ogni figura scelta dopo il paragrafo che spiega il suo concetto, con didascalia e label; in un segnaposto sostituisci solo il `\fbox` con l'`\includegraphics`. Per il resto non cambiare, spostare o togliere il testo esistente, e non citare le figure nuove.
 5. Compila, guarda le figure nuove (passi 10 e 11 della Procedura) e fai il resoconto: figure aggiunte con label e sezione, segnaposto sostituiti, esito della compilazione.
 
 ---
@@ -166,10 +166,9 @@ Il gradiente si aggiorna così:
 - Elenchi (`itemize`, `enumerate`): tutte le voci finiscono con lo stesso segno, o tutte con `;` o tutte con `.`, ultima compresa. Usa `;` per voci brevi che proseguono la frase introduttiva, `.` per voci che sono frasi complete. Fanno eccezione la voce che introduce un sottoelenco, che finisce con `:`, e gli elenchi di domande (esercizi), con tutte le voci chiuse da `?`.
 - Tabelle: `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), niente righe verticali, niente elenchi numerati dentro le celle.
 - Ogni `figure` e `table` ha una `\caption` (una frase che dice cosa mostra) e una `\label`: didascalie **sopra** le tabelle, **sotto** le figure.
-- `\noindent` sulla riga prima di ogni `\begin{table}`, e all'inizio del paragrafo di prosa che segue `\end{table}`, `\end{figure}`, `\end{itemize}` o `\end{enumerate}`.
+- Paragrafi senza rientro e separati da uno spazio verticale, con `\usepackage{parskip}` nel preambolo: separa i paragrafi con una riga vuota e non usare `\noindent`. Se il preambolo di un corso non carica `parskip`, aggiungilo dopo `geometry`.
 
 ```latex
-\noindent
 \begin{table}[H]
     \caption{Clustering partizionale e clustering basato sulla densità}
     \label{tab:partizionale-vs-densita}
@@ -181,7 +180,6 @@ Il gradiente si aggiorna così:
     \end{tabular}
 \end{table}
 
-\noindent
 Qui inizia il paragrafo successivo.
 ```
 

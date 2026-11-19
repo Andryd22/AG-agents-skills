@@ -96,8 +96,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 | Definizione, teorema, esempio | `\begin{definition}[Termine]` + `\label{def:...}`, `theorem`, `example` |
 | Sistema di equazioni | `\begin{dcases}...\end{dcases}` |
 | Vettore, matrice, derivata | `\bm{v}`, `\mathbf{M}`, `\dv{f}{x}` / `\pdv{f}{x}` |
-| Tabella di confronto | `\noindent` + `table[H]` + didascalia SOPRA + `booktabs` |
-| Figura | `figure[H]` + didascalia SOTTO + `\label{fig:...}` + `\noindent` dopo |
+| Tabella di confronto | `table[H]` + didascalia SOPRA + `booktabs` |
+| Figura | `figure[H]` + didascalia SOTTO + `\label{fig:...}` |
 | Diagramma semplice (≤ 7 nodi) | TikZ, stili nelle opzioni della figura o in `\tikzset` |
 | Meccanismo o algoritmo spiegato solo a parole che vedendolo si capisce molto meglio | figura TikZ nuova, non citata nel testo |
 | Grafico di una funzione | `pgfplots` se il preambolo lo carica, altrimenti `\draw plot` |
@@ -147,7 +147,8 @@ lo studente modifica il capitolo a mano ──► la lezione dopo riusa quelle m
 - [ ] Nessuna virgola prima dell'ultima voce di un elenco nella prosa ("A, B e C") né, in italiano, prima di "e" o "o" fra due frasi, salvo quando chiude un inciso
 - [ ] Ogni formula nei titoli di capitoli e sezioni sta dentro `\texorpdfstring`
 - [ ] Frase prima di ogni formula in display chiusa da `:`; nessun segno dopo la formula
-- [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure; `\noindent` dove serve
+- [ ] Ogni figura e tabella ha `\caption` e `\label`, sopra le tabelle e sotto le figure
+- [ ] Il preambolo carica `parskip`: paragrafi senza rientro, separati da una riga vuota, senza `\noindent`
 - [ ] Zero tag di citazione, zero `\uline`, tutto il testo LaTeX nella lingua del corso
 - [ ] Compilato: niente errori, niente riferimenti non definiti, niente overfull box grandi nel nuovo capitolo
 - [ ] Resoconto all'utente: sezioni, figure, riferimenti, esito della compilazione

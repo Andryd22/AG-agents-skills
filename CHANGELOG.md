@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.10.0 (19/11/2026)
+
+- LaTeX: tutti i paragrafi con `parskip`, cioè senza rientro e separati da uno spazio verticale. Il preambolo dei corsi nuovi carica `\usepackage{parskip}`; `latex-tutor`, `latex-specialist` e `latex-review` tolgono la regola del `\noindent` dopo figure, tabelle ed elenchi, che con `parskip` non serve più.
+
 ## 5.9.0 (15/11/2026)
 
 - LaTeX: niente virgola prima dell'ultima voce di un elenco nella prosa ("A, B e C", in inglese "A, B and C") e, in italiano, nemmeno prima di "e" o "o" che uniscono due frasi; la virgola resta solo quando chiude un inciso. La regola è in `latex-tutor` (Stile di scrittura), nella checklist di `latex-specialist` e fra i controlli di punteggiatura di `latex-review`.

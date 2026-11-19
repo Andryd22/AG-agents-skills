@@ -84,7 +84,7 @@ I capitoli sono lavoro dell'utente: segnala i problemi di stile, non riscrivere 
 | Controllo | Cosa cercare |
 | --- | --- |
 | Tabelle | righe di `booktabs`, niente linee verticali |
-| `\noindent` | prima di `\begin{table}` e sulla prosa dopo tabelle, figure ed elenchi |
+| Paragrafi | il preambolo carica `parskip` (paragrafi senza rientro, separati da spazio); niente `\noindent` nel testo nuovo |
 | Enfasi | niente `\uline`; `\textit` solo per termini secondari o stranieri |
 | Label | prefissi `ch:`, `sec:<slug>-`, `def:`, `thm:`, `ex:`, `fig:`, `tab:`, `eq:`, `alg:` |
 | TikZ | `\tikzstyle` (deprecato) |
